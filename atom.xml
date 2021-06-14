@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://lee-css.github.io</id>
-    <title>明年</title>
-    <updated>2021-06-10T14:37:51.340Z</updated>
+    <title>思</title>
+    <updated>2021-06-14T13:12:12.083Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://lee-css.github.io"/>
     <link rel="self" href="https://lee-css.github.io/atom.xml"/>
     <logo>https://lee-css.github.io/images/avatar.png</logo>
     <icon>https://lee-css.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, 明年</rights>
+    <rights>All rights reserved 2021, 思</rights>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://lee-css.github.io/post/hello-gridea/</id>
