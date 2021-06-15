@@ -2,13 +2,206 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-15T00:28:14.813Z</updated>
+    <updated>2021-06-15T14:44:14.990Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-语义化版本]]></title>
+        <id>https://leecss.com/post/git-yu-yi-hua-ban-ben/</id>
+        <link href="https://leecss.com/post/git-yu-yi-hua-ban-ben/">
+        </link>
+        <updated>2021-06-15T14:41:51.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="版本格式">版本格式</h2>
+<ul>
+<li><code>0.y.z</code> 表示开发阶段，一切可能随时改变，非稳定版。</li>
+<li><code>1.0.0</code> 界定此版本为初始稳定版，后面的一切更新都基于此版本进行修改。</li>
+</ul>
+<blockquote>
+<p>版本格式：主版本号.次版本号.修订号<br>
+版本示例：1.2.3</p>
+</blockquote>
+<h2 id="版本号递增规则">版本号递增规则</h2>
+<blockquote>
+<ol>
+<li>主版本号：当你做了不兼容的 API 修改，</li>
+<li>次版本号：当你做了向下兼容的功能性新增，</li>
+<li>修订号：当你做了向下兼容的问题修正。</li>
+</ol>
+</blockquote>
+<h2 id="先行版本号和开发版本号">先行版本号和开发版本号</h2>
+<p>先行版本号(Pre-release)：意味该版本不稳定，可能存在兼容性问题。</p>
+<p>格式为: <code>X.Y.Z.[a-c][正整数]</code>，如 1.0.0.a1，1.0.0.b99，1.0.0.c1000。</p>
+<p>开发版本号：常用于 CI-CD（持续集成和持续交付）</p>
+<p>格式为:  <code>X.Y.Z-dev[正整数]</code>，如 1.0.1-dev4</p>
+<h2 id="版本名称">版本名称</h2>
+<h3 id="常见">常见</h3>
+<table>
+<thead>
+<tr>
+<th>描述方式</th>
+<th>说明</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>α</code>或<code>a</code></td>
+<td>alpha 版</td>
+<td>内测版本，内部测试的版本，bug 较多</td>
+</tr>
+<tr>
+<td><code>β</code>或<code>b</code></td>
+<td>beta 版</td>
+<td>公测版本，给外部进行测试的版本，有缺陷</td>
+</tr>
+<tr>
+<td><code>γ</code>或<code>g</code></td>
+<td>Gamma 版</td>
+<td>相当成熟的测试版，于发行版相差无几</td>
+</tr>
+<tr>
+<td><code>rc</code></td>
+<td>Release Candidate</td>
+<td>是前面三种测试版的进一步版本，实现了全部功能，清除了大部分 bug，接近发布倒计时，有时会进一步细分为 rc1,rc2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="其他">其他</h3>
+<table>
+<thead>
+<tr>
+<th>描述方式</th>
+<th>说明</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Demo</code></td>
+<td>演示版</td>
+<td>只集成了正式版部分功能，无法升级</td>
+</tr>
+<tr>
+<td><code>SP</code></td>
+<td>SP1</td>
+<td>是 service pack 的意思表示升级包</td>
+</tr>
+<tr>
+<td><code>Trial</code></td>
+<td>试用版</td>
+<td>试用版</td>
+</tr>
+<tr>
+<td><code>Unregistered</code></td>
+<td>未注册</td>
+<td>有功能或时间限制的版本</td>
+</tr>
+<tr>
+<td><code>Lite</code></td>
+<td>精简版</td>
+<td>只含有正式版核心功能</td>
+</tr>
+<tr>
+<td><code>enhance</code></td>
+<td>增强版</td>
+<td>属于正式版1</td>
+</tr>
+<tr>
+<td><code>free</code></td>
+<td>免费版</td>
+<td>自由使用版本</td>
+</tr>
+<tr>
+<td><code>release</code></td>
+<td>发行版</td>
+<td>有时间限制</td>
+</tr>
+<tr>
+<td><code>upgrade</code></td>
+<td>升级版</td>
+<td>有功能增强或修复 bug</td>
+</tr>
+<tr>
+<td><code>Retail</code></td>
+<td>零售版</td>
+<td>单独发售</td>
+</tr>
+<tr>
+<td><code>Cardware</code></td>
+<td>共享版</td>
+<td>公用许可证</td>
+</tr>
+</tbody>
+</table>
+<h2 id="版本限定">版本限定</h2>
+<p>在进行包管理时,为了保证安装依赖的兼容性.</p>
+<pre><code class="language-json">{
+  &quot;devDependencies&quot;: {
+    &quot;karma&quot;: &quot;0.13.22&quot;
+  }
+}
+</code></pre>
+<p>表示安装 <code>0.13.22</code> 版本的 karma.</p>
+<h3 id="范围描述">范围描述</h3>
+<ul>
+<li><code>&lt;</code> 小于某一版本号</li>
+<li><code>&lt;=</code> 小于等于某一版本号</li>
+<li><code>&gt;</code> 大于某一版本号</li>
+<li><code>&gt;=</code> 大于等于某一版本号</li>
+<li><code>=</code> 等于某一版本号,没有意义和直接写该版本号一样</li>
+<li><code>~</code> 基于版本号描述的最新补丁版本</li>
+<li><code>^</code> 基于版本号描述的最新兼容版本</li>
+<li><code>-</code> 某个范围</li>
+</ul>
+<p>严格来讲对 <code>~,^</code> 的表述需要结合具体的包管理工具和版本号规则来确定.但是对于一般使用记住如下原则.<br>
+<strong><code>^</code> 是确保版本兼容性时,默认对次版本号的限定约束</strong><br>
+<strong><code>~</code> 是确保版本兼容性时,默认对补丁号的约束</strong></p>
+<blockquote>
+<p>利用 <code>^,~</code> 的意义在于确保工具包对依赖版本的兼容性,排除主版本更迭,<br>
+造成依赖失效的可能.</p>
+</blockquote>
+<h3 id="版本描述">版本描述</h3>
+<ul>
+<li><code>*</code> 通配符</li>
+<li><code>x,X</code> 约等于 <code>*</code> 号,通常用于次版本和补丁的通配.</li>
+</ul>
+<blockquote>
+<p><code>0.x</code> 警惕这种版本,说明该依赖还未稳定(<strong>如果它遵守语义化命名的话</strong>),此外由于 <code>0.x</code> 版本随时可能改变,此时 <code>^,~</code> 的都表示为对补丁版的限制.</p>
+</blockquote>
+<pre><code class="language-sh">&lt; 1.2.3     小于1.2.3 的版本均可 
+= 1.2.3     只支持等于1.2.3 的版本 
+&lt;= 1.2.3    只支持小于等于1.2.3 的版本
+&gt; 1.2.3     只支持大于 1.2.3 的版本
+&gt;= 1.2.3    只支持大于等于 1.2.3 的版本
+1.2.3-2     支持 &gt;=1.2.3 &lt;3.0.0 的版本
+1.x.1       支持 &gt;=1.0.1 &lt;1.1.0 的版本
+*           支持 &gt;= 0.0.0 的版本
+&quot;&quot;          同 *
+1           表示 &gt;=1.0.0 &lt;2.0.0 其余任意位置为空相似
+1.0         &gt;= 1.0.0 &lt; 1.1.0
+~1.1.1      &gt;=1.1.1 &lt;1.2.0
+~1.1        &gt;=1.1.0 &lt;1.2.0
+~1          &gt;=1.0.0 &lt;2.0.0
+^1.1.1      &gt;=1.1.1 &lt;2.0.0
+^0.1.1      &gt;=0.1.1 &lt;0.2.0 注意这里,不要以为是 0.1.1-1.0.0 之间
+^0.0.1      &gt;=0.0.1 &lt;0.0.2 同上,请注意
+</code></pre>
+<h3 id="主要版本">主要版本</h3>
+<ul>
+<li>指定版本：比如 <code>1.2.2</code> ，遵循“大版本.次要版本.小版本”的格式规定，安装时只安装指定版本。</li>
+<li>波浪号（<code>tilde</code>）+指定版本：比如 <code>~1.2.2</code> ，表示安装 <code>1.2.x</code> 的最新版本（不低于<code>1.2.2</code>），但是不安装 <code>1.3.x</code>，也就是说安装时不改变大版本号和次要版本号。</li>
+<li>插入号（<code>caret</code>）+指定版本：比如 <code>ˆ1.2.2</code>，表示安装 <code>1.x.x</code> 的最新版本（不低于 <code>1.2.2</code>），但是不安装 <code>2.x.x</code>，也就是说安装时不改变大版本号。需要注意的是，如果大版本号为 0，则插入号的行为与波浪号相同，这是因为此时处于开发阶段，即使是次要版本号变动，也可能带来程序的不兼容。</li>
+<li>latest：安装最新版本。</li>
+</ul>
+<h2 id="文档">文档</h2>
+<p>https://semver.org/lang/zh-CN/</p>
+<p>https://getcomposer.org/doc/articles/versions.md</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Chrome插件]]></title>
         <id>https://leecss.com/post/google-cha-jian/</id>

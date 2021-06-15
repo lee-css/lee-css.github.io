@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1623716825584">
+<link rel="shortcut icon" href="/favicon.ico?v=1623768249518">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -159,19 +159,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">2</span>
+        <span class="site-item-stat-count">3</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">2</span>
+        <span class="site-item-stat-count">3</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">2</span>
+        <span class="site-item-stat-count">3</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -209,7 +209,7 @@
   <div class="archive-timeline-box">
     <div class="archive-timeline-title">
       
-        <h2 class="language" data-lan="archives" data-count="2">非常好！目前共计2篇日志，继续努力！</h2>
+        <h2 class="language" data-lan="archives" data-count="3">非常好！目前共计3篇日志，继续努力！</h2>
       
     </div>
     
@@ -219,6 +219,19 @@
           <h2 class="tag-year">2021</h2>
         </div>    
         
+      
+      <a href="https://leecss.com/post/git-yu-yi-hua-ban-ben/">
+        <div class="motion-warpper tag-archive-node">
+          <div class="tag-node">
+            <h1>
+              06-15
+              <small>git-语义化版本</small>
+            </h1>
+          </div>  
+      </div>
+      </a>
+    
+      
       
       <a href="https://leecss.com/post/google-cha-jian/">
         <div class="motion-warpper tag-archive-node">
@@ -496,6 +509,196 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-yu-yi-hua-ban-ben/"" data-c="
+          &lt;h2 id=&#34;版本格式&#34;&gt;版本格式&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0.y.z&lt;/code&gt; 表示开发阶段，一切可能随时改变，非稳定版。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1.0.0&lt;/code&gt; 界定此版本为初始稳定版，后面的一切更新都基于此版本进行修改。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;版本格式：主版本号.次版本号.修订号&lt;br&gt;
+版本示例：1.2.3&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;版本号递增规则&#34;&gt;版本号递增规则&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;主版本号：当你做了不兼容的 API 修改，&lt;/li&gt;
+&lt;li&gt;次版本号：当你做了向下兼容的功能性新增，&lt;/li&gt;
+&lt;li&gt;修订号：当你做了向下兼容的问题修正。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;先行版本号和开发版本号&#34;&gt;先行版本号和开发版本号&lt;/h2&gt;
+&lt;p&gt;先行版本号(Pre-release)：意味该版本不稳定，可能存在兼容性问题。&lt;/p&gt;
+&lt;p&gt;格式为: &lt;code&gt;X.Y.Z.[a-c][正整数]&lt;/code&gt;，如 1.0.0.a1，1.0.0.b99，1.0.0.c1000。&lt;/p&gt;
+&lt;p&gt;开发版本号：常用于 CI-CD（持续集成和持续交付）&lt;/p&gt;
+&lt;p&gt;格式为:  &lt;code&gt;X.Y.Z-dev[正整数]&lt;/code&gt;，如 1.0.1-dev4&lt;/p&gt;
+&lt;h2 id=&#34;版本名称&#34;&gt;版本名称&lt;/h2&gt;
+&lt;h3 id=&#34;常见&#34;&gt;常见&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;描述方式&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;α&lt;/code&gt;或&lt;code&gt;a&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;alpha 版&lt;/td&gt;
+&lt;td&gt;内测版本，内部测试的版本，bug 较多&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;β&lt;/code&gt;或&lt;code&gt;b&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;beta 版&lt;/td&gt;
+&lt;td&gt;公测版本，给外部进行测试的版本，有缺陷&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;γ&lt;/code&gt;或&lt;code&gt;g&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Gamma 版&lt;/td&gt;
+&lt;td&gt;相当成熟的测试版，于发行版相差无几&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;rc&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Release Candidate&lt;/td&gt;
+&lt;td&gt;是前面三种测试版的进一步版本，实现了全部功能，清除了大部分 bug，接近发布倒计时，有时会进一步细分为 rc1,rc2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;其他&#34;&gt;其他&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;描述方式&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Demo&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;演示版&lt;/td&gt;
+&lt;td&gt;只集成了正式版部分功能，无法升级&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;SP&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;SP1&lt;/td&gt;
+&lt;td&gt;是 service pack 的意思表示升级包&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Trial&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;试用版&lt;/td&gt;
+&lt;td&gt;试用版&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Unregistered&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;未注册&lt;/td&gt;
+&lt;td&gt;有功能或时间限制的版本&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Lite&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;精简版&lt;/td&gt;
+&lt;td&gt;只含有正式版核心功能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enhance&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;增强版&lt;/td&gt;
+&lt;td&gt;属于正式版1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;free&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;免费版&lt;/td&gt;
+&lt;td&gt;自由使用版本&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;release&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;发行版&lt;/td&gt;
+&lt;td&gt;有时间限制&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;upgrade&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;升级版&lt;/td&gt;
+&lt;td&gt;有功能增强或修复 bug&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Retail&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;零售版&lt;/td&gt;
+&lt;td&gt;单独发售&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Cardware&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;共享版&lt;/td&gt;
+&lt;td&gt;公用许可证&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;版本限定&#34;&gt;版本限定&lt;/h2&gt;
+&lt;p&gt;在进行包管理时,为了保证安装依赖的兼容性.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+  &amp;quot;devDependencies&amp;quot;: {
+    &amp;quot;karma&amp;quot;: &amp;quot;0.13.22&amp;quot;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;表示安装 &lt;code&gt;0.13.22&lt;/code&gt; 版本的 karma.&lt;/p&gt;
+&lt;h3 id=&#34;范围描述&#34;&gt;范围描述&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&lt;/code&gt; 小于某一版本号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;=&lt;/code&gt; 小于等于某一版本号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;gt;&lt;/code&gt; 大于某一版本号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;gt;=&lt;/code&gt; 大于等于某一版本号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;=&lt;/code&gt; 等于某一版本号,没有意义和直接写该版本号一样&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;~&lt;/code&gt; 基于版本号描述的最新补丁版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;^&lt;/code&gt; 基于版本号描述的最新兼容版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-&lt;/code&gt; 某个范围&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;严格来讲对 &lt;code&gt;~,^&lt;/code&gt; 的表述需要结合具体的包管理工具和版本号规则来确定.但是对于一般使用记住如下原则.&lt;br&gt;
+&lt;strong&gt;&lt;code&gt;^&lt;/code&gt; 是确保版本兼容性时,默认对次版本号的限定约束&lt;/strong&gt;&lt;br&gt;
+&lt;strong&gt;&lt;code&gt;~&lt;/code&gt; 是确保版本兼容性时,默认对补丁号的约束&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;利用 &lt;code&gt;^,~&lt;/code&gt; 的意义在于确保工具包对依赖版本的兼容性,排除主版本更迭,&lt;br&gt;
+造成依赖失效的可能.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;版本描述&#34;&gt;版本描述&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;*&lt;/code&gt; 通配符&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x,X&lt;/code&gt; 约等于 &lt;code&gt;*&lt;/code&gt; 号,通常用于次版本和补丁的通配.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;0.x&lt;/code&gt; 警惕这种版本,说明该依赖还未稳定(&lt;strong&gt;如果它遵守语义化命名的话&lt;/strong&gt;),此外由于 &lt;code&gt;0.x&lt;/code&gt; 版本随时可能改变,此时 &lt;code&gt;^,~&lt;/code&gt; 的都表示为对补丁版的限制.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;&amp;lt; 1.2.3     小于1.2.3 的版本均可 
+= 1.2.3     只支持等于1.2.3 的版本 
+&amp;lt;= 1.2.3    只支持小于等于1.2.3 的版本
+&amp;gt; 1.2.3     只支持大于 1.2.3 的版本
+&amp;gt;= 1.2.3    只支持大于等于 1.2.3 的版本
+1.2.3-2     支持 &amp;gt;=1.2.3 &amp;lt;3.0.0 的版本
+1.x.1       支持 &amp;gt;=1.0.1 &amp;lt;1.1.0 的版本
+*           支持 &amp;gt;= 0.0.0 的版本
+&amp;quot;&amp;quot;          同 *
+1           表示 &amp;gt;=1.0.0 &amp;lt;2.0.0 其余任意位置为空相似
+1.0         &amp;gt;= 1.0.0 &amp;lt; 1.1.0
+~1.1.1      &amp;gt;=1.1.1 &amp;lt;1.2.0
+~1.1        &amp;gt;=1.1.0 &amp;lt;1.2.0
+~1          &amp;gt;=1.0.0 &amp;lt;2.0.0
+^1.1.1      &amp;gt;=1.1.1 &amp;lt;2.0.0
+^0.1.1      &amp;gt;=0.1.1 &amp;lt;0.2.0 注意这里,不要以为是 0.1.1-1.0.0 之间
+^0.0.1      &amp;gt;=0.0.1 &amp;lt;0.0.2 同上,请注意
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;主要版本&#34;&gt;主要版本&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;指定版本：比如 &lt;code&gt;1.2.2&lt;/code&gt; ，遵循“大版本.次要版本.小版本”的格式规定，安装时只安装指定版本。&lt;/li&gt;
+&lt;li&gt;波浪号（&lt;code&gt;tilde&lt;/code&gt;）+指定版本：比如 &lt;code&gt;~1.2.2&lt;/code&gt; ，表示安装 &lt;code&gt;1.2.x&lt;/code&gt; 的最新版本（不低于&lt;code&gt;1.2.2&lt;/code&gt;），但是不安装 &lt;code&gt;1.3.x&lt;/code&gt;，也就是说安装时不改变大版本号和次要版本号。&lt;/li&gt;
+&lt;li&gt;插入号（&lt;code&gt;caret&lt;/code&gt;）+指定版本：比如 &lt;code&gt;ˆ1.2.2&lt;/code&gt;，表示安装 &lt;code&gt;1.x.x&lt;/code&gt; 的最新版本（不低于 &lt;code&gt;1.2.2&lt;/code&gt;），但是不安装 &lt;code&gt;2.x.x&lt;/code&gt;，也就是说安装时不改变大版本号。需要注意的是，如果大版本号为 0，则插入号的行为与波浪号相同，这是因为此时处于开发阶段，即使是次要版本号变动，也可能带来程序的不兼容。&lt;/li&gt;
+&lt;li&gt;latest：安装最新版本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;文档&#34;&gt;文档&lt;/h2&gt;
+&lt;p&gt;https://semver.org/lang/zh-CN/&lt;/p&gt;
+&lt;p&gt;https://getcomposer.org/doc/articles/versions.md&lt;/p&gt;
+">git-语义化版本</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/google-cha-jian/"" data-c="
