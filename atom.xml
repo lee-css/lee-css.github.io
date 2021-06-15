@@ -2,13 +2,66 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-15T14:44:14.990Z</updated>
+    <updated>2021-06-15T23:55:14.082Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-简介]]></title>
+        <id>https://leecss.com/post/git-jian-jie/</id>
+        <link href="https://leecss.com/post/git-jian-jie/">
+        </link>
+        <updated>2021-06-15T23:29:57.000Z</updated>
+        <content type="html"><![CDATA[<p>git是目前世界上最先进的 <strong>分布式</strong>  <strong>版本控制</strong>系统。</p>
+<h2 id="特点">特点</h2>
+<p>1、直接记录快照，而非差异比较</p>
+<p>Git 仓库中的提交记录保存的是你的目录下所有文件的快照，就像是把整个目录复制，然后再粘贴一样，但比复制粘贴优雅许多！</p>
+<p>Git 希望提交记录尽可能地轻量，因此在你每次进行提交时，它并不会盲目地复制整个目录。条件允许的情况下，它会将当前版本与仓库中的上一个版本进行对比，并把所有的差异打包到一起作为一个提交记录。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1623799889637.png" alt="" loading="lazy"></figure>
+<p>2、分布式</p>
+<blockquote>
+<p>集中式版本控制系统，版本库是集中存放在中央服务器的，而干活的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始干活，干完活了，再把自己的活推送给中央服务器。</p>
+</blockquote>
+<blockquote>
+<p>分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库,安全性要更高。</p>
+</blockquote>
+<h2 id="状态">状态</h2>
+<ul>
+<li>
+<p>Workspace：工作区</p>
+</li>
+<li>
+<p>Index / Stage：暂存区</p>
+</li>
+<li>
+<p>Repository：仓库区（或本地仓库）</p>
+</li>
+<li>
+<p>Remote：远程仓库</p>
+<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1623800678351.png" alt="" loading="lazy"></figure>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[前端教程导航]]></title>
+        <id>https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/</id>
+        <link href="https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/">
+        </link>
+        <updated>2021-06-15T23:08:43.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="git">git</h2>
+<p>1、<a href="https://learngitbranching.js.org/?locale=zh_CN">https://learngitbranching.js.org/?locale=zh_CN</a></p>
+<p>2、<a href="https://www.bookstack.cn/read/git-tutorial/README.md">https://www.bookstack.cn/read/git-tutorial/README.md</a></p>
+<p>​      <a href="http://www.ruanyifeng.com/blog/2014/06/git_remote.html">http://www.ruanyifeng.com/blog/2014/06/git_remote.html</a></p>
+<p>​      <a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html</a></p>
+<p>3、<a href="https://www.liaoxuefeng.com/wiki/896043488029600">https://www.liaoxuefeng.com/wiki/896043488029600</a></p>
+<p>4、<a href="https://marklodato.github.io/visual-git-guide/index-zh-cn.html">https://marklodato.github.io/visual-git-guide/index-zh-cn.html</a></p>
+<p>5、<a href="https://git-scm.com/book/zh/v2">https://git-scm.com/book/zh/v2</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-语义化版本]]></title>
         <id>https://leecss.com/post/git-yu-yi-hua-ban-ben/</id>
