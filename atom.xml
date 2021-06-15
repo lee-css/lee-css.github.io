@@ -2,13 +2,29 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-15T00:02:14.266Z</updated>
+    <updated>2021-06-15T00:28:14.813Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[Chrome插件]]></title>
+        <id>https://leecss.com/post/google-cha-jian/</id>
+        <link href="https://leecss.com/post/google-cha-jian/">
+        </link>
+        <updated>2021-06-15T00:16:25.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-bluesea">1、BlueSea</h2>
+<p>GitHub 链接：https://github.com/jiangqizheng/BlueSea 。</p>
+<p>介绍：帮助翻译及记忆英语单词</p>
+<h3 id="安装">安装</h3>
+<p>1、下载或者克隆代码到本地</p>
+<pre><code class="language-sh">git clone https://github.com/jiangqizheng/BlueSea
+</code></pre>
+<p>2.打开 Chrome 浏览器，在地址栏中输入chrome://extensions/，打开开发者模式，并选择加载已解压的扩展程序，选择 Bluesea 的代码文件夹。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[祝宝贝生日快乐]]></title>
         <id>https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/</id>
