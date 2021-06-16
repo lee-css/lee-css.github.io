@@ -2,13 +2,93 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-15T23:55:14.082Z</updated>
+    <updated>2021-06-16T15:06:35.054Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-branch]]></title>
+        <id>https://leecss.com/post/git-branch/</id>
+        <link href="https://leecss.com/post/git-branch/">
+        </link>
+        <updated>2021-06-16T14:59:51.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-查看分支">1、查看分支</h2>
+<p>*表示当前分支</p>
+<p>查看所有本地分支</p>
+<pre><code class="language-sh">git branch
+</code></pre>
+<p>查看所有远程分支</p>
+<pre><code class="language-shell">git branch -r
+</code></pre>
+<p>查看所有本地分支和远程分支</p>
+<pre><code class="language-sh">git branch -a
+</code></pre>
+<h2 id="2-新建分支">2、新建分支</h2>
+<h3 id="新建本地分支">新建本地分支</h3>
+<p>直接在<code>git branch</code>后面跟上分支名，就表示新建该分支。</p>
+<pre><code class="language-sh">git branch [branch-name]
+</code></pre>
+<p>创建后，还是停留在原来分支，需要用<code>git checkout</code>切换到新建分支</p>
+<pre><code class="language-sh">git checkout [branch-name]
+</code></pre>
+<p>使用<code>-b</code>参数，可以新建的同时，切换到新分支。</p>
+<pre><code class="language-sh">git checkout -b [branch-name]
+</code></pre>
+<p>新建一个分支，与指定的远程分支建立追踪关系</p>
+<pre><code class="language-sh">git branch --track [branch] origin/[remote-branch]
+</code></pre>
+<h3 id="新建远程分支">新建远程分支</h3>
+<p>创建远程分支</p>
+<p>创建远程分支的前提是本地有这个分支，推送到远程后，因为远程没有此分支，所以会新建</p>
+<p>在远程主机<code>origin</code>上创建一个分支</p>
+<pre><code class="language-sh">git push origin &lt;本地分支名&gt;
+</code></pre>
+<p>在远程主机<code>origin</code>上创建一个<code>MyBranch</code>的分支，并与本地的同名分支建立追踪关系。</p>
+<pre><code class="language-sh">git push -u origin MyBranch
+</code></pre>
+<h2 id="3-删除分支">3、删除分支</h2>
+<h3 id="删除本地分支">删除本地分支</h3>
+<p>需要当前不在被删除的分支上</p>
+<p><code>-d</code>参数用来删除一个分支，前提是该分支没有未合并的变动。</p>
+<pre><code class="language-sh">git branch -d [branch-name]
+</code></pre>
+<p>强制删除一个分支，不管有没有未合并变化。</p>
+<pre><code class="language-sh">git branch -D [branch-name]
+</code></pre>
+<h3 id="删除远程分支">删除远程分支</h3>
+<pre><code class="language-sh">git push origin --delete [branch-name]
+</code></pre>
+<pre><code class="language-sh">git branch -dr origin/[remote-branch]
+</code></pre>
+<h2 id="4-分支改名">4、分支改名</h2>
+<p>为当前分支改名</p>
+<pre><code class="language-sh">git branch -m [branch-name]
+</code></pre>
+<p>为指定分支改名</p>
+<pre><code class="language-sh">git branch -m dev develop
+</code></pre>
+<h2 id="5-关联远程分支">5、关联远程分支</h2>
+<p>查看本地分支与远程分支的关联</p>
+<pre><code class="language-sh">git branch -vv
+</code></pre>
+<p>建立追踪关系，在现有分支与指定的远程分支之间</p>
+<pre><code class="language-sh">git branch --set-upstream-to=origin/[remote-branch] [branch]
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[生活网站导航]]></title>
+        <id>https://leecss.com/post/sheng-huo-wang-zhan-dao-hang/</id>
+        <link href="https://leecss.com/post/sheng-huo-wang-zhan-dao-hang/">
+        </link>
+        <updated>2021-06-16T13:56:31.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="其他">其他</h2>
+<p><a href="http://www.tiqianhuandai.cc/">房贷计算</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-简介]]></title>
         <id>https://leecss.com/post/git-jian-jie/</id>
@@ -269,6 +349,21 @@
 <pre><code class="language-sh">git clone https://github.com/jiangqizheng/BlueSea
 </code></pre>
 <p>2.打开 Chrome 浏览器，在地址栏中输入chrome://extensions/，打开开发者模式，并选择加载已解压的扩展程序，选择 Bluesea 的代码文件夹。</p>
+<h2 id="2-awesome-screenshot">2、Awesome Screenshot</h2>
+<p>下载：谷歌商店搜索安装</p>
+<p>介绍：截图工具</p>
+<p>快捷键：</p>
+<blockquote>
+<p>可视区域： Ctrl + Shift + V</p>
+<p>选择区域:    Ctrl + Shift + S</p>
+<p>整个页面： Ctrl + Shift + E</p>
+</blockquote>
+<h2 id="3-adblock-plus">3、Adblock Plus</h2>
+<p>下载：谷歌商店搜索安装</p>
+<p>介绍：广告拦截</p>
+<h2 id="4-momentum">4、Momentum</h2>
+<p>下载：谷歌商店搜索安装</p>
+<p>介绍：浏览器背景图片及小工具</p>
 ]]></content>
     </entry>
     <entry>
