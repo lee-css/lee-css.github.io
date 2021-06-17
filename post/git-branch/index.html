@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-branch | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1623855687833">
+<link rel="shortcut icon" href="/favicon.ico?v=1623901461642">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">7</span>
+        <span class="site-item-stat-count">11</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -620,6 +620,10 @@
   </div>
   <div class="nav">
     <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="git-add" href="https://leecss.com/post/git-add/">git-add</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="git-add" href="https://leecss.com/post/git-add/">上一篇</a>
       
     </div>
     <div class="nav-next">
@@ -1134,6 +1138,86 @@
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rebase/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;将当前分支移植到指定分支或指定commit之上。&lt;/p&gt;
+&lt;p&gt;Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。&lt;/p&gt;
+&lt;p&gt;Rebase 的优势就是可以创造更线性的提交历史，这听上去有些难以理解。如果只允许使用 Rebase 的话，代码库的提交历史将会变得异常清晰。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rebase master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将当前分支移植到master分支之上。&lt;/p&gt;
+">git-rebase</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-merge/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git merge&lt;/code&gt;命令用于合并指定分支到当前分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge develop
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将develop分支合并到当前分支，产生的新的commit对象有两个父节点。&lt;/p&gt;
+&lt;p&gt;如果“指定分支”本身是当前分支的一个直接子节点，则会产生fast-forward合并，即合并不会产生新的节点，只是让当前分支指向“指定分支”的最新commit。&lt;/p&gt;
+">git-merge</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-commit/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git commit&lt;/code&gt;命令用于将暂存区中的变化提交到仓库区。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-m&lt;/code&gt;参数用于指定 commit 信息，是必需的。如果省略&lt;code&gt;-m&lt;/code&gt;参数，&lt;code&gt;git commit&lt;/code&gt;会自动打开文本编辑器，要求输入。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git commit -m &amp;quot;message&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;命令行参数&#34;&gt;命令行参数&lt;/h2&gt;
+&lt;h3 id=&#34;-a&#34;&gt;-a&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;-a&lt;/code&gt;参数用于先将所有工作区的变动文件，提交到暂存区，再运行&lt;code&gt;git commit&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git commit -am &amp;quot;message&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;用了&lt;code&gt;-a&lt;/code&gt;参数，是不是就不用执行&lt;code&gt;git add .&lt;/code&gt;命令了？不是。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-m&lt;/code&gt;参数用于提交暂存区的文件&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-a&lt;/code&gt;参数用于提交追踪过的文件&lt;/p&gt;
+&lt;p&gt;文件状态按已追踪和未追踪区分，新增的文件为未追踪，&lt;code&gt;git add&lt;/code&gt;后的文件为已追踪&lt;/p&gt;
+&lt;p&gt;所以新增的文件还是要执行&lt;code&gt;git add .&lt;/code&gt;命令&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;amend&#34;&gt;—amend&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;--amend&lt;/code&gt;参数用于撤销上一次 commit，然后生成一个新的 commit。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git commit --amend -m &amp;quot;new commit message&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+">git-commit</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-add/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git add&lt;/code&gt;命令用于将变化的文件，从工作区提交到暂存区。&lt;/p&gt;
+&lt;p&gt;将指定文件放入暂存区&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add &amp;lt;file&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将指定目录下所有变化的文件，放入暂存区&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add &amp;lt;directory&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将当前目录下所有变化的文件，放入暂存区&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;-u&lt;/code&gt;参数表示只添加暂存区已有的文件（包括删除操作），但不添加新增的文件。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -u
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-A&lt;/code&gt;或者&lt;code&gt;--all&lt;/code&gt;参数表示追踪所有操作，包括新增、修改和删除。&lt;/p&gt;
+&lt;p&gt;Git 2.0 版开始，&lt;code&gt;-A&lt;/code&gt;参数成为默认，即&lt;code&gt;git add .&lt;/code&gt;等同于&lt;code&gt;git add -A&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -A
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-f&lt;/code&gt;参数表示强制添加某个文件，不管&lt;code&gt;.gitignore&lt;/code&gt;是否包含了这个文件。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -f &amp;lt;fileName&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-p&lt;/code&gt;参数表示进入交互模式，指定哪些修改需要添加到暂存区。即使是同一个文件，也可以只提交部分变动。&lt;/p&gt;
+&lt;p&gt;问跟踪(即新增的)文件不在此参数范围内&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -p
+&lt;/code&gt;&lt;/pre&gt;
+">git-add</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-branch/"" data-c="
           &lt;h2 id=&#34;1-查看分支&#34;&gt;1、查看分支&lt;/h2&gt;
 &lt;p&gt;*表示当前分支&lt;/p&gt;
@@ -1238,6 +1322,9 @@
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1623800678351.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;查看文件的状态&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git status
+&lt;/code&gt;&lt;/pre&gt;
 ">git-简介</a>
       </div>
       
