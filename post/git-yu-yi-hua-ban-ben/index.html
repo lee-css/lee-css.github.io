@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-语义化版本 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1624089694588">
+<link rel="shortcut icon" href="/favicon.ico?v=1624117625100">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">11</span>
+        <span class="site-item-stat-count">12</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1263,6 +1263,52 @@
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-referencezhi-zhen/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;所谓指针（reference），只是一个链接，用来指向其他物体，方便引用。Git有三种指针，但是所有指针归根结底都是指向某个commit。&lt;/p&gt;
+&lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
+&lt;h3 id=&#34;head指针&#34;&gt;HEAD指针&lt;/h3&gt;
+&lt;p&gt;头指针：指向目前所在的Branch，用来区分目前在哪个分支。&lt;/p&gt;
+&lt;p&gt;查看HEAD 指向&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat .git/HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;结果：ref: refs/heads/master&lt;/p&gt;
+&lt;p&gt;可以看出HEAD指针指向的是refs/heads/master文件，即master分支&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;如果 HEAD 指向的是一个引用,可以通过以下命令查看它的指向&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git symbolic-ref HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;branch指针&#34;&gt;Branch指针&lt;/h3&gt;
+&lt;p&gt;分支指针：指向某个commit。每次该分支有新的commit，指针就会变动，指向当前分支的最新提交。&lt;/p&gt;
+&lt;p&gt;当我们从master新建一个test分支时，git只会创建一个test分支指针，并且让test分支指针指向master分支对应的最新的提交。&lt;/p&gt;
+&lt;p&gt;查看master分支文件的内容&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat .git/refs/heads/master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以看到，这个文件的内容是一串哈希码，而这个哈希码正是master分支上最新的提交所对应的哈希码。&lt;/p&gt;
+&lt;h2 id=&#34;分离头&#34;&gt;分离头&lt;/h2&gt;
+&lt;p&gt;通常情况下，HEAD指针总是通过分支指针，间接的指向了当前分支的最新提交。&lt;/p&gt;
+&lt;p&gt;不通常的情况便是分离头（detached HEAD）：就是头指针和分支指针分开了，HEAD指针没有指向分支指针，而是直接指向了某个提交。&lt;/p&gt;
+&lt;p&gt;我们随便检出到某个提交，都可以进入分离头状态&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git checkout cbd3348
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;分离头的应用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;由于刚才我们直接检出了’cbd3348’这个提交，所以，我们处于分离头状态，而且当前仓库中各个文件的内容也回到了’cbd3348’这个提交对应的状态。此时创建了两个新提交，这两个新提交与分叉点之前的提交组成了一条匿名分支，没有任何一个分支标签指向这个匿名分支。我们现在有两个选择，如下：&lt;/p&gt;
+&lt;p&gt;选择一：丢弃这个匿名分支&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;直接检出到任何一个别的分支，就相当于放弃了这些提交&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;选择二：保留这个匿名分支&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;只需要将这些提交创建成一条新的分支就行了&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -b newtest
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch newtest dca15df
+&lt;/code&gt;&lt;/pre&gt;
+">git-reference(指针)</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rebase/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;将当前分支移植到指定分支或指定commit之上。&lt;/p&gt;
@@ -1336,7 +1382,7 @@
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -f &amp;lt;fileName&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;-p&lt;/code&gt;参数表示进入交互模式，指定哪些修改需要添加到暂存区。即使是同一个文件，也可以只提交部分变动。&lt;/p&gt;
-&lt;p&gt;问跟踪(即新增的)文件不在此参数范围内&lt;/p&gt;
+&lt;p&gt;未跟踪(即新增的)文件不在此参数范围内&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -p
 &lt;/code&gt;&lt;/pre&gt;
 ">git-add</a>
@@ -1348,6 +1394,12 @@
 &lt;p&gt;*表示当前分支&lt;/p&gt;
 &lt;p&gt;查看所有本地分支&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看分支的详细信息（commitID及message）&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看本地分支与远程分支的关联&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -vv
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;查看所有远程分支&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git branch -r
@@ -1400,9 +1452,6 @@
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -m dev develop
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;5-关联远程分支&#34;&gt;5、关联远程分支&lt;/h2&gt;
-&lt;p&gt;查看本地分支与远程分支的关联&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -vv
-&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;建立追踪关系，在现有分支与指定的远程分支之间&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch --set-upstream-to=origin/[remote-branch] [branch]
 &lt;/code&gt;&lt;/pre&gt;
