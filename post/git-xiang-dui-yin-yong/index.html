@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-rebase | 当下</title>
+<title>git-相对引用 | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1624157617971">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="git-rebase" />
+  <meta name="description" content="git-相对引用" />
   <meta name="keywords" content="git" />
 </head>
 
@@ -212,6 +212,22 @@
 <li>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E5%88%86%E7%B1%BB">分类</a>
+<ul>
+<li><a href="#%E6%93%8D%E4%BD%9C%E7%AC%A6~">操作符~</a></li>
+<li><a href="#%E6%93%8D%E4%BD%9C%E7%AC%A6">操作符^</a>
+<ul>
+<li><a href="#%E5%8D%95%E4%B8%AA%E7%9B%B4%E7%B3%BB%E7%88%B6%E6%8F%90%E4%BA%A4">单个直系父提交</a></li>
+<li><a href="#%E5%A4%9A%E4%B8%AA%E7%9B%B4%E7%B3%BB%E7%88%B6%E6%8F%90%E4%BA%A4">多个直系父提交</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E5%BA%94%E7%94%A8">应用</a>
+<ul>
+<li><a href="#%E5%BC%BA%E5%88%B6%E4%BF%AE%E6%94%B9%E5%88%86%E6%94%AF%E4%BD%8D%E7%BD%AE">强制修改分支位置</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -479,8 +495,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-rebase/">
-      git-rebase
+    <a class="post-title-link" href="https://leecss.com/post/git-xiang-dui-yin-yong/">
+      git-相对引用
     </a>
   </h1>
   <div class="post-meta">
@@ -488,7 +504,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-17 11:43:53">2021-06-17</span>
+      <span class="publish-time" data-t="2021-06-20 10:53:00">2021-06-20</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -507,24 +523,76 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>1<span class="language" data-lan="minute">分钟</span></span>
+      <span>3<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>125<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>531<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p>将当前分支移植到指定分支或指定commit之上。</p>
-<p>Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。</p>
-<p>Rebase 的优势就是可以创造更线性的提交历史，这听上去有些难以理解。如果只允许使用 Rebase 的话，代码库的提交历史将会变得异常清晰。</p>
-<pre><code class="language-sh">git rebase master
+<p>通过哈希值指定提交记录很不方便，所以 Git 引入了相对引用。</p>
+<p>使用相对引用的话，你就可以从一个易于记忆的地方（比如bugFix 分支或 HEAD）开始计算。</p>
+<h2 id="分类">分类</h2>
+<h3 id="操作符~">操作符~</h3>
+<p>HEAD 表示当前分支的最新提交</p>
+<p>HEAD~ 表示当前分支的最新提交的前一个提交（即最新的第二个提交，也就是最新提交的父提交）</p>
+<p>HEAD~~ 表示当前分支的最新提交的前前提交（即最新的第三个提交，也就是最新提交的祖父提交）</p>
+<p>HEAD~~~ 表示当前分支的最新提交的前前前提交（即最新的第四个提交，也就是最新提交的曾祖父提交）</p>
+<blockquote>
+<p>HEAD~~~等效于HEAD~3</p>
+<p>HEAD~~等效于HEAD~2</p>
+<p>HEAD<sub>等效于HEAD</sub>1</p>
+<p>HEAD等效于HEAD~0</p>
+</blockquote>
+<h3 id="操作符">操作符^</h3>
+<h4 id="单个直系父提交">单个直系父提交</h4>
+<p>把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交。</p>
+<p>方式一</p>
+<p><code>main^</code> 相当于“<code>main</code> 的父节点”。</p>
+<p><code>main^^</code> 是 <code>main</code> 的第二个父节点</p>
+<p>方式二</p>
+<p>我们也可以多次使用 <code>HEAD^</code> 向上移动。</p>
+<pre><code class="language-sh">git checkout HEAD^
+git checkout HEAD^
 </code></pre>
-<p>将当前分支移植到master分支之上。</p>
+<h4 id="多个直系父提交">多个直系父提交</h4>
+<p>假如当前提交不只一个父节点，有多个直系父提交呢？</p>
+<p>如果一个提交有多个父提交，那么 <code>~</code> 只会找第一个父提交。</p>
+<p>使用<code>HEAD^2</code>来找到第二个父提交</p>
+<pre><code class="language-sh">
+G   H   I   J
+ \ /     \ /
+  D   E   F
+   \  |  / \
+    \ | /   |
+     \|/    |
+      B     C
+       \   /
+        \ /
+         A
+ 
+A =      = A^0
+B = A^   = A^1     = A~1
+C = A^2
+D = A^^  = A^1^1   = A~2
+E = B^2  = A^^2
+F = B^3  = A^^3
+G = A^^^ = A^1^1^1 = A~3
+H = D^2  = B^^2    = A^^^2  = A~2^2
+I = F^   = B^3^    = A^^3^
+J = F^2  = B^3^2   = A^^3^2
+</code></pre>
+<h2 id="应用">应用</h2>
+<h3 id="强制修改分支位置">强制修改分支位置</h3>
+<p>使用相对引用最多的就是移动分支。可以直接使用 <code>-f</code> 选项让分支指向另一个提交。例如:</p>
+<pre><code class="language-shell">git branch -f main HEAD~3
+</code></pre>
+<p>相对引用为我们提供了一种简洁的引用提交记录 的方式， 而 <code>-f</code> 则容许我们将分支强制移动到那个位置。</p>
 
             </div>
             
@@ -537,7 +605,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-rebase/" title="git-rebase">https://leecss.com/post/git-rebase/</a>
+      <a href="https://leecss.com/post/git-xiang-dui-yin-yong/" title="git-相对引用">https://leecss.com/post/git-xiang-dui-yin-yong/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -552,15 +620,11 @@
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-reference(指针)" href="https://leecss.com/post/git-referencezhi-zhen/">git-reference(指针)</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-reference(指针)" href="https://leecss.com/post/git-referencezhi-zhen/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-merge" href="https://leecss.com/post/git-merge/">git-merge</a>
-        <a class="nav-mobile-next" title="git-merge" href="https://leecss.com/post/git-merge/">下一篇</a>
+        <a class="nav-pc-next" title="git-reference(指针)" href="https://leecss.com/post/git-referencezhi-zhen/">git-reference(指针)</a>
+        <a class="nav-mobile-next" title="git-reference(指针)" href="https://leecss.com/post/git-referencezhi-zhen/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
