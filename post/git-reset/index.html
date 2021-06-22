@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>Chrome插件 | 当下</title>
+<title>git-reset | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1624319716882">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="Chrome插件" />
-  <meta name="keywords" content="工具" />
+  <meta name="description" content="git-reset" />
+  <meta name="keywords" content="git" />
 </head>
 
 <body>
@@ -211,14 +211,13 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#1-bluesea">1、BlueSea</a>
+<li><a href="#%E6%92%A4%E9%94%80%E5%8C%BA%E5%9F%9F">撤销区域</a>
 <ul>
-<li><a href="#%E5%AE%89%E8%A3%85">安装</a></li>
+<li><a href="#%E6%9A%82%E5%AD%98%E5%8C%BA">暂存区</a></li>
+<li><a href="#%E6%9A%82%E5%AD%98%E5%8C%BA%E5%92%8C%E5%B7%A5%E4%BD%9C%E5%8C%BA">暂存区和工作区</a></li>
 </ul>
 </li>
-<li><a href="#2-awesome-screenshot">2、Awesome Screenshot</a></li>
-<li><a href="#3-adblock-plus">3、Adblock Plus</a></li>
-<li><a href="#4-momentum">4、Momentum</a></li>
+<li><a href="#%E5%8F%82%E6%95%B0">参数</a></li>
 </ul>
 </li>
 </ul>
@@ -486,8 +485,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/google-cha-jian/">
-      Chrome插件
+    <a class="post-title-link" href="https://leecss.com/post/git-reset/">
+      git-reset
     </a>
   </h1>
   <div class="post-meta">
@@ -495,7 +494,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-15 08:16:25">2021-06-15</span>
+      <span class="publish-time" data-t="2021-06-22 07:37:30">2021-06-22</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -504,8 +503,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/Cw_wuwm9B/">
-        <span>工具</span>
+      <a href="https://leecss.com/tag/TDboywfcf/">
+        <span>git</span>
       </a>
       
       
@@ -514,40 +513,79 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>1<span class="language" data-lan="minute">分钟</span></span>
+      <span>2<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>176<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>356<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="1-bluesea">1、BlueSea</h2>
-<p>GitHub 链接：https://github.com/jiangqizheng/BlueSea 。</p>
-<p>介绍：帮助翻译及记忆英语单词</p>
-<h3 id="安装">安装</h3>
-<p>1、下载或者克隆代码到本地</p>
-<pre><code class="language-sh">git clone https://github.com/jiangqizheng/BlueSea
+              <h2 id="撤销区域">撤销区域</h2>
+<h3 id="暂存区">暂存区</h3>
+<p>撤销已经添加到暂存区中的修改，即让暂存区与最近的提交保持一致，可以使用如下命令，如下三条命令等效</p>
+<pre><code class="language-sh">git reset
+git reset HEAD
+git reset --mixed HEAD
 </code></pre>
-<p>2.打开 Chrome 浏览器，在地址栏中输入chrome://extensions/，打开开发者模式，并选择加载已解压的扩展程序，选择 Bluesea 的代码文件夹。</p>
-<h2 id="2-awesome-screenshot">2、Awesome Screenshot</h2>
-<p>下载：谷歌商店搜索安装</p>
-<p>介绍：截图工具</p>
-<p>快捷键：</p>
-<blockquote>
-<p>可视区域： Ctrl + Shift + V</p>
-<p>选择区域:    Ctrl + Shift + S</p>
-<p>整个页面： Ctrl + Shift + E</p>
-</blockquote>
-<h2 id="3-adblock-plus">3、Adblock Plus</h2>
-<p>下载：谷歌商店搜索安装</p>
-<p>介绍：广告拦截</p>
-<h2 id="4-momentum">4、Momentum</h2>
-<p>下载：谷歌商店搜索安装</p>
-<p>介绍：浏览器背景图片及小工具</p>
+<p>撤销上一次向暂存区添加的某个指定文件，不影响工作区中的该文件</p>
+<pre><code class="language-sh">git reset -- &lt;filename&gt;
+git reset -- file1 file2
+</code></pre>
+<h3 id="暂存区和工作区">暂存区和工作区</h3>
+<p>撤销所有暂存区和工作区中的所有变更,回复到上一次提交的状态</p>
+<pre><code class="language-sh">git reset --hard
+</code></pre>
+<p>回退到指定的提交</p>
+<pre><code class="language-sh">git reset --hard commitID
+</code></pre>
+<h2 id="参数">参数</h2>
+<ul>
+<li>soft: 不改变工作区和缓存区，只移动 HEAD 到指定 commit。</li>
+<li>mixed: 只改变缓存区，不改变工作区。这是默认参数，通常用于撤销<code>git add</code>。</li>
+<li>hard：改变工作区和暂存区到指定 commit。该参数等同于重置，可能会引起数据损失。<code>git reset --hard</code>等同于<code>git reset --hard HEAD</code>。</li>
+<li><code>-p</code>表示键入交互模式，指定暂存区的哪些部分需要撤销。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>工作区</th>
+<th>缓存区</th>
+<th>HEAD</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>–soft</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>–mixed</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>–hard</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-shell">// 将当期分支的指针倒退一个 commit，只改变仓库
+git reset --soft HEAD~
+// 将当期分支的指针倒退一个 commit，改变仓库，并且会改变暂存区
+git reset HEAD~
+// 将当期分支的指针倒退一个 commit，改变仓库，暂存区，工作区
+git reset --hard HEAD~
+</code></pre>
 
             </div>
             
@@ -560,7 +598,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/google-cha-jian/" title="Chrome插件">https://leecss.com/post/google-cha-jian/</a>
+      <a href="https://leecss.com/post/git-reset/" title="git-reset">https://leecss.com/post/git-reset/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -569,21 +607,21 @@
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/Cw_wuwm9B/"># 工具</a>
+      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-语义化版本" href="https://leecss.com/post/git-yu-yi-hua-ban-ben/">git-语义化版本</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-语义化版本" href="https://leecss.com/post/git-yu-yi-hua-ban-ben/">上一篇</a>
+        <a class="nav-pc-next" title="git-revert" href="https://leecss.com/post/git-revert/">git-revert</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="git-revert" href="https://leecss.com/post/git-revert/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="祝宝贝生日快乐" href="https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/">祝宝贝生日快乐</a>
-        <a class="nav-mobile-next" title="祝宝贝生日快乐" href="https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/">下一篇</a>
+        <a class="nav-pc-next" title="git-相对引用" href="https://leecss.com/post/git-xiang-dui-yin-yong/">git-相对引用</a>
+        <a class="nav-mobile-next" title="git-相对引用" href="https://leecss.com/post/git-xiang-dui-yin-yong/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
