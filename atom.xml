@@ -2,13 +2,71 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-21T23:55:21.025Z</updated>
+    <updated>2021-06-23T00:06:50.506Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-describe]]></title>
+        <id>https://leecss.com/post/git-describe/</id>
+        <link href="https://leecss.com/post/git-describe/">
+        </link>
+        <updated>2021-06-23T00:05:00.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来<strong>描述</strong>离你最近的锚点（也就是标签），它就是 <code>git describe</code>！</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来<strong>描述</strong>离你最近的锚点（也就是标签），它就是 <code>git describe</code>！</p>
+<!-- more -->
+<pre><code class="language-sh">git describe &lt;ref&gt;
+git describe &lt;branch&gt;
+</code></pre>
+<p><code>&lt;ref&gt;</code> 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（<code>HEAD</code>）。</p>
+<p>它输出的结果是这样的：</p>
+<pre><code class="language-sh">&lt;tag&gt;_&lt;numCommits&gt;_g&lt;hash&gt;
+</code></pre>
+<p><code>tag</code> 表示的是离 <code>ref</code> 最近的标签， <code>numCommits</code> 是表示这个 <code>ref</code> 与 <code>tag</code> 相差有多少个提交记录， <code>hash</code> 表示的是你所给定的 <code>ref</code> 所表示的提交记录哈希值的前几位。</p>
+<p>当 <code>ref</code> 提交记录上有某个标签时，则只输出标签名称</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-tag]]></title>
+        <id>https://leecss.com/post/git-tag/</id>
+        <link href="https://leecss.com/post/git-tag/">
+        </link>
+        <updated>2021-06-23T00:04:06.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>有没有什么可以<em>永远</em>指向某个提交记录的标识呢，比如软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性？</p>
+<p>当然有了！Git 的 tag 就是干这个用的啊，它们可以（在某种程度上 —— 因为标签可以被删除后重新在另外一个位置创建同名的标签）永久地将某个特定的提交命名为里程碑，然后就可以像分支一样引用了。</p>
+<p>更难得的是，它们并不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置。</p>
+<h2 id="命令">命令</h2>
+<h3 id="打标签">打标签</h3>
+<p>建立一个标签，指向提交记录C1</p>
+<pre><code class="language-sh">git tag v1 C1
+</code></pre>
+<p>如果你不指定提交记录，Git 会用 <code>HEAD</code> 所指向的位置。</p>
+<pre><code class="language-sh">git tag v1
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-cherry-pick]]></title>
+        <id>https://leecss.com/post/git-cherry-pick/</id>
+        <link href="https://leecss.com/post/git-cherry-pick/">
+        </link>
+        <updated>2021-06-22T00:13:27.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>git cherry-pick</code>命令”复制”一个提交节点并在当前分支做一次完全一样的新提交。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>git cherry-pick</code>命令”复制”一个提交节点并在当前分支做一次完全一样的新提交。</p>
+<!-- more -->
+<pre><code class="language-sh">git cherry-pick commitID
+git cherry-pick c2 c4
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-revert]]></title>
         <id>https://leecss.com/post/git-revert/</id>
@@ -160,10 +218,15 @@ H = D^2  = B^^2    = A^^^2  = A~2^2
 I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
 </code></pre>
+<h2 id="混合链式调用">混合链式调用</h2>
+<pre><code class="language-sh">git checkout HEAD~^2~2
+</code></pre>
+<p>选择直系父节点的 第二个父节点的 直系第二个父节点</p>
 <h2 id="应用">应用</h2>
 <h3 id="强制修改分支位置">强制修改分支位置</h3>
 <p>使用相对引用最多的就是移动分支。可以直接使用 <code>-f</code> 选项让分支指向另一个提交。例如:</p>
 <pre><code class="language-shell">git branch -f main HEAD~3
+git branch -f dev c2
 </code></pre>
 <p>相对引用为我们提供了一种简洁的引用提交记录 的方式， 而 <code>-f</code> 则容许我们将分支强制移动到那个位置。</p>
 ]]></content>
@@ -228,8 +291,22 @@ J = F^2  = B^3^2   = A^^3^2
 <p>Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。</p>
 <p>Rebase 的优势就是可以创造更线性的提交历史，这听上去有些难以理解。如果只允许使用 Rebase 的话，代码库的提交历史将会变得异常清晰。</p>
 <pre><code class="language-sh">git rebase master
+git rebase c2
 </code></pre>
-<p>将当前分支移植到master分支之上。</p>
+<p>将当前分支移植到master分支或c2提交记录之上。</p>
+<h2 id="交互式">交互式</h2>
+<h3 id="-iinteractive">-i，—interactive</h3>
+<p><code>-i</code>参数会打开互动模式，让用户选择定制<code>rebase</code>的行为。</p>
+<pre><code class="language-sh">git rebase -i HEAD~4
+</code></pre>
+<h3 id="功能">功能</h3>
+<ul>
+<li>调整提交记录的顺序（通过鼠标拖放来完成）</li>
+<li>删除你不想要的提交（通过切换 <code>pick</code> 的状态来完成，关闭就意味着你不想要这个提交记录）</li>
+<li>合并提交。</li>
+</ul>
+<h2 id="多次rebase">多次rebase</h2>
+<p>当你想将多个分支合成一条线性的提交记录时，按照提交顺序切换相应的分支，然后rebase到相应顺序节点的分支</p>
 ]]></content>
     </entry>
     <entry>
@@ -285,123 +362,6 @@ J = F^2  = B^3^2   = A^^3^2
 <p><code>--amend</code>参数用于撤销上一次 commit，然后生成一个新的 commit。</p>
 <pre><code class="language-sh">git commit --amend -m &quot;new commit message&quot;
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-add]]></title>
-        <id>https://leecss.com/post/git-add/</id>
-        <link href="https://leecss.com/post/git-add/">
-        </link>
-        <updated>2021-06-17T02:46:24.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git add</code>命令用于将变化的文件，从工作区提交到暂存区。</p>
-<p>将指定文件放入暂存区</p>
-<pre><code class="language-sh">git add &lt;file&gt;
-</code></pre>
-<p>将指定目录下所有变化的文件，放入暂存区</p>
-<pre><code class="language-sh">git add &lt;directory&gt;
-</code></pre>
-<p>将当前目录下所有变化的文件，放入暂存区</p>
-<pre><code class="language-sh">git add .
-</code></pre>
-<h2 id="参数">参数</h2>
-<p><code>-u</code>参数表示只添加暂存区已有的文件（包括删除操作），但不添加新增的文件。</p>
-<pre><code class="language-sh">git add -u
-</code></pre>
-<p><code>-A</code>或者<code>--all</code>参数表示追踪所有操作，包括新增、修改和删除。</p>
-<p>Git 2.0 版开始，<code>-A</code>参数成为默认，即<code>git add .</code>等同于<code>git add -A</code>。</p>
-<pre><code class="language-sh">git add -A
-</code></pre>
-<p><code>-f</code>参数表示强制添加某个文件，不管<code>.gitignore</code>是否包含了这个文件。</p>
-<pre><code class="language-sh">git add -f &lt;fileName&gt;
-</code></pre>
-<p><code>-p</code>参数表示进入交互模式，指定哪些修改需要添加到暂存区。即使是同一个文件，也可以只提交部分变动。</p>
-<p>未跟踪(即新增的)文件不在此参数范围内</p>
-<pre><code class="language-sh">git add -p
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-branch]]></title>
-        <id>https://leecss.com/post/git-branch/</id>
-        <link href="https://leecss.com/post/git-branch/">
-        </link>
-        <updated>2021-06-16T14:59:51.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-查看分支">1、查看分支</h2>
-<p>*表示当前分支</p>
-<p>查看所有本地分支</p>
-<pre><code class="language-sh">git branch
-</code></pre>
-<p>查看分支的详细信息（commitID及message）</p>
-<pre><code class="language-sh">git branch -v
-</code></pre>
-<p>查看本地分支与远程分支的关联</p>
-<pre><code class="language-sh">git branch -vv
-</code></pre>
-<p>查看所有远程分支</p>
-<pre><code class="language-shell">git branch -r
-</code></pre>
-<p>查看所有本地分支和远程分支</p>
-<pre><code class="language-sh">git branch -a
-</code></pre>
-<h2 id="2-新建分支">2、新建分支</h2>
-<h3 id="新建本地分支">新建本地分支</h3>
-<p>直接在<code>git branch</code>后面跟上分支名，就表示新建该分支。</p>
-<pre><code class="language-sh">git branch [branch-name]
-</code></pre>
-<p>创建后，还是停留在原来分支，需要用<code>git checkout</code>切换到新建分支</p>
-<pre><code class="language-sh">git checkout [branch-name]
-</code></pre>
-<p>使用<code>-b</code>参数，可以新建的同时，切换到新分支。</p>
-<pre><code class="language-sh">git checkout -b [branch-name]
-</code></pre>
-<p>新建一个分支，与指定的远程分支建立追踪关系</p>
-<pre><code class="language-sh">git branch --track [branch] origin/[remote-branch]
-</code></pre>
-<h3 id="新建远程分支">新建远程分支</h3>
-<p>创建远程分支</p>
-<p>创建远程分支的前提是本地有这个分支，推送到远程后，因为远程没有此分支，所以会新建</p>
-<p>在远程主机<code>origin</code>上创建一个分支</p>
-<pre><code class="language-sh">git push origin &lt;本地分支名&gt;
-</code></pre>
-<p>在远程主机<code>origin</code>上创建一个<code>MyBranch</code>的分支，并与本地的同名分支建立追踪关系。</p>
-<pre><code class="language-sh">git push -u origin MyBranch
-</code></pre>
-<h2 id="3-删除分支">3、删除分支</h2>
-<h3 id="删除本地分支">删除本地分支</h3>
-<p>需要当前不在被删除的分支上</p>
-<p><code>-d</code>参数用来删除一个分支，前提是该分支没有未合并的变动。</p>
-<pre><code class="language-sh">git branch -d [branch-name]
-</code></pre>
-<p>强制删除一个分支，不管有没有未合并变化。</p>
-<pre><code class="language-sh">git branch -D [branch-name]
-</code></pre>
-<h3 id="删除远程分支">删除远程分支</h3>
-<pre><code class="language-sh">git push origin --delete [branch-name]
-</code></pre>
-<pre><code class="language-sh">git branch -dr origin/[remote-branch]
-</code></pre>
-<h2 id="4-分支改名">4、分支改名</h2>
-<p>为当前分支改名</p>
-<pre><code class="language-sh">git branch -m [branch-name]
-</code></pre>
-<p>为指定分支改名</p>
-<pre><code class="language-sh">git branch -m dev develop
-</code></pre>
-<h2 id="5-关联远程分支">5、关联远程分支</h2>
-<p>建立追踪关系，在现有分支与指定的远程分支之间</p>
-<pre><code class="language-sh">git branch --set-upstream-to=origin/[remote-branch] [branch]
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[生活网站导航]]></title>
-        <id>https://leecss.com/post/sheng-huo-wang-zhan-dao-hang/</id>
-        <link href="https://leecss.com/post/sheng-huo-wang-zhan-dao-hang/">
-        </link>
-        <updated>2021-06-16T13:56:31.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="其他">其他</h2>
-<p><a href="http://www.tiqianhuandai.cc/">房贷计算</a></p>
 ]]></content>
     </entry>
 </feed>

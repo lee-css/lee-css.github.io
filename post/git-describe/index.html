@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>前端教程导航 | 当下</title>
+<title>git-describe | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1624406806612">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="前端教程导航" />
-  <meta name="keywords" content="汇总" />
+  <meta name="description" content="git-describe" />
+  <meta name="keywords" content="git" />
 </head>
 
 <body>
@@ -211,7 +211,7 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#git">git</a></li>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
 </ul>
 </li>
 </ul>
@@ -479,8 +479,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/">
-      前端教程导航
+    <a class="post-title-link" href="https://leecss.com/post/git-describe/">
+      git-describe
     </a>
   </h1>
   <div class="post-meta">
@@ -488,7 +488,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-16 07:08:43">2021-06-16</span>
+      <span class="publish-time" data-t="2021-06-23 08:05:00">2021-06-23</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -497,8 +497,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/Z9Yn8Qt7f/">
-        <span>汇总</span>
+      <a href="https://leecss.com/tag/TDboywfcf/">
+        <span>git</span>
       </a>
       
       
@@ -512,21 +512,24 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>34<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>204<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="git">git</h2>
-<p>1、<a href="https://learngitbranching.js.org/?locale=zh_CN">游戏化教程</a></p>
-<p>2、<a href="https://www.bookstack.cn/read/git-tutorial/README.md">阮一峰</a></p>
-<p>​      <a href="http://www.ruanyifeng.com/blog/2014/06/git_remote.html">阮一峰blog1</a></p>
-<p>​      <a href="http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html">阮一峰blog2</a></p>
-<p>3、<a href="https://www.liaoxuefeng.com/wiki/896043488029600">廖雪峰</a></p>
-<p>4、<a href="https://www.zsythink.net/">朱双印</a></p>
-<p>5、<a href="https://marklodato.github.io/visual-git-guide/index-zh-cn.html">图解git</a></p>
-<p>6、<a href="https://git-scm.com/book/zh/v2">官网</a></p>
+              <h2 id="概述">概述</h2>
+<p>由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来<strong>描述</strong>离你最近的锚点（也就是标签），它就是 <code>git describe</code>！</p>
+<!-- more -->
+<pre><code class="language-sh">git describe &lt;ref&gt;
+git describe &lt;branch&gt;
+</code></pre>
+<p><code>&lt;ref&gt;</code> 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（<code>HEAD</code>）。</p>
+<p>它输出的结果是这样的：</p>
+<pre><code class="language-sh">&lt;tag&gt;_&lt;numCommits&gt;_g&lt;hash&gt;
+</code></pre>
+<p><code>tag</code> 表示的是离 <code>ref</code> 最近的标签， <code>numCommits</code> 是表示这个 <code>ref</code> 与 <code>tag</code> 相差有多少个提交记录， <code>hash</code> 表示的是你所给定的 <code>ref</code> 所表示的提交记录哈希值的前几位。</p>
+<p>当 <code>ref</code> 提交记录上有某个标签时，则只输出标签名称</p>
 
             </div>
             
@@ -539,7 +542,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/" title="前端教程导航">https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/</a>
+      <a href="https://leecss.com/post/git-describe/" title="git-describe">https://leecss.com/post/git-describe/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -548,21 +551,17 @@
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/Z9Yn8Qt7f/"># 汇总</a>
+      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-简介" href="https://leecss.com/post/git-jian-jie/">git-简介</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-简介" href="https://leecss.com/post/git-jian-jie/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-语义化版本" href="https://leecss.com/post/git-yu-yi-hua-ban-ben/">git-语义化版本</a>
-        <a class="nav-mobile-next" title="git-语义化版本" href="https://leecss.com/post/git-yu-yi-hua-ban-ben/">下一篇</a>
+        <a class="nav-pc-next" title="git-tag" href="https://leecss.com/post/git-tag/">git-tag</a>
+        <a class="nav-mobile-next" title="git-tag" href="https://leecss.com/post/git-tag/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-reset | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1624319716882">
+<link rel="shortcut icon" href="/favicon.ico?v=1624406806612">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">15</span>
+        <span class="site-item-stat-count">18</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1130,6 +1130,50 @@ git reset --hard HEAD~
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-describe/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来&lt;strong&gt;描述&lt;/strong&gt;离你最近的锚点（也就是标签），它就是 &lt;code&gt;git describe&lt;/code&gt;！&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git describe &amp;lt;ref&amp;gt;
+git describe &amp;lt;branch&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;ref&amp;gt;&lt;/code&gt; 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（&lt;code&gt;HEAD&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;它输出的结果是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;&amp;lt;tag&amp;gt;_&amp;lt;numCommits&amp;gt;_g&amp;lt;hash&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;tag&lt;/code&gt; 表示的是离 &lt;code&gt;ref&lt;/code&gt; 最近的标签， &lt;code&gt;numCommits&lt;/code&gt; 是表示这个 &lt;code&gt;ref&lt;/code&gt; 与 &lt;code&gt;tag&lt;/code&gt; 相差有多少个提交记录， &lt;code&gt;hash&lt;/code&gt; 表示的是你所给定的 &lt;code&gt;ref&lt;/code&gt; 所表示的提交记录哈希值的前几位。&lt;/p&gt;
+&lt;p&gt;当 &lt;code&gt;ref&lt;/code&gt; 提交记录上有某个标签时，则只输出标签名称&lt;/p&gt;
+">git-describe</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-tag/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;有没有什么可以&lt;em&gt;永远&lt;/em&gt;指向某个提交记录的标识呢，比如软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性？&lt;/p&gt;
+&lt;p&gt;当然有了！Git 的 tag 就是干这个用的啊，它们可以（在某种程度上 —— 因为标签可以被删除后重新在另外一个位置创建同名的标签）永久地将某个特定的提交命名为里程碑，然后就可以像分支一样引用了。&lt;/p&gt;
+&lt;p&gt;更难得的是，它们并不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置。&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;打标签&#34;&gt;打标签&lt;/h3&gt;
+&lt;p&gt;建立一个标签，指向提交记录C1&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git tag v1 C1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果你不指定提交记录，Git 会用 &lt;code&gt;HEAD&lt;/code&gt; 所指向的位置。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git tag v1
+&lt;/code&gt;&lt;/pre&gt;
+">git-tag</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-cherry-pick/"" data-c="
+          &lt;p&gt;&lt;code&gt;git cherry-pick&lt;/code&gt;命令”复制”一个提交节点并在当前分支做一次完全一样的新提交。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cherry-pick commitID
+git cherry-pick c2 c4
+&lt;/code&gt;&lt;/pre&gt;
+">git-cherry-pick</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-revert/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git revert&lt;/code&gt;命令用于撤销某个具体的commit。&lt;/p&gt;
@@ -1267,10 +1311,15 @@ H = D^2  = B^^2    = A^^^2  = A~2^2
 I = F^   = B^3^    = A^^3^
 J = F^2  = B^3^2   = A^^3^2
 &lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;混合链式调用&#34;&gt;混合链式调用&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout HEAD~^2~2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;选择直系父节点的 第二个父节点的 直系第二个父节点&lt;/p&gt;
 &lt;h2 id=&#34;应用&#34;&gt;应用&lt;/h2&gt;
 &lt;h3 id=&#34;强制修改分支位置&#34;&gt;强制修改分支位置&lt;/h3&gt;
 &lt;p&gt;使用相对引用最多的就是移动分支。可以直接使用 &lt;code&gt;-f&lt;/code&gt; 选项让分支指向另一个提交。例如:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git branch -f main HEAD~3
+git branch -f dev c2
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;相对引用为我们提供了一种简洁的引用提交记录 的方式， 而 &lt;code&gt;-f&lt;/code&gt; 则容许我们将分支强制移动到那个位置。&lt;/p&gt;
 ">git-相对引用</a>
@@ -1329,8 +1378,22 @@ J = F^2  = B^3^2   = A^^3^2
 &lt;p&gt;Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。&lt;/p&gt;
 &lt;p&gt;Rebase 的优势就是可以创造更线性的提交历史，这听上去有些难以理解。如果只允许使用 Rebase 的话，代码库的提交历史将会变得异常清晰。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rebase master
+git rebase c2
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;将当前分支移植到master分支之上。&lt;/p&gt;
+&lt;p&gt;将当前分支移植到master分支或c2提交记录之上。&lt;/p&gt;
+&lt;h2 id=&#34;交互式&#34;&gt;交互式&lt;/h2&gt;
+&lt;h3 id=&#34;-iinteractive&#34;&gt;-i，—interactive&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;-i&lt;/code&gt;参数会打开互动模式，让用户选择定制&lt;code&gt;rebase&lt;/code&gt;的行为。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rebase -i HEAD~4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;功能&#34;&gt;功能&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;调整提交记录的顺序（通过鼠标拖放来完成）&lt;/li&gt;
+&lt;li&gt;删除你不想要的提交（通过切换 &lt;code&gt;pick&lt;/code&gt; 的状态来完成，关闭就意味着你不想要这个提交记录）&lt;/li&gt;
+&lt;li&gt;合并提交。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;多次rebase&#34;&gt;多次rebase&lt;/h2&gt;
+&lt;p&gt;当你想将多个分支合成一条线性的提交记录时，按照提交顺序切换相应的分支，然后rebase到相应顺序节点的分支&lt;/p&gt;
 ">git-rebase</a>
       </div>
       
