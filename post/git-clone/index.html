@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-tag | 当下</title>
+<title>git-clone | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1624494690574">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="git-tag" />
+  <meta name="description" content="git-clone" />
   <meta name="keywords" content="git" />
 </head>
 
@@ -212,25 +212,9 @@
 <li>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
-<li><a href="#%E5%91%BD%E4%BB%A4">命令</a>
-<ul>
-<li><a href="#%E6%96%B0%E5%BB%BA%E6%A0%87%E7%AD%BE">新建标签</a>
-<ul>
-<li><a href="#%E6%99%AE%E9%80%9A%E6%A0%87%E7%AD%BE">普通标签</a></li>
-<li><a href="#%E6%B3%A8%E8%A7%A3%E6%A0%87%E7%AD%BE">注解标签</a></li>
-</ul>
-</li>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%A0%87%E7%AD%BE">删除标签</a>
-<ul>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E6%A0%87%E7%AD%BE">删除本地标签</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E6%A0%87%E7%AD%BE">删除远程标签</a></li>
-</ul>
-</li>
-<li><a href="#%E6%9F%A5%E7%9C%8B%E6%A0%87%E7%AD%BE">查看标签</a></li>
-<li><a href="#%E6%8F%90%E4%BA%A4%E6%A0%87%E7%AD%BE">提交标签</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E6%A0%87%E7%AD%BE">使用标签</a></li>
-</ul>
-</li>
+<li><a href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93">远程仓库</a></li>
+<li><a href="#%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF">远程分支</a></li>
+<li><a href="#%E5%91%BD%E4%BB%A4">命令</a></li>
 </ul>
 </li>
 </ul>
@@ -498,8 +482,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-tag/">
-      git-tag
+    <a class="post-title-link" href="https://leecss.com/post/git-clone/">
+      git-clone
     </a>
   </h1>
   <div class="post-meta">
@@ -507,7 +491,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-23 08:04:06">2021-06-23</span>
+      <span class="publish-time" data-t="2021-06-24 07:55:52">2021-06-24</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -531,67 +515,37 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>443<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>385<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p>标签<em>永远</em>指向某个提交记录。</p>
-<p>当软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性，我们可以打一个标签，标识了某个特定的位置。</p>
-<p>标签不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置。</p>
-<p>标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。</p>
+<p>在<strong>本地</strong>创建一个远程仓库的拷贝，<code>git clone</code>命令用于克隆远程分支。</p>
+<h2 id="远程仓库">远程仓库</h2>
+<p>远程仓库相当于本地仓库的上游仓库，两者之间可以相互同步；</p>
+<p>可以为本地仓库添加多个远程仓库，同步的时候，指定远程仓库的名称即可。</p>
+<h2 id="远程分支">远程分支</h2>
+<p>远程分支有一个命名规范 —— 它们的格式是:</p>
+<ul>
+<li><code>&lt;remote name&gt;/&lt;branch name&gt;</code></li>
+</ul>
+<p>因此，如果你看到一个名为 <code>o/main</code> 的分支，那么这个分支就叫 <code>main</code>，远程仓库的名称就是 <code>o</code>。</p>
+<p>大多数的开发人员会将它们主要的远程仓库命名为 <code>origin</code>，并不是 <code>o</code>。这是因为当你用 <code>git clone</code> 某个仓库时，Git 已经帮你把远程仓库的名称设置为 <code>origin</code> 了</p>
+<p>远程分支有一个特别的属性，在你检出时自动进入分离 HEAD 状态。Git 这么做是出于不能直接在这些分支上进行操作的原因, 你必须在别的地方完成你的工作。</p>
 <h2 id="命令">命令</h2>
-<h3 id="新建标签">新建标签</h3>
-<h4 id="普通标签">普通标签</h4>
-<p>新建一个tag在当前commit</p>
-<p>如果你不指定提交记录，Git 会用 <code>HEAD</code> 所指向的位置。</p>
-<pre><code class="language-sh">git tag [tag]
-git tag v1
+<p>从远程主机克隆一个版本库</p>
+<pre><code class="language-sh">git clone https://github.com/jquery/jquery.git
 </code></pre>
-<p>新建一个tag在指定commit</p>
-<pre><code>git tag [tag] [commit]
-git tag v1 C1
+<p>从远程主机克隆一个版本库并指定本地目录名</p>
+<pre><code class="language-sh">git clone &lt;版本库的网址&gt; &lt;本地目录名&gt;
 </code></pre>
-<h4 id="注解标签">注解标签</h4>
-<p>创建带有说明的标签，用<code>-a</code>指定标签名，<code>-m</code>指定说明文字</p>
-<pre><code class="language-sh">git tag -a [VERSION] -m &quot;released [VERSION]&quot;
-git tag -a v0.1 -m &quot;version 0.1 released&quot;
-git tag -a v0.1 -m &quot;version 0.1 released&quot; 1094adb
+<p>从远程主机克隆一个版本库并指定主机名</p>
+<pre><code class="language-sh">git clone -o jQuery https://github.com/jquery/jquery.git
 </code></pre>
-<h3 id="删除标签">删除标签</h3>
-<h4 id="删除本地标签">删除本地标签</h4>
-<pre><code class="language-sh">git tag -d &lt;tagname&gt;
-git tag -d v1.0
-</code></pre>
-<h4 id="删除远程标签">删除远程标签</h4>
-<p>删除本地标签后，推送到远程</p>
-<pre><code class="language-sh">git push &lt;remote&gt; :refs/tags/&lt;tagname&gt;
-git push origin :refs/tags/v1.0
-</code></pre>
-<p>删除远程标签</p>
-<pre><code class="language-sh">git push origin --delete &lt;tagname&gt;
-</code></pre>
-<h3 id="查看标签">查看标签</h3>
-<p>列出所有tag，标签不是按时间顺序列出，而是按字母排序的。</p>
-<pre><code class="language-sh">git tag
-</code></pre>
-<p>查看tag信息</p>
-<pre><code class="language-sh">git show [tag]
-</code></pre>
-<h3 id="提交标签">提交标签</h3>
-<p>提交指定tag</p>
-<pre><code class="language-sh">git push [remote] [tag]
-git push origin v1
-</code></pre>
-<p>提交所有tag</p>
-<pre><code class="language-sh">git push [remote] --tags
-git push origin --tags
-</code></pre>
-<h3 id="使用标签">使用标签</h3>
-<p>新建一个分支，指向某个tag</p>
-<pre><code class="language-sh">git checkout -b [branch] [tag]
+<p>克隆某个指定分支的代码</p>
+<pre><code class="language-sh">git clone -b &lt;branch name&gt; &lt;remote url&gt;
 </code></pre>
 
             </div>
@@ -605,7 +559,7 @@ git push origin --tags
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-tag/" title="git-tag">https://leecss.com/post/git-tag/</a>
+      <a href="https://leecss.com/post/git-clone/" title="git-clone">https://leecss.com/post/git-clone/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -621,14 +575,14 @@ git push origin --tags
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-describe" href="https://leecss.com/post/git-describe/">git-describe</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-describe" href="https://leecss.com/post/git-describe/">上一篇</a>
+        <a class="nav-pc-next" title="git-fetch" href="https://leecss.com/post/git-fetch/">git-fetch</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="git-fetch" href="https://leecss.com/post/git-fetch/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-cherry-pick" href="https://leecss.com/post/git-cherry-pick/">git-cherry-pick</a>
-        <a class="nav-mobile-next" title="git-cherry-pick" href="https://leecss.com/post/git-cherry-pick/">下一篇</a>
+        <a class="nav-pc-next" title="git-describe" href="https://leecss.com/post/git-describe/">git-describe</a>
+        <a class="nav-mobile-next" title="git-describe" href="https://leecss.com/post/git-describe/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

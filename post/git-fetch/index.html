@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-tag | 当下</title>
+<title>git-fetch | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1624494690574">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="git-tag" />
+  <meta name="description" content="git-fetch" />
   <meta name="keywords" content="git" />
 </head>
 
@@ -211,24 +211,16 @@
     <ul class="markdownIt-TOC">
 <li>
 <ul>
-<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a>
+<ul>
+<li><a href="#git-fetch-%E5%81%9A%E4%BA%86%E4%BA%9B%E4%BB%80%E4%B9%88">git fetch 做了些什么</a></li>
+<li><a href="#git-fetch-%E4%B8%8D%E4%BC%9A%E5%81%9A%E7%9A%84%E4%BA%8B">git fetch 不会做的事</a></li>
+</ul>
+</li>
 <li><a href="#%E5%91%BD%E4%BB%A4">命令</a>
 <ul>
-<li><a href="#%E6%96%B0%E5%BB%BA%E6%A0%87%E7%AD%BE">新建标签</a>
-<ul>
-<li><a href="#%E6%99%AE%E9%80%9A%E6%A0%87%E7%AD%BE">普通标签</a></li>
-<li><a href="#%E6%B3%A8%E8%A7%A3%E6%A0%87%E7%AD%BE">注解标签</a></li>
-</ul>
-</li>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%A0%87%E7%AD%BE">删除标签</a>
-<ul>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E6%A0%87%E7%AD%BE">删除本地标签</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E6%A0%87%E7%AD%BE">删除远程标签</a></li>
-</ul>
-</li>
-<li><a href="#%E6%9F%A5%E7%9C%8B%E6%A0%87%E7%AD%BE">查看标签</a></li>
-<li><a href="#%E6%8F%90%E4%BA%A4%E6%A0%87%E7%AD%BE">提交标签</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8%E6%A0%87%E7%AD%BE">使用标签</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E6%9B%B4%E6%96%B0">获取更新</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E6%9B%B4%E6%96%B0">使用更新</a></li>
 </ul>
 </li>
 </ul>
@@ -498,8 +490,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-tag/">
-      git-tag
+    <a class="post-title-link" href="https://leecss.com/post/git-fetch/">
+      git-fetch
     </a>
   </h1>
   <div class="post-meta">
@@ -507,7 +499,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-23 08:04:06">2021-06-23</span>
+      <span class="publish-time" data-t="2021-06-24 08:04:39">2021-06-24</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -531,67 +523,44 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>443<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>491<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p>标签<em>永远</em>指向某个提交记录。</p>
-<p>当软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性，我们可以打一个标签，标识了某个特定的位置。</p>
-<p>标签不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置。</p>
-<p>标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。</p>
+<p>从远程仓库获取数据，一旦远程主机的版本库有了更新（Git术语叫做commit），需要将这些更新取回本地，这时就要用到<code>git fetch</code>命令。</p>
+<h3 id="git-fetch-做了些什么">git fetch 做了些什么</h3>
+<p><code>git fetch</code> 完成了仅有的但是很重要的两步:</p>
+<ul>
+<li>从远程仓库下载本地仓库中缺失的提交记录</li>
+<li>更新远程分支指针(如 <code>o/main</code>)</li>
+</ul>
+<p><code>git fetch</code> 实际上将本地仓库中的远程分支更新成了远程仓库相应分支最新的状态。</p>
+<p><code>git fetch</code> 通常通过互联网（使用 <code>http://</code> 或 <code>git://</code> 协议) 与远程仓库通信。</p>
+<h3 id="git-fetch-不会做的事">git fetch 不会做的事</h3>
+<p><code>git fetch</code> 并不会改变你本地仓库的状态。它不会更新你的 <code>main</code> 分支，也不会修改你磁盘上的文件。</p>
+<p>理解这一点很重要，因为许多开发人员误以为执行了 <code>git fetch</code> 以后，他们本地仓库就与远程仓库同步了。它可能已经将进行这一操作所需的所有数据都下载了下来，但是<strong>并没有</strong>修改你本地的文件。</p>
+<p>所以, 你可以将 <code>git fetch</code> 的理解为单纯的下载操作。</p>
 <h2 id="命令">命令</h2>
-<h3 id="新建标签">新建标签</h3>
-<h4 id="普通标签">普通标签</h4>
-<p>新建一个tag在当前commit</p>
-<p>如果你不指定提交记录，Git 会用 <code>HEAD</code> 所指向的位置。</p>
-<pre><code class="language-sh">git tag [tag]
-git tag v1
+<h3 id="获取更新">获取更新</h3>
+<p>将某个远程主机的更新，全部取回本地。</p>
+<pre><code class="language-sh">git fetch &lt;远程主机名&gt;
+git fetch origin
 </code></pre>
-<p>新建一个tag在指定commit</p>
-<pre><code>git tag [tag] [commit]
-git tag v1 C1
+<p><code>git fetch</code>命令通常用来查看其他人的进程，因为它取回的代码对你本地的开发代码没有影响。</p>
+<p>默认情况下，<code>git fetch</code>取回所有分支（branch）的更新。如果只想取回特定分支的更新，可以指定分支名。</p>
+<pre><code class="language-sh">git fetch &lt;远程主机名&gt; &lt;分支名&gt;
+git fetch origin master
 </code></pre>
-<h4 id="注解标签">注解标签</h4>
-<p>创建带有说明的标签，用<code>-a</code>指定标签名，<code>-m</code>指定说明文字</p>
-<pre><code class="language-sh">git tag -a [VERSION] -m &quot;released [VERSION]&quot;
-git tag -a v0.1 -m &quot;version 0.1 released&quot;
-git tag -a v0.1 -m &quot;version 0.1 released&quot; 1094adb
+<h3 id="使用更新">使用更新</h3>
+<p>取回远程主机的更新以后，可以在它的基础上，使用<code>git checkout</code>命令创建一个新的分支。</p>
+<pre><code class="language-sh">git checkout -b newBrach origin/master
 </code></pre>
-<h3 id="删除标签">删除标签</h3>
-<h4 id="删除本地标签">删除本地标签</h4>
-<pre><code class="language-sh">git tag -d &lt;tagname&gt;
-git tag -d v1.0
-</code></pre>
-<h4 id="删除远程标签">删除远程标签</h4>
-<p>删除本地标签后，推送到远程</p>
-<pre><code class="language-sh">git push &lt;remote&gt; :refs/tags/&lt;tagname&gt;
-git push origin :refs/tags/v1.0
-</code></pre>
-<p>删除远程标签</p>
-<pre><code class="language-sh">git push origin --delete &lt;tagname&gt;
-</code></pre>
-<h3 id="查看标签">查看标签</h3>
-<p>列出所有tag，标签不是按时间顺序列出，而是按字母排序的。</p>
-<pre><code class="language-sh">git tag
-</code></pre>
-<p>查看tag信息</p>
-<pre><code class="language-sh">git show [tag]
-</code></pre>
-<h3 id="提交标签">提交标签</h3>
-<p>提交指定tag</p>
-<pre><code class="language-sh">git push [remote] [tag]
-git push origin v1
-</code></pre>
-<p>提交所有tag</p>
-<pre><code class="language-sh">git push [remote] --tags
-git push origin --tags
-</code></pre>
-<h3 id="使用标签">使用标签</h3>
-<p>新建一个分支，指向某个tag</p>
-<pre><code class="language-sh">git checkout -b [branch] [tag]
+<p>在本地分支上合并远程分支。</p>
+<pre><code class="language-sh">git merge origin/master
+git rebase origin/master
 </code></pre>
 
             </div>
@@ -605,7 +574,7 @@ git push origin --tags
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-tag/" title="git-tag">https://leecss.com/post/git-tag/</a>
+      <a href="https://leecss.com/post/git-fetch/" title="git-fetch">https://leecss.com/post/git-fetch/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -621,14 +590,14 @@ git push origin --tags
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-describe" href="https://leecss.com/post/git-describe/">git-describe</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-describe" href="https://leecss.com/post/git-describe/">上一篇</a>
+        <a class="nav-pc-next" title="git-pull" href="https://leecss.com/post/git-pull/">git-pull</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="git-pull" href="https://leecss.com/post/git-pull/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-cherry-pick" href="https://leecss.com/post/git-cherry-pick/">git-cherry-pick</a>
-        <a class="nav-mobile-next" title="git-cherry-pick" href="https://leecss.com/post/git-cherry-pick/">下一篇</a>
+        <a class="nav-pc-next" title="git-clone" href="https://leecss.com/post/git-clone/">git-clone</a>
+        <a class="nav-mobile-next" title="git-clone" href="https://leecss.com/post/git-clone/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

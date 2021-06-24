@@ -2,13 +2,144 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-23T00:06:50.506Z</updated>
+    <updated>2021-06-24T00:31:38.302Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-pull]]></title>
+        <id>https://leecss.com/post/git-pull/</id>
+        <link href="https://leecss.com/post/git-pull/">
+        </link>
+        <updated>2021-06-24T00:30:53.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>既然我们已经知道了如何用 <code>git fetch</code> 获取远程的数据, 现在我们学习如何将这些变化更新到我们的工作当中。</p>
+<p>其实有很多方法的 —— 当远程分支中有新的提交时，你可以像合并本地分支那样来合并远程分支。也就是说就是你可以执行以下命令:</p>
+<ul>
+<li><code>git cherry-pick o/main</code></li>
+<li><code>git rebase o/main</code></li>
+<li><code>git merge o/main</code></li>
+<li>等等</li>
+</ul>
+<p>实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 <code>git pull</code>。</p>
+<p>即<code>git pull</code>相当于<code>git fetch</code> 和 <code>git merge o/main</code>的缩写，取回远程主机某个分支的更新，再与本地的指定分支合并。</p>
+<h2 id="注意点">注意点</h2>
+<p>即使当前分支有没有 commit 的变动，也可以使用<code>git pull</code>从远程拉取分支。</p>
+<h2 id="命令">命令</h2>
+<p>git pull完整格式</p>
+<pre><code class="language-sh">git pull &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;
+git pull origin next:master
+</code></pre>
+<p>如果远程分支是与当前分支合并，则冒号后面的部分可以省略。</p>
+<pre><code class="language-sh">git pull origin next
+// 相当于
+git fetch origin
+git merge origin/next
+</code></pre>
+<h2 id="追踪关系">追踪关系</h2>
+<p>在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系（tracking）。比如，在<code>git clone</code>的时候，所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的<code>master</code>分支自动&quot;追踪&quot;<code>origin/master</code>分支。</p>
+<p>建立追踪关系，在现有分支与指定的远程分支之间</p>
+<pre><code class="language-sh">git branch --set-upstream-to=origin/[remote-branch] [branch]
+</code></pre>
+<p>如果当前分支与远程分支存在追踪关系，<code>git pull</code>就可以省略远程分支名。</p>
+<p>即本地的当前分支自动与对应的<code>origin</code>主机&quot;追踪分支&quot;（remote-tracking branch）进行合并。</p>
+<pre><code class="language-sh">git pull origin
+</code></pre>
+<p>如果当前分支只有一个追踪分支，连远程主机名都可以省略。</p>
+<p>即当前分支自动与唯一一个追踪分支进行合并。</p>
+<pre><code class="language-sh">git pull
+</code></pre>
+<h2 id="参数">参数</h2>
+<p>如果合并需要采用rebase模式，可以使用<code>--rebase</code>选项。</p>
+<pre><code class="language-sh">git pull --rebase &lt;远程主机名&gt; &lt;远程分支名&gt;:&lt;本地分支名&gt;
+</code></pre>
+<p>如果远程主机删除了某个分支，默认情况下，<code>git pull</code> 不会在拉取远程分支的时候，删除对应的本地分支。这是为了防止，由于其他人操作了远程主机，导致<code>git pull</code>不知不觉删除了本地分支。</p>
+<p>但是，你可以改变这个行为，加上参数 <code>-p</code> 就会在本地删除远程已经删除的分支。</p>
+<pre><code class="language-sh">git pull -p
+// 等同于
+git fetch --prune origin
+git fetch -p
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-fetch]]></title>
+        <id>https://leecss.com/post/git-fetch/</id>
+        <link href="https://leecss.com/post/git-fetch/">
+        </link>
+        <updated>2021-06-24T00:04:39.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>从远程仓库获取数据，一旦远程主机的版本库有了更新（Git术语叫做commit），需要将这些更新取回本地，这时就要用到<code>git fetch</code>命令。</p>
+<h3 id="git-fetch-做了些什么">git fetch 做了些什么</h3>
+<p><code>git fetch</code> 完成了仅有的但是很重要的两步:</p>
+<ul>
+<li>从远程仓库下载本地仓库中缺失的提交记录</li>
+<li>更新远程分支指针(如 <code>o/main</code>)</li>
+</ul>
+<p><code>git fetch</code> 实际上将本地仓库中的远程分支更新成了远程仓库相应分支最新的状态。</p>
+<p><code>git fetch</code> 通常通过互联网（使用 <code>http://</code> 或 <code>git://</code> 协议) 与远程仓库通信。</p>
+<h3 id="git-fetch-不会做的事">git fetch 不会做的事</h3>
+<p><code>git fetch</code> 并不会改变你本地仓库的状态。它不会更新你的 <code>main</code> 分支，也不会修改你磁盘上的文件。</p>
+<p>理解这一点很重要，因为许多开发人员误以为执行了 <code>git fetch</code> 以后，他们本地仓库就与远程仓库同步了。它可能已经将进行这一操作所需的所有数据都下载了下来，但是<strong>并没有</strong>修改你本地的文件。</p>
+<p>所以, 你可以将 <code>git fetch</code> 的理解为单纯的下载操作。</p>
+<h2 id="命令">命令</h2>
+<h3 id="获取更新">获取更新</h3>
+<p>将某个远程主机的更新，全部取回本地。</p>
+<pre><code class="language-sh">git fetch &lt;远程主机名&gt;
+git fetch origin
+</code></pre>
+<p><code>git fetch</code>命令通常用来查看其他人的进程，因为它取回的代码对你本地的开发代码没有影响。</p>
+<p>默认情况下，<code>git fetch</code>取回所有分支（branch）的更新。如果只想取回特定分支的更新，可以指定分支名。</p>
+<pre><code class="language-sh">git fetch &lt;远程主机名&gt; &lt;分支名&gt;
+git fetch origin master
+</code></pre>
+<h3 id="使用更新">使用更新</h3>
+<p>取回远程主机的更新以后，可以在它的基础上，使用<code>git checkout</code>命令创建一个新的分支。</p>
+<pre><code class="language-sh">git checkout -b newBrach origin/master
+</code></pre>
+<p>在本地分支上合并远程分支。</p>
+<pre><code class="language-sh">git merge origin/master
+git rebase origin/master
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-clone]]></title>
+        <id>https://leecss.com/post/git-clone/</id>
+        <link href="https://leecss.com/post/git-clone/">
+        </link>
+        <updated>2021-06-23T23:55:52.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>在<strong>本地</strong>创建一个远程仓库的拷贝，<code>git clone</code>命令用于克隆远程分支。</p>
+<h2 id="远程仓库">远程仓库</h2>
+<p>远程仓库相当于本地仓库的上游仓库，两者之间可以相互同步；</p>
+<p>可以为本地仓库添加多个远程仓库，同步的时候，指定远程仓库的名称即可。</p>
+<h2 id="远程分支">远程分支</h2>
+<p>远程分支有一个命名规范 —— 它们的格式是:</p>
+<ul>
+<li><code>&lt;remote name&gt;/&lt;branch name&gt;</code></li>
+</ul>
+<p>因此，如果你看到一个名为 <code>o/main</code> 的分支，那么这个分支就叫 <code>main</code>，远程仓库的名称就是 <code>o</code>。</p>
+<p>大多数的开发人员会将它们主要的远程仓库命名为 <code>origin</code>，并不是 <code>o</code>。这是因为当你用 <code>git clone</code> 某个仓库时，Git 已经帮你把远程仓库的名称设置为 <code>origin</code> 了</p>
+<p>远程分支有一个特别的属性，在你检出时自动进入分离 HEAD 状态。Git 这么做是出于不能直接在这些分支上进行操作的原因, 你必须在别的地方完成你的工作。</p>
+<h2 id="命令">命令</h2>
+<p>从远程主机克隆一个版本库</p>
+<pre><code class="language-sh">git clone https://github.com/jquery/jquery.git
+</code></pre>
+<p>从远程主机克隆一个版本库并指定本地目录名</p>
+<pre><code class="language-sh">git clone &lt;版本库的网址&gt; &lt;本地目录名&gt;
+</code></pre>
+<p>从远程主机克隆一个版本库并指定主机名</p>
+<pre><code class="language-sh">git clone -o jQuery https://github.com/jquery/jquery.git
+</code></pre>
+<p>克隆某个指定分支的代码</p>
+<pre><code class="language-sh">git clone -b &lt;branch name&gt; &lt;remote url&gt;
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-describe]]></title>
         <id>https://leecss.com/post/git-describe/</id>
@@ -39,16 +170,60 @@ git describe &lt;branch&gt;
         </link>
         <updated>2021-06-23T00:04:06.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>有没有什么可以<em>永远</em>指向某个提交记录的标识呢，比如软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性？</p>
-<p>当然有了！Git 的 tag 就是干这个用的啊，它们可以（在某种程度上 —— 因为标签可以被删除后重新在另外一个位置创建同名的标签）永久地将某个特定的提交命名为里程碑，然后就可以像分支一样引用了。</p>
-<p>更难得的是，它们并不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置。</p>
+<p>标签<em>永远</em>指向某个提交记录。</p>
+<p>当软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性，我们可以打一个标签，标识了某个特定的位置。</p>
+<p>标签不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置。</p>
+<p>标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。</p>
 <h2 id="命令">命令</h2>
-<h3 id="打标签">打标签</h3>
-<p>建立一个标签，指向提交记录C1</p>
-<pre><code class="language-sh">git tag v1 C1
-</code></pre>
+<h3 id="新建标签">新建标签</h3>
+<h4 id="普通标签">普通标签</h4>
+<p>新建一个tag在当前commit</p>
 <p>如果你不指定提交记录，Git 会用 <code>HEAD</code> 所指向的位置。</p>
-<pre><code class="language-sh">git tag v1
+<pre><code class="language-sh">git tag [tag]
+git tag v1
+</code></pre>
+<p>新建一个tag在指定commit</p>
+<pre><code>git tag [tag] [commit]
+git tag v1 C1
+</code></pre>
+<h4 id="注解标签">注解标签</h4>
+<p>创建带有说明的标签，用<code>-a</code>指定标签名，<code>-m</code>指定说明文字</p>
+<pre><code class="language-sh">git tag -a [VERSION] -m &quot;released [VERSION]&quot;
+git tag -a v0.1 -m &quot;version 0.1 released&quot;
+git tag -a v0.1 -m &quot;version 0.1 released&quot; 1094adb
+</code></pre>
+<h3 id="删除标签">删除标签</h3>
+<h4 id="删除本地标签">删除本地标签</h4>
+<pre><code class="language-sh">git tag -d &lt;tagname&gt;
+git tag -d v1.0
+</code></pre>
+<h4 id="删除远程标签">删除远程标签</h4>
+<p>删除本地标签后，推送到远程</p>
+<pre><code class="language-sh">git push &lt;remote&gt; :refs/tags/&lt;tagname&gt;
+git push origin :refs/tags/v1.0
+</code></pre>
+<p>删除远程标签</p>
+<pre><code class="language-sh">git push origin --delete &lt;tagname&gt;
+</code></pre>
+<h3 id="查看标签">查看标签</h3>
+<p>列出所有tag，标签不是按时间顺序列出，而是按字母排序的。</p>
+<pre><code class="language-sh">git tag
+</code></pre>
+<p>查看tag信息</p>
+<pre><code class="language-sh">git show [tag]
+</code></pre>
+<h3 id="提交标签">提交标签</h3>
+<p>提交指定tag</p>
+<pre><code class="language-sh">git push [remote] [tag]
+git push origin v1
+</code></pre>
+<p>提交所有tag</p>
+<pre><code class="language-sh">git push [remote] --tags
+git push origin --tags
+</code></pre>
+<h3 id="使用标签">使用标签</h3>
+<p>新建一个分支，指向某个tag</p>
+<pre><code class="language-sh">git checkout -b [branch] [tag]
 </code></pre>
 ]]></content>
     </entry>
@@ -277,90 +452,6 @@ git branch -f dev c2
 <pre><code class="language-sh">git checkout -b newtest
 </code></pre>
 <pre><code class="language-sh">git branch newtest dca15df
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-rebase]]></title>
-        <id>https://leecss.com/post/git-rebase/</id>
-        <link href="https://leecss.com/post/git-rebase/">
-        </link>
-        <updated>2021-06-17T03:43:53.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>将当前分支移植到指定分支或指定commit之上。</p>
-<p>Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。</p>
-<p>Rebase 的优势就是可以创造更线性的提交历史，这听上去有些难以理解。如果只允许使用 Rebase 的话，代码库的提交历史将会变得异常清晰。</p>
-<pre><code class="language-sh">git rebase master
-git rebase c2
-</code></pre>
-<p>将当前分支移植到master分支或c2提交记录之上。</p>
-<h2 id="交互式">交互式</h2>
-<h3 id="-iinteractive">-i，—interactive</h3>
-<p><code>-i</code>参数会打开互动模式，让用户选择定制<code>rebase</code>的行为。</p>
-<pre><code class="language-sh">git rebase -i HEAD~4
-</code></pre>
-<h3 id="功能">功能</h3>
-<ul>
-<li>调整提交记录的顺序（通过鼠标拖放来完成）</li>
-<li>删除你不想要的提交（通过切换 <code>pick</code> 的状态来完成，关闭就意味着你不想要这个提交记录）</li>
-<li>合并提交。</li>
-</ul>
-<h2 id="多次rebase">多次rebase</h2>
-<p>当你想将多个分支合成一条线性的提交记录时，按照提交顺序切换相应的分支，然后rebase到相应顺序节点的分支</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-merge]]></title>
-        <id>https://leecss.com/post/git-merge/</id>
-        <link href="https://leecss.com/post/git-merge/">
-        </link>
-        <updated>2021-06-17T03:36:56.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git merge</code>命令用于合并指定分支到当前分支</p>
-<p>将develop分支合并到当前分支，当前分支会创建新的commit对象，它有两个父节点，分别指向当前分支和develop分支。</p>
-<pre><code class="language-sh">git merge develop
-</code></pre>
-<h2 id="合并方式">合并方式</h2>
-<h3 id="普通方式">普通方式</h3>
-<p>假如此时在C1节点master分支上，创建了一个新的分支dev,然后在master分支创建新的提交C2,在dev分支上创建新的提交C3。</p>
-<p><strong>如果合并分支之前，master分支和dev分支都有了属于自己分支的独有提交，此时只能使用普通方式进行合并。</strong></p>
-<p>此时可以将master合并到dev,也可以将dev合并到master</p>
-<p>以dev合并到master为例：</p>
-<p>在maser分支执行<code>git merge dev</code>，会有新的变更进入到master，新变更进入后，base分支的内容会产生变化，因此master分支需要一个新的提交来对应变化后的状态，于是，master分支的指针会指向最新产生的合并提交。</p>
-<p>而对于dev分支来说，并没有任何内容发生变动，所以dev分支的指针仍然保持原位。</p>
-<h3 id="fast-forward快进">fast-forward（快进）</h3>
-<p>假如此时在C1节点master分支上，创建了一个新的分支dev,然后在dev分支上创建新的提交C2。</p>
-<p><strong>如果合并分支之前，master分支和dev分支中只有一个分支创建了属于自己分支的独有提交，此时可以使用fast-forward进行合并。</strong></p>
-<p>由于基于maste分支创建dev分支以后，master分支中并没有产生任何新的提交，如果此时想要将dev分支合并到master分支，只需要将master分支的指针指向到dev分支的最新提交，即可让master分支包含dev分支中的所有新变更。即：</p>
-<p><u>如果“指定分支”本身是当前分支的一个直接子节点，则会产生fast-forward合并，即合并不会产生新的节点，只是让当前分支指向“指定分支”的最新commit。</u></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-commit]]></title>
-        <id>https://leecss.com/post/git-commit/</id>
-        <link href="https://leecss.com/post/git-commit/">
-        </link>
-        <updated>2021-06-17T03:29:39.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git commit</code>命令用于将暂存区中的变化提交到仓库区。</p>
-<p><code>-m</code>参数用于指定 commit 信息，是必需的。如果省略<code>-m</code>参数，<code>git commit</code>会自动打开文本编辑器，要求输入。</p>
-<pre><code class="language-sh">git commit -m &quot;message&quot;
-</code></pre>
-<h2 id="命令行参数">命令行参数</h2>
-<h3 id="-a">-a</h3>
-<p><code>-a</code>参数用于先将所有工作区的变动文件，提交到暂存区，再运行<code>git commit</code>。</p>
-<pre><code class="language-sh">git commit -am &quot;message&quot;
-</code></pre>
-<blockquote>
-<p>用了<code>-a</code>参数，是不是就不用执行<code>git add .</code>命令了？不是。</p>
-<p><code>-m</code>参数用于提交暂存区的文件</p>
-<p><code>-a</code>参数用于提交追踪过的文件</p>
-<p>文件状态按已追踪和未追踪区分，新增的文件为未追踪，<code>git add</code>后的文件为已追踪</p>
-<p>所以新增的文件还是要执行<code>git add .</code>命令</p>
-</blockquote>
-<h3 id="amend">—amend</h3>
-<p><code>--amend</code>参数用于撤销上一次 commit，然后生成一个新的 commit。</p>
-<pre><code class="language-sh">git commit --amend -m &quot;new commit message&quot;
 </code></pre>
 ]]></content>
     </entry>
