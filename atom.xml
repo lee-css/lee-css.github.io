@@ -2,13 +2,25 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-27T07:17:39.597Z</updated>
+    <updated>2021-06-27T14:57:58.934Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[祝宝贝生日快乐]]></title>
+        <id>https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/</id>
+        <link href="https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/">
+        </link>
+        <updated>2021-06-27T16:05:20.000Z</updated>
+        <content type="html"><![CDATA[<p>happy birthday~<br>
+😛😛😛</p>
+<p>一岁一礼 一寸欢喜<br>
+<img src="https://leecss.com/post-images/1624805818323.jpg" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-原理]]></title>
         <id>https://leecss.com/post/git-yuan-li/</id>
@@ -540,22 +552,6 @@ git push origin --tags
 <p>新建一个分支，指向某个tag</p>
 <pre><code class="language-sh">git checkout -b [branch] [tag]
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-cherry-pick]]></title>
-        <id>https://leecss.com/post/git-cherry-pick/</id>
-        <link href="https://leecss.com/post/git-cherry-pick/">
-        </link>
-        <updated>2021-06-22T00:13:27.000Z</updated>
-        <summary type="html"><![CDATA[<p><code>git cherry-pick</code>命令”复制”一个提交节点并在当前分支做一次完全一样的新提交。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p><code>git cherry-pick</code>命令”复制”一个提交节点并在当前分支做一次完全一样的新提交。</p>
-<!-- more -->
-<pre><code class="language-sh">git cherry-pick commitID
-git cherry-pick c2 c4
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624778009309.gif" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
