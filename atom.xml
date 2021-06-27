@@ -2,13 +2,200 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-25T00:34:30.535Z</updated>
+    <updated>2021-06-27T07:17:39.597Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-原理]]></title>
+        <id>https://leecss.com/post/git-yuan-li/</id>
+        <link href="https://leecss.com/post/git-yuan-li/">
+        </link>
+        <updated>2021-06-27T05:58:41.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="git是如何存储信息的">git是如何存储信息的</h2>
+<p>1、初始化仓库，新建文件，并添加到暂存区</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="git是如何存储信息的">git是如何存储信息的</h2>
+<p>1、初始化仓库，新建文件，并添加到暂存区</p>
+<!-- more -->
+<pre><code class="language-sh">git init
+echo '111' &gt; a.txt
+echo '222' &gt; b.txt
+git add *.txt
+</code></pre>
+<pre><code class="language-sh">// 查看一下当前的git仓库中的内容
+tree .git
+
+├─hooks    
+├─info     
+├─objects  
+│  ├─4e    
+│  ├─71    
+│  ├─info  
+│  └─pack  
+└─refs     
+    ├─heads
+    └─tags 
+    
+ls -a .git/objects/4e
+./  ../  f5d11d3b99f88fb9f70b694de01db16c56ed50
+
+ls -a .git/objects/71
+./  ../  70f7d93c37a8861f0e6816780b2881ad5f58d2
+
+// 查看一下f5d11d3b99f88fb9f70b694de01db16c56ed50文件中的内容
+cat .git/objects/4e/f5d11d3b99f88fb9f70b694de01db16c56ed50
+x☺K□□OR0gP744TW□☻∟.♥☻
+// 打印出来的是一些乱码，原因是因为git对储存的内容做了二进制压缩
+</code></pre>
+<p>2、cat-file</p>
+<pre><code class="language-sh">git cat-file [-t] [-p]
+</code></pre>
+<p>-t 打印文件类型</p>
+<p>-p 打印文件具体内容</p>
+<pre><code class="language-sh">git cat-file -t 4ef5d1
+blob
+git cat-file -p 4ef5d1
+'111'
+</code></pre>
+<p>3、git object</p>
+<p>git 储存信息的最小单元，对象数据库包含四类对象。git对象创建完成后均不可变更。</p>
+<ul>
+<li>Blob：包含二进制数据，它们是文件内容。只要文件内容改变，就会在对象数据库中生成一个blob对象。注意，blob对象只保存文件内容，不含文件名和文件存储位置等信息。如果文件名改变，或者文件储存位置改变，不会生成新的blob对象。</li>
+<li>Tree：blob对象的集合，以及它们的文件名和权限。一个tree对象描述一个时点上的一个目录。</li>
+<li>Commit：描述一个时点上的项目状态，包含一条log信息，一个tree对象和指向父节点（parent commits）的指针。第一个commit对象没有父节点。
+<ul>
+<li>记录 root tree SHA1</li>
+<li>记录 parent commit SHA1</li>
+<li>记录作者、时间和 commit message</li>
+</ul>
+</li>
+<li>tag</li>
+</ul>
+<p>4、sha1哈希算法</p>
+<pre><code class="language-sh">111 -&gt; 4ef5d11d3b99f88fb9f70b694de01db16c56ed50
+</code></pre>
+<p>每个git对象都有一个哈希值，哈希值可以理解为我们的身份证号</p>
+<p><code>4ef5d11d3b99f88fb9f70b694de01db16c56ed50</code>就是内容为111类型为blob的git对象的身份证号，我们可以通过4ef5d11d3b99f88fb9f70b694de01db16c56ed50找到这个git对象</p>
+<p>5、git commit</p>
+<pre><code class="language-sh">git commit -m 'init'
+</code></pre>
+<pre><code class="language-sh">tree .git
+
+├─hooks
+├─info
+├─logs
+│  └─refs
+│      └─heads
+├─objects
+│  ├─39
+│  ├─4e
+│  ├─5f
+│  ├─71
+│  ├─info
+│  └─pack
+└─refs
+    ├─heads
+    └─tags
+    
+ ls -a .git/objects/39
+./  ../  bd985025d281e7c1d1c9493c90156fb9e26ea0
+
+ls -a .git/objects/5f
+./  ../  3f16e16db5faec1bf71fab36cbad24fbddfd39
+</code></pre>
+<pre><code class="language-sh">git cat-file -t 5f3f16
+tree
+
+git cat-file -p 5f3f16
+100644 blob 4ef5d11d3b99f88fb9f70b694de01db16c56ed50    a.txt
+100644 blob 7170f7d93c37a8861f0e6816780b2881ad5f58d2    b.txt
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624773693534.png" alt="" loading="lazy"></figure>
+<pre><code class="language-sh">git cat-file -t 39bd98
+commit
+
+git cat-file -p 39bd98
+tree 5f3f16e16db5faec1bf71fab36cbad24fbddfd39
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1624773720929.png" alt="" loading="lazy"></figure>
+<p>6、HEAD指针和分支</p>
+<pre><code class="language-sh">cat .git/HEAD
+ref: refs/heads/master
+
+cat .git/refs/heads/master
+39bd985025d281e7c1d1c9493c90156fb9e26ea0
+</code></pre>
+<p>可以看出，HEAD指针指向分支指针，分支指针指向最新的commit</p>
+<p>HEAD、分支、普通的Tag可以简单的理解成是一个指针，指向对应commit的SHA1值。</p>
+<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1624773733859.png" alt="" loading="lazy"></figure>
+<p>7、为什么要把文件的权限和文件名储存在Tree object里面而不是Blob object呢？</p>
+<p>因为更改一个文件名就需要新建一个Blob object，假如文件很大的话，会很占空间，而Tree object体积相对很小</p>
+<p>8、当你修改了其中一个文件，创建一个新的commit后</p>
+<figure data-type="image" tabindex="4"><img src="https://leecss.com/post-images/1624774577309.png" alt="" loading="lazy"></figure>
+<h2 id="git的三个分区">git的三个分区</h2>
+<ul>
+<li>工作目录 （ working directory ）：操作系统上的文件，所有代码开发编辑都在这上面完成。</li>
+<li>索引（ index or staging area ）：可以理解为一个暂存区域，这里面的代码会在下一次commit被提交到Git仓库。</li>
+<li>Git仓库（ git repository ）：由Git object记录着每一次提交的快照，以及链式结构记录的提交变更历史。</li>
+</ul>
+<figure data-type="image" tabindex="5"><img src="https://leecss.com/post-images/1624774695680.gif" alt="" loading="lazy"></figure>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>李泽帆</p>
+<p>https://www.lzane.com/tech/git-internal/</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-init]]></title>
+        <id>https://leecss.com/post/git-init/</id>
+        <link href="https://leecss.com/post/git-init/">
+        </link>
+        <updated>2021-06-27T05:58:06.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="将当前目录转为git仓库">将当前目录转为git仓库</h2>
+<p><code>git init</code>命令将当前目录转为git仓库。</p>
+<p>它会在当前目录下生成一个.git子目录，在其中写入git的配置和项目的快照。</p>
+<h2 id="在当前目录下创建一个新的目录">在当前目录下创建一个新的目录</h2>
+<pre><code class="language-sh">git init &lt;repository-name&gt;
+git init place
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-安装]]></title>
+        <id>https://leecss.com/post/git-an-zhuang/</id>
+        <link href="https://leecss.com/post/git-an-zhuang/">
+        </link>
+        <updated>2021-06-27T05:57:14.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="windows">windows</h2>
+<p>从官方网站上下载安装包，按照默认配置快速安装（一直下一步），访问git官网，即可下载git，git的官方网址如下：</p>
+<p><a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></p>
+<p>在windows中安装git的过程中，如果你没有修改默认的设置，当安装完成后，安装程序会自动为你安装两种客户端，一种是图形化的客户端，一种是命令行的客户端，图形化的客户端被称之为”Git GUI”，命令行的客户端被称之为”Git Bash”，在系统的”开始”菜单中可以找到”Git GUI”和”Git Bash”，同时，默认情况下，当你安装完成git后，你的右键菜单中会多出两个选项，”Git GUI Here”和”Git Bash Here”，通过这两项，你可以在任何目录中打开”Git GUI”和”Git Bash”，”Git GUI”和”Git Bash”都是客户端程序，我们可以通过这两种程序中的任意一种来操作git，从而达到版本控制的目的，这两种工具在不同的使用场景下各有优势，命令行的优势在于比较通用，而且当你需要编写一些版本控制的自动化脚本时，无可避免的需要使用git命令，使用图形化的好处就是比较直观，所以，我们有可能会交替的使用这两种工具，但是主要以命令行的使用模式为主，因为只要理解了相关概念和git命令后，再去使用任何一种图形化工具，都是非常简单的。</p>
+<p>除了gitk（默认安装的图形化客户端就包含了gitk），比较出名的git图形化工具还有SourceTree、TortoiseGit、GitHubDesktop、GitKraken、GitUp等，当你熟悉了git命令以后，再去操作这些图形化工具都会变得游刃有余。</p>
+<p><strong>打开gitk图形化操作界面</strong></p>
+<pre><code class="language-sh">gitk
+</code></pre>
+<h2 id="初始化配置">初始化配置</h2>
+<p>如果想要使用git进行版本管理，我们首先要做的就是，设置自己的”用户名”和”用户邮箱”，这些信息是必须的，特别是在多人协作时，这些信息也是非常必要的，所以，在完成安装操作以后，我们首先要做的就是设置自己的”用户名”和”用户邮箱”，这些信息只需要设置一次，就可以一直正常的使用git，除非你有需要修改这些信息。</p>
+<h3 id="设置用户名和邮箱">设置用户名和邮箱</h3>
+<pre><code class="language-sh">git config --global user.name &quot;lee&quot;
+git config --global user.email &quot;lee@emial.com&quot;
+</code></pre>
+<h3 id="查看自己的用户名和邮箱设置">查看自己的用户名和邮箱设置</h3>
+<pre><code class="language-sh">git config --global --list
+</code></pre>
+<h3 id="参数">参数</h3>
+<pre><code class="language-sh">git config --system：使对应配置针对系统内所有的用户有效
+git config --global：使对应配置针对当前系统用户的所有仓库生效
+git config --local：使对应配置只针对当前仓库有效
+local选项设置的优先级最高。
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-push]]></title>
         <id>https://leecss.com/post/git-push/</id>
@@ -17,11 +204,23 @@
         <updated>2021-06-25T00:16:05.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
 <p><code>git push</code>命令用于将本地分支的更新，推送到远程主机。它的格式与<code>git pull</code>命令相仿。</p>
+<p>git push和当前的HEAD指针位于哪里没关系，只要指定完整的格式，即使当前指针不在分支上，也可以推送到远程</p>
+<pre><code class="language-shell">git checkout c0
+git push origin master
+</code></pre>
+<p>当要推送到的目的分支不存在时，Git 会在远程仓库中根据你提供的名称帮你创建这个分支！</p>
+<pre><code class="language-sh">git push origin main:newBranch
+</code></pre>
 <h2 id="命令">命令</h2>
 <p>git push完整格式</p>
-<pre><code class="language-sh">git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;
+<pre><code class="language-sh">git push origin &lt;source&gt;:&lt;destination&gt;
+git push &lt;远程主机名&gt; &lt;本地分支名&gt;:&lt;远程分支名&gt;
 </code></pre>
 <p>注意，分支推送顺序的写法是&lt;来源地&gt;:&lt;目的地&gt;，所以<code>git pull</code>是&lt;远程分支&gt;:&lt;本地分支&gt;，而<code>git push</code>是&lt;本地分支&gt;:&lt;远程分支&gt;。</p>
+<p><code>source</code> 可以是任何 Git 能识别的位置：</p>
+<pre><code class="language-sh">git push origin foo^:main
+</code></pre>
+<p>Git 将 <code>foo^</code> 解析为一个位置，上传所有未被包含到远程仓库里 <code>main</code> 分支中的提交记录。</p>
 <hr>
 <p>如果省略远程分支名，则表示将本地分支推送与之存在&quot;追踪关系&quot;的远程分支（通常两者同名），如果该远程分支不存在，则会被新建。</p>
 <pre><code class="language-sh">git push origin master
@@ -86,6 +285,7 @@ git config --global push.default simple
 </ul>
 <p>实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 <code>git pull</code>。</p>
 <p>即<code>git pull</code>相当于<code>git fetch</code> 和 <code>git merge o/main</code>的缩写，取回远程主机某个分支的更新，再与本地的指定分支合并。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624778165211.gif" alt="" loading="lazy"></figure>
 <h2 id="注意点">注意点</h2>
 <p>即使当前分支有没有 commit 的变动，也可以使用<code>git pull</code>从远程拉取分支。</p>
 <h2 id="命令">命令</h2>
@@ -129,6 +329,33 @@ git merge origin/next
 git fetch --prune origin
 git fetch -p
 </code></pre>
+<h2 id="详解">详解</h2>
+<p>假设你周一克隆了一个仓库，然后开始研发某个新功能。到周五时，你新功能开发测试完毕，可以发布了。但是 —— 天啊！你的同事这周写了一堆代码，还改了许多你的功能中使用的 API，这些变动会导致你新开发的功能变得不可用。但是他们已经将那些提交推送到远程仓库了，因此你的工作就变成了基于项目<strong>旧版</strong>的代码，与远程仓库最新的代码不匹配了。</p>
+<p>这种情况下, <code>git push</code> 就不知道该如何操作了。如果你执行 <code>git push</code>，Git 应该让远程仓库回到星期一那天的状态吗？还是直接在新代码的基础上添加你的代码，亦或由于你的提交已经过时而直接忽略你的提交？</p>
+<p>因为这情况（历史偏离）有许多的不确定性，Git 是不会允许你 <code>push</code> 变更的。实际上它会强制你先合并远程最新的代码，然后才能分享你的工作。</p>
+<h3 id="解决方法">解决方法</h3>
+<p>方式一：</p>
+<pre><code class="language-sh">git fetch
+git rebase o/main
+git push
+</code></pre>
+<p>我们用 <code>git fetch</code> 更新了本地仓库中的远程分支，然后用 rebase 将我们的工作移动到最新的提交记录下，最后再用 <code>git push</code> 推送到远程仓库。</p>
+<p>方式二：</p>
+<pre><code>git fetch
+git merge o/main
+git push
+</code></pre>
+<p>我们用 <code>git fetch</code> 更新了本地仓库中的远程分支，然后<strong>合并</strong>了新变更到我们的本地分支（为了包含远程仓库的变更），最后我们用 <code>git push</code> 把工作推送到远程仓库</p>
+<p>尽管 <code>git merge</code> 不会移动你的工作（它会创建新的合并提交），但是它会告诉 Git 你已经合并了远程仓库的所有变更。这是因为远程分支现在是你本地分支的祖先，也就是说你的提交已经包含了远程分支的所有变化。</p>
+<p>方式三：</p>
+<p>很好！但是要敲那么多命令，有没有更简单一点的？</p>
+<p>当然 —— 前面已经介绍过 <code>git pull</code> 就是 fetch 和 merge 的简写，类似的 <code>git pull --rebase</code> 就是 fetch 和 rebase 的简写！</p>
+<pre><code class="language-sh">git pull --rebase
+git push
+</code></pre>
+<pre><code class="language-sh">git pull
+git push
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -151,6 +378,7 @@ git fetch -p
 <p><code>git fetch</code> 并不会改变你本地仓库的状态。它不会更新你的 <code>main</code> 分支，也不会修改你磁盘上的文件。</p>
 <p>理解这一点很重要，因为许多开发人员误以为执行了 <code>git fetch</code> 以后，他们本地仓库就与远程仓库同步了。它可能已经将进行这一操作所需的所有数据都下载了下来，但是<strong>并没有</strong>修改你本地的文件。</p>
 <p>所以, 你可以将 <code>git fetch</code> 的理解为单纯的下载操作。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624778106680.gif" alt="" loading="lazy"></figure>
 <h2 id="命令">命令</h2>
 <h3 id="获取更新">获取更新</h3>
 <p>将某个远程主机的更新，全部取回本地。</p>
@@ -203,6 +431,27 @@ git rebase origin/master
 </code></pre>
 <p>克隆某个指定分支的代码</p>
 <pre><code class="language-sh">git clone -b &lt;branch name&gt; &lt;remote url&gt;
+</code></pre>
+<h2 id="远程跟踪">远程跟踪</h2>
+<p>直接了当地讲，<code>main</code> 和 <code>o/main</code> 的关联关系就是由分支的“remote tracking”属性决定的。<code>main</code> 被设定为跟踪 <code>o/main</code> —— 这意味着为 <code>main</code> 分支指定了推送的目的地以及拉取后合并的目标。</p>
+<p>你可能想知道 <code>main</code> 分支上这个属性是怎么被设定的，你并没有用任何命令指定过这个属性呀！好吧, 当你克隆仓库的时候, Git 就自动帮你把这个属性设置好了。</p>
+<p>当你克隆时, Git 会为远程仓库中的每个分支在本地仓库中创建一个远程分支（比如 <code>o/main</code>）。然后再创建一个跟踪远程仓库中活动分支的本地分支，默认情况下这个本地分支会被命名为 <code>main</code>。</p>
+<p>克隆完成后，你会得到一个本地分支（如果没有这个本地分支的话，你的目录就是“空白”的），但是可以查看远程仓库中所有的分支（如果你好奇心很强的话）。这样做对于本地仓库和远程仓库来说，都是最佳选择。</p>
+<p>这也解释了为什么会在克隆的时候会看到下面的输出：</p>
+<pre><code class="language-sh">local branch &quot;main&quot; set to track remote branch &quot;o/main&quot;
+</code></pre>
+<h3 id="指定远程跟踪">指定远程跟踪</h3>
+<h4 id="方式一">方式一</h4>
+<p>第一种就是通过远程分支检出一个新的分支，执行:</p>
+<pre><code>git checkout -b totallyNotMain o/main
+</code></pre>
+<p>就可以创建一个名为 <code>totallyNotMain</code> 的分支，它跟踪远程分支 <code>o/main</code>。</p>
+<h4 id="方式二">方式二</h4>
+<p><code>git branch -u</code> 命令，执行：</p>
+<pre><code>git branch -u o/main foo
+</code></pre>
+<p>这样 <code>foo</code> 就会跟踪 <code>o/main</code> 了。如果当前就在 foo 分支上, 还可以省略 foo：</p>
+<pre><code class="language-sh">git branch -u o/main
 </code></pre>
 ]]></content>
     </entry>
@@ -306,170 +555,7 @@ git push origin --tags
 <pre><code class="language-sh">git cherry-pick commitID
 git cherry-pick c2 c4
 </code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-revert]]></title>
-        <id>https://leecss.com/post/git-revert/</id>
-        <link href="https://leecss.com/post/git-revert/">
-        </link>
-        <updated>2021-06-21T23:38:48.000Z</updated>
-        <summary type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git revert</code>命令用于撤销某个具体的commit。</p>
-]]></summary>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git revert</code>命令用于撤销某个具体的commit。</p>
-<!-- more -->
-<pre><code class="language-sh">git revert &lt;commitID&gt;
-</code></pre>
-<p>撤销上一个commit,之后推送到远程</p>
-<pre><code class="language-sh">git revert HEAD
-</code></pre>
-<h2 id="revert和reset的区别">revert和reset的区别</h2>
-<p>reset（重置）：将版本回退到某个commit</p>
-<p>恢复（revert）:  回滚某个具体的commit,将它撤销</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-reset]]></title>
-        <id>https://leecss.com/post/git-reset/</id>
-        <link href="https://leecss.com/post/git-reset/">
-        </link>
-        <updated>2021-06-21T23:37:30.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="撤销区域">撤销区域</h2>
-<h3 id="暂存区">暂存区</h3>
-<p>撤销已经添加到暂存区中的修改，即让暂存区与最近的提交保持一致，可以使用如下命令，如下三条命令等效</p>
-<pre><code class="language-sh">git reset
-git reset HEAD
-git reset --mixed HEAD
-</code></pre>
-<p>撤销上一次向暂存区添加的某个指定文件，不影响工作区中的该文件</p>
-<pre><code class="language-sh">git reset -- &lt;filename&gt;
-git reset -- file1 file2
-</code></pre>
-<h3 id="暂存区和工作区">暂存区和工作区</h3>
-<p>撤销所有暂存区和工作区中的所有变更,回复到上一次提交的状态</p>
-<pre><code class="language-sh">git reset --hard
-</code></pre>
-<p>回退到指定的提交</p>
-<pre><code class="language-sh">git reset --hard commitID
-</code></pre>
-<h2 id="参数">参数</h2>
-<ul>
-<li>soft: 不改变工作区和缓存区，只移动 HEAD 到指定 commit。</li>
-<li>mixed: 只改变缓存区，不改变工作区。这是默认参数，通常用于撤销<code>git add</code>。</li>
-<li>hard：改变工作区和暂存区到指定 commit。该参数等同于重置，可能会引起数据损失。<code>git reset --hard</code>等同于<code>git reset --hard HEAD</code>。</li>
-<li><code>-p</code>表示键入交互模式，指定暂存区的哪些部分需要撤销。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>工作区</th>
-<th>缓存区</th>
-<th>HEAD</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>–soft</td>
-<td>否</td>
-<td>否</td>
-<td>是</td>
-</tr>
-<tr>
-<td>–mixed</td>
-<td>否</td>
-<td>是</td>
-<td>是</td>
-</tr>
-<tr>
-<td>–hard</td>
-<td>是</td>
-<td>是</td>
-<td>是</td>
-</tr>
-</tbody>
-</table>
-<pre><code class="language-shell">// 将当期分支的指针倒退一个 commit，只改变仓库
-git reset --soft HEAD~
-// 将当期分支的指针倒退一个 commit，改变仓库，并且会改变暂存区
-git reset HEAD~
-// 将当期分支的指针倒退一个 commit，改变仓库，暂存区，工作区
-git reset --hard HEAD~
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-相对引用]]></title>
-        <id>https://leecss.com/post/git-xiang-dui-yin-yong/</id>
-        <link href="https://leecss.com/post/git-xiang-dui-yin-yong/">
-        </link>
-        <updated>2021-06-20T02:53:00.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>通过哈希值指定提交记录很不方便，所以 Git 引入了相对引用。</p>
-<p>使用相对引用的话，你就可以从一个易于记忆的地方（比如bugFix 分支或 HEAD）开始计算。</p>
-<h2 id="分类">分类</h2>
-<h3 id="操作符~">操作符~</h3>
-<p>HEAD 表示当前分支的最新提交</p>
-<p>HEAD~ 表示当前分支的最新提交的前一个提交（即最新的第二个提交，也就是最新提交的父提交）</p>
-<p>HEAD~~ 表示当前分支的最新提交的前前提交（即最新的第三个提交，也就是最新提交的祖父提交）</p>
-<p>HEAD~~~ 表示当前分支的最新提交的前前前提交（即最新的第四个提交，也就是最新提交的曾祖父提交）</p>
-<blockquote>
-<p>HEAD~~~等效于HEAD~3</p>
-<p>HEAD~~等效于HEAD~2</p>
-<p>HEAD<sub>等效于HEAD</sub>1</p>
-<p>HEAD等效于HEAD~0</p>
-</blockquote>
-<h3 id="操作符">操作符^</h3>
-<h4 id="单个直系父提交">单个直系父提交</h4>
-<p>把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交。</p>
-<p>方式一</p>
-<p><code>main^</code> 相当于“<code>main</code> 的父节点”。</p>
-<p><code>main^^</code> 是 <code>main</code> 的第二个父节点</p>
-<p>方式二</p>
-<p>我们也可以多次使用 <code>HEAD^</code> 向上移动。</p>
-<pre><code class="language-sh">git checkout HEAD^
-git checkout HEAD^
-</code></pre>
-<h4 id="多个直系父提交">多个直系父提交</h4>
-<p>假如当前提交不只一个父节点，有多个直系父提交呢？</p>
-<p>如果一个提交有多个父提交，那么 <code>~</code> 只会找第一个父提交。</p>
-<p>使用<code>HEAD^2</code>来找到第二个父提交</p>
-<pre><code class="language-sh">
-G   H   I   J
- \ /     \ /
-  D   E   F
-   \  |  / \
-    \ | /   |
-     \|/    |
-      B     C
-       \   /
-        \ /
-         A
- 
-A =      = A^0
-B = A^   = A^1     = A~1
-C = A^2
-D = A^^  = A^1^1   = A~2
-E = B^2  = A^^2
-F = B^3  = A^^3
-G = A^^^ = A^1^1^1 = A~3
-H = D^2  = B^^2    = A^^^2  = A~2^2
-I = F^   = B^3^    = A^^3^
-J = F^2  = B^3^2   = A^^3^2
-</code></pre>
-<h2 id="混合链式调用">混合链式调用</h2>
-<pre><code class="language-sh">git checkout HEAD~^2~2
-</code></pre>
-<p>选择直系父节点的 第二个父节点的 直系第二个父节点</p>
-<h2 id="应用">应用</h2>
-<h3 id="强制修改分支位置">强制修改分支位置</h3>
-<p>使用相对引用最多的就是移动分支。可以直接使用 <code>-f</code> 选项让分支指向另一个提交。例如:</p>
-<pre><code class="language-shell">git branch -f main HEAD~3
-git branch -f dev c2
-</code></pre>
-<p>相对引用为我们提供了一种简洁的引用提交记录 的方式， 而 <code>-f</code> 则容许我们将分支强制移动到那个位置。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624778009309.gif" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>

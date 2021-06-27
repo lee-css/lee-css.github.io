@@ -1,0 +1,2636 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="keywords" content="css">
+<meta name="description" content="">
+<meta name="theme-color" content="#000">
+<title>git-安装 | 当下</title>
+<link rel="shortcut icon" href="/favicon.ico?v=1624778171252">
+<link rel="stylesheet" href="/media/css/gemini.css">
+<link rel="stylesheet" href="/media/fonts/font-awesome.css">
+<link
+  href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Rosario:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext"
+  rel="stylesheet" type="text/css">
+
+<link href="/media/hljs/styles/default.css"
+  rel="stylesheet">
+
+<link rel="stylesheet" href="/styles/main.css">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script src="/media/js/jquery.js"></script>
+<script src="/media/hljs/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.0/velocity.ui.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+  integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+  integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+  integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+  onload="renderMathInElement(document.body);"></script>
+
+
+
+
+
+
+  <meta name="description" content="git-安装" />
+  <meta name="keywords" content="git" />
+</head>
+
+<body>
+  <div class="head-top-line"></div>
+  <div class="header-box">
+    
+<div class="gemini">
+  <header class="header  ">
+    <div class="blog-header box-shadow-wrapper bg-color " id="header">
+      <div class="nav-toggle" id="nav_toggle">
+        <div class="toggle-box">
+          <div class="line line-top"></div>
+          <div class="line line-center"></div>
+          <div class="line line-bottom"></div>
+        </div>
+      </div>
+      <div class="site-meta">       
+        <div class="site-title">
+          
+            <a href="/" class="brand">
+              <span>当下</span>
+            </a>  
+          
+        </div>
+        
+          <p class="subtitle">平心静气，奋勇向前</p>
+        
+      </div>
+      <nav class="site-nav" id="site_nav">
+        <ul id="nav_ul">
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/" target="_self">
+                  <i class="fa fa-home"></i> 首页
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/archives/" target="_self">
+                  <i class="fa fa-archive"></i> 归档
+                </a>
+              
+            </li>
+          
+            
+            
+            <li class="nav-item ">
+              
+              
+                <a href="/tags/" target="_self">
+                  <i class="fa fa-tags"></i> 标签
+                </a>
+              
+            </li>
+          
+          
+          
+            <li id="fa_search" class="nav-item">
+              <a href="javascript:void(0);">
+                <i class="fa fa-search"></i> <span class="language" data-lan="search">搜索</span>
+              </a>
+            </li>
+          
+        </ul>
+      </nav>
+    </div>
+  </header>
+</div>
+
+<script type="text/javascript"> 
+ 
+  let showNav = true;
+
+  let navToggle = document.querySelector('#nav_toggle'),
+  siteNav = document.querySelector('#site_nav');
+  
+  function navClick() {
+    let sideBar = document.querySelector('.sidebar');
+    let navUl = document.querySelector('#nav_ul');
+    navToggle.classList.toggle('nav-toggle-active');
+    siteNav.classList.toggle('nav-menu-active');
+    if (siteNav.classList.contains('nav-menu-active')) {
+      siteNav.style = "height: " + (navUl.children.length * 42) +"px !important";
+    } else {
+      siteNav.style = "";
+    }
+  }
+
+  navToggle.addEventListener('click',navClick);  
+</script>
+  </div>
+  <div class="main-continer">
+    
+    <div
+      class="section-layout gemini ">
+      <div class="section-layout-wrapper">
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active language" data-lan="index">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item language" data-lan="preview">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body gemini" id="sidebar_body">
+        
+          
+            <div class="post-side-meta" id="post_side_meta">
+              
+<div class="sidebar-wrapper box-shadow-wrapper bg-color">
+  <div class="sidebar-item">
+    <img class="site-author-image right-motion" src="/images/avatar.png"/>
+    <p class="site-author-name">lee</p>
+    
+  </div>
+  <div class="sidebar-item side-item-stat right-motion">
+    <div class="sidebar-item-box">
+      <a href="/archives/">
+        
+        <span class="site-item-stat-count">26</span>
+        <span class="site-item-stat-name language" data-lan="article">文章</span>
+      </a>
+    </div>
+    <div class="sidebar-item-box">
+      <a href="">
+        <span class="site-item-stat-count">4</span>
+        <span class="site-item-stat-name language" data-lan="category">分类</span>
+      </a>
+    </div>
+    <div class="sidebar-item-box">
+      <a href="/tags/">
+        <span class="site-item-stat-count">4</span>
+        <span class="site-item-stat-name language" data-lan="tag">标签</span>
+      </a>
+    </div>
+  </div>
+  
+    
+  
+  
+
+  
+
+
+
+</div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#windows">windows</a></li>
+<li><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE">初始化配置</a>
+<ul>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1">设置用户名和邮箱</a></li>
+<li><a href="#%E6%9F%A5%E7%9C%8B%E8%87%AA%E5%B7%B1%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%E5%92%8C%E9%82%AE%E7%AE%B1%E8%AE%BE%E7%BD%AE">查看自己的用户名和邮箱设置</a></li>
+<li><a href="#%E5%8F%82%E6%95%B0">参数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+</div>
+
+<script>
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
+      }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
+    });
+  }
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
+          
+        
+      </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    jQuery.Velocity(hideElement, 'stop');
+    jQuery.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        jQuery.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://leecss.com/post/git-an-zhuang/">
+      git-安装
+    </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span class="language" data-lan="publish">发布于</span>
+      <span class="publish-time" data-t="2021-06-27 13:57:14">2021-06-27</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-folder-o"></i>
+      <span class="pc-show language" data-lan="category-in">分类于</span>
+      
+      
+      <a href="https://leecss.com/tag/TDboywfcf/">
+        <span>git</span>
+      </a>
+      
+      
+    </span>
+    <span class="post-meta-divider">|</span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>3<span class="language" data-lan="minute">分钟</span></span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>732<span class="pc-show language" data-lan="words">字数</span></span>
+    </span>
+    
+  </div>
+</section>
+            <div class="post-body next-md-body" id="post_body">
+              <h2 id="windows">windows</h2>
+<p>从官方网站上下载安装包，按照默认配置快速安装（一直下一步），访问git官网，即可下载git，git的官方网址如下：</p>
+<p><a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></p>
+<p>在windows中安装git的过程中，如果你没有修改默认的设置，当安装完成后，安装程序会自动为你安装两种客户端，一种是图形化的客户端，一种是命令行的客户端，图形化的客户端被称之为”Git GUI”，命令行的客户端被称之为”Git Bash”，在系统的”开始”菜单中可以找到”Git GUI”和”Git Bash”，同时，默认情况下，当你安装完成git后，你的右键菜单中会多出两个选项，”Git GUI Here”和”Git Bash Here”，通过这两项，你可以在任何目录中打开”Git GUI”和”Git Bash”，”Git GUI”和”Git Bash”都是客户端程序，我们可以通过这两种程序中的任意一种来操作git，从而达到版本控制的目的，这两种工具在不同的使用场景下各有优势，命令行的优势在于比较通用，而且当你需要编写一些版本控制的自动化脚本时，无可避免的需要使用git命令，使用图形化的好处就是比较直观，所以，我们有可能会交替的使用这两种工具，但是主要以命令行的使用模式为主，因为只要理解了相关概念和git命令后，再去使用任何一种图形化工具，都是非常简单的。</p>
+<p>除了gitk（默认安装的图形化客户端就包含了gitk），比较出名的git图形化工具还有SourceTree、TortoiseGit、GitHubDesktop、GitKraken、GitUp等，当你熟悉了git命令以后，再去操作这些图形化工具都会变得游刃有余。</p>
+<p><strong>打开gitk图形化操作界面</strong></p>
+<pre><code class="language-sh">gitk
+</code></pre>
+<h2 id="初始化配置">初始化配置</h2>
+<p>如果想要使用git进行版本管理，我们首先要做的就是，设置自己的”用户名”和”用户邮箱”，这些信息是必须的，特别是在多人协作时，这些信息也是非常必要的，所以，在完成安装操作以后，我们首先要做的就是设置自己的”用户名”和”用户邮箱”，这些信息只需要设置一次，就可以一直正常的使用git，除非你有需要修改这些信息。</p>
+<h3 id="设置用户名和邮箱">设置用户名和邮箱</h3>
+<pre><code class="language-sh">git config --global user.name &quot;lee&quot;
+git config --global user.email &quot;lee@emial.com&quot;
+</code></pre>
+<h3 id="查看自己的用户名和邮箱设置">查看自己的用户名和邮箱设置</h3>
+<pre><code class="language-sh">git config --global --list
+</code></pre>
+<h3 id="参数">参数</h3>
+<pre><code class="language-sh">git config --system：使对应配置针对系统内所有的用户有效
+git config --global：使对应配置针对当前系统用户的所有仓库生效
+git config --local：使对应配置只针对当前仓库有效
+local选项设置的优先级最高。
+</code></pre>
+
+            </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      lee
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://leecss.com/post/git-an-zhuang/" title="git-安装">https://leecss.com/post/git-an-zhuang/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="git-init" href="https://leecss.com/post/git-init/">git-init</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="git-init" href="https://leecss.com/post/git-init/">上一篇</a>
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="git-push" href="https://leecss.com/post/git-push/">git-push</a>
+        <a class="nav-mobile-next" title="git-push" href="https://leecss.com/post/git-push/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
+      
+    </div>
+  </div>
+</div>
+            
+            
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<div id="vcomments" style="padding: 10px 0px 0px 0px"></div>
+
+<style>
+  .v .veditor {
+    min-height: 10rem;
+    background-image: url('');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-color: rgba(255, 255, 255, 0);
+    resize: none;
+  }
+
+  .v .vwrap {
+    border: 1px solid #000 !important;
+  }
+
+  .v .vbtn {
+    padding: .4rem 1.2rem !important;
+    border-color: #fff !important;
+    background-color: #49b1f5 !important;
+    color: #fff !important;
+    font-size: .7rem !important;
+  }
+
+  .v .vcards .vcard .vh .vmeta .vat {
+    padding: 0 .8rem !important;
+    border: 1px solid #00c4b6 !important;
+    border-radius: 5px !important;
+    color: #00c4b6 !important;
+  }
+</style>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'EtGAaWMPMfBv4R8mHt4OVOK0-gzGzoHsz',
+    appKey: 'JYHcCIGVcuAO36RXVrdt0DYM',
+    avatar: '',
+    placeholder: '',
+    pageSize: '',
+    lang: 'zh-cn',
+    enableQQ: 'true' === 'false',
+    visitor: 'true' === 'false',
+    highlight: 'true' === 'true',
+    avatarForce: 'true' === 'false',
+  });
+</script>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-box">
+  <footer class="footer">
+    <span id="busuanzi_container_site_pv">浏览数 <span id="busuanzi_value_site_pv"></span> 次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">访客数 <span id="busuanzi_value_site_uv"></span> 人</span>
+    <div class="copyright">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> ©2019 | Theme By <a
+        href="https://github.com/hsxyhao/gridea-theme-next" target="_blank">HsxyHao</a>
+    </div>
+    <div class="poweredby">
+      
+    </div>
+  </footer>
+  
+  
+  <div class="gemini back-to-top" id="back_to_top">
+    <i class="fa fa-arrow-up"></i>
+    
+    <span class="scrollpercent">
+      <span id="back_to_top_text">0</span>%
+    </span>
+    
+  </div>
+  
+  
+  
+  
+  <script src="https://player.lmih.cn/player/js/player.js" id="myhk" key="demo" m="1"></script>
+
+
+  
+</div>
+<script>
+
+  let sideBarOpen = 'sidebar-open';
+  let body = document.body;
+  let back2Top = document.querySelector('#back_to_top'),
+    back2TopText = document.querySelector('#back_to_top_text'),
+    drawerBox = document.querySelector('#drawer_box'),
+    rightSideBar = document.querySelector('.sidebar'),
+    viewport = document.querySelector('body');
+
+  function scrollAnimation(currentY, targetY) {
+
+    let needScrollTop = targetY - currentY
+    let _currentY = currentY
+    setTimeout(() => {
+      const dist = Math.ceil(needScrollTop / 10)
+      _currentY += dist
+      window.scrollTo(_currentY, currentY)
+      if (needScrollTop > 10 || needScrollTop < -10) {
+        scrollAnimation(_currentY, targetY)
+      } else {
+        window.scrollTo(_currentY, targetY)
+      }
+    }, 1)
+  }
+
+  back2Top.addEventListener("click", function (e) {
+    scrollAnimation(document.scrollingElement.scrollTop, 0);
+    e.stopPropagation();
+    return false;
+  });
+
+  window.addEventListener('scroll', function (e) {
+    let percent = document.scrollingElement.scrollTop / (document.scrollingElement.scrollHeight - document.scrollingElement.clientHeight) * 100;
+    if (percent > 1 && !back2Top.classList.contains('back-top-active')) {
+      back2Top.classList.add('back-top-active');
+    }
+    if (percent == 0) {
+      back2Top.classList.remove('back-top-active');
+    }
+    if (back2TopText) {
+      back2TopText.textContent = Math.floor(percent);
+    }
+  });
+
+
+  let hasCacu = false;
+  window.addEventListener('resize', function (e) {
+    calcuHeight();
+  });
+
+  function calcuHeight() {
+    // 动态调整站点概览高度
+    if (!hasCacu && back2Top.classList.contains('pisces') || back2Top.classList.contains('gemini')) {
+      let sideBar = document.querySelector('.sidebar');
+      let navUl = document.querySelector('#site_nav');
+      sideBar.style = 'margin-top:' + (navUl.offsetHeight + navUl.offsetTop + 15) + 'px;';
+      hasCacu = true;
+    }
+  }
+  calcuHeight();
+
+  let open = false, MOTION_TIME = 300, RIGHT_MOVE_DIS = '320px';
+
+  if (drawerBox) {
+    let rightMotions = document.querySelectorAll('.right-motion');
+    let right = drawerBox.classList.contains('right');
+
+    let transitionDir = right ? "transition.slideRightIn" : "transition.slideLeftIn";
+
+    let openProp, closeProp;
+    if (right) {
+      openProp = {
+        paddingRight: RIGHT_MOVE_DIS
+      };
+      closeProp = {
+        paddingRight: '0px'
+      };
+    } else {
+      openProp = {
+        paddingLeft: RIGHT_MOVE_DIS
+      };
+      closeProp = {
+        paddingLeft: '0px'
+      };
+    }
+
+    drawerBox.onclick = function () {
+      open = !open;
+      jQuery.Velocity(rightSideBar, 'stop');
+      jQuery.Velocity(viewport, 'stop');
+      jQuery.Velocity(rightMotions, 'stop');
+      if (open) {
+        jQuery.Velocity(rightSideBar, {
+          width: RIGHT_MOVE_DIS
+        }, {
+          duration: MOTION_TIME,
+          begin: function () {
+            jQuery.Velocity(rightMotions, transitionDir, {});
+          }
+        })
+        jQuery.Velocity(viewport, openProp, {
+          duration: MOTION_TIME
+        });
+      } else {
+        jQuery.Velocity(rightSideBar, {
+          width: '0px'
+        }, {
+          duration: MOTION_TIME,
+          begin: function () {
+            jQuery.Velocity(rightMotions, {
+              opacity: 0
+            });
+          }
+        })
+        jQuery.Velocity(viewport, closeProp, {
+          duration: MOTION_TIME
+        });
+      }
+      for (let i = 0; i < drawerBox.children.length; i++) {
+        drawerBox.children[i].classList.toggle('muse-line');
+      }
+      drawerBox.classList.toggle(sideBarOpen);
+    }
+  }
+
+  // 链接跳转
+  let newWindow = 'false'
+  if (newWindow === 'true') {
+    let links = document.querySelectorAll('.post-body a')
+    links.forEach(item => {
+      if (!item.classList.contains('btn')) {
+        item.setAttribute("target", "_blank");
+      }
+    })
+  }
+
+  let faSearch = document.querySelector('#fa_search');
+  faSearch && faSearch.addEventListener('click', function () {
+    document.querySelector('#search_mask').style = ''
+  })
+
+  // 代码高亮
+  hljs.initHighlightingOnLoad();
+  
+  // 离开当前页title变化
+  var leaveTitle = "";
+  var normal_title = document.title;
+  if (leaveTitle) {
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState == 'hidden') {
+        normal_title = document.title;
+        document.title = leaveTitle;
+      } else {
+        document.title = normal_title;
+      }
+    });
+  }
+
+</script>
+
+<link rel="stylesheet" href="/media/css/jquery.fancybox.css" />
+<script src="/media/js/jquery.fancybox.js"></script>
+
+<script>
+  let images = document.querySelectorAll('.section img');
+  images.forEach(image => {
+    var parent = image.parentElement;
+    var next = image.nextElementSibling;
+    parent.removeChild(image);
+    var aelem = document.createElement('a');
+    aelem.href = image.src;
+    aelem.dataset['fancybox'] = 'images';
+    aelem.dataset['rel'] = 'fancybox-button';
+    aelem.classList.add('fancybox');
+    aelem.appendChild(image);
+    parent.insertBefore(aelem, next);
+  })
+</script>
+
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word">扫码打赏，你说多少就多少</p>
+      <p class="reward-tip">打开微信扫一扫，即可进行扫码打赏哦</p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        jQuery.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        jQuery.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        jQuery.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        jQuery.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      jQuery.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      jQuery.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
+</script>
+
+  </div>
+</body>
+
+<div class="search-mask" id="search_mask" style="display: none;">
+  <div class="search-box">
+    <div class="search-title">
+      <i class="fa fa-search"></i>
+      <div class="input-box">
+        <input id="search" type="text" class="language" data-lan="search" placeholder="搜索">
+      </div>
+      <i id="close" class="fa fa-times-circle"></i>
+    </div>
+    <div class="stat-box">
+      <span id="stat_count">0</span><span class="language" data-lan="stat">条相关条目，使用了</span><span id="stat_times">0</span><span class="language" data-lan="stat-time">毫秒</span>
+      <hr>
+    </div>
+    <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-yuan-li/"" data-c="
+          &lt;h2 id=&#34;git是如何存储信息的&#34;&gt;git是如何存储信息的&lt;/h2&gt;
+&lt;p&gt;1、初始化仓库，新建文件，并添加到暂存区&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git init
+echo &#39;111&#39; &amp;gt; a.txt
+echo &#39;222&#39; &amp;gt; b.txt
+git add *.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;// 查看一下当前的git仓库中的内容
+tree .git
+
+├─hooks    
+├─info     
+├─objects  
+│  ├─4e    
+│  ├─71    
+│  ├─info  
+│  └─pack  
+└─refs     
+    ├─heads
+    └─tags 
+    
+ls -a .git/objects/4e
+./  ../  f5d11d3b99f88fb9f70b694de01db16c56ed50
+
+ls -a .git/objects/71
+./  ../  70f7d93c37a8861f0e6816780b2881ad5f58d2
+
+// 查看一下f5d11d3b99f88fb9f70b694de01db16c56ed50文件中的内容
+cat .git/objects/4e/f5d11d3b99f88fb9f70b694de01db16c56ed50
+x☺K□□OR0gP744TW□☻∟.♥☻
+// 打印出来的是一些乱码，原因是因为git对储存的内容做了二进制压缩
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;2、cat-file&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cat-file [-t] [-p]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;-t 打印文件类型&lt;/p&gt;
+&lt;p&gt;-p 打印文件具体内容&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cat-file -t 4ef5d1
+blob
+git cat-file -p 4ef5d1
+&#39;111&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;3、git object&lt;/p&gt;
+&lt;p&gt;git 储存信息的最小单元，对象数据库包含四类对象。git对象创建完成后均不可变更。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Blob：包含二进制数据，它们是文件内容。只要文件内容改变，就会在对象数据库中生成一个blob对象。注意，blob对象只保存文件内容，不含文件名和文件存储位置等信息。如果文件名改变，或者文件储存位置改变，不会生成新的blob对象。&lt;/li&gt;
+&lt;li&gt;Tree：blob对象的集合，以及它们的文件名和权限。一个tree对象描述一个时点上的一个目录。&lt;/li&gt;
+&lt;li&gt;Commit：描述一个时点上的项目状态，包含一条log信息，一个tree对象和指向父节点（parent commits）的指针。第一个commit对象没有父节点。
+&lt;ul&gt;
+&lt;li&gt;记录 root tree SHA1&lt;/li&gt;
+&lt;li&gt;记录 parent commit SHA1&lt;/li&gt;
+&lt;li&gt;记录作者、时间和 commit message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;tag&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;4、sha1哈希算法&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;111 -&amp;gt; 4ef5d11d3b99f88fb9f70b694de01db16c56ed50
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每个git对象都有一个哈希值，哈希值可以理解为我们的身份证号&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;4ef5d11d3b99f88fb9f70b694de01db16c56ed50&lt;/code&gt;就是内容为111类型为blob的git对象的身份证号，我们可以通过4ef5d11d3b99f88fb9f70b694de01db16c56ed50找到这个git对象&lt;/p&gt;
+&lt;p&gt;5、git commit&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git commit -m &#39;init&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;tree .git
+
+├─hooks
+├─info
+├─logs
+│  └─refs
+│      └─heads
+├─objects
+│  ├─39
+│  ├─4e
+│  ├─5f
+│  ├─71
+│  ├─info
+│  └─pack
+└─refs
+    ├─heads
+    └─tags
+    
+ ls -a .git/objects/39
+./  ../  bd985025d281e7c1d1c9493c90156fb9e26ea0
+
+ls -a .git/objects/5f
+./  ../  3f16e16db5faec1bf71fab36cbad24fbddfd39
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cat-file -t 5f3f16
+tree
+
+git cat-file -p 5f3f16
+100644 blob 4ef5d11d3b99f88fb9f70b694de01db16c56ed50    a.txt
+100644 blob 7170f7d93c37a8861f0e6816780b2881ad5f58d2    b.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624773693534.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cat-file -t 39bd98
+commit
+
+git cat-file -p 39bd98
+tree 5f3f16e16db5faec1bf71fab36cbad24fbddfd39
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624773720929.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;6、HEAD指针和分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat .git/HEAD
+ref: refs/heads/master
+
+cat .git/refs/heads/master
+39bd985025d281e7c1d1c9493c90156fb9e26ea0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以看出，HEAD指针指向分支指针，分支指针指向最新的commit&lt;/p&gt;
+&lt;p&gt;HEAD、分支、普通的Tag可以简单的理解成是一个指针，指向对应commit的SHA1值。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624773733859.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;7、为什么要把文件的权限和文件名储存在Tree object里面而不是Blob object呢？&lt;/p&gt;
+&lt;p&gt;因为更改一个文件名就需要新建一个Blob object，假如文件很大的话，会很占空间，而Tree object体积相对很小&lt;/p&gt;
+&lt;p&gt;8、当你修改了其中一个文件，创建一个新的commit后&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624774577309.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;git的三个分区&#34;&gt;git的三个分区&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;工作目录 （ working directory ）：操作系统上的文件，所有代码开发编辑都在这上面完成。&lt;/li&gt;
+&lt;li&gt;索引（ index or staging area ）：可以理解为一个暂存区域，这里面的代码会在下一次commit被提交到Git仓库。&lt;/li&gt;
+&lt;li&gt;Git仓库（ git repository ）：由Git object记录着每一次提交的快照，以及链式结构记录的提交变更历史。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624774695680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;李泽帆&lt;/p&gt;
+&lt;p&gt;https://www.lzane.com/tech/git-internal/&lt;/p&gt;
+&lt;/blockquote&gt;
+">git-原理</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-init/"" data-c="
+          &lt;h2 id=&#34;将当前目录转为git仓库&#34;&gt;将当前目录转为git仓库&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git init&lt;/code&gt;命令将当前目录转为git仓库。&lt;/p&gt;
+&lt;p&gt;它会在当前目录下生成一个.git子目录，在其中写入git的配置和项目的快照。&lt;/p&gt;
+&lt;h2 id=&#34;在当前目录下创建一个新的目录&#34;&gt;在当前目录下创建一个新的目录&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git init &amp;lt;repository-name&amp;gt;
+git init place
+&lt;/code&gt;&lt;/pre&gt;
+">git-init</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-an-zhuang/"" data-c="
+          &lt;h2 id=&#34;windows&#34;&gt;windows&lt;/h2&gt;
+&lt;p&gt;从官方网站上下载安装包，按照默认配置快速安装（一直下一步），访问git官网，即可下载git，git的官方网址如下：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://git-scm.com/downloads&#34;&gt;https://git-scm.com/downloads&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在windows中安装git的过程中，如果你没有修改默认的设置，当安装完成后，安装程序会自动为你安装两种客户端，一种是图形化的客户端，一种是命令行的客户端，图形化的客户端被称之为”Git GUI”，命令行的客户端被称之为”Git Bash”，在系统的”开始”菜单中可以找到”Git GUI”和”Git Bash”，同时，默认情况下，当你安装完成git后，你的右键菜单中会多出两个选项，”Git GUI Here”和”Git Bash Here”，通过这两项，你可以在任何目录中打开”Git GUI”和”Git Bash”，”Git GUI”和”Git Bash”都是客户端程序，我们可以通过这两种程序中的任意一种来操作git，从而达到版本控制的目的，这两种工具在不同的使用场景下各有优势，命令行的优势在于比较通用，而且当你需要编写一些版本控制的自动化脚本时，无可避免的需要使用git命令，使用图形化的好处就是比较直观，所以，我们有可能会交替的使用这两种工具，但是主要以命令行的使用模式为主，因为只要理解了相关概念和git命令后，再去使用任何一种图形化工具，都是非常简单的。&lt;/p&gt;
+&lt;p&gt;除了gitk（默认安装的图形化客户端就包含了gitk），比较出名的git图形化工具还有SourceTree、TortoiseGit、GitHubDesktop、GitKraken、GitUp等，当你熟悉了git命令以后，再去操作这些图形化工具都会变得游刃有余。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;打开gitk图形化操作界面&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;gitk
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;初始化配置&#34;&gt;初始化配置&lt;/h2&gt;
+&lt;p&gt;如果想要使用git进行版本管理，我们首先要做的就是，设置自己的”用户名”和”用户邮箱”，这些信息是必须的，特别是在多人协作时，这些信息也是非常必要的，所以，在完成安装操作以后，我们首先要做的就是设置自己的”用户名”和”用户邮箱”，这些信息只需要设置一次，就可以一直正常的使用git，除非你有需要修改这些信息。&lt;/p&gt;
+&lt;h3 id=&#34;设置用户名和邮箱&#34;&gt;设置用户名和邮箱&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git config --global user.name &amp;quot;lee&amp;quot;
+git config --global user.email &amp;quot;lee@emial.com&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;查看自己的用户名和邮箱设置&#34;&gt;查看自己的用户名和邮箱设置&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git config --global --list
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;参数&#34;&gt;参数&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git config --system：使对应配置针对系统内所有的用户有效
+git config --global：使对应配置针对当前系统用户的所有仓库生效
+git config --local：使对应配置只针对当前仓库有效
+local选项设置的优先级最高。
+&lt;/code&gt;&lt;/pre&gt;
+">git-安装</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-push/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git push&lt;/code&gt;命令用于将本地分支的更新，推送到远程主机。它的格式与&lt;code&gt;git pull&lt;/code&gt;命令相仿。&lt;/p&gt;
+&lt;p&gt;git push和当前的HEAD指针位于哪里没关系，只要指定完整的格式，即使当前指针不在分支上，也可以推送到远程&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git checkout c0
+git push origin master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当要推送到的目的分支不存在时，Git 会在远程仓库中根据你提供的名称帮你创建这个分支！&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin main:newBranch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;p&gt;git push完整格式&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin &amp;lt;source&amp;gt;:&amp;lt;destination&amp;gt;
+git push &amp;lt;远程主机名&amp;gt; &amp;lt;本地分支名&amp;gt;:&amp;lt;远程分支名&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;注意，分支推送顺序的写法是&amp;lt;来源地&amp;gt;:&amp;lt;目的地&amp;gt;，所以&lt;code&gt;git pull&lt;/code&gt;是&amp;lt;远程分支&amp;gt;:&amp;lt;本地分支&amp;gt;，而&lt;code&gt;git push&lt;/code&gt;是&amp;lt;本地分支&amp;gt;:&amp;lt;远程分支&amp;gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;source&lt;/code&gt; 可以是任何 Git 能识别的位置：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin foo^:main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Git 将 &lt;code&gt;foo^&lt;/code&gt; 解析为一个位置，上传所有未被包含到远程仓库里 &lt;code&gt;main&lt;/code&gt; 分支中的提交记录。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;如果省略远程分支名，则表示将本地分支推送与之存在&amp;quot;追踪关系&amp;quot;的远程分支（通常两者同名），如果该远程分支不存在，则会被新建。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面命令表示，将本地的&lt;code&gt;master&lt;/code&gt;分支推送到&lt;code&gt;origin&lt;/code&gt;主机的&lt;code&gt;master&lt;/code&gt;分支。如果后者不存在，则会被新建。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;如果省略本地分支名，则表示删除指定的远程分支，因为这等同于推送一个空的本地分支到远程分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;git push origin :master
+// 等同于
+git push origin --delete master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面命令表示删除&lt;code&gt;origin&lt;/code&gt;主机的&lt;code&gt;master&lt;/code&gt;分支。&lt;/p&gt;
+&lt;h2 id=&#34;追踪关系&#34;&gt;追踪关系&lt;/h2&gt;
+&lt;p&gt;如果当前分支与远程分支之间存在追踪关系，则本地分支和远程分支都可以省略。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面命令表示，将当前分支推送到&lt;code&gt;origin&lt;/code&gt;主机的对应分支。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;如果当前分支只有一个追踪分支，那么主机名都可以省略。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;p&gt;如果当前分支与多个主机存在追踪关系，则可以使用&lt;code&gt;-u&lt;/code&gt;选项指定一个默认主机，这样后面就可以不加任何参数使用&lt;code&gt;git push&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push -u origin master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面命令将本地的&lt;code&gt;master&lt;/code&gt;分支推送到&lt;code&gt;origin&lt;/code&gt;主机，同时指定&lt;code&gt;origin&lt;/code&gt;为默认主机，后面就可以不加任何参数使用&lt;code&gt;git push&lt;/code&gt;了。&lt;/p&gt;
+&lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
+&lt;h3 id=&#34;-all&#34;&gt;--all&lt;/h3&gt;
+&lt;p&gt;不带任何参数的&lt;code&gt;git push&lt;/code&gt;，默认只推送当前分支，这叫做simple方式。此外，还有一种matching方式，会推送所有有对应的远程分支的本地分支。Git 2.0版本之前，默认采用matching方法，现在改为默认采用simple方式。如果要修改这个设置，可以采用&lt;code&gt;git config&lt;/code&gt;命令。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git config --global push.default matching
+git config --global push.default simple
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;还有一种情况，就是不管是否存在对应的远程分支，将本地的所有分支都推送到远程主机，这时需要使用&lt;code&gt;--all&lt;/code&gt;选项。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push --all origin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面命令表示，将所有本地分支都推送到&lt;code&gt;origin&lt;/code&gt;主机。&lt;/p&gt;
+&lt;h3 id=&#34;-force&#34;&gt;--force&lt;/h3&gt;
+&lt;p&gt;如果远程主机的版本比本地版本更新，推送时Git会报错，要求先在本地做&lt;code&gt;git pull&lt;/code&gt;合并差异，然后再推送到远程主机。这时，如果你一定要推送，可以使用&lt;code&gt;--force&lt;/code&gt;选项。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push --force origin 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面命令使用&lt;code&gt;--force&lt;/code&gt;选项，结果导致远程主机上更新的版本被覆盖。除非你很确定要这样做，否则应该尽量避免使用&lt;code&gt;--force&lt;/code&gt;选项。&lt;/p&gt;
+&lt;h3 id=&#34;-tags&#34;&gt;--tags&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;git push&lt;/code&gt;不会推送标签（tag），除非使用&lt;code&gt;--tags&lt;/code&gt;选项。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin --tags
+&lt;/code&gt;&lt;/pre&gt;
+">git-push</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-pull/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;既然我们已经知道了如何用 &lt;code&gt;git fetch&lt;/code&gt; 获取远程的数据, 现在我们学习如何将这些变化更新到我们的工作当中。&lt;/p&gt;
+&lt;p&gt;其实有很多方法的 —— 当远程分支中有新的提交时，你可以像合并本地分支那样来合并远程分支。也就是说就是你可以执行以下命令:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git cherry-pick o/main&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git rebase o/main&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git merge o/main&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;等等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 &lt;code&gt;git pull&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;即&lt;code&gt;git pull&lt;/code&gt;相当于&lt;code&gt;git fetch&lt;/code&gt; 和 &lt;code&gt;git merge o/main&lt;/code&gt;的缩写，取回远程主机某个分支的更新，再与本地的指定分支合并。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624778165211.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;注意点&#34;&gt;注意点&lt;/h2&gt;
+&lt;p&gt;即使当前分支有没有 commit 的变动，也可以使用&lt;code&gt;git pull&lt;/code&gt;从远程拉取分支。&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;p&gt;git pull完整格式&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git pull &amp;lt;远程主机名&amp;gt; &amp;lt;远程分支名&amp;gt;:&amp;lt;本地分支名&amp;gt;
+git pull origin next:master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;p&gt;如果远程分支是与当前分支合并，则冒号后面的部分可以省略。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git pull origin next
+// 相当于
+git fetch origin
+git merge origin/next
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;追踪关系&#34;&gt;追踪关系&lt;/h2&gt;
+&lt;p&gt;在某些场合，Git会自动在本地分支与远程分支之间，建立一种追踪关系（tracking）。比如，在&lt;code&gt;git clone&lt;/code&gt;的时候，所有本地分支默认与远程主机的同名分支，建立追踪关系，也就是说，本地的&lt;code&gt;master&lt;/code&gt;分支自动&amp;quot;追踪&amp;quot;&lt;code&gt;origin/master&lt;/code&gt;分支。&lt;/p&gt;
+&lt;p&gt;建立追踪关系，在现有分支与指定的远程分支之间&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch --set-upstream-to=origin/[remote-branch] [branch]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;p&gt;如果当前分支与远程分支存在追踪关系，&lt;code&gt;git pull&lt;/code&gt;就可以省略远程分支名。&lt;/p&gt;
+&lt;p&gt;即本地的当前分支自动与对应的&lt;code&gt;origin&lt;/code&gt;主机&amp;quot;追踪分支&amp;quot;（remote-tracking branch）进行合并。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git pull origin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;p&gt;如果当前分支只有一个追踪分支，连远程主机名都可以省略。&lt;/p&gt;
+&lt;p&gt;即当前分支自动与唯一一个追踪分支进行合并。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git pull
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
+&lt;h3 id=&#34;-rebase&#34;&gt;--rebase&lt;/h3&gt;
+&lt;p&gt;如果合并需要采用rebase模式，可以使用&lt;code&gt;--rebase&lt;/code&gt;选项。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git pull --rebase&lt;/code&gt;相当于&lt;code&gt;git fetch&lt;/code&gt; 和 &lt;code&gt;git rebase o/main&lt;/code&gt;的缩写&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git pull --rebase &amp;lt;远程主机名&amp;gt; &amp;lt;远程分支名&amp;gt;:&amp;lt;本地分支名&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;-p&#34;&gt;-p&lt;/h3&gt;
+&lt;p&gt;如果远程主机删除了某个分支，默认情况下，&lt;code&gt;git pull&lt;/code&gt; 不会在拉取远程分支的时候，删除对应的本地分支。这是为了防止，由于其他人操作了远程主机，导致&lt;code&gt;git pull&lt;/code&gt;不知不觉删除了本地分支。&lt;/p&gt;
+&lt;p&gt;但是，你可以改变这个行为，加上参数 &lt;code&gt;-p&lt;/code&gt; 就会在本地删除远程已经删除的分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git pull -p
+// 等同于
+git fetch --prune origin
+git fetch -p
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;详解&#34;&gt;详解&lt;/h2&gt;
+&lt;p&gt;假设你周一克隆了一个仓库，然后开始研发某个新功能。到周五时，你新功能开发测试完毕，可以发布了。但是 —— 天啊！你的同事这周写了一堆代码，还改了许多你的功能中使用的 API，这些变动会导致你新开发的功能变得不可用。但是他们已经将那些提交推送到远程仓库了，因此你的工作就变成了基于项目&lt;strong&gt;旧版&lt;/strong&gt;的代码，与远程仓库最新的代码不匹配了。&lt;/p&gt;
+&lt;p&gt;这种情况下, &lt;code&gt;git push&lt;/code&gt; 就不知道该如何操作了。如果你执行 &lt;code&gt;git push&lt;/code&gt;，Git 应该让远程仓库回到星期一那天的状态吗？还是直接在新代码的基础上添加你的代码，亦或由于你的提交已经过时而直接忽略你的提交？&lt;/p&gt;
+&lt;p&gt;因为这情况（历史偏离）有许多的不确定性，Git 是不会允许你 &lt;code&gt;push&lt;/code&gt; 变更的。实际上它会强制你先合并远程最新的代码，然后才能分享你的工作。&lt;/p&gt;
+&lt;h3 id=&#34;解决方法&#34;&gt;解决方法&lt;/h3&gt;
+&lt;p&gt;方式一：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git fetch
+git rebase o/main
+git push
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们用 &lt;code&gt;git fetch&lt;/code&gt; 更新了本地仓库中的远程分支，然后用 rebase 将我们的工作移动到最新的提交记录下，最后再用 &lt;code&gt;git push&lt;/code&gt; 推送到远程仓库。&lt;/p&gt;
+&lt;p&gt;方式二：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git fetch
+git merge o/main
+git push
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们用 &lt;code&gt;git fetch&lt;/code&gt; 更新了本地仓库中的远程分支，然后&lt;strong&gt;合并&lt;/strong&gt;了新变更到我们的本地分支（为了包含远程仓库的变更），最后我们用 &lt;code&gt;git push&lt;/code&gt; 把工作推送到远程仓库&lt;/p&gt;
+&lt;p&gt;尽管 &lt;code&gt;git merge&lt;/code&gt; 不会移动你的工作（它会创建新的合并提交），但是它会告诉 Git 你已经合并了远程仓库的所有变更。这是因为远程分支现在是你本地分支的祖先，也就是说你的提交已经包含了远程分支的所有变化。&lt;/p&gt;
+&lt;p&gt;方式三：&lt;/p&gt;
+&lt;p&gt;很好！但是要敲那么多命令，有没有更简单一点的？&lt;/p&gt;
+&lt;p&gt;当然 —— 前面已经介绍过 &lt;code&gt;git pull&lt;/code&gt; 就是 fetch 和 merge 的简写，类似的 &lt;code&gt;git pull --rebase&lt;/code&gt; 就是 fetch 和 rebase 的简写！&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git pull --rebase
+git push
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git pull
+git push
+&lt;/code&gt;&lt;/pre&gt;
+">git-pull</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-fetch/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;从远程仓库获取数据，一旦远程主机的版本库有了更新（Git术语叫做commit），需要将这些更新取回本地，这时就要用到&lt;code&gt;git fetch&lt;/code&gt;命令。&lt;/p&gt;
+&lt;h3 id=&#34;git-fetch-做了些什么&#34;&gt;git fetch 做了些什么&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt; 完成了仅有的但是很重要的两步:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从远程仓库下载本地仓库中缺失的提交记录&lt;/li&gt;
+&lt;li&gt;更新远程分支指针(如 &lt;code&gt;o/main&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt; 实际上将本地仓库中的远程分支更新成了远程仓库相应分支最新的状态。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt; 通常通过互联网（使用 &lt;code&gt;http://&lt;/code&gt; 或 &lt;code&gt;git://&lt;/code&gt; 协议) 与远程仓库通信。&lt;/p&gt;
+&lt;h3 id=&#34;git-fetch-不会做的事&#34;&gt;git fetch 不会做的事&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt; 并不会改变你本地仓库的状态。它不会更新你的 &lt;code&gt;main&lt;/code&gt; 分支，也不会修改你磁盘上的文件。&lt;/p&gt;
+&lt;p&gt;理解这一点很重要，因为许多开发人员误以为执行了 &lt;code&gt;git fetch&lt;/code&gt; 以后，他们本地仓库就与远程仓库同步了。它可能已经将进行这一操作所需的所有数据都下载了下来，但是&lt;strong&gt;并没有&lt;/strong&gt;修改你本地的文件。&lt;/p&gt;
+&lt;p&gt;所以, 你可以将 &lt;code&gt;git fetch&lt;/code&gt; 的理解为单纯的下载操作。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624778106680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;获取更新&#34;&gt;获取更新&lt;/h3&gt;
+&lt;p&gt;将某个远程主机的更新，全部取回本地。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git fetch &amp;lt;远程主机名&amp;gt;
+git fetch origin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt;命令通常用来查看其他人的进程，因为它取回的代码对你本地的开发代码没有影响。&lt;/p&gt;
+&lt;p&gt;默认情况下，&lt;code&gt;git fetch&lt;/code&gt;取回所有分支（branch）的更新。如果只想取回特定分支的更新，可以指定分支名。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git fetch &amp;lt;远程主机名&amp;gt; &amp;lt;分支名&amp;gt;
+git fetch origin master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;使用更新&#34;&gt;使用更新&lt;/h3&gt;
+&lt;p&gt;取回远程主机的更新以后，可以在它的基础上，使用&lt;code&gt;git checkout&lt;/code&gt;命令创建一个新的分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -b newBrach origin/master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在本地分支上合并远程分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge origin/master
+git rebase origin/master
+&lt;/code&gt;&lt;/pre&gt;
+">git-fetch</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-clone/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;在&lt;strong&gt;本地&lt;/strong&gt;创建一个远程仓库的拷贝，&lt;code&gt;git clone&lt;/code&gt;命令用于克隆远程分支。&lt;/p&gt;
+&lt;h2 id=&#34;远程仓库&#34;&gt;远程仓库&lt;/h2&gt;
+&lt;p&gt;远程仓库相当于本地仓库的上游仓库，两者之间可以相互同步；&lt;/p&gt;
+&lt;p&gt;可以为本地仓库添加多个远程仓库，同步的时候，指定远程仓库的名称即可。&lt;/p&gt;
+&lt;h2 id=&#34;远程分支&#34;&gt;远程分支&lt;/h2&gt;
+&lt;p&gt;远程分支有一个命名规范 —— 它们的格式是:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;remote name&amp;gt;/&amp;lt;branch name&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因此，如果你看到一个名为 &lt;code&gt;o/main&lt;/code&gt; 的分支，那么这个分支就叫 &lt;code&gt;main&lt;/code&gt;，远程仓库的名称就是 &lt;code&gt;o&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;大多数的开发人员会将它们主要的远程仓库命名为 &lt;code&gt;origin&lt;/code&gt;，并不是 &lt;code&gt;o&lt;/code&gt;。这是因为当你用 &lt;code&gt;git clone&lt;/code&gt; 某个仓库时，Git 已经帮你把远程仓库的名称设置为 &lt;code&gt;origin&lt;/code&gt; 了&lt;/p&gt;
+&lt;p&gt;远程分支有一个特别的属性，在你检出时自动进入分离 HEAD 状态。Git 这么做是出于不能直接在这些分支上进行操作的原因, 你必须在别的地方完成你的工作。&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;p&gt;从远程主机克隆一个版本库&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clone https://github.com/jquery/jquery.git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从远程主机克隆一个版本库并指定本地目录名&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clone &amp;lt;版本库的网址&amp;gt; &amp;lt;本地目录名&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从远程主机克隆一个版本库并指定主机名&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clone -o jQuery https://github.com/jquery/jquery.git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;克隆某个指定分支的代码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clone -b &amp;lt;branch name&amp;gt; &amp;lt;remote url&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;远程跟踪&#34;&gt;远程跟踪&lt;/h2&gt;
+&lt;p&gt;直接了当地讲，&lt;code&gt;main&lt;/code&gt; 和 &lt;code&gt;o/main&lt;/code&gt; 的关联关系就是由分支的“remote tracking”属性决定的。&lt;code&gt;main&lt;/code&gt; 被设定为跟踪 &lt;code&gt;o/main&lt;/code&gt; —— 这意味着为 &lt;code&gt;main&lt;/code&gt; 分支指定了推送的目的地以及拉取后合并的目标。&lt;/p&gt;
+&lt;p&gt;你可能想知道 &lt;code&gt;main&lt;/code&gt; 分支上这个属性是怎么被设定的，你并没有用任何命令指定过这个属性呀！好吧, 当你克隆仓库的时候, Git 就自动帮你把这个属性设置好了。&lt;/p&gt;
+&lt;p&gt;当你克隆时, Git 会为远程仓库中的每个分支在本地仓库中创建一个远程分支（比如 &lt;code&gt;o/main&lt;/code&gt;）。然后再创建一个跟踪远程仓库中活动分支的本地分支，默认情况下这个本地分支会被命名为 &lt;code&gt;main&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;克隆完成后，你会得到一个本地分支（如果没有这个本地分支的话，你的目录就是“空白”的），但是可以查看远程仓库中所有的分支（如果你好奇心很强的话）。这样做对于本地仓库和远程仓库来说，都是最佳选择。&lt;/p&gt;
+&lt;p&gt;这也解释了为什么会在克隆的时候会看到下面的输出：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;local branch &amp;quot;main&amp;quot; set to track remote branch &amp;quot;o/main&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;指定远程跟踪&#34;&gt;指定远程跟踪&lt;/h3&gt;
+&lt;h4 id=&#34;方式一&#34;&gt;方式一&lt;/h4&gt;
+&lt;p&gt;第一种就是通过远程分支检出一个新的分支，执行:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git checkout -b totallyNotMain o/main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;就可以创建一个名为 &lt;code&gt;totallyNotMain&lt;/code&gt; 的分支，它跟踪远程分支 &lt;code&gt;o/main&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;方式二&#34;&gt;方式二&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;git branch -u&lt;/code&gt; 命令，执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git branch -u o/main foo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这样 &lt;code&gt;foo&lt;/code&gt; 就会跟踪 &lt;code&gt;o/main&lt;/code&gt; 了。如果当前就在 foo 分支上, 还可以省略 foo：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -u o/main
+&lt;/code&gt;&lt;/pre&gt;
+">git-clone</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-describe/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来&lt;strong&gt;描述&lt;/strong&gt;离你最近的锚点（也就是标签），它就是 &lt;code&gt;git describe&lt;/code&gt;！&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git describe &amp;lt;ref&amp;gt;
+git describe &amp;lt;branch&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;ref&amp;gt;&lt;/code&gt; 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（&lt;code&gt;HEAD&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;它输出的结果是这样的：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;&amp;lt;tag&amp;gt;_&amp;lt;numCommits&amp;gt;_g&amp;lt;hash&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;tag&lt;/code&gt; 表示的是离 &lt;code&gt;ref&lt;/code&gt; 最近的标签， &lt;code&gt;numCommits&lt;/code&gt; 是表示这个 &lt;code&gt;ref&lt;/code&gt; 与 &lt;code&gt;tag&lt;/code&gt; 相差有多少个提交记录， &lt;code&gt;hash&lt;/code&gt; 表示的是你所给定的 &lt;code&gt;ref&lt;/code&gt; 所表示的提交记录哈希值的前几位。&lt;/p&gt;
+&lt;p&gt;当 &lt;code&gt;ref&lt;/code&gt; 提交记录上有某个标签时，则只输出标签名称&lt;/p&gt;
+">git-describe</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-tag/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;标签&lt;em&gt;永远&lt;/em&gt;指向某个提交记录。&lt;/p&gt;
+&lt;p&gt;当软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性，我们可以打一个标签，标识了某个特定的位置。&lt;/p&gt;
+&lt;p&gt;标签不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置。&lt;/p&gt;
+&lt;p&gt;标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;新建标签&#34;&gt;新建标签&lt;/h3&gt;
+&lt;h4 id=&#34;普通标签&#34;&gt;普通标签&lt;/h4&gt;
+&lt;p&gt;新建一个tag在当前commit&lt;/p&gt;
+&lt;p&gt;如果你不指定提交记录，Git 会用 &lt;code&gt;HEAD&lt;/code&gt; 所指向的位置。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git tag [tag]
+git tag v1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;新建一个tag在指定commit&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git tag [tag] [commit]
+git tag v1 C1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;注解标签&#34;&gt;注解标签&lt;/h4&gt;
+&lt;p&gt;创建带有说明的标签，用&lt;code&gt;-a&lt;/code&gt;指定标签名，&lt;code&gt;-m&lt;/code&gt;指定说明文字&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git tag -a [VERSION] -m &amp;quot;released [VERSION]&amp;quot;
+git tag -a v0.1 -m &amp;quot;version 0.1 released&amp;quot;
+git tag -a v0.1 -m &amp;quot;version 0.1 released&amp;quot; 1094adb
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;删除标签&#34;&gt;删除标签&lt;/h3&gt;
+&lt;h4 id=&#34;删除本地标签&#34;&gt;删除本地标签&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git tag -d &amp;lt;tagname&amp;gt;
+git tag -d v1.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;删除远程标签&#34;&gt;删除远程标签&lt;/h4&gt;
+&lt;p&gt;删除本地标签后，推送到远程&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push &amp;lt;remote&amp;gt; :refs/tags/&amp;lt;tagname&amp;gt;
+git push origin :refs/tags/v1.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;删除远程标签&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin --delete &amp;lt;tagname&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;查看标签&#34;&gt;查看标签&lt;/h3&gt;
+&lt;p&gt;列出所有tag，标签不是按时间顺序列出，而是按字母排序的。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git tag
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看tag信息&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git show [tag]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;提交标签&#34;&gt;提交标签&lt;/h3&gt;
+&lt;p&gt;提交指定tag&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push [remote] [tag]
+git push origin v1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;提交所有tag&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push [remote] --tags
+git push origin --tags
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;使用标签&#34;&gt;使用标签&lt;/h3&gt;
+&lt;p&gt;新建一个分支，指向某个tag&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -b [branch] [tag]
+&lt;/code&gt;&lt;/pre&gt;
+">git-tag</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-cherry-pick/"" data-c="
+          &lt;p&gt;&lt;code&gt;git cherry-pick&lt;/code&gt;命令”复制”一个提交节点并在当前分支做一次完全一样的新提交。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cherry-pick commitID
+git cherry-pick c2 c4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624778009309.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">git-cherry-pick</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-revert/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git revert&lt;/code&gt;命令用于撤销某个具体的commit。&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git revert &amp;lt;commitID&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;撤销上一个commit,之后推送到远程&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git revert HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;revert和reset的区别&#34;&gt;revert和reset的区别&lt;/h2&gt;
+&lt;p&gt;reset（重置）：将版本回退到某个commit&lt;/p&gt;
+&lt;p&gt;恢复（revert）:  回滚某个具体的commit,将它撤销&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777944096.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">git-revert</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-reset/"" data-c="
+          &lt;h2 id=&#34;撤销区域&#34;&gt;撤销区域&lt;/h2&gt;
+&lt;h3 id=&#34;暂存区&#34;&gt;暂存区&lt;/h3&gt;
+&lt;p&gt;撤销已经添加到暂存区中的修改，即让暂存区与最近的提交保持一致，可以使用如下命令，如下三条命令等效&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git reset
+git reset HEAD
+git reset --mixed HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;撤销上一次向暂存区添加的某个指定文件，不影响工作区中的该文件&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git reset -- &amp;lt;filename&amp;gt;
+git reset -- file1 file2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;暂存区和工作区&#34;&gt;暂存区和工作区&lt;/h3&gt;
+&lt;p&gt;撤销所有暂存区和工作区中的所有变更,回复到上一次提交的状态&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git reset --hard
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;回退到指定的提交&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git reset --hard commitID
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;soft: 不改变工作区和缓存区，只移动 HEAD 到指定 commit。&lt;/li&gt;
+&lt;li&gt;mixed: 只改变缓存区，不改变工作区。这是默认参数，通常用于撤销&lt;code&gt;git add&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;hard：改变工作区和暂存区到指定 commit。该参数等同于重置，可能会引起数据损失。&lt;code&gt;git reset --hard&lt;/code&gt;等同于&lt;code&gt;git reset --hard HEAD&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-p&lt;/code&gt;表示键入交互模式，指定暂存区的哪些部分需要撤销。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;工作区&lt;/th&gt;
+&lt;th&gt;缓存区&lt;/th&gt;
+&lt;th&gt;HEAD&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;–soft&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;–mixed&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;–hard&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;// 将当期分支的指针倒退一个 commit，只改变仓库
+git reset --soft HEAD~
+// 将当期分支的指针倒退一个 commit，改变仓库，并且会改变暂存区
+git reset HEAD~
+// 将当期分支的指针倒退一个 commit，改变仓库，暂存区，工作区
+git reset --hard HEAD~
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777861958.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777870293.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">git-reset</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-xiang-dui-yin-yong/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;通过哈希值指定提交记录很不方便，所以 Git 引入了相对引用。&lt;/p&gt;
+&lt;p&gt;使用相对引用的话，你就可以从一个易于记忆的地方（比如bugFix 分支或 HEAD）开始计算。&lt;/p&gt;
+&lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
+&lt;h3 id=&#34;操作符~&#34;&gt;操作符~&lt;/h3&gt;
+&lt;p&gt;HEAD 表示当前分支的最新提交&lt;/p&gt;
+&lt;p&gt;HEAD~ 表示当前分支的最新提交的前一个提交（即最新的第二个提交，也就是最新提交的父提交）&lt;/p&gt;
+&lt;p&gt;HEAD~~ 表示当前分支的最新提交的前前提交（即最新的第三个提交，也就是最新提交的祖父提交）&lt;/p&gt;
+&lt;p&gt;HEAD~~~ 表示当前分支的最新提交的前前前提交（即最新的第四个提交，也就是最新提交的曾祖父提交）&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;HEAD~~~等效于HEAD~3&lt;/p&gt;
+&lt;p&gt;HEAD~~等效于HEAD~2&lt;/p&gt;
+&lt;p&gt;HEAD&lt;sub&gt;等效于HEAD&lt;/sub&gt;1&lt;/p&gt;
+&lt;p&gt;HEAD等效于HEAD~0&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;操作符&#34;&gt;操作符^&lt;/h3&gt;
+&lt;h4 id=&#34;单个直系父提交&#34;&gt;单个直系父提交&lt;/h4&gt;
+&lt;p&gt;把这个符号加在引用名称的后面，表示让 Git 寻找指定提交记录的父提交。&lt;/p&gt;
+&lt;p&gt;方式一&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;main^&lt;/code&gt; 相当于“&lt;code&gt;main&lt;/code&gt; 的父节点”。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;main^^&lt;/code&gt; 是 &lt;code&gt;main&lt;/code&gt; 的第二个父节点&lt;/p&gt;
+&lt;p&gt;方式二&lt;/p&gt;
+&lt;p&gt;我们也可以多次使用 &lt;code&gt;HEAD^&lt;/code&gt; 向上移动。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout HEAD^
+git checkout HEAD^
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;多个直系父提交&#34;&gt;多个直系父提交&lt;/h4&gt;
+&lt;p&gt;假如当前提交不只一个父节点，有多个直系父提交呢？&lt;/p&gt;
+&lt;p&gt;如果一个提交有多个父提交，那么 &lt;code&gt;~&lt;/code&gt; 只会找第一个父提交。&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;HEAD^2&lt;/code&gt;来找到第二个父提交&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;
+G   H   I   J
+ \ /     \ /
+  D   E   F
+   \  |  / \
+    \ | /   |
+     \|/    |
+      B     C
+       \   /
+        \ /
+         A
+ 
+A =      = A^0
+B = A^   = A^1     = A~1
+C = A^2
+D = A^^  = A^1^1   = A~2
+E = B^2  = A^^2
+F = B^3  = A^^3
+G = A^^^ = A^1^1^1 = A~3
+H = D^2  = B^^2    = A^^^2  = A~2^2
+I = F^   = B^3^    = A^^3^
+J = F^2  = B^3^2   = A^^3^2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;混合链式调用&#34;&gt;混合链式调用&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout HEAD~^2~2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;选择直系父节点的 第二个父节点的 直系第二个父节点&lt;/p&gt;
+&lt;h2 id=&#34;应用&#34;&gt;应用&lt;/h2&gt;
+&lt;h3 id=&#34;强制修改分支位置&#34;&gt;强制修改分支位置&lt;/h3&gt;
+&lt;p&gt;使用相对引用最多的就是移动分支。可以直接使用 &lt;code&gt;-f&lt;/code&gt; 选项让分支指向另一个提交。例如:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git branch -f main HEAD~3
+git branch -f dev c2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;相对引用为我们提供了一种简洁的引用提交记录 的方式， 而 &lt;code&gt;-f&lt;/code&gt; 则容许我们将分支强制移动到那个位置。&lt;/p&gt;
+">git-相对引用</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-referencezhi-zhen/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;所谓指针（reference），只是一个链接，用来指向其他物体，方便引用。Git有三种指针，但是所有指针归根结底都是指向某个commit。&lt;/p&gt;
+&lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
+&lt;h3 id=&#34;head指针&#34;&gt;HEAD指针&lt;/h3&gt;
+&lt;p&gt;头指针：指向目前所在的Branch，用来区分目前在哪个分支。&lt;/p&gt;
+&lt;p&gt;查看HEAD 指向&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat .git/HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;结果：ref: refs/heads/master&lt;/p&gt;
+&lt;p&gt;可以看出HEAD指针指向的是refs/heads/master文件，即master分支&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;如果 HEAD 指向的是一个引用,可以通过以下命令查看它的指向&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git symbolic-ref HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;branch指针&#34;&gt;Branch指针&lt;/h3&gt;
+&lt;p&gt;分支指针：指向某个commit。每次该分支有新的commit，指针就会变动，指向当前分支的最新提交。&lt;/p&gt;
+&lt;p&gt;当我们从master新建一个test分支时，git只会创建一个test分支指针，并且让test分支指针指向master分支对应的最新的提交。&lt;/p&gt;
+&lt;p&gt;查看master分支文件的内容&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat .git/refs/heads/master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;可以看到，这个文件的内容是一串哈希码，而这个哈希码正是master分支上最新的提交所对应的哈希码。&lt;/p&gt;
+&lt;h2 id=&#34;分离头&#34;&gt;分离头&lt;/h2&gt;
+&lt;p&gt;通常情况下，HEAD指针总是通过分支指针，间接的指向了当前分支的最新提交。&lt;/p&gt;
+&lt;p&gt;不通常的情况便是分离头（detached HEAD）：就是头指针和分支指针分开了，HEAD指针没有指向分支指针，而是直接指向了某个提交。&lt;/p&gt;
+&lt;p&gt;我们随便检出到某个提交，都可以进入分离头状态&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git checkout cbd3348
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;分离头的应用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;由于刚才我们直接检出了’cbd3348’这个提交，所以，我们处于分离头状态，而且当前仓库中各个文件的内容也回到了’cbd3348’这个提交对应的状态。此时创建了两个新提交，这两个新提交与分叉点之前的提交组成了一条匿名分支，没有任何一个分支标签指向这个匿名分支。我们现在有两个选择，如下：&lt;/p&gt;
+&lt;p&gt;选择一：丢弃这个匿名分支&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;直接检出到任何一个别的分支，就相当于放弃了这些提交&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;选择二：保留这个匿名分支&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;只需要将这些提交创建成一条新的分支就行了&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -b newtest
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch newtest dca15df
+&lt;/code&gt;&lt;/pre&gt;
+">git-reference(指针)</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rebase/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;将当前分支移植到指定分支或指定commit之上。&lt;/p&gt;
+&lt;p&gt;Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。&lt;/p&gt;
+&lt;p&gt;Rebase 的优势就是可以创造更线性的提交历史，这听上去有些难以理解。如果只允许使用 Rebase 的话，代码库的提交历史将会变得异常清晰。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rebase master
+git rebase c2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将当前分支移植到master分支或c2提交记录之上。&lt;/p&gt;
+&lt;p&gt;优点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rebase 使你的提交树变得很干净, 所有的提交都在一条线上&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rebase 修改了提交树的历史&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777673513.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;交互式&#34;&gt;交互式&lt;/h2&gt;
+&lt;h3 id=&#34;-iinteractive&#34;&gt;-i，—interactive&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;-i&lt;/code&gt;参数会打开互动模式，让用户选择定制&lt;code&gt;rebase&lt;/code&gt;的行为。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rebase -i HEAD~4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上述命令指定了对当前分支的最近四次提交进行操作&lt;/p&gt;
+&lt;h3 id=&#34;功能&#34;&gt;功能&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;调整提交记录的顺序（通过鼠标拖放来完成）&lt;/li&gt;
+&lt;li&gt;删除你不想要的提交（通过切换 &lt;code&gt;pick&lt;/code&gt; 的状态来完成，关闭就意味着你不想要这个提交记录）&lt;/li&gt;
+&lt;li&gt;合并提交。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;多次rebase&#34;&gt;多次rebase&lt;/h2&gt;
+&lt;p&gt;当你想将多个分支合成一条线性的提交记录时，按照提交顺序切换相应的分支，然后rebase到相应顺序节点的分支&lt;/p&gt;
+&lt;h2 id=&#34;git-merge-和-git-rebase-的区别&#34;&gt;git merge 和 git rebase 的区别&lt;/h2&gt;
+&lt;p&gt;不同于 &lt;code&gt;git rebase&lt;/code&gt; 的是，&lt;code&gt;git merge&lt;/code&gt; 在不是 fast-forward（快速合并）的情况下，会产生一条额外的合并记录，类似 &lt;code&gt;Merge branch &#39;xxx&#39; into &#39;xxx&#39;&lt;/code&gt; 的一条提交信息。&lt;/p&gt;
+&lt;p&gt;另外，在解决冲突的时候，用 merge 只需要解决一次冲突即可，简单粗暴，而用 rebase 的时候 ，需要依次解决每次的冲突，才可以提交。&lt;/p&gt;
+&lt;p&gt;git merge&lt;br&gt;
+&lt;img src=&#34;https://leecss.com/post-images/1624678535981.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;git rebase&lt;br&gt;
+&lt;img src=&#34;https://leecss.com/post-images/1624678567467.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用情况&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;当需要保留详细的合并信息的时候建议使用&lt;code&gt;git merge&lt;/code&gt;，特别是需要将分支合并进入&lt;code&gt;master&lt;/code&gt;分支时；&lt;/p&gt;
+&lt;p&gt;当发现自己修改某个功能时，频繁进行了&lt;code&gt;git commit&lt;/code&gt;提交时，发现其实过多的提交信息没有必要时，可以尝试&lt;code&gt;git rebase&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;一些开发人员喜欢保留提交历史，因此更偏爱 merge。而其他人（比如我自己）可能更喜欢干净的提交树，于是偏爱 rebase。仁者见仁，智者见智。&lt;/p&gt;
+">git-rebase</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-merge/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git merge&lt;/code&gt;命令用于合并指定分支到当前分支&lt;/p&gt;
+&lt;p&gt;将develop分支合并到当前分支，当前分支会创建新的commit对象，它有两个父节点，分别指向当前分支和develop分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge develop
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;合并方式&#34;&gt;合并方式&lt;/h2&gt;
+&lt;h3 id=&#34;普通方式&#34;&gt;普通方式&lt;/h3&gt;
+&lt;p&gt;假如此时在C1节点master分支上，创建了一个新的分支dev,然后在master分支创建新的提交C2,在dev分支上创建新的提交C3。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果合并分支之前，master分支和dev分支都有了属于自己分支的独有提交，此时只能使用普通方式进行合并。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;此时可以将master合并到dev,也可以将dev合并到master&lt;/p&gt;
+&lt;p&gt;以dev合并到master为例：&lt;/p&gt;
+&lt;p&gt;在maser分支执行&lt;code&gt;git merge dev&lt;/code&gt;，会有新的变更进入到master，新变更进入后，master分支的内容会产生变化，因此master分支需要一个新的提交来对应变化后的状态，于是，master分支的指针会指向最新产生的合并提交。&lt;/p&gt;
+&lt;p&gt;而对于dev分支来说，并没有任何内容发生变动，所以dev分支的指针仍然保持原位。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777430550.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;fast-forward快进&#34;&gt;fast-forward（快进）&lt;/h3&gt;
+&lt;p&gt;假如此时在C1节点master分支上，创建了一个新的分支dev,然后在dev分支上创建新的提交C2。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;如果合并分支之前，master分支和dev分支中只有一个分支创建了属于自己分支的独有提交，此时可以使用fast-forward进行合并。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;由于基于maste分支创建dev分支以后，master分支中并没有产生任何新的提交，如果此时想要将dev分支合并到master分支，只需要将master分支的指针指向到dev分支的最新提交，即可让master分支包含dev分支中的所有新变更。即：&lt;/p&gt;
+&lt;p&gt;&lt;u&gt;如果“指定分支”本身是当前分支的一个直接子节点，则会产生fast-forward合并，即合并不会产生新的节点，只是让当前分支指向“指定分支”的最新commit。&lt;/u&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777268946.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;冲突&#34;&gt;冲突&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777598642.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">git-merge</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-commit/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git commit&lt;/code&gt;命令用于将暂存区中的变化提交到仓库区。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-m&lt;/code&gt;参数用于指定 commit 信息，是必需的。如果省略&lt;code&gt;-m&lt;/code&gt;参数，&lt;code&gt;git commit&lt;/code&gt;会自动打开文本编辑器，要求输入。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git commit -m &amp;quot;message&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;命令行参数&#34;&gt;命令行参数&lt;/h2&gt;
+&lt;h3 id=&#34;-a&#34;&gt;-a&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;-a&lt;/code&gt;参数用于先将所有工作区的变动文件，提交到暂存区，再运行&lt;code&gt;git commit&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git commit -am &amp;quot;message&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;用了&lt;code&gt;-a&lt;/code&gt;参数，是不是就不用执行&lt;code&gt;git add .&lt;/code&gt;命令了？不是。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-m&lt;/code&gt;参数用于提交暂存区的文件&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-a&lt;/code&gt;参数用于提交追踪过的文件&lt;/p&gt;
+&lt;p&gt;文件状态按已追踪和未追踪区分，新增的文件为未追踪，&lt;code&gt;git add&lt;/code&gt;后的文件为已追踪&lt;/p&gt;
+&lt;p&gt;所以新增的文件还是要执行&lt;code&gt;git add .&lt;/code&gt;命令&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;amend&#34;&gt;—amend&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;--amend&lt;/code&gt;参数用于撤销上一次 commit，然后生成一个新的 commit。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git commit --amend -m &amp;quot;new commit message&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+">git-commit</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-add/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git add&lt;/code&gt;命令用于将变化的文件，从工作区提交到暂存区。&lt;/p&gt;
+&lt;p&gt;将指定文件放入暂存区&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add &amp;lt;file&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将指定目录下所有变化的文件，放入暂存区&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add &amp;lt;directory&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将当前目录下所有变化的文件，放入暂存区&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;-u&lt;/code&gt;参数表示只添加暂存区已有的文件（包括删除操作），但不添加新增的文件。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -u
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-A&lt;/code&gt;或者&lt;code&gt;--all&lt;/code&gt;参数表示追踪所有操作，包括新增、修改和删除。&lt;/p&gt;
+&lt;p&gt;Git 2.0 版开始，&lt;code&gt;-A&lt;/code&gt;参数成为默认，即&lt;code&gt;git add .&lt;/code&gt;等同于&lt;code&gt;git add -A&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -A
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-f&lt;/code&gt;参数表示强制添加某个文件，不管&lt;code&gt;.gitignore&lt;/code&gt;是否包含了这个文件。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -f &amp;lt;fileName&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-p&lt;/code&gt;参数表示进入交互模式，指定哪些修改需要添加到暂存区。即使是同一个文件，也可以只提交部分变动。&lt;/p&gt;
+&lt;p&gt;未跟踪(即新增的)文件不在此参数范围内&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -p
+&lt;/code&gt;&lt;/pre&gt;
+">git-add</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-branch/"" data-c="
+          &lt;h2 id=&#34;1-查看分支&#34;&gt;1、查看分支&lt;/h2&gt;
+&lt;p&gt;*表示当前分支&lt;/p&gt;
+&lt;p&gt;查看所有本地分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看分支的详细信息（commitID及message）&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看本地分支与远程分支的关联&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -vv
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看所有远程分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git branch -r
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看所有本地分支和远程分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;2-新建分支&#34;&gt;2、新建分支&lt;/h2&gt;
+&lt;h3 id=&#34;新建本地分支&#34;&gt;新建本地分支&lt;/h3&gt;
+&lt;p&gt;直接在&lt;code&gt;git branch&lt;/code&gt;后面跟上分支名，就表示新建该分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch [branch-name]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;创建后，还是停留在原来分支，需要用&lt;code&gt;git checkout&lt;/code&gt;切换到新建分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout [branch-name]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;使用&lt;code&gt;-b&lt;/code&gt;参数，可以新建的同时，切换到新分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -b [branch-name]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过远程分支检出一个新的分支，执行:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;git checkout -b [branch-name] [remote]/[remote-branch]
+git checkout -b newBranch origin/main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;就可以创建一个名为 &lt;code&gt;newBranch&lt;/code&gt; 的分支，它跟踪远程分支 &lt;code&gt;origin/main&lt;/code&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;新建一个分支，与指定的远程分支建立追踪关系&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch --track [branch] [remote]/[remote-branch]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;新建远程分支&#34;&gt;新建远程分支&lt;/h3&gt;
+&lt;p&gt;创建远程分支&lt;/p&gt;
+&lt;p&gt;创建远程分支的前提是本地有这个分支，推送到远程后，因为远程没有此分支，所以会新建&lt;/p&gt;
+&lt;p&gt;在远程主机&lt;code&gt;origin&lt;/code&gt;上创建一个dev分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push [remote] [place-branch]
+git push origin dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在远程主机&lt;code&gt;origin&lt;/code&gt;上创建一个&lt;code&gt;dev&lt;/code&gt;的分支，并与本地的同名分支建立追踪关系。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push -u [remote] [place-branch]
+git push -u origin dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;3-删除分支&#34;&gt;3、删除分支&lt;/h2&gt;
+&lt;h3 id=&#34;删除本地分支&#34;&gt;删除本地分支&lt;/h3&gt;
+&lt;p&gt;需要当前不在被删除的分支上&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-d&lt;/code&gt;参数用来删除一个分支，前提是该分支没有未合并的变动。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -d [branch-name]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;强制删除一个分支，不管有没有未合并变化。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -D [branch-name]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;删除远程分支&#34;&gt;删除远程分支&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push [remote] --delete [branch-name]
+git push origin --delete dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -dr [remote]/[remote-branch]
+git branch -dr origin/dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;4-分支改名&#34;&gt;4、分支改名&lt;/h2&gt;
+&lt;p&gt;为当前分支改名&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -m [branch-name]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;为指定分支改名&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -m [branch-name] [new-branch-name]
+git branch -m dev develop
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;5-关联远程分支&#34;&gt;5、关联远程分支&lt;/h2&gt;
+&lt;p&gt;建立追踪关系，在现有分支与指定的远程分支之间&lt;/p&gt;
+&lt;p&gt;方式一：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch --set-upstream-to=[remote]/[remote-branch] [branch]
+git branch --set-upstream-to=origin/dev dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;方式二：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git branch -u&lt;/code&gt; 命令，执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -u [remote]/[remote-branch] [branch]
+git branch -u origin/main foo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这样 &lt;code&gt;foo&lt;/code&gt; 就会跟踪 &lt;code&gt;origin/main&lt;/code&gt; 了。如果当前就在 foo 分支上, 还可以省略 foo：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -u o/main
+&lt;/code&gt;&lt;/pre&gt;
+">git-branch</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-jian-jie/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;git是目前世界上最先进的 &lt;strong&gt;分布式&lt;/strong&gt;  &lt;strong&gt;版本控制&lt;/strong&gt;系统。&lt;/p&gt;
+&lt;h3 id=&#34;分布式&#34;&gt;分布式&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;集中式版本控制系统，版本库是集中存放在中央服务器的，而干活的时候，用的都是自己的电脑，所以要先从中央服务器取得最新的版本，然后开始干活，干完活了，再把自己的活推送给中央服务器。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库,安全性要更高。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;版本控制&#34;&gt;版本控制&lt;/h3&gt;
+&lt;p&gt;通常我们保存多版本的方式，是通过拷贝一份副本，然后在副本上操作，假如我们在副本上的修改不满意，就可以从原版再拷贝一份，重新进行编辑。&lt;/p&gt;
+&lt;p&gt;git就是帮我们做版本控制的一个系统。&lt;/p&gt;
+&lt;h2 id=&#34;特点&#34;&gt;特点&lt;/h2&gt;
+&lt;h3 id=&#34;直接记录快照而非差异比较&#34;&gt;直接记录快照，而非差异比较&lt;/h3&gt;
+&lt;p&gt;Git 仓库中的提交记录保存的是你的目录下所有文件的快照，就像是把整个目录复制，然后再粘贴一样，但比复制粘贴优雅许多！&lt;/p&gt;
+&lt;p&gt;Git 希望提交记录尽可能地轻量，因此在你每次进行提交时，它并不会盲目地复制整个目录。条件允许的情况下，它会将当前版本与仓库中的上一个版本进行对比，并把所有的差异打包到一起作为一个提交记录。&lt;/p&gt;
+&lt;p&gt;Git 还保存了提交的历史记录。这也是为什么大多数提交记录的上面都有父节点的原因 —— 我们会在图示中用箭头来表示这种关系。对于项目组的成员来说，维护提交历史对大家都有好处。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1623799889637.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;分区及文件状态&#34;&gt;分区及文件状态&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Workspace：工作区&lt;/li&gt;
+&lt;li&gt;Index / Stage：暂存区&lt;/li&gt;
+&lt;li&gt;Repository：仓库区（或本地仓库）&lt;/li&gt;
+&lt;li&gt;Remote：远程仓库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Workspace：工作区，就是平时进行开发改动的地方（除了.git目录以外的其他所有文件目录），是当前看到最新的内容，在开发的过程也就是对工作区的操作。&lt;/p&gt;
+&lt;p&gt;Index：暂存区，当执行 &lt;code&gt;git add&lt;/code&gt; 的命令后，工作区的文件就会被移入暂存区，暂存区标记了当前工作区中哪些内容是被 Git 管理的，当完成某个需求或者功能后需要提交代码，第一步就是通过 &lt;code&gt;git add&lt;/code&gt; 先提交到暂存区。&lt;/p&gt;
+&lt;p&gt;Repository：本地仓库，位于自己的电脑上（隐藏文件.git目录），通过 &lt;code&gt;git commit&lt;/code&gt; 提交暂存区的内容，会进入本地仓库。&lt;/p&gt;
+&lt;p&gt;Remote：远程仓库，用来托管代码的服务器，远程仓库的内容能够被分布在多个地点的处于协作关系的本地仓库修改，本地仓库修改完代码后通过 &lt;code&gt;git push&lt;/code&gt; 命令同步代码到远程仓库。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1623800678351.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624707230372.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624707238506.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">git-简介</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/sheng-huo-wang-zhan-dao-hang/"" data-c="
+          &lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.tiqianhuandai.cc/&#34;&gt;房贷计算&lt;/a&gt;&lt;/p&gt;
+">生活网站导航</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/cheng-xu-yuan-zi-yuan-hui-zong/"" data-c="
+          &lt;h2 id=&#34;写在最前面&#34;&gt;写在最前面&lt;/h2&gt;
+&lt;p&gt;互联网时代，不缺乏学习的资源，缺乏学习的心。&lt;/p&gt;
+&lt;p&gt;再一次整理这些网站，希望不负初心！&lt;/p&gt;
+&lt;h2 id=&#34;一-导航&#34;&gt;一、导航&lt;/h2&gt;
+&lt;h3 id=&#34;前端导航&#34;&gt;前端导航&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;http://nav.templatesy.com/&#34;&gt;http://nav.templatesy.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.alloyteam.com/nav/&#34;&gt;http://www.alloyteam.com/nav/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://javasoho.com/&#34;&gt;https://javasoho.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.daqianduan.com/nav&#34;&gt;https://www.daqianduan.com/nav&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://caibaojian.com/links/&#34;&gt;http://caibaojian.com/links/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://site.w3cub.com/&#34;&gt;https://site.w3cub.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://hao.f2ex.cn/&#34;&gt;https://hao.f2ex.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;二-github&#34;&gt;二、github&lt;/h2&gt;
+&lt;h3 id=&#34;2-1-前端&#34;&gt;2-1、前端&lt;/h3&gt;
+&lt;h4 id=&#34;前端资料&#34;&gt;前端资料&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://helloqingfeng.github.io/front-end-index/index.html&#34;&gt;https://helloqingfeng.github.io/front-end-index/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;前端面试&#34;&gt;前端面试&lt;/h4&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions/Questions-and-Answers&#34;&gt;https://github.com/markyun/My-blog/tree/master/Front-end-Developer-Questions/Questions-and-Answers&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2-2-综合&#34;&gt;2-2、综合&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/sdmg15/Best-websites-a-programmer-should-visit#internships&#34;&gt;https://github.com/sdmg15/Best-websites-a-programmer-should-visit#internships&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/wangdoc&#34;&gt;https://github.com/wangdoc&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;三-博客&#34;&gt;三、博客&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.ruanyifeng.com/blog/archives.html&#34;&gt;http://www.ruanyifeng.com/blog/archives.html&lt;/a&gt;&lt;/p&gt;
+">程序员资源汇总</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/"" data-c="
+          &lt;h2 id=&#34;git&#34;&gt;git&lt;/h2&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://learngitbranching.js.org/?locale=zh_CN&#34;&gt;游戏化教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://www.bookstack.cn/read/git-tutorial/README.md&#34;&gt;阮一峰&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​      &lt;a href=&#34;http://www.ruanyifeng.com/blog/2014/06/git_remote.html&#34;&gt;阮一峰blog1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​      &lt;a href=&#34;http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html&#34;&gt;阮一峰blog2&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3、&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/896043488029600&#34;&gt;廖雪峰&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4、&lt;a href=&#34;https://www.zsythink.net/&#34;&gt;朱双印&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5、&lt;a href=&#34;https://marklodato.github.io/visual-git-guide/index-zh-cn.html&#34;&gt;图解git&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6、&lt;a href=&#34;https://git-scm.com/book/zh/v2&#34;&gt;官网&lt;/a&gt;&lt;/p&gt;
+">前端教程导航</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-yu-yi-hua-ban-ben/"" data-c="
+          &lt;h2 id=&#34;版本格式&#34;&gt;版本格式&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;0.y.z&lt;/code&gt; 表示开发阶段，一切可能随时改变，非稳定版。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1.0.0&lt;/code&gt; 界定此版本为初始稳定版，后面的一切更新都基于此版本进行修改。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;版本格式：主版本号.次版本号.修订号&lt;br&gt;
+版本示例：1.2.3&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;版本号递增规则&#34;&gt;版本号递增规则&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;主版本号：当你做了不兼容的 API 修改，&lt;/li&gt;
+&lt;li&gt;次版本号：当你做了向下兼容的功能性新增，&lt;/li&gt;
+&lt;li&gt;修订号：当你做了向下兼容的问题修正。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;先行版本号和开发版本号&#34;&gt;先行版本号和开发版本号&lt;/h2&gt;
+&lt;p&gt;先行版本号(Pre-release)：意味该版本不稳定，可能存在兼容性问题。&lt;/p&gt;
+&lt;p&gt;格式为: &lt;code&gt;X.Y.Z.[a-c][正整数]&lt;/code&gt;，如 1.0.0.a1，1.0.0.b99，1.0.0.c1000。&lt;/p&gt;
+&lt;p&gt;开发版本号：常用于 CI-CD（持续集成和持续交付）&lt;/p&gt;
+&lt;p&gt;格式为:  &lt;code&gt;X.Y.Z-dev[正整数]&lt;/code&gt;，如 1.0.1-dev4&lt;/p&gt;
+&lt;h2 id=&#34;版本名称&#34;&gt;版本名称&lt;/h2&gt;
+&lt;h3 id=&#34;常见&#34;&gt;常见&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;描述方式&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;α&lt;/code&gt;或&lt;code&gt;a&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;alpha 版&lt;/td&gt;
+&lt;td&gt;内测版本，内部测试的版本，bug 较多&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;β&lt;/code&gt;或&lt;code&gt;b&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;beta 版&lt;/td&gt;
+&lt;td&gt;公测版本，给外部进行测试的版本，有缺陷&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;γ&lt;/code&gt;或&lt;code&gt;g&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Gamma 版&lt;/td&gt;
+&lt;td&gt;相当成熟的测试版，于发行版相差无几&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;rc&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Release Candidate&lt;/td&gt;
+&lt;td&gt;是前面三种测试版的进一步版本，实现了全部功能，清除了大部分 bug，接近发布倒计时，有时会进一步细分为 rc1,rc2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;其他&#34;&gt;其他&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;描述方式&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;含义&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Demo&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;演示版&lt;/td&gt;
+&lt;td&gt;只集成了正式版部分功能，无法升级&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;SP&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;SP1&lt;/td&gt;
+&lt;td&gt;是 service pack 的意思表示升级包&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Trial&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;试用版&lt;/td&gt;
+&lt;td&gt;试用版&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Unregistered&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;未注册&lt;/td&gt;
+&lt;td&gt;有功能或时间限制的版本&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Lite&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;精简版&lt;/td&gt;
+&lt;td&gt;只含有正式版核心功能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;enhance&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;增强版&lt;/td&gt;
+&lt;td&gt;属于正式版1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;free&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;免费版&lt;/td&gt;
+&lt;td&gt;自由使用版本&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;release&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;发行版&lt;/td&gt;
+&lt;td&gt;有时间限制&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;upgrade&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;升级版&lt;/td&gt;
+&lt;td&gt;有功能增强或修复 bug&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Retail&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;零售版&lt;/td&gt;
+&lt;td&gt;单独发售&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;Cardware&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;共享版&lt;/td&gt;
+&lt;td&gt;公用许可证&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;版本限定&#34;&gt;版本限定&lt;/h2&gt;
+&lt;p&gt;在进行包管理时,为了保证安装依赖的兼容性.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
+  &amp;quot;devDependencies&amp;quot;: {
+    &amp;quot;karma&amp;quot;: &amp;quot;0.13.22&amp;quot;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;表示安装 &lt;code&gt;0.13.22&lt;/code&gt; 版本的 karma.&lt;/p&gt;
+&lt;h3 id=&#34;范围描述&#34;&gt;范围描述&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;&lt;/code&gt; 小于某一版本号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;=&lt;/code&gt; 小于等于某一版本号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;gt;&lt;/code&gt; 大于某一版本号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;gt;=&lt;/code&gt; 大于等于某一版本号&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;=&lt;/code&gt; 等于某一版本号,没有意义和直接写该版本号一样&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;~&lt;/code&gt; 基于版本号描述的最新补丁版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;^&lt;/code&gt; 基于版本号描述的最新兼容版本&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-&lt;/code&gt; 某个范围&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;严格来讲对 &lt;code&gt;~,^&lt;/code&gt; 的表述需要结合具体的包管理工具和版本号规则来确定.但是对于一般使用记住如下原则.&lt;br&gt;
+&lt;strong&gt;&lt;code&gt;^&lt;/code&gt; 是确保版本兼容性时,默认对次版本号的限定约束&lt;/strong&gt;&lt;br&gt;
+&lt;strong&gt;&lt;code&gt;~&lt;/code&gt; 是确保版本兼容性时,默认对补丁号的约束&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;利用 &lt;code&gt;^,~&lt;/code&gt; 的意义在于确保工具包对依赖版本的兼容性,排除主版本更迭,&lt;br&gt;
+造成依赖失效的可能.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;版本描述&#34;&gt;版本描述&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;*&lt;/code&gt; 通配符&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x,X&lt;/code&gt; 约等于 &lt;code&gt;*&lt;/code&gt; 号,通常用于次版本和补丁的通配.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;0.x&lt;/code&gt; 警惕这种版本,说明该依赖还未稳定(&lt;strong&gt;如果它遵守语义化命名的话&lt;/strong&gt;),此外由于 &lt;code&gt;0.x&lt;/code&gt; 版本随时可能改变,此时 &lt;code&gt;^,~&lt;/code&gt; 的都表示为对补丁版的限制.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;&amp;lt; 1.2.3     小于1.2.3 的版本均可 
+= 1.2.3     只支持等于1.2.3 的版本 
+&amp;lt;= 1.2.3    只支持小于等于1.2.3 的版本
+&amp;gt; 1.2.3     只支持大于 1.2.3 的版本
+&amp;gt;= 1.2.3    只支持大于等于 1.2.3 的版本
+1.2.3-2     支持 &amp;gt;=1.2.3 &amp;lt;3.0.0 的版本
+1.x.1       支持 &amp;gt;=1.0.1 &amp;lt;1.1.0 的版本
+*           支持 &amp;gt;= 0.0.0 的版本
+&amp;quot;&amp;quot;          同 *
+1           表示 &amp;gt;=1.0.0 &amp;lt;2.0.0 其余任意位置为空相似
+1.0         &amp;gt;= 1.0.0 &amp;lt; 1.1.0
+~1.1.1      &amp;gt;=1.1.1 &amp;lt;1.2.0
+~1.1        &amp;gt;=1.1.0 &amp;lt;1.2.0
+~1          &amp;gt;=1.0.0 &amp;lt;2.0.0
+^1.1.1      &amp;gt;=1.1.1 &amp;lt;2.0.0
+^0.1.1      &amp;gt;=0.1.1 &amp;lt;0.2.0 注意这里,不要以为是 0.1.1-1.0.0 之间
+^0.0.1      &amp;gt;=0.0.1 &amp;lt;0.0.2 同上,请注意
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;主要版本&#34;&gt;主要版本&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;指定版本：比如 &lt;code&gt;1.2.2&lt;/code&gt; ，遵循“大版本.次要版本.小版本”的格式规定，安装时只安装指定版本。&lt;/li&gt;
+&lt;li&gt;波浪号（&lt;code&gt;tilde&lt;/code&gt;）+指定版本：比如 &lt;code&gt;~1.2.2&lt;/code&gt; ，表示安装 &lt;code&gt;1.2.x&lt;/code&gt; 的最新版本（不低于&lt;code&gt;1.2.2&lt;/code&gt;），但是不安装 &lt;code&gt;1.3.x&lt;/code&gt;，也就是说安装时不改变大版本号和次要版本号。&lt;/li&gt;
+&lt;li&gt;插入号（&lt;code&gt;caret&lt;/code&gt;）+指定版本：比如 &lt;code&gt;ˆ1.2.2&lt;/code&gt;，表示安装 &lt;code&gt;1.x.x&lt;/code&gt; 的最新版本（不低于 &lt;code&gt;1.2.2&lt;/code&gt;），但是不安装 &lt;code&gt;2.x.x&lt;/code&gt;，也就是说安装时不改变大版本号。需要注意的是，如果大版本号为 0，则插入号的行为与波浪号相同，这是因为此时处于开发阶段，即使是次要版本号变动，也可能带来程序的不兼容。&lt;/li&gt;
+&lt;li&gt;latest：安装最新版本。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;文档&#34;&gt;文档&lt;/h2&gt;
+&lt;p&gt;https://semver.org/lang/zh-CN/&lt;/p&gt;
+&lt;p&gt;https://getcomposer.org/doc/articles/versions.md&lt;/p&gt;
+">git-语义化版本</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/google-cha-jian/"" data-c="
+          &lt;h2 id=&#34;1-bluesea&#34;&gt;1、BlueSea&lt;/h2&gt;
+&lt;p&gt;GitHub 链接：https://github.com/jiangqizheng/BlueSea 。&lt;/p&gt;
+&lt;p&gt;介绍：帮助翻译及记忆英语单词&lt;/p&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;1、下载或者克隆代码到本地&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clone https://github.com/jiangqizheng/BlueSea
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;2.打开 Chrome 浏览器，在地址栏中输入chrome://extensions/，打开开发者模式，并选择加载已解压的扩展程序，选择 Bluesea 的代码文件夹。&lt;/p&gt;
+&lt;h2 id=&#34;2-awesome-screenshot&#34;&gt;2、Awesome Screenshot&lt;/h2&gt;
+&lt;p&gt;下载：谷歌商店搜索安装&lt;/p&gt;
+&lt;p&gt;介绍：截图工具&lt;/p&gt;
+&lt;p&gt;快捷键：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;可视区域： Ctrl + Shift + V&lt;/p&gt;
+&lt;p&gt;选择区域:    Ctrl + Shift + S&lt;/p&gt;
+&lt;p&gt;整个页面： Ctrl + Shift + E&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;3-adblock-plus&#34;&gt;3、Adblock Plus&lt;/h2&gt;
+&lt;p&gt;下载：谷歌商店搜索安装&lt;/p&gt;
+&lt;p&gt;介绍：广告拦截&lt;/p&gt;
+&lt;h2 id=&#34;4-momentum&#34;&gt;4、Momentum&lt;/h2&gt;
+&lt;p&gt;下载：谷歌商店搜索安装&lt;/p&gt;
+&lt;p&gt;介绍：浏览器背景图片及小工具&lt;/p&gt;
+">Chrome插件</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/"" data-c="
+          &lt;p&gt;happy birthd~&lt;br&gt;
+😛😛😛&lt;/p&gt;
+">祝宝贝生日快乐</a>
+      </div>
+      
+    </div>
+    <div class="page">
+      <div id="page_ul"></div>
+    </div>
+  </div>
+</div>
+<script>
+  !function () {
+    let searchMask = document.querySelector('#search_mask');
+    let result = document.querySelector('#result');
+    let items = document.querySelectorAll('.item');
+    let searchBox = document.querySelector('#search');
+    let statCount = document.querySelector('#stat_count');
+    let statTimes = document.querySelector('#stat_times');
+    let pageUl = document.querySelector('#page_ul');
+    let close = document.querySelector('#close');
+    
+    close.addEventListener('click', function() {
+      searchMask.style = 'display: none;'
+    })
+
+    let finds = [];
+    let contents = [];
+    let pageSize = 10;
+    items.forEach(item => {
+      let a = item.querySelector('a');
+      contents.push({
+        title: a.innerText,
+        details: a.dataset.c,
+        link: a.href
+      })
+      item.remove();
+    })
+
+    function insertStr(soure, start, count) {
+      let newStr = soure.substr(start, count);
+      return soure.slice(0, start) + '<em>' + newStr + '</em>' + soure.slice(start + count);
+    }
+
+    pageUl.addEventListener('click', function(event) {
+      let target = event.target;
+      if (target.__proto__ === HTMLSpanElement.prototype) {
+        appendResults(parseInt(target.dataset.i));
+      }
+    })
+
+    function appendResults(index) {
+      let htmlResult = '';
+      let start = index || 0;
+      let end = Math.min(start + pageSize, finds.length);
+      for (let i = start; i < end; i++) {
+        const current = finds[i];
+        let html = current.title;
+        let sum = 0;
+        let positions = current.positions;
+        positions.forEach(position => {
+          html = insertStr(html, position.start + sum, position.count);
+          sum += 9;
+        })
+        htmlResult += `<div class="item"><a class="result-title" href="${current.link}">${html}</a></div>`;
+      }
+      result.innerHTML = htmlResult;
+      pageUl.innerHTML = '';
+      let count = finds.length / pageSize;
+      let lis = '';
+      if (start !== 0) {
+        lis += `<span class="fa fa-angle-left" data-i='${start - 1}'></span>`;
+      }
+      for (let i = 0; i < count; i++) {
+        lis += `<span class='${i === start?'current':''}' data-i='${i}'>${i+1}</span>`;     
+      }
+      if (start+1 < count) {
+        lis += `<span class="fa fa-angle-right" data-i='${start+1}'></span>`;  
+      }
+      pageUl.innerHTML = lis;
+    }
+
+    function search(delay) {
+      let timer = null
+      return function () {
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+          let start = Date.now();
+          let segments = searchBox.value.split(' ').filter(c => c != '');
+          if (segments.length <= 0) {
+            return;
+          }
+          finds = [];
+          let htmlResult = '';
+          contents.forEach(content => {
+            let title = content.title;
+            let positions = [];
+            let find = false;
+            segments.forEach((segment) => {
+              if (content.title.includes(segment)) {
+                find = true;
+                positions.push({
+                  start: content.title.indexOf(segment),
+                  count: segment.length
+                })
+              } else if (content.details.includes(segment)) {
+                find = true;
+              }
+            });
+            if (find) {
+              finds.push({
+                title: content.title,
+                link: content.link,
+                positions
+              });
+            }
+          })
+          appendResults(0);
+          statCount.textContent = finds.length;
+          statTimes.textContent = Date.now() - start;
+        }, delay)
+      }
+    }
+    searchBox.addEventListener('input', search(200));
+  }()
+</script>
+
+<input hidden id="copy" />
+<script>
+  !function () {
+    let times = document.querySelectorAll('.publish-time');
+    for (let i = 0; i < times.length; i++) {
+      let date = times[i].dataset.t;
+      let time = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
+      if (time < 60) {
+        str = time + '秒之前';
+      } else if (time < 3600) {
+        str = Math.floor(time / 60) + '分钟之前';
+      } else if (time >= 3600 && time < 86400) {
+        str = Math.floor(time / 3600) + '小时之前';
+      } else if (time >= 86400 && time < 259200) {
+        str = Math.floor(time / 86400) + '天之前';
+      } else {
+        str = times[i].textContent;
+      }
+      times[i].textContent = str;
+    }
+  }();
+</script>
+
+<script>
+  let language = '';
+  if (language !== '') {
+    let map = new Map();
+    if (language === 'en') {
+      map.set('search', 'Search');
+      map.set('category', 'Categories');
+      map.set('article', 'Articles');
+      map.set('tag', 'Tags');
+      map.set('top', 'Top');
+      map.set('publish', 'published');
+      map.set('minute', ' minutes');
+      map.set('read-more', 'Read More');
+      map.set('view', 'View');
+      map.set('words', ' words');
+      map.set('category-in', 'category in');
+      map.set('preview', 'Meta');
+      map.set('index', 'Toc');
+      map.set('no-archives', "You haven't created yet");
+      map.set('archives', " articles in total");
+      map.set('cloud-tags', " tags in total");
+      map.set('copyright', "Copyright: ");
+      map.set('author', "Author: ");
+      map.set('link', "Link: ");
+      map.set('leave-message', "Leave a message");
+      map.set('format', "Links Format");
+      map.set('site-name', "Name: ");
+      map.set('site-link', "Link: ");
+      map.set('site-desc', "Desc: ");
+      map.set('stat', " related results, taking ");
+      map.set('stat-time', " ms");
+      map.set('site-img', "Image: ");
+    }
+
+    if (map.size > 0) {
+      let lanElems = document.querySelectorAll('.language');
+      lanElems.forEach(elem => {
+        let lan = elem.dataset.lan, text = map.get(lan);
+        if (elem.__proto__ === HTMLInputElement.prototype) {
+          elem.placeholder = text
+        } else {
+          if (elem.dataset.count) {
+            text = elem.dataset.count + text;
+          }
+          elem.textContent = text;
+        }
+      })
+    }
+  }
+  //拿来主义(真香)^_^，Clipboard 实现摘自掘金 https://juejin.im/post/5aefeb6e6fb9a07aa43c20af
+  window.Clipboard = (function (window, document, navigator) {
+    var textArea,
+      copy;
+
+    // 判断是不是ios端
+    function isOS() {
+      return navigator.userAgent.match(/ipad|iphone/i);
+    }
+    //创建文本元素
+    function createTextArea(text) {
+      textArea = document.createElement('textArea');
+      textArea.value = text;
+      textArea.style.width = 0;
+      textArea.style.height = 0;
+      textArea.clientHeight = 0;
+      textArea.clientWidth = 0;
+      document.body.appendChild(textArea);
+    }
+    //选择内容
+    function selectText() {
+      var range,
+        selection;
+
+      if (isOS()) {
+        range = document.createRange();
+        range.selectNodeContents(textArea);
+        selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        textArea.setSelectionRange(0, 999999);
+      } else {
+        textArea.select();
+      }
+    }
+
+    //复制到剪贴板
+    function copyToClipboard() {
+      try {
+        document.execCommand("Copy")
+      } catch (err) {
+        alert("复制错误！请手动复制！")
+      }
+      document.body.removeChild(textArea);
+    }
+
+    copy = function (text) {
+      createTextArea(text);
+      selectText();
+      copyToClipboard();
+    };
+
+    return {
+      copy: copy
+    };
+  })(window, document, navigator);
+
+  function copyCode(e) {
+    if (e.srcElement.tagName === 'SPAN' && e.srcElement.classList.contains('copy-code')) {
+      let code = e.currentTarget.querySelector('code');
+      var text = code.innerText;
+      if (e.srcElement.textContent === '复制成功') {
+        return;
+      }
+      e.srcElement.textContent = '复制成功';
+      (function (elem) {
+        setTimeout(() => {
+          if (elem.textContent === '复制成功') {
+            elem.textContent = '复制代码'
+          }
+        }, 1000);
+      })(e.srcElement)
+      Clipboard.copy(text);
+    }
+  }
+
+  let pres = document.querySelectorAll('pre');
+  pres.forEach(pre => {
+    let code = pre.querySelector('code');
+    let copyElem = document.createElement('span');
+    copyElem.classList.add('copy-code');
+    copyElem.textContent = '复制代码';
+    pre.appendChild(copyElem);
+    pre.onclick = copyCode
+  })
+
+</script>
+<script src="/media/js/motion.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<script>
+  var scroll = new SmoothScroll('a[href*="#"]', {
+    speed: 200
+  });
+</script>
+
+
+<script src="/media/js/mouse/peace.js"></script>
+
+
+
+
+</html>
