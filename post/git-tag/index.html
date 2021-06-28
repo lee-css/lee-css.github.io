@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-tag | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1624805862385">
+<link rel="shortcut icon" href="/favicon.ico?v=1624891449695">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">26</span>
+        <span class="site-item-stat-count">28</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1135,6 +1135,86 @@ git push origin --tags
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-switch/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令&lt;/p&gt;
+&lt;p&gt;switch命令专门用来切换分支、创建并切换分支等&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;新建分支&#34;&gt;新建分支&lt;/h3&gt;
+&lt;p&gt;新建并切换分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git switch -c [branch-name]
+git switch -c new
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从某个快照新建并切换分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git switch -c [branch-name] [commitID]
+git switch -c new c2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从某个标签新建并切换分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git switch -c [branch-name] [tag-name]
+git switch -c new v2.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;切换分支&#34;&gt;切换分支&lt;/h3&gt;
+&lt;p&gt;切换上次所在的分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git switch -
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;切换到&lt;code&gt;dev&lt;/code&gt;分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git switch dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;与checkout的对比&#34;&gt;与checkout的对比&lt;/h2&gt;
+&lt;h3 id=&#34;checkout&#34;&gt;checkout&lt;/h3&gt;
+&lt;p&gt;checkout在分支方面的做用有两点：新建分支并切换到新建分支，切换分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -b new
+git checkout dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;switch&#34;&gt;switch&lt;/h3&gt;
+&lt;p&gt;switch中相同作用的命令&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git switch -c new
+git switch dev
+&lt;/code&gt;&lt;/pre&gt;
+">git-switch</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-checkout/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git checkout&lt;/code&gt;命令有多种用途。大致分为新建分支；切换分支、快照、标签；撤销文件。&lt;/p&gt;
+&lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
+&lt;h3 id=&#34;新建分支&#34;&gt;新建分支&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;-b&lt;/code&gt;用于生成一个新的分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -b new
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;切换分支&#34;&gt;切换分支&lt;/h3&gt;
+&lt;p&gt;回到先前所在的分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;切换到&lt;code&gt;dev&lt;/code&gt;分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;切换到指定快照commit&#34;&gt;切换到指定快照（commit）&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout &amp;lt;commitID&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;切换到某个tag&#34;&gt;切换到某个tag&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout tags/1.1.4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当本地没有叫做1.1.4的分支时，可以省略&lt;code&gt;tags/&lt;/code&gt;,直接使用标签名&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git checkout 1.1.4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;撤销文件修改&#34;&gt;撤销文件修改&lt;/h3&gt;
+&lt;h4 id=&#34;工作区&#34;&gt;工作区&lt;/h4&gt;
+&lt;p&gt;将指定文件从暂存区复制到工作区，用来丢弃工作区对该文件的修改&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -- &amp;lt;filename&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;暂存区和工作区&#34;&gt;暂存区和工作区&lt;/h4&gt;
+&lt;p&gt;指定从某个 commit 恢复指定文件，同时改变暂存区和工作区&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout HEAD~ -- &amp;lt;filename&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;-p&lt;/code&gt;参数表示进入交互模式，只恢复部分变化。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git checkout -p
+&lt;/code&gt;&lt;/pre&gt;
+">git-checkout</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/"" data-c="

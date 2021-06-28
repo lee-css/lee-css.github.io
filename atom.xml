@@ -2,13 +2,99 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-27T14:57:58.934Z</updated>
+    <updated>2021-06-28T14:44:16.736Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-switch]]></title>
+        <id>https://leecss.com/post/git-switch/</id>
+        <link href="https://leecss.com/post/git-switch/">
+        </link>
+        <updated>2021-06-28T14:43:21.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令</p>
+<p>switch命令专门用来切换分支、创建并切换分支等</p>
+<h2 id="命令">命令</h2>
+<h3 id="新建分支">新建分支</h3>
+<p>新建并切换分支</p>
+<pre><code class="language-sh">git switch -c [branch-name]
+git switch -c new
+</code></pre>
+<p>从某个快照新建并切换分支</p>
+<pre><code class="language-sh">git switch -c [branch-name] [commitID]
+git switch -c new c2
+</code></pre>
+<p>从某个标签新建并切换分支</p>
+<pre><code class="language-sh">git switch -c [branch-name] [tag-name]
+git switch -c new v2.0
+</code></pre>
+<h3 id="切换分支">切换分支</h3>
+<p>切换上次所在的分支</p>
+<pre><code class="language-sh">git switch -
+</code></pre>
+<p>切换到<code>dev</code>分支</p>
+<pre><code class="language-sh">git switch dev
+</code></pre>
+<h2 id="与checkout的对比">与checkout的对比</h2>
+<h3 id="checkout">checkout</h3>
+<p>checkout在分支方面的做用有两点：新建分支并切换到新建分支，切换分支</p>
+<pre><code class="language-sh">git checkout -b new
+git checkout dev
+</code></pre>
+<h3 id="switch">switch</h3>
+<p>switch中相同作用的命令</p>
+<pre><code class="language-sh">git switch -c new
+git switch dev
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-checkout]]></title>
+        <id>https://leecss.com/post/git-checkout/</id>
+        <link href="https://leecss.com/post/git-checkout/">
+        </link>
+        <updated>2021-06-28T13:45:44.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p><code>git checkout</code>命令有多种用途。大致分为新建分支；切换分支、快照、标签；撤销文件。</p>
+<h2 id="分类">分类</h2>
+<h3 id="新建分支">新建分支</h3>
+<p><code>-b</code>用于生成一个新的分支。</p>
+<pre><code class="language-sh">git checkout -b new
+</code></pre>
+<h3 id="切换分支">切换分支</h3>
+<p>回到先前所在的分支</p>
+<pre><code class="language-sh">git checkout
+</code></pre>
+<p>切换到<code>dev</code>分支</p>
+<pre><code class="language-sh">git checkout dev
+</code></pre>
+<h2 id="切换到指定快照commit">切换到指定快照（commit）</h2>
+<pre><code class="language-sh">git checkout &lt;commitID&gt;
+</code></pre>
+<h2 id="切换到某个tag">切换到某个tag</h2>
+<pre><code class="language-sh">git checkout tags/1.1.4
+</code></pre>
+<p>当本地没有叫做1.1.4的分支时，可以省略<code>tags/</code>,直接使用标签名</p>
+<pre><code>git checkout 1.1.4
+</code></pre>
+<h3 id="撤销文件修改">撤销文件修改</h3>
+<h4 id="工作区">工作区</h4>
+<p>将指定文件从暂存区复制到工作区，用来丢弃工作区对该文件的修改</p>
+<pre><code class="language-sh">git checkout -- &lt;filename&gt;
+</code></pre>
+<h4 id="暂存区和工作区">暂存区和工作区</h4>
+<p>指定从某个 commit 恢复指定文件，同时改变暂存区和工作区</p>
+<pre><code class="language-sh">git checkout HEAD~ -- &lt;filename&gt;
+</code></pre>
+<p><code>-p</code>参数表示进入交互模式，只恢复部分变化。</p>
+<pre><code class="language-sh">git checkout -p
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[祝宝贝生日快乐]]></title>
         <id>https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/</id>
@@ -464,93 +550,6 @@ git rebase origin/master
 </code></pre>
 <p>这样 <code>foo</code> 就会跟踪 <code>o/main</code> 了。如果当前就在 foo 分支上, 还可以省略 foo：</p>
 <pre><code class="language-sh">git branch -u o/main
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-describe]]></title>
-        <id>https://leecss.com/post/git-describe/</id>
-        <link href="https://leecss.com/post/git-describe/">
-        </link>
-        <updated>2021-06-23T00:05:00.000Z</updated>
-        <summary type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来<strong>描述</strong>离你最近的锚点（也就是标签），它就是 <code>git describe</code>！</p>
-]]></summary>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来<strong>描述</strong>离你最近的锚点（也就是标签），它就是 <code>git describe</code>！</p>
-<!-- more -->
-<pre><code class="language-sh">git describe &lt;ref&gt;
-git describe &lt;branch&gt;
-</code></pre>
-<p><code>&lt;ref&gt;</code> 可以是任何能被 Git 识别成提交记录的引用，如果你没有指定的话，Git 会以你目前所检出的位置（<code>HEAD</code>）。</p>
-<p>它输出的结果是这样的：</p>
-<pre><code class="language-sh">&lt;tag&gt;_&lt;numCommits&gt;_g&lt;hash&gt;
-</code></pre>
-<p><code>tag</code> 表示的是离 <code>ref</code> 最近的标签， <code>numCommits</code> 是表示这个 <code>ref</code> 与 <code>tag</code> 相差有多少个提交记录， <code>hash</code> 表示的是你所给定的 <code>ref</code> 所表示的提交记录哈希值的前几位。</p>
-<p>当 <code>ref</code> 提交记录上有某个标签时，则只输出标签名称</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-tag]]></title>
-        <id>https://leecss.com/post/git-tag/</id>
-        <link href="https://leecss.com/post/git-tag/">
-        </link>
-        <updated>2021-06-23T00:04:06.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>标签<em>永远</em>指向某个提交记录。</p>
-<p>当软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性，我们可以打一个标签，标识了某个特定的位置。</p>
-<p>标签不会随着新的提交而移动。你也不能检出到某个标签上面进行修改提交，它就像是提交树上的一个锚点，标识了某个特定的位置。</p>
-<p>标签总是和某个commit挂钩。如果这个commit既出现在master分支，又出现在dev分支，那么在这两个分支上都可以看到这个标签。</p>
-<h2 id="命令">命令</h2>
-<h3 id="新建标签">新建标签</h3>
-<h4 id="普通标签">普通标签</h4>
-<p>新建一个tag在当前commit</p>
-<p>如果你不指定提交记录，Git 会用 <code>HEAD</code> 所指向的位置。</p>
-<pre><code class="language-sh">git tag [tag]
-git tag v1
-</code></pre>
-<p>新建一个tag在指定commit</p>
-<pre><code>git tag [tag] [commit]
-git tag v1 C1
-</code></pre>
-<h4 id="注解标签">注解标签</h4>
-<p>创建带有说明的标签，用<code>-a</code>指定标签名，<code>-m</code>指定说明文字</p>
-<pre><code class="language-sh">git tag -a [VERSION] -m &quot;released [VERSION]&quot;
-git tag -a v0.1 -m &quot;version 0.1 released&quot;
-git tag -a v0.1 -m &quot;version 0.1 released&quot; 1094adb
-</code></pre>
-<h3 id="删除标签">删除标签</h3>
-<h4 id="删除本地标签">删除本地标签</h4>
-<pre><code class="language-sh">git tag -d &lt;tagname&gt;
-git tag -d v1.0
-</code></pre>
-<h4 id="删除远程标签">删除远程标签</h4>
-<p>删除本地标签后，推送到远程</p>
-<pre><code class="language-sh">git push &lt;remote&gt; :refs/tags/&lt;tagname&gt;
-git push origin :refs/tags/v1.0
-</code></pre>
-<p>删除远程标签</p>
-<pre><code class="language-sh">git push origin --delete &lt;tagname&gt;
-</code></pre>
-<h3 id="查看标签">查看标签</h3>
-<p>列出所有tag，标签不是按时间顺序列出，而是按字母排序的。</p>
-<pre><code class="language-sh">git tag
-</code></pre>
-<p>查看tag信息</p>
-<pre><code class="language-sh">git show [tag]
-</code></pre>
-<h3 id="提交标签">提交标签</h3>
-<p>提交指定tag</p>
-<pre><code class="language-sh">git push [remote] [tag]
-git push origin v1
-</code></pre>
-<p>提交所有tag</p>
-<pre><code class="language-sh">git push [remote] --tags
-git push origin --tags
-</code></pre>
-<h3 id="使用标签">使用标签</h3>
-<p>新建一个分支，指向某个tag</p>
-<pre><code class="language-sh">git checkout -b [branch] [tag]
 </code></pre>
 ]]></content>
     </entry>
