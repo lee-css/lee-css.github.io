@@ -2,13 +2,59 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-28T14:44:16.736Z</updated>
+    <updated>2021-06-29T15:32:18.992Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-restore]]></title>
+        <id>https://leecss.com/post/git-restore/</id>
+        <link href="https://leecss.com/post/git-restore/">
+        </link>
+        <updated>2021-06-29T15:24:10.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令</p>
+<p>switch命令专门用来切换分支、创建并切换分支等</p>
+<p>restore命令专门用来恢复(撤销)暂存区和工作区的文件</p>
+<h2 id="命令">命令</h2>
+<p>为了方便初步理解，先使用撤销</p>
+<h3 id="撤销工作区文件的修改">撤销工作区文件的修改</h3>
+<p>撤销工作区指定文件的修改 ，即从暂存区覆盖到工作区</p>
+<p>--worktree为默认参数，可以省略</p>
+<pre><code>git restore [--worktree] [file]
+</code></pre>
+<p>恢复工作区所有文件</p>
+<pre><code class="language-sh">git restore .
+</code></pre>
+<h3 id="撤销暂存区文件的修改">撤销暂存区文件的修改</h3>
+<p>撤销暂存区指定文件的修改，即从仓库覆盖到暂存区。但是被撤销的文件不会更改，会恢复到工作区。</p>
+<pre><code class="language-sh">git restore --staged [file]
+</code></pre>
+<h3 id="撤销工作区和暂存区文件的修改">撤销工作区和暂存区文件的修改</h3>
+<p>撤销工作区和暂存区文件的修改，即从仓库到暂存区和工作区</p>
+<pre><code class="language-sh">git restore --staged --worktree [file]
+</code></pre>
+<h3 id="切换工作区内容">切换工作区内容</h3>
+<p>将工作区内容切换到某个快照</p>
+<pre><code class="language-sh">git restore --source [commitID]
+// 工作区切换到上次提交
+git restore --source HEAD~
+</code></pre>
+<h2 id="参数详解">参数详解</h2>
+<p>进一步理解，使用恢复</p>
+<p>恢复一个文件，从哪里到哪里</p>
+<p>--source 来源地，即从哪里</p>
+<p>--staged 目的地，即到哪里(暂存区)</p>
+<p>--worktree 目的地，即到哪里(工作区)</p>
+<p>举例说明：假如把readme.md从上次提交同时恢复到暂存区和工作区</p>
+<pre><code class="language-sh">git restore --source HEAD~ --staged --worktree readme.md
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624980286919.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-switch]]></title>
         <id>https://leecss.com/post/git-switch/</id>
@@ -495,61 +541,6 @@ git fetch origin master
 <p>在本地分支上合并远程分支。</p>
 <pre><code class="language-sh">git merge origin/master
 git rebase origin/master
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-clone]]></title>
-        <id>https://leecss.com/post/git-clone/</id>
-        <link href="https://leecss.com/post/git-clone/">
-        </link>
-        <updated>2021-06-23T23:55:52.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>在<strong>本地</strong>创建一个远程仓库的拷贝，<code>git clone</code>命令用于克隆远程分支。</p>
-<h2 id="远程仓库">远程仓库</h2>
-<p>远程仓库相当于本地仓库的上游仓库，两者之间可以相互同步；</p>
-<p>可以为本地仓库添加多个远程仓库，同步的时候，指定远程仓库的名称即可。</p>
-<h2 id="远程分支">远程分支</h2>
-<p>远程分支有一个命名规范 —— 它们的格式是:</p>
-<ul>
-<li><code>&lt;remote name&gt;/&lt;branch name&gt;</code></li>
-</ul>
-<p>因此，如果你看到一个名为 <code>o/main</code> 的分支，那么这个分支就叫 <code>main</code>，远程仓库的名称就是 <code>o</code>。</p>
-<p>大多数的开发人员会将它们主要的远程仓库命名为 <code>origin</code>，并不是 <code>o</code>。这是因为当你用 <code>git clone</code> 某个仓库时，Git 已经帮你把远程仓库的名称设置为 <code>origin</code> 了</p>
-<p>远程分支有一个特别的属性，在你检出时自动进入分离 HEAD 状态。Git 这么做是出于不能直接在这些分支上进行操作的原因, 你必须在别的地方完成你的工作。</p>
-<h2 id="命令">命令</h2>
-<p>从远程主机克隆一个版本库</p>
-<pre><code class="language-sh">git clone https://github.com/jquery/jquery.git
-</code></pre>
-<p>从远程主机克隆一个版本库并指定本地目录名</p>
-<pre><code class="language-sh">git clone &lt;版本库的网址&gt; &lt;本地目录名&gt;
-</code></pre>
-<p>从远程主机克隆一个版本库并指定主机名</p>
-<pre><code class="language-sh">git clone -o jQuery https://github.com/jquery/jquery.git
-</code></pre>
-<p>克隆某个指定分支的代码</p>
-<pre><code class="language-sh">git clone -b &lt;branch name&gt; &lt;remote url&gt;
-</code></pre>
-<h2 id="远程跟踪">远程跟踪</h2>
-<p>直接了当地讲，<code>main</code> 和 <code>o/main</code> 的关联关系就是由分支的“remote tracking”属性决定的。<code>main</code> 被设定为跟踪 <code>o/main</code> —— 这意味着为 <code>main</code> 分支指定了推送的目的地以及拉取后合并的目标。</p>
-<p>你可能想知道 <code>main</code> 分支上这个属性是怎么被设定的，你并没有用任何命令指定过这个属性呀！好吧, 当你克隆仓库的时候, Git 就自动帮你把这个属性设置好了。</p>
-<p>当你克隆时, Git 会为远程仓库中的每个分支在本地仓库中创建一个远程分支（比如 <code>o/main</code>）。然后再创建一个跟踪远程仓库中活动分支的本地分支，默认情况下这个本地分支会被命名为 <code>main</code>。</p>
-<p>克隆完成后，你会得到一个本地分支（如果没有这个本地分支的话，你的目录就是“空白”的），但是可以查看远程仓库中所有的分支（如果你好奇心很强的话）。这样做对于本地仓库和远程仓库来说，都是最佳选择。</p>
-<p>这也解释了为什么会在克隆的时候会看到下面的输出：</p>
-<pre><code class="language-sh">local branch &quot;main&quot; set to track remote branch &quot;o/main&quot;
-</code></pre>
-<h3 id="指定远程跟踪">指定远程跟踪</h3>
-<h4 id="方式一">方式一</h4>
-<p>第一种就是通过远程分支检出一个新的分支，执行:</p>
-<pre><code>git checkout -b totallyNotMain o/main
-</code></pre>
-<p>就可以创建一个名为 <code>totallyNotMain</code> 的分支，它跟踪远程分支 <code>o/main</code>。</p>
-<h4 id="方式二">方式二</h4>
-<p><code>git branch -u</code> 命令，执行：</p>
-<pre><code>git branch -u o/main foo
-</code></pre>
-<p>这样 <code>foo</code> 就会跟踪 <code>o/main</code> 了。如果当前就在 foo 分支上, 还可以省略 foo：</p>
-<pre><code class="language-sh">git branch -u o/main
 </code></pre>
 ]]></content>
     </entry>
