@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-restore | 当下</title>
+<title>git-log | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1625067473560">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="git-restore" />
+  <meta name="description" content="git-log" />
   <meta name="keywords" content="git" />
 </head>
 
@@ -214,13 +214,14 @@
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
 <li><a href="#%E5%91%BD%E4%BB%A4">命令</a>
 <ul>
-<li><a href="#%E6%92%A4%E9%94%80%E5%B7%A5%E4%BD%9C%E5%8C%BA%E6%96%87%E4%BB%B6%E7%9A%84%E4%BF%AE%E6%94%B9">撤销工作区文件的修改</a></li>
-<li><a href="#%E6%92%A4%E9%94%80%E6%9A%82%E5%AD%98%E5%8C%BA%E6%96%87%E4%BB%B6%E7%9A%84%E4%BF%AE%E6%94%B9">撤销暂存区文件的修改</a></li>
-<li><a href="#%E6%92%A4%E9%94%80%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%92%8C%E6%9A%82%E5%AD%98%E5%8C%BA%E6%96%87%E4%BB%B6%E7%9A%84%E4%BF%AE%E6%94%B9">撤销工作区和暂存区文件的修改</a></li>
-<li><a href="#%E5%88%87%E6%8D%A2%E5%B7%A5%E4%BD%9C%E5%8C%BA%E5%86%85%E5%AE%B9">切换工作区内容</a></li>
+<li><a href="#%E5%BD%93%E5%89%8D%E5%88%86%E6%94%AF%E5%85%A8%E9%83%A8%E5%8E%86%E5%8F%B2">当前分支全部历史</a></li>
+<li><a href="#%E6%9F%90%E6%96%87%E4%BB%B6%E7%89%88%E6%9C%AC%E5%8E%86%E5%8F%B2">某文件版本历史</a></li>
+<li><a href="#%E5%88%86%E6%94%AF%E5%8F%98%E5%8A%A8%E5%8E%86%E5%8F%B2">分支变动历史</a></li>
+<li><a href="#%E6%90%9C%E7%B4%A2%E6%9F%A5%E6%89%BE%E5%8E%86%E5%8F%B2">搜索查找历史</a></li>
+<li><a href="#%E7%BE%8E%E5%8C%96%E8%BE%93%E5%87%BA">美化输出</a></li>
 </ul>
 </li>
-<li><a href="#%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3">参数详解</a></li>
+<li><a href="#%E9%80%80%E5%87%BA">退出</a></li>
 </ul>
 </li>
 </ul>
@@ -488,8 +489,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-restore/">
-      git-restore
+    <a class="post-title-link" href="https://leecss.com/post/git-log/">
+      git-log
     </a>
   </h1>
   <div class="post-meta">
@@ -497,7 +498,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-29 23:24:10">2021-06-29</span>
+      <span class="publish-time" data-t="2021-06-30 07:17:47">2021-06-30</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -516,58 +517,52 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>2<span class="language" data-lan="minute">分钟</span></span>
+      <span>1<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>382<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>215<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p>因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令</p>
-<p>switch命令专门用来切换分支、创建并切换分支等</p>
-<p>restore命令专门用来恢复(撤销)暂存区和工作区的文件</p>
+<p><code>git log</code>命令按照提交时间从最晚到最早的顺序，列出所有 commit。</p>
 <h2 id="命令">命令</h2>
-<p>为了方便初步理解，先使用撤销</p>
-<h3 id="撤销工作区文件的修改">撤销工作区文件的修改</h3>
-<p>撤销工作区指定文件的修改 ，即从暂存区覆盖到工作区</p>
-<p>--worktree为默认参数，可以省略</p>
-<pre><code>git restore [--worktree] [file]
+<h3 id="当前分支全部历史">当前分支全部历史</h3>
+<p>列出当前分支的版本历史</p>
+<pre><code class="language-sh">git log
 </code></pre>
-<p>撤销工作区所有文件</p>
-<pre><code class="language-sh">git restore .
+<p><code>--oneline</code>参数让输出时，每个 commit 只占用一行。</p>
+<pre><code class="language-sh">git log --oneline
 </code></pre>
-<h3 id="撤销暂存区文件的修改">撤销暂存区文件的修改</h3>
-<p>撤销暂存区指定文件的修改，即从仓库覆盖到暂存区。但是被撤销的文件不会更改，会恢复到工作区。</p>
-<pre><code class="language-sh">git restore --staged [file]
+<h3 id="某文件版本历史">某文件版本历史</h3>
+<p>列出某个文件的版本历史，包括文件改名</p>
+<pre><code class="language-sh">git log --follow [file]
 </code></pre>
-<p>撤销暂存区所有文件</p>
-<pre><code class="language-sh">git restore --staged .
+<h3 id="分支变动历史">分支变动历史</h3>
+<p>查看远程分支的变动情况。</p>
+<pre><code class="language-sh">git log remote/branch
 </code></pre>
-<h3 id="撤销工作区和暂存区文件的修改">撤销工作区和暂存区文件的修改</h3>
-<p>撤销工作区和暂存区文件的修改，即从仓库到暂存区和工作区</p>
-<pre><code class="language-sh">git restore --staged --worktree [file]
+<h3 id="搜索查找历史">搜索查找历史</h3>
+<p>查找log，即搜索commit信息。</p>
+<p><code>-i</code>参数表示搜索时忽略大小写。</p>
+<pre><code>git log --author=Andy
+git log -i --grep=&quot;Something in the message&quot;
 </code></pre>
-<h3 id="切换工作区内容">切换工作区内容</h3>
-<p>将工作区内容切换到某个快照</p>
-<pre><code class="language-sh">git restore --source [commitID]
-// 工作区切换到上次提交
-git restore --source HEAD~
+<h3 id="美化输出">美化输出</h3>
+<ul>
+<li>—graph commit之间将展示连线</li>
+<li>—decorate 显示commit里面的分支</li>
+<li>—pretty=oneline 只显示commit信息的标题</li>
+<li>—abbrev-commit 只显示commit SHA1的前7位</li>
+</ul>
+<pre><code>git log --graph --decorate --pretty=oneline --abbrev-commit
 </code></pre>
-<h2 id="参数详解">参数详解</h2>
-<p>进一步理解，使用恢复</p>
-<p>恢复一个文件，从哪里到哪里</p>
-<p>--source 来源地，即从哪里</p>
-<p>--staged 目的地，即到哪里(暂存区)</p>
-<p>--worktree 目的地，即到哪里(工作区)</p>
-<p>举例说明：假如把readme.md从上次提交同时恢复到暂存区和工作区</p>
-<pre><code class="language-sh">git restore --source HEAD~ --staged --worktree readme.md
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624980286919.png" alt="" loading="lazy"></figure>
+<h2 id="退出">退出</h2>
+<p>按Q退出</p>
 
             </div>
             
@@ -580,7 +575,7 @@ git restore --source HEAD~
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-restore/" title="git-restore">https://leecss.com/post/git-restore/</a>
+      <a href="https://leecss.com/post/git-log/" title="git-log">https://leecss.com/post/git-log/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -596,14 +591,14 @@ git restore --source HEAD~
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-log" href="https://leecss.com/post/git-log/">git-log</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-log" href="https://leecss.com/post/git-log/">上一篇</a>
+        <a class="nav-pc-next" title="git-reflog" href="https://leecss.com/post/git-reflog/">git-reflog</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="git-reflog" href="https://leecss.com/post/git-reflog/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-switch" href="https://leecss.com/post/git-switch/">git-switch</a>
-        <a class="nav-mobile-next" title="git-switch" href="https://leecss.com/post/git-switch/">下一篇</a>
+        <a class="nav-pc-next" title="git-restore" href="https://leecss.com/post/git-restore/">git-restore</a>
+        <a class="nav-mobile-next" title="git-restore" href="https://leecss.com/post/git-restore/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

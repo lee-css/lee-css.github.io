@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1624980309689">
+<link rel="shortcut icon" href="/favicon.ico?v=1625067473560">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -158,7 +158,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">29</span>
+        <span class="site-item-stat-count">32</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -211,6 +211,51 @@
           <small class="language" data-lan="tag">标签</small>
         </h2>
       </div>
+      
+      
+      
+      <a href="https://leecss.com/post/git-diff/">
+        <div class="motion-warpper">
+          <div class="tag-post-node">
+            <h1>
+              06-30
+              <small>git-diff</small>
+            </h1>
+          </div>
+        </div>
+      </a>
+      
+      
+      
+      
+      
+      <a href="https://leecss.com/post/git-reflog/">
+        <div class="motion-warpper">
+          <div class="tag-post-node">
+            <h1>
+              06-30
+              <small>git-reflog</small>
+            </h1>
+          </div>
+        </div>
+      </a>
+      
+      
+      
+      
+      
+      <a href="https://leecss.com/post/git-log/">
+        <div class="motion-warpper">
+          <div class="tag-post-node">
+            <h1>
+              06-30
+              <small>git-log</small>
+            </h1>
+          </div>
+        </div>
+      </a>
+      
+      
       
       
       
@@ -817,6 +862,141 @@
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-diff/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git diff&lt;/code&gt;命令用于查看文件之间的差异。&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;工作区与暂存区&#34;&gt;工作区与暂存区&lt;/h3&gt;
+&lt;p&gt;查看工作区与暂存区的差异&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看工作区与暂存区某个文件的差异&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff [file]
+git diff file.txt
+// 或
+git diff -- [file]
+git diff -- ./[file]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看工作区与暂存区多个文件的差异，以空格分隔&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff -- [file1] [file2]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看工作区与暂存区目录下所有文件的差异&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff -- [dir]/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;工作区与commit快照&#34;&gt;工作区与commit快照&lt;/h3&gt;
+&lt;p&gt;查看工作区与上一次commit之间的差异&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看工作区与某个 commit 的差异&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff [commit]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;p&gt;当我们修改工作区的内容后，我们没有暂存，也没有提交，所以此时暂存区和仓库的状态是相同的。&lt;/p&gt;
+&lt;p&gt;即此时&lt;code&gt;git diff&lt;/code&gt; 与&lt;code&gt;git diff HEAD&lt;/code&gt;返回的结果是完全相同的&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;当我们执行&lt;code&gt;git add&lt;/code&gt;命令后，此时&lt;code&gt;git diff&lt;/code&gt;不会显示任何内容，因为此时工作区与暂存区没有差异。&lt;/p&gt;
+&lt;p&gt;但是如果执行&lt;code&gt;git diff HEAD&lt;/code&gt;命令，仍然可以查看到工作区和提交之间的差异。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;假如此时再次修改工作区的内容，我们就能同时对比工作区和(暂存区/仓库)的差异&lt;/p&gt;
+&lt;p&gt;并且此时暂存区和仓库也是有差异的&lt;/p&gt;
+&lt;h3 id=&#34;暂存区与仓库区&#34;&gt;暂存区与仓库区&lt;/h3&gt;
+&lt;p&gt;查看暂存区与当前 commit 的差异&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff --cached
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;对比两次提交&#34;&gt;对比两次提交&lt;/h3&gt;
+&lt;p&gt;显示两次提交之间的差异&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff [first-commit] [second-commit]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们也可以使用引用，更加方便的对比，比如：最新提交和上一次提交&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff HEAD HEAD~
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;对比两个分支&#34;&gt;对比两个分支&lt;/h3&gt;
+&lt;p&gt;即对比两个分支上最新提交之间的差异&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff [first-branch] [second-branch]
+git diff master dev
+// 等效于
+git diff [first-branch]..[second-branch]
+git diff maste..dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看自从topic分支建立以后，master分支发生的变化&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff topic...master
+&lt;/code&gt;&lt;/pre&gt;
+">git-diff</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-reflog/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;相当于版本控制的版本控制&lt;/p&gt;
+&lt;p&gt;git reflog 可以查看所有分支的所有操作记录&lt;/p&gt;
+&lt;p&gt;包括已经被删除的 commit 记录&lt;/p&gt;
+&lt;h2 id=&#34;应用场景&#34;&gt;应用场景&lt;/h2&gt;
+&lt;p&gt;分支误删除；&lt;/p&gt;
+&lt;p&gt;节点误回退&lt;/p&gt;
+&lt;p&gt;git rebase等等&lt;/p&gt;
+&lt;p&gt;我们都可以从git reflog中找到操作记录&lt;/p&gt;
+&lt;p&gt;这时，我们找到要恢复的commitID&lt;/p&gt;
+&lt;p&gt;执行以下命令即可&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git reset --hard [commitID]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;假如说回退的节点之后，又添加了一些提交，可以配合使用cherry-pick&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cherry-pick [commitID]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;与git-log的对比&#34;&gt;与git log的对比&lt;/h2&gt;
+&lt;h3 id=&#34;reflog&#34;&gt;reflog&lt;/h3&gt;
+&lt;p&gt;reflog是一个本地结构，它记录了HEAD和分支引用在过去指向的位置，即HEAD指向的提交的有序列表。&lt;/p&gt;
+&lt;p&gt;reflog信息没法与其他任何人共享，每个人都是自己特有的reflog。&lt;/p&gt;
+&lt;p&gt;重要的一点是，它不是永久保存的，有一个可配置的过期时间，reflog中过期的信息会被自动删除。&lt;/p&gt;
+&lt;h3 id=&#34;log&#34;&gt;log&lt;/h3&gt;
+&lt;p&gt;git log显示当前HEAD及其祖先。&lt;/p&gt;
+&lt;p&gt;也就是说，它打印提交HEAD指向，然后它的父，其父，等等。&lt;/p&gt;
+&lt;p&gt;它通过递归查找每个提交的父进程遍历回购的祖先。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625067362274.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625067370478.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">git-reflog</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-log/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git log&lt;/code&gt;命令按照提交时间从最晚到最早的顺序，列出所有 commit。&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;当前分支全部历史&#34;&gt;当前分支全部历史&lt;/h3&gt;
+&lt;p&gt;列出当前分支的版本历史&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;--oneline&lt;/code&gt;参数让输出时，每个 commit 只占用一行。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git log --oneline
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;某文件版本历史&#34;&gt;某文件版本历史&lt;/h3&gt;
+&lt;p&gt;列出某个文件的版本历史，包括文件改名&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git log --follow [file]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;分支变动历史&#34;&gt;分支变动历史&lt;/h3&gt;
+&lt;p&gt;查看远程分支的变动情况。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git log remote/branch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;搜索查找历史&#34;&gt;搜索查找历史&lt;/h3&gt;
+&lt;p&gt;查找log，即搜索commit信息。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-i&lt;/code&gt;参数表示搜索时忽略大小写。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git log --author=Andy
+git log -i --grep=&amp;quot;Something in the message&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;美化输出&#34;&gt;美化输出&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;—graph commit之间将展示连线&lt;/li&gt;
+&lt;li&gt;—decorate 显示commit里面的分支&lt;/li&gt;
+&lt;li&gt;—pretty=oneline 只显示commit信息的标题&lt;/li&gt;
+&lt;li&gt;—abbrev-commit 只显示commit SHA1的前7位&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;git log --graph --decorate --pretty=oneline --abbrev-commit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;退出&#34;&gt;退出&lt;/h2&gt;
+&lt;p&gt;按Q退出&lt;/p&gt;
+">git-log</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-restore/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令&lt;/p&gt;
@@ -829,12 +1009,15 @@
 &lt;p&gt;--worktree为默认参数，可以省略&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;git restore [--worktree] [file]
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;恢复工作区所有文件&lt;/p&gt;
+&lt;p&gt;撤销工作区所有文件&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git restore .
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&#34;撤销暂存区文件的修改&#34;&gt;撤销暂存区文件的修改&lt;/h3&gt;
 &lt;p&gt;撤销暂存区指定文件的修改，即从仓库覆盖到暂存区。但是被撤销的文件不会更改，会恢复到工作区。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git restore --staged [file]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;撤销暂存区所有文件&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git restore --staged .
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&#34;撤销工作区和暂存区文件的修改&#34;&gt;撤销工作区和暂存区文件的修改&lt;/h3&gt;
 &lt;p&gt;撤销工作区和暂存区文件的修改，即从仓库到暂存区和工作区&lt;/p&gt;
