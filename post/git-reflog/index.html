@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-reflog | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1625067473560">
+<link rel="shortcut icon" href="/favicon.ico?v=1625099727545">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">32</span>
+        <span class="site-item-stat-count">33</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1094,6 +1094,26 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rev-parse/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;显示某个指示符的SHA1哈希值。&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;p&gt;通过提交名获取到对应提交的哈希码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rev-parse HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过哈希码的缩写获取到完整的哈希码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rev-parse a63d5b
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过分支名获取到对应提交的哈希码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rev-parse master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过标签名获取到对应提交的哈希码&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rev-parse v1.0.0
+&lt;/code&gt;&lt;/pre&gt;
+">git-rev-parse</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-diff/"" data-c="
@@ -2132,7 +2152,7 @@ git rebase c2
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge develop
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;合并方式&#34;&gt;合并方式&lt;/h2&gt;
-&lt;h3 id=&#34;普通方式&#34;&gt;普通方式&lt;/h3&gt;
+&lt;h3 id=&#34;非快进方式&#34;&gt;非快进方式&lt;/h3&gt;
 &lt;p&gt;假如此时在C1节点master分支上，创建了一个新的分支dev,然后在master分支创建新的提交C2,在dev分支上创建新的提交C3。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;如果合并分支之前，master分支和dev分支都有了属于自己分支的独有提交，此时只能使用普通方式进行合并。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;此时可以将master合并到dev,也可以将dev合并到master&lt;/p&gt;
@@ -2147,7 +2167,47 @@ git rebase c2
 &lt;p&gt;&lt;u&gt;如果“指定分支”本身是当前分支的一个直接子节点，则会产生fast-forward合并，即合并不会产生新的节点，只是让当前分支指向“指定分支”的最新commit。&lt;/u&gt;&lt;/p&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777268946.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;冲突&#34;&gt;冲突&lt;/h2&gt;
+&lt;p&gt;当我们合并分支的时候，如果当前分支和要被合并的分支在同一个地方修改了不同的内容，会发生冲突，自动合并失败，需要人为解决。&lt;/p&gt;
+&lt;h3 id=&#34;解决冲突&#34;&gt;解决冲突&lt;/h3&gt;
+&lt;p&gt;git会使用如下结构，将冲突的内容标注起来&lt;/p&gt;
+&lt;p&gt;git会将当前分支中的内容放在 “&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD” 与 “=======” 之间。&lt;/p&gt;
+&lt;p&gt;git会将合并分支中的内容放在 “=======”  与 “&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; new” 之间。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD
+
+=======
+
+&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; BranchName
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当我们手动解决完之后，重新添加并提交即可。&lt;/p&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777598642.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;放弃合并&#34;&gt;放弃合并&lt;/h3&gt;
+&lt;p&gt;当我们执行git merge --abort命令以后，git就取消了本次合并操作&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge --abort
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
+&lt;h3 id=&#34;-no-ff&#34;&gt;--no-ff&lt;/h3&gt;
+&lt;p&gt;明确指定不使用”Fast-forward”的模式进行合并&lt;/p&gt;
+&lt;p&gt;即使合并条件满足”Fast-forward”模式，也不使用快进的方式进行合并，而是使用创建合并提交的方式进行合并。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge --no-ff [branch]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;-ff-only&#34;&gt;--ff-only&lt;/h3&gt;
+&lt;p&gt;当能使用”Fast-forward”模式合并时，合并正常执行，当不能使用”Fast-forward”模式合并时，取消合并。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git merge --ff-only [branch]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;-squash&#34;&gt;--squash&lt;/h3&gt;
+&lt;p&gt;压缩提交记录，即将被合并分支的提交记录合并为一个&lt;/p&gt;
+&lt;p&gt;当dev分支上有多条细小琐碎的提交时，可以使用这种合并方式，将dev分支合并到master&lt;/p&gt;
+&lt;p&gt;这样master主分支上的提交记录会看起来比较清爽，缺点是不会保留原作者&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge --squash [branch]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;-no-edit&#34;&gt;--no-edit&lt;/h3&gt;
+&lt;p&gt;让合并提交直接使用默认生成的注释，默认注释为&lt;code&gt;Merge branch ‘BranchName&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge --no-edit [branch]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;-m&#34;&gt;-m&lt;/h3&gt;
+&lt;p&gt;合并提交自定义注释信息&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge [branch] --no-ff -m &amp;quot;message&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
 ">git-merge</a>
       </div>
       

@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-revert | 当下</title>
+<title>git-rev-parse | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1625099727545">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="git-revert" />
+  <meta name="description" content="git-rev-parse" />
   <meta name="keywords" content="git" />
 </head>
 
@@ -212,7 +212,7 @@
 <li>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
-<li><a href="#revert%E5%92%8Creset%E7%9A%84%E5%8C%BA%E5%88%AB">revert和reset的区别</a></li>
+<li><a href="#%E5%91%BD%E4%BB%A4">命令</a></li>
 </ul>
 </li>
 </ul>
@@ -480,8 +480,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-revert/">
-      git-revert
+    <a class="post-title-link" href="https://leecss.com/post/git-rev-parse/">
+      git-rev-parse
     </a>
   </h1>
   <div class="post-meta">
@@ -489,7 +489,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-22 07:38:48">2021-06-22</span>
+      <span class="publish-time" data-t="2021-06-30 23:48:04">2021-06-30</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -513,24 +513,27 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>68<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>99<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p><code>git revert</code>命令用于撤销某个具体的commit。</p>
-<!-- more -->
-<pre><code class="language-sh">git revert &lt;commitID&gt;
+<p>显示某个指示符的SHA1哈希值。</p>
+<h2 id="命令">命令</h2>
+<p>通过提交名获取到对应提交的哈希码</p>
+<pre><code class="language-sh">git rev-parse HEAD
 </code></pre>
-<p>撤销上一个commit,之后推送到远程</p>
-<pre><code class="language-sh">git revert HEAD
+<p>通过哈希码的缩写获取到完整的哈希码</p>
+<pre><code class="language-sh">git rev-parse a63d5b
 </code></pre>
-<h2 id="revert和reset的区别">revert和reset的区别</h2>
-<p>reset（重置）：将版本回退到某个commit</p>
-<p>恢复（revert）:  回滚某个具体的commit,将它撤销</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624777944096.gif" alt="" loading="lazy"></figure>
+<p>通过分支名获取到对应提交的哈希码</p>
+<pre><code class="language-sh">git rev-parse master
+</code></pre>
+<p>通过标签名获取到对应提交的哈希码</p>
+<pre><code class="language-sh">git rev-parse v1.0.0
+</code></pre>
 
             </div>
             
@@ -543,7 +546,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-revert/" title="git-revert">https://leecss.com/post/git-revert/</a>
+      <a href="https://leecss.com/post/git-rev-parse/" title="git-rev-parse">https://leecss.com/post/git-rev-parse/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -558,15 +561,11 @@
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-cherry-pick" href="https://leecss.com/post/git-cherry-pick/">git-cherry-pick</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-cherry-pick" href="https://leecss.com/post/git-cherry-pick/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-reset" href="https://leecss.com/post/git-reset/">git-reset</a>
-        <a class="nav-mobile-next" title="git-reset" href="https://leecss.com/post/git-reset/">下一篇</a>
+        <a class="nav-pc-next" title="git-diff" href="https://leecss.com/post/git-diff/">git-diff</a>
+        <a class="nav-mobile-next" title="git-diff" href="https://leecss.com/post/git-diff/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

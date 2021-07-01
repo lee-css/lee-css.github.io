@@ -2,13 +2,36 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-06-30T15:40:37.035Z</updated>
+    <updated>2021-07-01T00:35:31.304Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-rev-parse]]></title>
+        <id>https://leecss.com/post/git-rev-parse/</id>
+        <link href="https://leecss.com/post/git-rev-parse/">
+        </link>
+        <updated>2021-06-30T15:48:04.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>显示某个指示符的SHA1哈希值。</p>
+<h2 id="命令">命令</h2>
+<p>通过提交名获取到对应提交的哈希码</p>
+<pre><code class="language-sh">git rev-parse HEAD
+</code></pre>
+<p>通过哈希码的缩写获取到完整的哈希码</p>
+<pre><code class="language-sh">git rev-parse a63d5b
+</code></pre>
+<p>通过分支名获取到对应提交的哈希码</p>
+<pre><code class="language-sh">git rev-parse master
+</code></pre>
+<p>通过标签名获取到对应提交的哈希码</p>
+<pre><code class="language-sh">git rev-parse v1.0.0
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-diff]]></title>
         <id>https://leecss.com/post/git-diff/</id>
@@ -453,37 +476,6 @@ cat .git/refs/heads/master
 <h2 id="在当前目录下创建一个新的目录">在当前目录下创建一个新的目录</h2>
 <pre><code class="language-sh">git init &lt;repository-name&gt;
 git init place
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-安装]]></title>
-        <id>https://leecss.com/post/git-an-zhuang/</id>
-        <link href="https://leecss.com/post/git-an-zhuang/">
-        </link>
-        <updated>2021-06-27T05:57:14.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="windows">windows</h2>
-<p>从官方网站上下载安装包，按照默认配置快速安装（一直下一步），访问git官网，即可下载git，git的官方网址如下：</p>
-<p><a href="https://git-scm.com/downloads">https://git-scm.com/downloads</a></p>
-<p>在windows中安装git的过程中，如果你没有修改默认的设置，当安装完成后，安装程序会自动为你安装两种客户端，一种是图形化的客户端，一种是命令行的客户端，图形化的客户端被称之为”Git GUI”，命令行的客户端被称之为”Git Bash”，在系统的”开始”菜单中可以找到”Git GUI”和”Git Bash”，同时，默认情况下，当你安装完成git后，你的右键菜单中会多出两个选项，”Git GUI Here”和”Git Bash Here”，通过这两项，你可以在任何目录中打开”Git GUI”和”Git Bash”，”Git GUI”和”Git Bash”都是客户端程序，我们可以通过这两种程序中的任意一种来操作git，从而达到版本控制的目的，这两种工具在不同的使用场景下各有优势，命令行的优势在于比较通用，而且当你需要编写一些版本控制的自动化脚本时，无可避免的需要使用git命令，使用图形化的好处就是比较直观，所以，我们有可能会交替的使用这两种工具，但是主要以命令行的使用模式为主，因为只要理解了相关概念和git命令后，再去使用任何一种图形化工具，都是非常简单的。</p>
-<p>除了gitk（默认安装的图形化客户端就包含了gitk），比较出名的git图形化工具还有SourceTree、TortoiseGit、GitHubDesktop、GitKraken、GitUp等，当你熟悉了git命令以后，再去操作这些图形化工具都会变得游刃有余。</p>
-<p><strong>打开gitk图形化操作界面</strong></p>
-<pre><code class="language-sh">gitk
-</code></pre>
-<h2 id="初始化配置">初始化配置</h2>
-<p>如果想要使用git进行版本管理，我们首先要做的就是，设置自己的”用户名”和”用户邮箱”，这些信息是必须的，特别是在多人协作时，这些信息也是非常必要的，所以，在完成安装操作以后，我们首先要做的就是设置自己的”用户名”和”用户邮箱”，这些信息只需要设置一次，就可以一直正常的使用git，除非你有需要修改这些信息。</p>
-<h3 id="设置用户名和邮箱">设置用户名和邮箱</h3>
-<pre><code class="language-sh">git config --global user.name &quot;lee&quot;
-git config --global user.email &quot;lee@emial.com&quot;
-</code></pre>
-<h3 id="查看自己的用户名和邮箱设置">查看自己的用户名和邮箱设置</h3>
-<pre><code class="language-sh">git config --global --list
-</code></pre>
-<h3 id="参数">参数</h3>
-<pre><code class="language-sh">git config --system：使对应配置针对系统内所有的用户有效
-git config --global：使对应配置针对当前系统用户的所有仓库生效
-git config --local：使对应配置只针对当前仓库有效
-local选项设置的优先级最高。
 </code></pre>
 ]]></content>
     </entry>
