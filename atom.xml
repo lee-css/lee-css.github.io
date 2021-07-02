@@ -2,13 +2,139 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-01T00:35:31.304Z</updated>
+    <updated>2021-07-02T00:46:37.716Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-stash]]></title>
+        <id>https://leecss.com/post/git-stash/</id>
+        <link href="https://leecss.com/post/git-stash/">
+        </link>
+        <updated>2021-07-02T00:44:51.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p><code>git stash</code>命令用于暂时保存没有提交的工作。运行该命令后，所有没有commit的代码，都会暂时从工作区移除，回到上次commit时的状态。</p>
+<h2 id="命令">命令</h2>
+<h3 id="新增暂存">新增暂存</h3>
+<p>暂时保存没有提交的工作</p>
+<pre><code class="language-sh">git stash
+</code></pre>
+<h3 id="查看暂存">查看暂存</h3>
+<p>查看暂存列表</p>
+<pre><code class="language-sh">git stash list
+---
+stash@{0}: WIP on workbranch: 56cd5d4 Revert &quot;update old files&quot;
+stash@{1}: WIP on project1: 1dd87ea commit &quot;fix typos and grammar&quot;
+</code></pre>
+<p>展示目前存在的stash</p>
+<pre><code class="language-sh">git stash show -p
+</code></pre>
+<h3 id="恢复暂存">恢复暂存</h3>
+<h4 id="需手动删除">需手动删除</h4>
+<p>恢复stash 列表的第一条stash 的内容，即最近的一次暂存,不会自动删除取出的修改</p>
+<pre><code>git stash apply stash@{0}
+</code></pre>
+<p>取出指定某一次的修改,不会自动删除取出的修改</p>
+<pre><code class="language-sh">git stash apply stash@{[number]}
+git stash apply stash@{1}
+</code></pre>
+<hr>
+<h4 id="自动删除">自动删除</h4>
+<p>恢复stash 列表的第一条stash 的内容并自动删除</p>
+<pre><code class="language-sh">git stash pop stash@{0}
+</code></pre>
+<p>取出最近一次的修改并自动删除，作用同上，书写更简便</p>
+<pre><code class="language-sh">git stash pop
+</code></pre>
+<h3 id="删除暂存">删除暂存</h3>
+<p>删除stash 列表的第一条stash 的内容</p>
+<pre><code class="language-sh">git stash drop stash@{0}
+</code></pre>
+<p>清空stash 列表</p>
+<pre><code class="language-sh">git stash clear
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-remote]]></title>
+        <id>https://leecss.com/post/git-remote/</id>
+        <link href="https://leecss.com/post/git-remote/">
+        </link>
+        <updated>2021-07-02T00:18:55.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>此命令用于管理远程主机(仓库)</p>
+<h2 id="命令">命令</h2>
+<h3 id="查看">查看</h3>
+<p>列出所有远程主机</p>
+<pre><code class="language-sh">git remote
+---
+origin
+</code></pre>
+<p>查看远程主机的网址</p>
+<pre><code class="language-sh">git remote -v
+---
+origin  git@github.com:jquery/jquery.git (fetch)
+origin  git@github.com:jquery/jquery.git (push)
+</code></pre>
+<p>查看该主机的详细信息</p>
+<pre><code class="language-sh">git remote show &lt;主机名&gt;
+</code></pre>
+<h3 id="添加">添加</h3>
+<p>添加远程主机</p>
+<pre><code>git remote add &lt;主机名&gt; &lt;网址&gt;
+</code></pre>
+<h3 id="删除">删除</h3>
+<p>删除远程主机</p>
+<pre><code class="language-sh">git remote rm &lt;主机名&gt;
+</code></pre>
+<h3 id="更改名称">更改名称</h3>
+<p>更改远程主机的名称</p>
+<pre><code class="language-sh">git remote rename &lt;原主机名&gt; &lt;新主机名&gt;
+</code></pre>
+<p>克隆时指定名称</p>
+<pre><code class="language-sh">git clone -o &lt;主机名&gt; &lt;网址&gt;
+git clone -o jQuery https://github.com/jquery/jquery.git
+
+git remote
+---
+jQuery
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-mv]]></title>
+        <id>https://leecss.com/post/git-mv/</id>
+        <link href="https://leecss.com/post/git-mv/">
+        </link>
+        <updated>2021-07-01T14:44:17.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>平时我们会遇到重命名文件的情况，git会把重命名的操作理解为以下几步</p>
+<p>1、先删除了原文件</p>
+<p>2、添加了新文件</p>
+<p>3、将变更添加到暂存区</p>
+<p>以上几步可以使用git命令直接完成</p>
+<pre><code class="language-sh">git mv [old-name] [new-name]
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-rm]]></title>
+        <id>https://leecss.com/post/git-rm/</id>
+        <link href="https://leecss.com/post/git-rm/">
+        </link>
+        <updated>2021-07-01T14:34:45.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>平时我们都会有删除文件的需求，正常操作为</p>
+<p>1、在文件系统中删除某文件</p>
+<p>2、在git中将删除文件的变更添加到暂存区。</p>
+<p>上述两步操作可以通过一条命令来完成，即</p>
+<pre><code class="language-sh">git rm [file]
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-rev-parse]]></title>
         <id>https://leecss.com/post/git-rev-parse/</id>
@@ -265,217 +391,6 @@ git checkout dev
 <p>switch中相同作用的命令</p>
 <pre><code class="language-sh">git switch -c new
 git switch dev
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-checkout]]></title>
-        <id>https://leecss.com/post/git-checkout/</id>
-        <link href="https://leecss.com/post/git-checkout/">
-        </link>
-        <updated>2021-06-28T13:45:44.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git checkout</code>命令有多种用途。大致分为新建分支；切换分支、快照、标签；撤销文件。</p>
-<h2 id="分类">分类</h2>
-<h3 id="新建分支">新建分支</h3>
-<p><code>-b</code>用于生成一个新的分支。</p>
-<pre><code class="language-sh">git checkout -b new
-</code></pre>
-<h3 id="切换分支">切换分支</h3>
-<p>回到先前所在的分支</p>
-<pre><code class="language-sh">git checkout
-</code></pre>
-<p>切换到<code>dev</code>分支</p>
-<pre><code class="language-sh">git checkout dev
-</code></pre>
-<h2 id="切换到指定快照commit">切换到指定快照（commit）</h2>
-<pre><code class="language-sh">git checkout &lt;commitID&gt;
-</code></pre>
-<h2 id="切换到某个tag">切换到某个tag</h2>
-<pre><code class="language-sh">git checkout tags/1.1.4
-</code></pre>
-<p>当本地没有叫做1.1.4的分支时，可以省略<code>tags/</code>,直接使用标签名</p>
-<pre><code>git checkout 1.1.4
-</code></pre>
-<h3 id="撤销文件修改">撤销文件修改</h3>
-<h4 id="工作区">工作区</h4>
-<p>将指定文件从暂存区复制到工作区，用来丢弃工作区对该文件的修改</p>
-<pre><code class="language-sh">git checkout -- &lt;filename&gt;
-</code></pre>
-<h4 id="暂存区和工作区">暂存区和工作区</h4>
-<p>指定从某个 commit 恢复指定文件，同时改变暂存区和工作区</p>
-<pre><code class="language-sh">git checkout HEAD~ -- &lt;filename&gt;
-</code></pre>
-<p><code>-p</code>参数表示进入交互模式，只恢复部分变化。</p>
-<pre><code class="language-sh">git checkout -p
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[祝宝贝生日快乐]]></title>
-        <id>https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/</id>
-        <link href="https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/">
-        </link>
-        <updated>2021-06-27T16:05:20.000Z</updated>
-        <content type="html"><![CDATA[<p>happy birthday~<br>
-😛😛😛</p>
-<p>一岁一礼 一寸欢喜<br>
-<img src="https://leecss.com/post-images/1624805818323.jpg" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-原理]]></title>
-        <id>https://leecss.com/post/git-yuan-li/</id>
-        <link href="https://leecss.com/post/git-yuan-li/">
-        </link>
-        <updated>2021-06-27T05:58:41.000Z</updated>
-        <summary type="html"><![CDATA[<h2 id="git是如何存储信息的">git是如何存储信息的</h2>
-<p>1、初始化仓库，新建文件，并添加到暂存区</p>
-]]></summary>
-        <content type="html"><![CDATA[<h2 id="git是如何存储信息的">git是如何存储信息的</h2>
-<p>1、初始化仓库，新建文件，并添加到暂存区</p>
-<!-- more -->
-<pre><code class="language-sh">git init
-echo '111' &gt; a.txt
-echo '222' &gt; b.txt
-git add *.txt
-</code></pre>
-<pre><code class="language-sh">// 查看一下当前的git仓库中的内容
-tree .git
-
-├─hooks    
-├─info     
-├─objects  
-│  ├─4e    
-│  ├─71    
-│  ├─info  
-│  └─pack  
-└─refs     
-    ├─heads
-    └─tags 
-    
-ls -a .git/objects/4e
-./  ../  f5d11d3b99f88fb9f70b694de01db16c56ed50
-
-ls -a .git/objects/71
-./  ../  70f7d93c37a8861f0e6816780b2881ad5f58d2
-
-// 查看一下f5d11d3b99f88fb9f70b694de01db16c56ed50文件中的内容
-cat .git/objects/4e/f5d11d3b99f88fb9f70b694de01db16c56ed50
-x☺K□□OR0gP744TW□☻∟.♥☻
-// 打印出来的是一些乱码，原因是因为git对储存的内容做了二进制压缩
-</code></pre>
-<p>2、cat-file</p>
-<pre><code class="language-sh">git cat-file [-t] [-p]
-</code></pre>
-<p>-t 打印文件类型</p>
-<p>-p 打印文件具体内容</p>
-<pre><code class="language-sh">git cat-file -t 4ef5d1
-blob
-git cat-file -p 4ef5d1
-'111'
-</code></pre>
-<p>3、git object</p>
-<p>git 储存信息的最小单元，对象数据库包含四类对象。git对象创建完成后均不可变更。</p>
-<ul>
-<li>Blob：包含二进制数据，它们是文件内容。只要文件内容改变，就会在对象数据库中生成一个blob对象。注意，blob对象只保存文件内容，不含文件名和文件存储位置等信息。如果文件名改变，或者文件储存位置改变，不会生成新的blob对象。</li>
-<li>Tree：blob对象的集合，以及它们的文件名和权限。一个tree对象描述一个时点上的一个目录。</li>
-<li>Commit：描述一个时点上的项目状态，包含一条log信息，一个tree对象和指向父节点（parent commits）的指针。第一个commit对象没有父节点。
-<ul>
-<li>记录 root tree SHA1</li>
-<li>记录 parent commit SHA1</li>
-<li>记录作者、时间和 commit message</li>
-</ul>
-</li>
-<li>tag</li>
-</ul>
-<p>4、sha1哈希算法</p>
-<pre><code class="language-sh">111 -&gt; 4ef5d11d3b99f88fb9f70b694de01db16c56ed50
-</code></pre>
-<p>每个git对象都有一个哈希值，哈希值可以理解为我们的身份证号</p>
-<p><code>4ef5d11d3b99f88fb9f70b694de01db16c56ed50</code>就是内容为111类型为blob的git对象的身份证号，我们可以通过4ef5d11d3b99f88fb9f70b694de01db16c56ed50找到这个git对象</p>
-<p>5、git commit</p>
-<pre><code class="language-sh">git commit -m 'init'
-</code></pre>
-<pre><code class="language-sh">tree .git
-
-├─hooks
-├─info
-├─logs
-│  └─refs
-│      └─heads
-├─objects
-│  ├─39
-│  ├─4e
-│  ├─5f
-│  ├─71
-│  ├─info
-│  └─pack
-└─refs
-    ├─heads
-    └─tags
-    
- ls -a .git/objects/39
-./  ../  bd985025d281e7c1d1c9493c90156fb9e26ea0
-
-ls -a .git/objects/5f
-./  ../  3f16e16db5faec1bf71fab36cbad24fbddfd39
-</code></pre>
-<pre><code class="language-sh">git cat-file -t 5f3f16
-tree
-
-git cat-file -p 5f3f16
-100644 blob 4ef5d11d3b99f88fb9f70b694de01db16c56ed50    a.txt
-100644 blob 7170f7d93c37a8861f0e6816780b2881ad5f58d2    b.txt
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624773693534.png" alt="" loading="lazy"></figure>
-<pre><code class="language-sh">git cat-file -t 39bd98
-commit
-
-git cat-file -p 39bd98
-tree 5f3f16e16db5faec1bf71fab36cbad24fbddfd39
-</code></pre>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1624773720929.png" alt="" loading="lazy"></figure>
-<p>6、HEAD指针和分支</p>
-<pre><code class="language-sh">cat .git/HEAD
-ref: refs/heads/master
-
-cat .git/refs/heads/master
-39bd985025d281e7c1d1c9493c90156fb9e26ea0
-</code></pre>
-<p>可以看出，HEAD指针指向分支指针，分支指针指向最新的commit</p>
-<p>HEAD、分支、普通的Tag可以简单的理解成是一个指针，指向对应commit的SHA1值。</p>
-<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1624773733859.png" alt="" loading="lazy"></figure>
-<p>7、为什么要把文件的权限和文件名储存在Tree object里面而不是Blob object呢？</p>
-<p>因为更改一个文件名就需要新建一个Blob object，假如文件很大的话，会很占空间，而Tree object体积相对很小</p>
-<p>8、当你修改了其中一个文件，创建一个新的commit后</p>
-<figure data-type="image" tabindex="4"><img src="https://leecss.com/post-images/1624774577309.png" alt="" loading="lazy"></figure>
-<h2 id="git的三个分区">git的三个分区</h2>
-<ul>
-<li>工作目录 （ working directory ）：操作系统上的文件，所有代码开发编辑都在这上面完成。</li>
-<li>索引（ index or staging area ）：可以理解为一个暂存区域，这里面的代码会在下一次commit被提交到Git仓库。</li>
-<li>Git仓库（ git repository ）：由Git object记录着每一次提交的快照，以及链式结构记录的提交变更历史。</li>
-</ul>
-<figure data-type="image" tabindex="5"><img src="https://leecss.com/post-images/1624774695680.gif" alt="" loading="lazy"></figure>
-<h2 id="转载">转载</h2>
-<blockquote>
-<p>李泽帆</p>
-<p>https://www.lzane.com/tech/git-internal/</p>
-</blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-init]]></title>
-        <id>https://leecss.com/post/git-init/</id>
-        <link href="https://leecss.com/post/git-init/">
-        </link>
-        <updated>2021-06-27T05:58:06.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="将当前目录转为git仓库">将当前目录转为git仓库</h2>
-<p><code>git init</code>命令将当前目录转为git仓库。</p>
-<p>它会在当前目录下生成一个.git子目录，在其中写入git的配置和项目的快照。</p>
-<h2 id="在当前目录下创建一个新的目录">在当前目录下创建一个新的目录</h2>
-<pre><code class="language-sh">git init &lt;repository-name&gt;
-git init place
 </code></pre>
 ]]></content>
     </entry>

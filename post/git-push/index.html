@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-push | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1625099727545">
+<link rel="shortcut icon" href="/favicon.ico?v=1625186792279">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">33</span>
+        <span class="site-item-stat-count">37</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1133,6 +1133,120 @@ git config --global push.default simple
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-stash/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git stash&lt;/code&gt;命令用于暂时保存没有提交的工作。运行该命令后，所有没有commit的代码，都会暂时从工作区移除，回到上次commit时的状态。&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;新增暂存&#34;&gt;新增暂存&lt;/h3&gt;
+&lt;p&gt;暂时保存没有提交的工作&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;查看暂存&#34;&gt;查看暂存&lt;/h3&gt;
+&lt;p&gt;查看暂存列表&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash list
+---
+stash@{0}: WIP on workbranch: 56cd5d4 Revert &amp;quot;update old files&amp;quot;
+stash@{1}: WIP on project1: 1dd87ea commit &amp;quot;fix typos and grammar&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;展示目前存在的stash&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash show -p
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;恢复暂存&#34;&gt;恢复暂存&lt;/h3&gt;
+&lt;h4 id=&#34;需手动删除&#34;&gt;需手动删除&lt;/h4&gt;
+&lt;p&gt;恢复stash 列表的第一条stash 的内容，即最近的一次暂存,不会自动删除取出的修改&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git stash apply stash@{0}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;取出指定某一次的修改,不会自动删除取出的修改&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash apply stash@{[number]}
+git stash apply stash@{1}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;自动删除&#34;&gt;自动删除&lt;/h4&gt;
+&lt;p&gt;恢复stash 列表的第一条stash 的内容并自动删除&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash pop stash@{0}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;取出最近一次的修改并自动删除，作用同上，书写更简便&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash pop
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;删除暂存&#34;&gt;删除暂存&lt;/h3&gt;
+&lt;p&gt;删除stash 列表的第一条stash 的内容&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash drop stash@{0}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;清空stash 列表&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash clear
+&lt;/code&gt;&lt;/pre&gt;
+">git-stash</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-remote/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;此命令用于管理远程主机(仓库)&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;查看&#34;&gt;查看&lt;/h3&gt;
+&lt;p&gt;列出所有远程主机&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git remote
+---
+origin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看远程主机的网址&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git remote -v
+---
+origin  git@github.com:jquery/jquery.git (fetch)
+origin  git@github.com:jquery/jquery.git (push)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看该主机的详细信息&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git remote show &amp;lt;主机名&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;添加&#34;&gt;添加&lt;/h3&gt;
+&lt;p&gt;添加远程主机&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git remote add &amp;lt;主机名&amp;gt; &amp;lt;网址&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;删除&#34;&gt;删除&lt;/h3&gt;
+&lt;p&gt;删除远程主机&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git remote rm &amp;lt;主机名&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;更改名称&#34;&gt;更改名称&lt;/h3&gt;
+&lt;p&gt;更改远程主机的名称&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git remote rename &amp;lt;原主机名&amp;gt; &amp;lt;新主机名&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;克隆时指定名称&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clone -o &amp;lt;主机名&amp;gt; &amp;lt;网址&amp;gt;
+git clone -o jQuery https://github.com/jquery/jquery.git
+
+git remote
+---
+jQuery
+&lt;/code&gt;&lt;/pre&gt;
+">git-remote</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-mv/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;平时我们会遇到重命名文件的情况，git会把重命名的操作理解为以下几步&lt;/p&gt;
+&lt;p&gt;1、先删除了原文件&lt;/p&gt;
+&lt;p&gt;2、添加了新文件&lt;/p&gt;
+&lt;p&gt;3、将变更添加到暂存区&lt;/p&gt;
+&lt;p&gt;以上几步可以使用git命令直接完成&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git mv [old-name] [new-name]
+&lt;/code&gt;&lt;/pre&gt;
+">git-mv</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rm/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;平时我们都会有删除文件的需求，正常操作为&lt;/p&gt;
+&lt;p&gt;1、在文件系统中删除某文件&lt;/p&gt;
+&lt;p&gt;2、在git中将删除文件的变更添加到暂存区。&lt;/p&gt;
+&lt;p&gt;上述两步操作可以通过一条命令来完成，即&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git rm [file]
+&lt;/code&gt;&lt;/pre&gt;
+">git-rm</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rev-parse/"" data-c="
