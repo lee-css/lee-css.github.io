@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-merge | 当下</title>
+<title>git-配置ssh-key | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1625317652611">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="git-merge" />
+  <meta name="description" content="git-配置ssh-key" />
   <meta name="keywords" content="git" />
 </head>
 
@@ -212,28 +212,8 @@
 <li>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
-<li><a href="#%E5%90%88%E5%B9%B6%E6%96%B9%E5%BC%8F">合并方式</a>
-<ul>
-<li><a href="#%E9%9D%9E%E5%BF%AB%E8%BF%9B%E6%96%B9%E5%BC%8F">非快进方式</a></li>
-<li><a href="#fast-forward%E5%BF%AB%E8%BF%9B">fast-forward（快进）</a></li>
-</ul>
-</li>
-<li><a href="#%E5%86%B2%E7%AA%81">冲突</a>
-<ul>
-<li><a href="#%E8%A7%A3%E5%86%B3%E5%86%B2%E7%AA%81">解决冲突</a></li>
-<li><a href="#%E6%94%BE%E5%BC%83%E5%90%88%E5%B9%B6">放弃合并</a></li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E6%95%B0">参数</a>
-<ul>
-<li><a href="#-no-ff">--no-ff</a></li>
-<li><a href="#-ff-only">--ff-only</a></li>
-<li><a href="#-squash">--squash</a></li>
-<li><a href="#-no-edit">--no-edit</a></li>
-<li><a href="#-m">-m</a></li>
-</ul>
-</li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB">推荐阅读</a></li>
+<li><a href="#%E5%8D%95%E4%B8%AA">单个</a></li>
+<li><a href="#%E5%A4%9A%E4%B8%AA">多个</a></li>
 </ul>
 </li>
 </ul>
@@ -501,8 +481,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-merge/">
-      git-merge
+    <a class="post-title-link" href="https://leecss.com/post/git-pei-zhi-ssh-key/">
+      git-配置ssh-key
     </a>
   </h1>
   <div class="post-meta">
@@ -510,7 +490,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-17 11:36:56">2021-06-17</span>
+      <span class="publish-time" data-t="2021-07-03 15:54:40">2021-07-03</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -529,81 +509,78 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>4<span class="language" data-lan="minute">分钟</span></span>
+      <span>3<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>967<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>478<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p><code>git merge</code>命令用于合并指定分支到当前分支</p>
-<p>将develop分支合并到当前分支，当前分支会创建新的commit对象，它有两个父节点，分别指向当前分支和develop分支。</p>
-<pre><code class="language-sh">git merge develop
+<p>ssh可以基于密码进行认证，也可以基于密钥去认证用户，基于密钥认证时可以实现免密码登录的效果。</p>
+<p>SSH公钥默认存储在账户的主目录下的<code>~/.ssh</code>目录</p>
+<p><code>ssh-keygen</code>生成私钥id_rsa以及对应的公钥</p>
+<p><code>-t</code>选项表示指定密钥的类型(The type of the key to generate)</p>
+<p>​	即指定算法，版本2的ssh协议可以指定的密钥类型有 “dsa”, “ecdsa”, “ed25519”, “rsa”</p>
+<p><code>-C</code> 选项表示用于识别这个密钥的注释 (comment to identify the key )</p>
+<p><code>-f</code>选项表示直接指定密钥生成位置以及密钥的名称，默认id_rsa（私钥id_rsa，公钥id_rsa.pub）</p>
+<h2 id="单个">单个</h2>
+<p>1、生成密钥对</p>
+<pre><code class="language-sh">ssh-keygen -t rsa -C &quot;your-email@email.com&quot;
 </code></pre>
-<h2 id="合并方式">合并方式</h2>
-<h3 id="非快进方式">非快进方式</h3>
-<p>假如此时在C1节点master分支上，创建了一个新的分支dev,然后在master分支创建新的提交C2,在dev分支上创建新的提交C3。</p>
-<p><strong>如果合并分支之前，master分支和dev分支都有了属于自己分支的独有提交，此时只能使用普通方式进行合并。</strong></p>
-<p>此时可以将master合并到dev,也可以将dev合并到master</p>
-<p>以dev合并到master为例：</p>
-<p>在maser分支执行<code>git merge dev</code>，会有新的变更进入到master，新变更进入后，master分支的内容会产生变化，因此master分支需要一个新的提交来对应变化后的状态，于是，master分支的指针会指向最新产生的合并提交。</p>
-<p>而对于dev分支来说，并没有任何内容发生变动，所以dev分支的指针仍然保持原位。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624777430550.gif" alt="" loading="lazy"></figure>
-<h3 id="fast-forward快进">fast-forward（快进）</h3>
-<p>假如此时在C1节点master分支上，创建了一个新的分支dev,然后在dev分支上创建新的提交C2。</p>
-<p><strong>如果合并分支之前，master分支和dev分支中只有一个分支创建了属于自己分支的独有提交，此时可以使用fast-forward进行合并。</strong></p>
-<p>由于基于maste分支创建dev分支以后，master分支中并没有产生任何新的提交，如果此时想要将dev分支合并到master分支，只需要将master分支的指针指向到dev分支的最新提交，即可让master分支包含dev分支中的所有新变更。即：</p>
-<p><u>如果“指定分支”本身是当前分支的一个直接子节点，则会产生fast-forward合并，即合并不会产生新的节点，只是让当前分支指向“指定分支”的最新commit。</u></p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1624777268946.gif" alt="" loading="lazy"></figure>
-<h2 id="冲突">冲突</h2>
-<p>当我们合并分支的时候，如果当前分支和要被合并的分支在同一个地方修改了不同的内容，会发生冲突，自动合并失败，需要人为解决。</p>
-<h3 id="解决冲突">解决冲突</h3>
-<p>git会使用如下结构，将冲突的内容标注起来</p>
-<p>git会将当前分支中的内容放在 “&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD” 与 “=======” 之间。</p>
-<p>git会将合并分支中的内容放在 “=======”  与 “&lt;&lt;&lt;&lt;&lt;&lt;&lt; new” 之间。</p>
-<pre><code class="language-sh">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<p>2、查看公钥并复制</p>
+<pre><code class="language-sh">cat ~/.ssh/id_rsa.pub
+</code></pre>
+<p>3、登录账户并添加ssh key</p>
+<h2 id="多个">多个</h2>
+<p>1、生成密钥对</p>
+<p>GitHub</p>
+<pre><code class="language-sh">ssh-keygen -t rsa -f ~/.ssh/id_rsa.github -C 'email'
+</code></pre>
+<p>company</p>
+<pre><code class="language-sh">ssh-keygen -t rsa -f ~/.ssh/id_rsa.company -C &quot;email&quot;
+</code></pre>
+<p>此时，<code>~/.ssh</code>目录下应该有4个文件：<code>id_rsa.company</code>文件和<code>id_rsa.company.pub</code>文件，还有<code>id_rsa.github</code>文件和<code>id_rsa.github.pub</code>文件。</p>
+<p>2、查看公钥并添加到github和gitlab</p>
+<pre><code>cat ~/.ssh/id_rsa.pub
+</code></pre>
+<p>3、新增并配置config文件</p>
+<pre><code class="language-sh">touch ~/.ssh/config
+</code></pre>
+<p>参数说明：</p>
+<p><code>Host</code>：定义<strong>Host</strong>的名字,（建议与HostName一致）</p>
+<p><code>HostName</code>：这个是真实的域名地址，要登录主机的主机名。</p>
+<p><code>Port</code>：端口号（如果不是默认22端口，则需要指定端口号）</p>
+<p><code>User</code>：配置登录名，例如：GitHub的username。</p>
+<p><code>IdentityFile</code>：指定私钥文件的路径，也就是<code>id_rsa</code>文件的绝对路径。</p>
+<p><code>PreferredAuthentications</code>：配置登录时用什么权限认证，可设为<code>publickey,password publickey,keyboard-interactive等</code>。</p>
+<p>内容格式如下：</p>
+<pre><code class="language-sh">Host 域名或者IP
+User test
+IdentityFile ~/.ssh/id_rsa.company
+PreferredAuthentications publickey
+</code></pre>
+<p>举例：</p>
+<pre><code class="language-sh">// github
+Host github.com
+HostName github.com
+User lee
+IdentityFile /Users/lee/.ssh/id_rsa.github
+PreferredAuthentications publickey
 
-=======
-
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; BranchName
+// company
+Host company
+HostName 192.168.1.222
+User lee
+IdentityFile ~/.ssh/id_rsa.company
+PreferredAuthentications publickey
 </code></pre>
-<p>当我们手动解决完之后，重新添加并提交即可。</p>
-<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1624777598642.gif" alt="" loading="lazy"></figure>
-<h3 id="放弃合并">放弃合并</h3>
-<p>当我们执行git merge --abort命令以后，git就取消了本次合并操作</p>
-<pre><code class="language-sh">git merge --abort
+<pre><code class="language-sh">git clone git@company:lee/test.git
 </code></pre>
-<h2 id="参数">参数</h2>
-<h3 id="-no-ff">--no-ff</h3>
-<p>明确指定不使用”Fast-forward”的模式进行合并</p>
-<p>即使合并条件满足”Fast-forward”模式，也不使用快进的方式进行合并，而是使用创建合并提交的方式进行合并。</p>
-<pre><code class="language-sh">git merge --no-ff [branch]
-</code></pre>
-<h3 id="-ff-only">--ff-only</h3>
-<p>当能使用”Fast-forward”模式合并时，合并正常执行，当不能使用”Fast-forward”模式合并时，取消合并。</p>
-<pre><code>git merge --ff-only [branch]
-</code></pre>
-<h3 id="-squash">--squash</h3>
-<p>压缩提交记录，即将被合并分支的提交记录合并为一个</p>
-<p>当dev分支上有多条细小琐碎的提交时，可以使用这种合并方式，将dev分支合并到master</p>
-<p>这样master主分支上的提交记录会看起来比较清爽，缺点是不会保留原作者</p>
-<pre><code class="language-sh">git merge --squash [branch]
-</code></pre>
-<h3 id="-no-edit">--no-edit</h3>
-<p>让合并提交直接使用默认生成的注释，默认注释为<code>Merge branch ‘BranchName</code></p>
-<pre><code class="language-sh">git merge --no-edit [branch]
-</code></pre>
-<h3 id="-m">-m</h3>
-<p>合并提交自定义注释信息</p>
-<pre><code class="language-sh">git merge [branch] --no-ff -m &quot;message&quot;
-</code></pre>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://www.lzane.com/tech/git-merge/">git合并策略</a></p>
 
             </div>
             
@@ -616,7 +593,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-merge/" title="git-merge">https://leecss.com/post/git-merge/</a>
+      <a href="https://leecss.com/post/git-pei-zhi-ssh-key/" title="git-配置ssh-key">https://leecss.com/post/git-pei-zhi-ssh-key/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -632,14 +609,14 @@
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-rebase" href="https://leecss.com/post/git-rebase/">git-rebase</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-rebase" href="https://leecss.com/post/git-rebase/">上一篇</a>
+        <a class="nav-pc-next" title="git-gitignore" href="https://leecss.com/post/git-gitignore/">git-gitignore</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="git-gitignore" href="https://leecss.com/post/git-gitignore/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-commit" href="https://leecss.com/post/git-commit/">git-commit</a>
-        <a class="nav-mobile-next" title="git-commit" href="https://leecss.com/post/git-commit/">下一篇</a>
+        <a class="nav-pc-next" title="git-stash" href="https://leecss.com/post/git-stash/">git-stash</a>
+        <a class="nav-mobile-next" title="git-stash" href="https://leecss.com/post/git-stash/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

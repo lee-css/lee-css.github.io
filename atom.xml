@@ -2,13 +2,216 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-02T00:46:37.716Z</updated>
+    <updated>2021-07-03T13:22:04.634Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git-blame]]></title>
+        <id>https://leecss.com/post/git-blame/</id>
+        <link href="https://leecss.com/post/git-blame/">
+        </link>
+        <updated>2021-07-03T13:07:04.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>从blame这个词就能大致知道这个命令的作用了</p>
+<p><code>git blame</code> 命令可以查看每行代码的提交详情，包括提交人、时间等信息</p>
+<p>当你发现某一行写的有问题时，你就可以查看是谁最后改的这里</p>
+<h2 id="命令">命令</h2>
+<p>显示指定文件的历史修改记录</p>
+<pre><code class="language-sh">git blame &lt;filename&gt;
+</code></pre>
+<h3 id="查看具体的行或范围">查看具体的行或范围</h3>
+<p><code>-L</code>看某一行或某个范围行</p>
+<pre><code class="language-sh">git blame &lt;filename&gt; -L &lt;start&gt;[,&lt;end&gt;]
+</code></pre>
+<p>查看第 10 行</p>
+<pre><code>git blame &lt;filename&gt; -L 10,10
+</code></pre>
+<p>查看第 10 行及以后</p>
+<pre><code class="language-sh">git blame &lt;filename&gt; -L 10
+</code></pre>
+<p>查看第 10 到 20 行</p>
+<pre><code class="language-sh">git blame &lt;filename&gt; -L 10,20
+</code></pre>
+<p>查看 10 行以后 5 行的数据</p>
+<pre><code class="language-sh">git blame &lt;filename&gt; -L 10,+5
+</code></pre>
+<p>查看 10 行以前 5 行的数据</p>
+<pre><code class="language-sh">git blame &lt;filename&gt; -L 10,-5
+</code></pre>
+<h3 id="查看某个函数">查看某个函数</h3>
+<p>通过函数名来查看一个区域块的代码，只能识别文件最外层的方法名和类名</p>
+<pre><code class="language-sh">git blame &lt;filename&gt; -L:&lt;func_name&gt;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-bisect]]></title>
+        <id>https://leecss.com/post/git-bisect/</id>
+        <link href="https://leecss.com/post/git-bisect/">
+        </link>
+        <updated>2021-07-03T11:15:08.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>用来查找哪一次代码提交引入了错误。</p>
+<p>它的原理很简单，就是将代码提交的历史，按照两分法不断缩小定位。所谓&quot;两分法&quot;，就是将代码历史一分为二，确定问题出在前半部分，还是后半部分，不断执行这个过程，直到范围缩小到某一次代码提交。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625311032096.png" alt="" loading="lazy"></figure>
+<h2 id="命令">命令</h2>
+<h3 id="启动查错">启动查错</h3>
+<p>&quot;终点&quot;是最近的提交，&quot;起点&quot;是更久以前的提交。它们之间的这段历史，就是差错的范围。</p>
+<p>我们可以将起点置为第一次，也可以置为我们知道的具体某个commit</p>
+<p>现在，我们选择全部的代码历史。起点是第一次提交<code>4d83cf</code>，终点是最近一次的<code>HEAD</code>。</p>
+<pre><code class="language-sh">git bisect start [终点] [起点]
+git bisect start HEAD 4d83cf
+</code></pre>
+<p>执行上面的命令以后，代码库就会切换到这段范围正当中的那一次提交</p>
+<p>假如这个库一共有101次提交。那么就会切换到第51次提交。</p>
+<h3 id="标识正确">标识正确</h3>
+<p>现在刷新浏览器，发现功能正常。使用<code>git bisect good</code>命令，标识本次提交（第51次）没有问题。</p>
+<pre><code class="language-sh">git bisect good
+</code></pre>
+<p>既然第51次提交没有问题，就意味着错误是在代码历史的后半段引入的。执行上面的命令，Git 就自动切换到后半段的中点（第76次提交）。</p>
+<h3 id="标志错误">标志错误</h3>
+<p>现在刷新浏览器,发现功能不正常。使用<code>git bisect bad</code>命令，标识本次提交（第76）有问题。</p>
+<pre><code class="language-sh">git bisect bad
+</code></pre>
+<p>执行上面的命令以后，Git 就自动切换到第51次到第76次的中点（第63次提交）。</p>
+<p>接下来，不断重复这个过程，直到成功找到出问题的那一次提交为止。这时，Git 会给出如下的提示。</p>
+<pre><code class="language-sh">b47892 is the first bad commit
+</code></pre>
+<p>既然找到那个有问题的提交，就可以<a href="https://github.com/bradleyboy/bisectercise/commit/b47892adec22ee3b0330aff37cbc5e695dfb99d6">检查代码</a>，确定具体是什么错误。</p>
+<h3 id="退出查错">退出查错</h3>
+<p>然后，使用<code>git bisect reset</code>命令，退出查错，回到最近一次的代码提交。</p>
+<pre><code class="language-sh">git bisect reset
+</code></pre>
+<p>现在就可以开始修复错误了。</p>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="http://www.ruanyifeng.com/blog/2018/12/git-bisect.html">http://www.ruanyifeng.com/blog/2018/12/git-bisect.html</a></p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-gitignore]]></title>
+        <id>https://leecss.com/post/git-gitignore/</id>
+        <link href="https://leecss.com/post/git-gitignore/">
+        </link>
+        <updated>2021-07-03T10:02:29.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>一些工作区中的文件不需要提交到远程，所以需要让git忽略他们，不对其进行检测，方法就是创建.gitignore文件</p>
+<h2 id="忽略规则">忽略规则</h2>
+<h3 id="语法">语法</h3>
+<p>以斜杠<code>/</code>开头表示目录；<br>
+以星号<code>*</code>通配多个字符；<br>
+以问号<code>?</code>通配单个字符<br>
+以方括号<code>[]</code>包含单个字符的匹配列表；<br>
+以叹号<code>!</code>表示不忽略(跟踪)匹配到的文件或目录；</p>
+<p>此外，git 对于 .ignore 配置文件是按行从上到下进行规则匹配的，意味着如果前面的规则匹配的范围更大，则后面的规则将不会生效；</p>
+<h3 id="示例">示例</h3>
+<p><strong>忽略</strong></p>
+<pre><code class="language-sh"># 忽略根目录下的public下的所有目录及文件
+/public/*
+
+# 忽略所有目录名为public下的所有目录及文件
+public/*
+
+# 忽略具体的文件
+/public/index.html
+
+# 忽略所有的.zip文件
+*.zip
+
+# 忽略 a.zip b.zip
+[ab].zip
+</code></pre>
+<p><strong>保留</strong></p>
+<pre><code class="language-sh"># 不过滤该文件夹
+!src/
+</code></pre>
+<h2 id="问题">问题</h2>
+<h3 id="忽略规则不生效">忽略规则不生效</h3>
+<p>原因是当前文件已经被加入到git仓库中</p>
+<pre><code class="language-sh">git rm -r --cached .
+git add .
+git commit -m 'update .gitignore'
+</code></pre>
+<h2 id="网站">网站</h2>
+<p><a href="https://github.com/github/gitignore">https://github.com/github/gitignore</a></p>
+<p><a href="https://www.toptal.com/developers/gitignore">gitignore.io</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-配置ssh-key]]></title>
+        <id>https://leecss.com/post/git-pei-zhi-ssh-key/</id>
+        <link href="https://leecss.com/post/git-pei-zhi-ssh-key/">
+        </link>
+        <updated>2021-07-03T07:54:40.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>ssh可以基于密码进行认证，也可以基于密钥去认证用户，基于密钥认证时可以实现免密码登录的效果。</p>
+<p>SSH公钥默认存储在账户的主目录下的<code>~/.ssh</code>目录</p>
+<p><code>ssh-keygen</code>生成私钥id_rsa以及对应的公钥</p>
+<p><code>-t</code>选项表示指定密钥的类型(The type of the key to generate)</p>
+<p>​	即指定算法，版本2的ssh协议可以指定的密钥类型有 “dsa”, “ecdsa”, “ed25519”, “rsa”</p>
+<p><code>-C</code> 选项表示用于识别这个密钥的注释 (comment to identify the key )</p>
+<p><code>-f</code>选项表示直接指定密钥生成位置以及密钥的名称，默认id_rsa（私钥id_rsa，公钥id_rsa.pub）</p>
+<h2 id="单个">单个</h2>
+<p>1、生成密钥对</p>
+<pre><code class="language-sh">ssh-keygen -t rsa -C &quot;your-email@email.com&quot;
+</code></pre>
+<p>2、查看公钥并复制</p>
+<pre><code class="language-sh">cat ~/.ssh/id_rsa.pub
+</code></pre>
+<p>3、登录账户并添加ssh key</p>
+<h2 id="多个">多个</h2>
+<p>1、生成密钥对</p>
+<p>GitHub</p>
+<pre><code class="language-sh">ssh-keygen -t rsa -f ~/.ssh/id_rsa.github -C 'email'
+</code></pre>
+<p>company</p>
+<pre><code class="language-sh">ssh-keygen -t rsa -f ~/.ssh/id_rsa.company -C &quot;email&quot;
+</code></pre>
+<p>此时，<code>~/.ssh</code>目录下应该有4个文件：<code>id_rsa.company</code>文件和<code>id_rsa.company.pub</code>文件，还有<code>id_rsa.github</code>文件和<code>id_rsa.github.pub</code>文件。</p>
+<p>2、查看公钥并添加到github和gitlab</p>
+<pre><code>cat ~/.ssh/id_rsa.pub
+</code></pre>
+<p>3、新增并配置config文件</p>
+<pre><code class="language-sh">touch ~/.ssh/config
+</code></pre>
+<p>参数说明：</p>
+<p><code>Host</code>：定义<strong>Host</strong>的名字,（建议与HostName一致）</p>
+<p><code>HostName</code>：这个是真实的域名地址，要登录主机的主机名。</p>
+<p><code>Port</code>：端口号（如果不是默认22端口，则需要指定端口号）</p>
+<p><code>User</code>：配置登录名，例如：GitHub的username。</p>
+<p><code>IdentityFile</code>：指定私钥文件的路径，也就是<code>id_rsa</code>文件的绝对路径。</p>
+<p><code>PreferredAuthentications</code>：配置登录时用什么权限认证，可设为<code>publickey,password publickey,keyboard-interactive等</code>。</p>
+<p>内容格式如下：</p>
+<pre><code class="language-sh">Host 域名或者IP
+User test
+IdentityFile ~/.ssh/id_rsa.company
+PreferredAuthentications publickey
+</code></pre>
+<p>举例：</p>
+<pre><code class="language-sh">// github
+Host github.com
+HostName github.com
+User lee
+IdentityFile /Users/lee/.ssh/id_rsa.github
+PreferredAuthentications publickey
+
+// company
+Host company
+HostName 192.168.1.222
+User lee
+IdentityFile ~/.ssh/id_rsa.company
+PreferredAuthentications publickey
+</code></pre>
+<pre><code class="language-sh">git clone git@company:lee/test.git
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-stash]]></title>
         <id>https://leecss.com/post/git-stash/</id>
@@ -221,176 +424,6 @@ git diff maste..dev
 </code></pre>
 <p>查看自从topic分支建立以后，master分支发生的变化</p>
 <pre><code class="language-sh">git diff topic...master
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-reflog]]></title>
-        <id>https://leecss.com/post/git-reflog/</id>
-        <link href="https://leecss.com/post/git-reflog/">
-        </link>
-        <updated>2021-06-30T15:35:19.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>相当于版本控制的版本控制</p>
-<p>git reflog 可以查看所有分支的所有操作记录</p>
-<p>包括已经被删除的 commit 记录</p>
-<h2 id="应用场景">应用场景</h2>
-<p>分支误删除；</p>
-<p>节点误回退</p>
-<p>git rebase等等</p>
-<p>我们都可以从git reflog中找到操作记录</p>
-<p>这时，我们找到要恢复的commitID</p>
-<p>执行以下命令即可</p>
-<pre><code class="language-sh">git reset --hard [commitID]
-</code></pre>
-<p>假如说回退的节点之后，又添加了一些提交，可以配合使用cherry-pick</p>
-<pre><code class="language-sh">git cherry-pick [commitID]
-</code></pre>
-<h2 id="与git-log的对比">与git log的对比</h2>
-<h3 id="reflog">reflog</h3>
-<p>reflog是一个本地结构，它记录了HEAD和分支引用在过去指向的位置，即HEAD指向的提交的有序列表。</p>
-<p>reflog信息没法与其他任何人共享，每个人都是自己特有的reflog。</p>
-<p>重要的一点是，它不是永久保存的，有一个可配置的过期时间，reflog中过期的信息会被自动删除。</p>
-<h3 id="log">log</h3>
-<p>git log显示当前HEAD及其祖先。</p>
-<p>也就是说，它打印提交HEAD指向，然后它的父，其父，等等。</p>
-<p>它通过递归查找每个提交的父进程遍历回购的祖先。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625067362274.gif" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1625067370478.gif" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-log]]></title>
-        <id>https://leecss.com/post/git-log/</id>
-        <link href="https://leecss.com/post/git-log/">
-        </link>
-        <updated>2021-06-29T23:17:47.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git log</code>命令按照提交时间从最晚到最早的顺序，列出所有 commit。</p>
-<h2 id="命令">命令</h2>
-<h3 id="当前分支全部历史">当前分支全部历史</h3>
-<p>列出当前分支的版本历史</p>
-<pre><code class="language-sh">git log
-</code></pre>
-<p><code>--oneline</code>参数让输出时，每个 commit 只占用一行。</p>
-<pre><code class="language-sh">git log --oneline
-</code></pre>
-<h3 id="某文件版本历史">某文件版本历史</h3>
-<p>列出某个文件的版本历史，包括文件改名</p>
-<pre><code class="language-sh">git log --follow [file]
-</code></pre>
-<h3 id="分支变动历史">分支变动历史</h3>
-<p>查看远程分支的变动情况。</p>
-<pre><code class="language-sh">git log remote/branch
-</code></pre>
-<h3 id="搜索查找历史">搜索查找历史</h3>
-<p>查找log，即搜索commit信息。</p>
-<p><code>-i</code>参数表示搜索时忽略大小写。</p>
-<pre><code>git log --author=Andy
-git log -i --grep=&quot;Something in the message&quot;
-</code></pre>
-<h3 id="美化输出">美化输出</h3>
-<ul>
-<li>—graph commit之间将展示连线</li>
-<li>—decorate 显示commit里面的分支</li>
-<li>—pretty=oneline 只显示commit信息的标题</li>
-<li>—abbrev-commit 只显示commit SHA1的前7位</li>
-</ul>
-<pre><code>git log --graph --decorate --pretty=oneline --abbrev-commit
-</code></pre>
-<h2 id="退出">退出</h2>
-<p>按Q退出</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-restore]]></title>
-        <id>https://leecss.com/post/git-restore/</id>
-        <link href="https://leecss.com/post/git-restore/">
-        </link>
-        <updated>2021-06-29T15:24:10.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令</p>
-<p>switch命令专门用来切换分支、创建并切换分支等</p>
-<p>restore命令专门用来恢复(撤销)暂存区和工作区的文件</p>
-<h2 id="命令">命令</h2>
-<p>为了方便初步理解，先使用撤销</p>
-<h3 id="撤销工作区文件的修改">撤销工作区文件的修改</h3>
-<p>撤销工作区指定文件的修改 ，即从暂存区覆盖到工作区</p>
-<p>--worktree为默认参数，可以省略</p>
-<pre><code>git restore [--worktree] [file]
-</code></pre>
-<p>撤销工作区所有文件</p>
-<pre><code class="language-sh">git restore .
-</code></pre>
-<h3 id="撤销暂存区文件的修改">撤销暂存区文件的修改</h3>
-<p>撤销暂存区指定文件的修改，即从仓库覆盖到暂存区。但是被撤销的文件不会更改，会恢复到工作区。</p>
-<pre><code class="language-sh">git restore --staged [file]
-</code></pre>
-<p>撤销暂存区所有文件</p>
-<pre><code class="language-sh">git restore --staged .
-</code></pre>
-<h3 id="撤销工作区和暂存区文件的修改">撤销工作区和暂存区文件的修改</h3>
-<p>撤销工作区和暂存区文件的修改，即从仓库到暂存区和工作区</p>
-<pre><code class="language-sh">git restore --staged --worktree [file]
-</code></pre>
-<h3 id="切换工作区内容">切换工作区内容</h3>
-<p>将工作区内容切换到某个快照</p>
-<pre><code class="language-sh">git restore --source [commitID]
-// 工作区切换到上次提交
-git restore --source HEAD~
-</code></pre>
-<h2 id="参数详解">参数详解</h2>
-<p>进一步理解，使用恢复</p>
-<p>恢复一个文件，从哪里到哪里</p>
-<p>--source 来源地，即从哪里</p>
-<p>--staged 目的地，即到哪里(暂存区)</p>
-<p>--worktree 目的地，即到哪里(工作区)</p>
-<p>举例说明：假如把readme.md从上次提交同时恢复到暂存区和工作区</p>
-<pre><code class="language-sh">git restore --source HEAD~ --staged --worktree readme.md
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624980286919.png" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-switch]]></title>
-        <id>https://leecss.com/post/git-switch/</id>
-        <link href="https://leecss.com/post/git-switch/">
-        </link>
-        <updated>2021-06-28T14:43:21.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令</p>
-<p>switch命令专门用来切换分支、创建并切换分支等</p>
-<h2 id="命令">命令</h2>
-<h3 id="新建分支">新建分支</h3>
-<p>新建并切换分支</p>
-<pre><code class="language-sh">git switch -c [branch-name]
-git switch -c new
-</code></pre>
-<p>从某个快照新建并切换分支</p>
-<pre><code class="language-sh">git switch -c [branch-name] [commitID]
-git switch -c new c2
-</code></pre>
-<p>从某个标签新建并切换分支</p>
-<pre><code class="language-sh">git switch -c [branch-name] [tag-name]
-git switch -c new v2.0
-</code></pre>
-<h3 id="切换分支">切换分支</h3>
-<p>切换上次所在的分支</p>
-<pre><code class="language-sh">git switch -
-</code></pre>
-<p>切换到<code>dev</code>分支</p>
-<pre><code class="language-sh">git switch dev
-</code></pre>
-<h2 id="与checkout的对比">与checkout的对比</h2>
-<h3 id="checkout">checkout</h3>
-<p>checkout在分支方面的做用有两点：新建分支并切换到新建分支，切换分支</p>
-<pre><code class="language-sh">git checkout -b new
-git checkout dev
-</code></pre>
-<h3 id="switch">switch</h3>
-<p>switch中相同作用的命令</p>
-<pre><code class="language-sh">git switch -c new
-git switch dev
 </code></pre>
 ]]></content>
     </entry>

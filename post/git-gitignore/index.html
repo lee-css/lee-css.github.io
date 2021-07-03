@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-merge | 当下</title>
+<title>git-gitignore | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1625317652611">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,7 +41,7 @@
 
 
 
-  <meta name="description" content="git-merge" />
+  <meta name="description" content="git-gitignore" />
   <meta name="keywords" content="git" />
 </head>
 
@@ -212,28 +212,18 @@
 <li>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
-<li><a href="#%E5%90%88%E5%B9%B6%E6%96%B9%E5%BC%8F">合并方式</a>
+<li><a href="#%E5%BF%BD%E7%95%A5%E8%A7%84%E5%88%99">忽略规则</a>
 <ul>
-<li><a href="#%E9%9D%9E%E5%BF%AB%E8%BF%9B%E6%96%B9%E5%BC%8F">非快进方式</a></li>
-<li><a href="#fast-forward%E5%BF%AB%E8%BF%9B">fast-forward（快进）</a></li>
+<li><a href="#%E8%AF%AD%E6%B3%95">语法</a></li>
+<li><a href="#%E7%A4%BA%E4%BE%8B">示例</a></li>
 </ul>
 </li>
-<li><a href="#%E5%86%B2%E7%AA%81">冲突</a>
+<li><a href="#%E9%97%AE%E9%A2%98">问题</a>
 <ul>
-<li><a href="#%E8%A7%A3%E5%86%B3%E5%86%B2%E7%AA%81">解决冲突</a></li>
-<li><a href="#%E6%94%BE%E5%BC%83%E5%90%88%E5%B9%B6">放弃合并</a></li>
+<li><a href="#%E5%BF%BD%E7%95%A5%E8%A7%84%E5%88%99%E4%B8%8D%E7%94%9F%E6%95%88">忽略规则不生效</a></li>
 </ul>
 </li>
-<li><a href="#%E5%8F%82%E6%95%B0">参数</a>
-<ul>
-<li><a href="#-no-ff">--no-ff</a></li>
-<li><a href="#-ff-only">--ff-only</a></li>
-<li><a href="#-squash">--squash</a></li>
-<li><a href="#-no-edit">--no-edit</a></li>
-<li><a href="#-m">-m</a></li>
-</ul>
-</li>
-<li><a href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB">推荐阅读</a></li>
+<li><a href="#%E7%BD%91%E7%AB%99">网站</a></li>
 </ul>
 </li>
 </ul>
@@ -501,8 +491,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-merge/">
-      git-merge
+    <a class="post-title-link" href="https://leecss.com/post/git-gitignore/">
+      git-gitignore
     </a>
   </h1>
   <div class="post-meta">
@@ -510,7 +500,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-17 11:36:56">2021-06-17</span>
+      <span class="publish-time" data-t="2021-07-03 18:02:29">2021-07-03</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -529,81 +519,58 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>4<span class="language" data-lan="minute">分钟</span></span>
+      <span>2<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>967<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>288<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p><code>git merge</code>命令用于合并指定分支到当前分支</p>
-<p>将develop分支合并到当前分支，当前分支会创建新的commit对象，它有两个父节点，分别指向当前分支和develop分支。</p>
-<pre><code class="language-sh">git merge develop
-</code></pre>
-<h2 id="合并方式">合并方式</h2>
-<h3 id="非快进方式">非快进方式</h3>
-<p>假如此时在C1节点master分支上，创建了一个新的分支dev,然后在master分支创建新的提交C2,在dev分支上创建新的提交C3。</p>
-<p><strong>如果合并分支之前，master分支和dev分支都有了属于自己分支的独有提交，此时只能使用普通方式进行合并。</strong></p>
-<p>此时可以将master合并到dev,也可以将dev合并到master</p>
-<p>以dev合并到master为例：</p>
-<p>在maser分支执行<code>git merge dev</code>，会有新的变更进入到master，新变更进入后，master分支的内容会产生变化，因此master分支需要一个新的提交来对应变化后的状态，于是，master分支的指针会指向最新产生的合并提交。</p>
-<p>而对于dev分支来说，并没有任何内容发生变动，所以dev分支的指针仍然保持原位。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1624777430550.gif" alt="" loading="lazy"></figure>
-<h3 id="fast-forward快进">fast-forward（快进）</h3>
-<p>假如此时在C1节点master分支上，创建了一个新的分支dev,然后在dev分支上创建新的提交C2。</p>
-<p><strong>如果合并分支之前，master分支和dev分支中只有一个分支创建了属于自己分支的独有提交，此时可以使用fast-forward进行合并。</strong></p>
-<p>由于基于maste分支创建dev分支以后，master分支中并没有产生任何新的提交，如果此时想要将dev分支合并到master分支，只需要将master分支的指针指向到dev分支的最新提交，即可让master分支包含dev分支中的所有新变更。即：</p>
-<p><u>如果“指定分支”本身是当前分支的一个直接子节点，则会产生fast-forward合并，即合并不会产生新的节点，只是让当前分支指向“指定分支”的最新commit。</u></p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1624777268946.gif" alt="" loading="lazy"></figure>
-<h2 id="冲突">冲突</h2>
-<p>当我们合并分支的时候，如果当前分支和要被合并的分支在同一个地方修改了不同的内容，会发生冲突，自动合并失败，需要人为解决。</p>
-<h3 id="解决冲突">解决冲突</h3>
-<p>git会使用如下结构，将冲突的内容标注起来</p>
-<p>git会将当前分支中的内容放在 “&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD” 与 “=======” 之间。</p>
-<p>git会将合并分支中的内容放在 “=======”  与 “&lt;&lt;&lt;&lt;&lt;&lt;&lt; new” 之间。</p>
-<pre><code class="language-sh">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<p>一些工作区中的文件不需要提交到远程，所以需要让git忽略他们，不对其进行检测，方法就是创建.gitignore文件</p>
+<h2 id="忽略规则">忽略规则</h2>
+<h3 id="语法">语法</h3>
+<p>以斜杠<code>/</code>开头表示目录；<br>
+以星号<code>*</code>通配多个字符；<br>
+以问号<code>?</code>通配单个字符<br>
+以方括号<code>[]</code>包含单个字符的匹配列表；<br>
+以叹号<code>!</code>表示不忽略(跟踪)匹配到的文件或目录；</p>
+<p>此外，git 对于 .ignore 配置文件是按行从上到下进行规则匹配的，意味着如果前面的规则匹配的范围更大，则后面的规则将不会生效；</p>
+<h3 id="示例">示例</h3>
+<p><strong>忽略</strong></p>
+<pre><code class="language-sh"># 忽略根目录下的public下的所有目录及文件
+/public/*
 
-=======
+# 忽略所有目录名为public下的所有目录及文件
+public/*
 
-&gt;&gt;&gt;&gt;&gt;&gt;&gt; BranchName
+# 忽略具体的文件
+/public/index.html
+
+# 忽略所有的.zip文件
+*.zip
+
+# 忽略 a.zip b.zip
+[ab].zip
 </code></pre>
-<p>当我们手动解决完之后，重新添加并提交即可。</p>
-<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1624777598642.gif" alt="" loading="lazy"></figure>
-<h3 id="放弃合并">放弃合并</h3>
-<p>当我们执行git merge --abort命令以后，git就取消了本次合并操作</p>
-<pre><code class="language-sh">git merge --abort
+<p><strong>保留</strong></p>
+<pre><code class="language-sh"># 不过滤该文件夹
+!src/
 </code></pre>
-<h2 id="参数">参数</h2>
-<h3 id="-no-ff">--no-ff</h3>
-<p>明确指定不使用”Fast-forward”的模式进行合并</p>
-<p>即使合并条件满足”Fast-forward”模式，也不使用快进的方式进行合并，而是使用创建合并提交的方式进行合并。</p>
-<pre><code class="language-sh">git merge --no-ff [branch]
+<h2 id="问题">问题</h2>
+<h3 id="忽略规则不生效">忽略规则不生效</h3>
+<p>原因是当前文件已经被加入到git仓库中</p>
+<pre><code class="language-sh">git rm -r --cached .
+git add .
+git commit -m 'update .gitignore'
 </code></pre>
-<h3 id="-ff-only">--ff-only</h3>
-<p>当能使用”Fast-forward”模式合并时，合并正常执行，当不能使用”Fast-forward”模式合并时，取消合并。</p>
-<pre><code>git merge --ff-only [branch]
-</code></pre>
-<h3 id="-squash">--squash</h3>
-<p>压缩提交记录，即将被合并分支的提交记录合并为一个</p>
-<p>当dev分支上有多条细小琐碎的提交时，可以使用这种合并方式，将dev分支合并到master</p>
-<p>这样master主分支上的提交记录会看起来比较清爽，缺点是不会保留原作者</p>
-<pre><code class="language-sh">git merge --squash [branch]
-</code></pre>
-<h3 id="-no-edit">--no-edit</h3>
-<p>让合并提交直接使用默认生成的注释，默认注释为<code>Merge branch ‘BranchName</code></p>
-<pre><code class="language-sh">git merge --no-edit [branch]
-</code></pre>
-<h3 id="-m">-m</h3>
-<p>合并提交自定义注释信息</p>
-<pre><code class="language-sh">git merge [branch] --no-ff -m &quot;message&quot;
-</code></pre>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://www.lzane.com/tech/git-merge/">git合并策略</a></p>
+<h2 id="网站">网站</h2>
+<p><a href="https://github.com/github/gitignore">https://github.com/github/gitignore</a></p>
+<p><a href="https://www.toptal.com/developers/gitignore">gitignore.io</a></p>
 
             </div>
             
@@ -616,7 +583,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-merge/" title="git-merge">https://leecss.com/post/git-merge/</a>
+      <a href="https://leecss.com/post/git-gitignore/" title="git-gitignore">https://leecss.com/post/git-gitignore/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -632,14 +599,14 @@
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-rebase" href="https://leecss.com/post/git-rebase/">git-rebase</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-rebase" href="https://leecss.com/post/git-rebase/">上一篇</a>
+        <a class="nav-pc-next" title="git-bisect" href="https://leecss.com/post/git-bisect/">git-bisect</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="git-bisect" href="https://leecss.com/post/git-bisect/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-commit" href="https://leecss.com/post/git-commit/">git-commit</a>
-        <a class="nav-mobile-next" title="git-commit" href="https://leecss.com/post/git-commit/">下一篇</a>
+        <a class="nav-pc-next" title="git-配置ssh-key" href="https://leecss.com/post/git-pei-zhi-ssh-key/">git-配置ssh-key</a>
+        <a class="nav-mobile-next" title="git-配置ssh-key" href="https://leecss.com/post/git-pei-zhi-ssh-key/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
