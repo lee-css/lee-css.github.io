@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-简介 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1625317652611">
+<link rel="shortcut icon" href="/favicon.ico?v=1625390256159">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">41</span>
+        <span class="site-item-stat-count">47</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1103,6 +1103,425 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-ming-ling-zong-jie/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;命令加思维导图&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;新建代码库&#34;&gt;新建代码库&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 在当前目录新建一个Git代码库
+$ git init
+
+# 新建一个目录，将其初始化为Git代码库
+$ git init [project-name]
+
+# 下载一个项目和它的整个代码历史
+$ git clone [url]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;配置&#34;&gt;配置&lt;/h2&gt;
+&lt;p&gt;Git的设置文件为&lt;code&gt;.gitconfig&lt;/code&gt;，它可以在用户主目录下，也可以在项目目录下。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 显示当前的Git配置
+$ git config --list
+
+# 编辑Git配置文件
+$ git config -e [--global]
+
+# 设置提交代码时的用户信息
+$ git config [--global] user.name &amp;quot;[name]&amp;quot;
+$ git config [--global] user.email &amp;quot;[email address]&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;增加删除文件&#34;&gt;增加/删除文件&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 添加指定文件到暂存区
+$ git add [file1] [file2] ...
+
+# 添加指定目录到暂存区，包括子目录
+$ git add [dir]
+
+# 添加当前目录的所有文件到暂存区
+$ git add .
+
+# 删除工作区文件，并且将这次删除放入暂存区
+$ git rm [file1] [file2] ...
+
+# 停止追踪指定文件，但该文件会保留在工作区
+$ git rm --cached [file]
+
+# 改名文件，并且将这个改名放入暂存区
+$ git mv [file-original] [file-renamed]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;代码提交&#34;&gt;代码提交&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 提交暂存区到仓库区
+$ git commit -m [message]
+
+# 提交暂存区的指定文件到仓库区
+$ git commit [file1] [file2] ... -m [message]
+
+# 提交工作区自上次commit之后的变化，直接到仓库区
+$ git commit -a
+
+# 提交时显示所有diff信息
+$ git commit -v
+
+# 使用一次新的commit，替代上一次提交
+# 如果代码没有任何新变化，则用来改写上一次commit的提交信息
+$ git commit --amend -m [message]
+
+# 重做上一次commit，并包括指定文件的新变化
+$ git commit --amend &amp;lt;file1&amp;gt; &amp;lt;file2&amp;gt; ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;分支&#34;&gt;分支&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 列出所有本地分支
+$ git branch
+
+# 列出所有远程分支
+$ git branch -r
+
+# 列出所有本地分支和远程分支
+$ git branch -a
+
+# 新建一个分支，但依然停留在当前分支
+$ git branch [branch-name]
+
+# 新建一个分支，并切换到该分支
+$ git checkout -b [branch]
+
+# 新建一个分支，指向指定commit
+$ git branch [branch] [commit]
+
+# 新建一个分支，与指定的远程分支建立追踪关系
+$ git branch --track [branch] [remote-branch]
+
+# 切换到指定分支，并更新工作区
+$ git checkout [branch-name]
+
+# 建立追踪关系，在现有分支与指定的远程分支之间
+$ git branch --set-upstream [branch] [remote-branch]
+
+# 合并指定分支到当前分支
+$ git merge [branch]
+
+# 选择一个commit，合并进当前分支
+$ git cherry-pick [commit]
+
+# 删除分支
+$ git branch -d [branch-name]
+
+# 删除远程分支
+$ git push origin --delete &amp;lt;branch-name&amp;gt;
+$ git branch -dr &amp;lt;remote/branch&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;标签&#34;&gt;标签&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 列出所有tag
+$ git tag
+
+# 新建一个tag在当前commit
+$ git tag [tag]
+
+# 新建一个tag在指定commit
+$ git tag [tag] [commit]
+
+# 查看tag信息
+$ git show [tag]
+
+# 提交指定tag
+$ git push [remote] [tag]
+
+# 提交所有tag
+$ git push [remote] --tags
+
+# 新建一个分支，指向某个tag
+$ git checkout -b [branch] [tag]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;查看信息&#34;&gt;查看信息&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 显示有变更的文件
+$ git status
+
+# 显示当前分支的版本历史
+$ git log
+
+# 显示commit历史，以及每次commit发生变更的文件
+$ git log --stat
+
+# 显示某个文件的版本历史，包括文件改名
+$ git log --follow [file]
+$ git whatchanged [file]
+
+# 显示指定文件相关的每一次diff
+$ git log -p [file]
+
+# 显示指定文件是什么人在什么时间修改过
+$ git blame [file]
+
+# 显示暂存区和工作区的差异
+$ git diff
+
+# 显示暂存区和上一个commit的差异
+$ git diff --cached [&amp;lt;file&amp;gt;]
+
+# 显示工作区与当前分支最新commit之间的差异
+$ git diff HEAD
+
+# 显示两次提交之间的差异
+$ git diff [first-branch]...[second-branch]
+
+# 显示某次提交的元数据和内容变化
+$ git show [commit]
+
+# 显示某次提交发生变化的文件
+$ git show --name-only [commit]
+
+# 显示某次提交时，某个文件的内容
+$ git show [commit]:[filename]
+
+# 显示当前分支的最近几次提交
+$ git reflog
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;远程同步&#34;&gt;远程同步&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 下载远程仓库的所有变动
+$ git fetch [remote]
+
+# 显示所有远程仓库
+$ git remote -v
+
+# 显示某个远程仓库的信息
+$ git remote show [remote]
+
+# 增加一个新的远程仓库，并命名
+$ git remote add [shortname] [url]
+
+# 取回远程仓库的变化，并与本地分支合并
+$ git pull [remote] [branch]
+
+# 上传本地指定分支到远程仓库
+$ git push [remote] [branch]
+
+# 强行推送当前分支到远程仓库，即使有冲突
+$ git push [remote] --force
+
+# 推送所有分支到远程仓库
+$ git push [remote] --all
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;撤销&#34;&gt;撤销&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 恢复暂存区的指定文件到工作区
+$ git checkout [file]
+
+# 恢复某个commit的指定文件到工作区
+$ git checkout [commit] [file]
+
+# 恢复上一个commit的所有文件到工作区
+$ git checkout .
+
+# 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变
+$ git reset [file]
+
+# 重置暂存区与工作区，与上一次commit保持一致
+$ git reset --hard
+
+# 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变
+$ git reset [commit]
+
+# 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致
+$ git reset --hard [commit]
+
+# 重置当前HEAD为指定commit，但保持暂存区和工作区不变
+$ git reset --keep [commit]
+
+# 新建一个commit，用来撤销指定commit
+# 后者的所有变化都将被前者抵消，并且应用到当前分支
+$ git revert [commit]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 生成一个可供发布的压缩包
+# git archive
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625387910788.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;先抄一下阮老师的文章和腾讯的图&lt;/p&gt;
+&lt;p&gt;以后有时间再整理&lt;/p&gt;
+&lt;/blockquote&gt;
+">git命令总结</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-shi-yong-chang-jing/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;一些工作中会用到的知识点&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;h2 id=&#34;正常操作流程&#34;&gt;正常操作流程&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add .
+git commit -m &amp;quot;提交描述&amp;quot;
+git pull
+git push
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上述操作流程是经常会使用的操作，为什么pull之前要先提交commit？&lt;/p&gt;
+&lt;p&gt;分两步理解&lt;/p&gt;
+&lt;p&gt;第一步是&lt;code&gt;git add &amp;amp; git commit&lt;/code&gt;，这是你本地仓库的操作记录&lt;/p&gt;
+&lt;p&gt;第二步是&lt;code&gt;git pull &amp;amp; git push&lt;/code&gt;，这是本地仓库和远程仓库的交互与同步。&lt;/p&gt;
+&lt;p&gt;假如你本地没有修改文件，可以直接进行第二步，随时和远程仓库进行同步。&lt;/p&gt;
+&lt;p&gt;假如你本地有修改文件，需要先将本地代码保存起来，做一次提交，这样在和远程交互的时候，才能对比操作。&lt;/p&gt;
+&lt;p&gt;否则本地修改文件会被覆盖丢失。&lt;/p&gt;
+&lt;h2 id=&#34;合并代码&#34;&gt;合并代码&lt;/h2&gt;
+&lt;p&gt;当开发完成一个迭代后，需要发布上线，此时需要将dev分支的代码合并到master&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git switch master
+git pull origin dev
+git push
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;暂存代码&#34;&gt;暂存代码&lt;/h2&gt;
+&lt;p&gt;当你需要去合并分支的时候，假如你dev分支上有未完成的工作，此时是不能切换分支的。&lt;/p&gt;
+&lt;p&gt;但是因为工作还没有完成，你不想提交到远程，那么就可以将代码先暂存起来。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git stash
+
+git switch master
+git pull origin dev
+git push
+
+git switch dev
+git stash pop
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;修复线上bug&#34;&gt;修复线上bug&lt;/h2&gt;
+&lt;p&gt;此时已经发布上线了，但是发现线上有一个bug需要紧急处理，应该怎么做？&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;// 从master分支检出bugfix分支
+git switch master
+git switch -c bugfix
+// 修复bug,提交到仓库
+git add .
+git commit -m &#39;fix bug x&#39;
+// 切换到master,合并bugfix分支并删除
+git switch master
+git merge --no-ff -m &amp;quot;merged bugfix x&amp;quot; bugfix
+git branch -d fixbug
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;假如你没有检出bug分支，直接在dev分支上开发的&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;// 修复bug,提交到仓库
+git add .
+git commit -m &#39;fix bug x&#39;
+// 拉取远程更新,并推送
+git pull --rebase
+git push
+// 此时发现另外一名同事已经提交了一些东西，但是这些没经过验证不可以发到线上
+// 查看提交记录，记录下你刚刚提交的commitId，假设为c0
+git log --oneline
+// 切换到master
+git cherry-pick [刚刚提交的commitID]
+git cherry-pick c0
+// 提交
+git pull
+git push
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;版本回退&#34;&gt;版本回退&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;// 查看提交记录
+git log --oneline
+// 以上次提交举例HEAD~，实际以具体commitID
+git reset --hard [commitid]
+git reset --hard HEAD~
+// 强行推送到远程
+git push -f
+&lt;/code&gt;&lt;/pre&gt;
+">git-实用场景</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-clean/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git clean&lt;/code&gt;从你的工作区中删除所有没有 tracked，没有被管理过的文件。&lt;/p&gt;
+&lt;p&gt;作用是让使工作区回到一个干净的状态(一个指定的commit状态)&lt;/p&gt;
+&lt;p&gt;git clean 和 git reset --hard 结合使用。&lt;/p&gt;
+&lt;p&gt;clean 影响没有被 track 过的文件（清除未被 add 或被 commit 的本地修改）&lt;/p&gt;
+&lt;p&gt;reset 影响被 track 过的文件 （回退到上一个 commit）&lt;/p&gt;
+&lt;p&gt;说到这里，我不禁想起了restore。两者结合不就是restore吗？&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;p&gt;查看可使用&lt;code&gt;git clean&lt;/code&gt;命令清除的文件&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clean -n
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;删除当前目录下所有没有 track 过的文件&lt;/p&gt;
+&lt;p&gt;不会删除 &lt;code&gt;.gitignore&lt;/code&gt; 文件里面指定的文件夹和文件, 不管这些文件有没有被 track 过&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clean -f
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;删除指定路径下的没有被 track 过的文件&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clean -f &amp;lt;path&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;删除当前目录下没有被 track 过的文件和文件夹&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clean -df
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;删除当前目录下所有没有 track 过的文件&lt;/p&gt;
+&lt;p&gt;不管是否是 &lt;code&gt;.gitignore&lt;/code&gt;文件里面指定的文件夹和文件&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git clean -xf
+&lt;/code&gt;&lt;/pre&gt;
+">git-clean</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-show/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;git show&lt;/code&gt;命令用于查看commit的内容&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# 输出某次提交的元数据和内容变化
+$ git show [commit]
+$ git show 12a86bc38 # By revision
+$ git show v1.0.1 # By tag
+$ git show feature132 # By branch name
+$ git show 12a86bc38^ # Parent of a commit
+$ git show 12a86bc38~2 # Grandparent of a commit
+$ git show feature132@{yesterday} # Time relative
+$ git show feature132@{2.hours.ago} # Time relative
+&lt;/code&gt;&lt;/pre&gt;
+">git-show</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-show-branch/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;查看分支及其历史提交记录&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;p&gt;查看本地分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git show-branch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看远程分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git show-branch -r
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;查看所有分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git show-branch -a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解析&#34;&gt;解析&lt;/h2&gt;
+&lt;p&gt;1、输出分为上下两部分，使用若干个短划线&lt;code&gt;-&lt;/code&gt;分隔。两个分支使用两个短划线&lt;code&gt;--&lt;/code&gt;，三个分支使用三个短划线&lt;code&gt;---&lt;/code&gt;，依次类推。&lt;/p&gt;
+&lt;p&gt;2、上半部分为层次缩进的分支列表，下半部分为commit列表。&lt;/p&gt;
+&lt;p&gt;3、上半部分的分支列表中，使用&lt;code&gt;*&lt;/code&gt;标识当前分支，使用&lt;code&gt;!&lt;/code&gt;标识其他分支（不同的分支！标识颜色不一样）。&lt;/p&gt;
+&lt;p&gt;分支前的标识符&lt;code&gt;*&lt;/code&gt;或者&lt;code&gt;!&lt;/code&gt;一直垂直贯通到下半部分，这一列完全相同的符号代表的commit都是属于这个分支的。&lt;/p&gt;
+&lt;p&gt;4、下半部分的commit列表中，前导的符号有&lt;code&gt;*&lt;/code&gt;和&lt;code&gt;+&lt;/code&gt;号。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;*&lt;/code&gt;表示当前分支上有此commit。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;+&lt;/code&gt;表示此颜色代表的分支上有此commit。&lt;/p&gt;
+&lt;p&gt;5、标识符的颜色只是用于容易区分列，一个分支一个颜色。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625361802965.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">git-show-branch</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-shu-biao-you-jian-shou-dong-tian-jia-git-bash/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;鼠标右键没有git bash的解决办法&lt;/p&gt;
+&lt;h2 id=&#34;操作&#34;&gt;操作&lt;/h2&gt;
+&lt;p&gt;1、打开注册表&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;win+r&lt;/code&gt;,输入&lt;code&gt;regedit&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;2、找到shell目录&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;路径为：计算机\HKEY_CLASSES_ROOT\Directory\Background\shell&lt;/p&gt;
+&lt;p&gt;如果Background目录下没有shell文件夹就新建shell文件夹。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;3、在shell目录上右键-新建-项，命名bash&lt;/p&gt;
+&lt;p&gt;4、点击新建的Bash 右侧出现默认，点击默认，设置值为Open in Bash&lt;/p&gt;
+&lt;p&gt;5、在bash目录上右键-新建-项，命名command&lt;/p&gt;
+&lt;p&gt;6、点击commond，右侧出现默认，点击默认，修改值为你的git-bash路径&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;以我的举例&lt;/p&gt;
+&lt;p&gt;D:\software\git\Git\git-bash.exe&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;7、保存关闭注册表，在任意目录鼠标右键测试&lt;/p&gt;
+">git-鼠标右键手动添加git-bash</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-blame/"" data-c="
@@ -2257,12 +2676,59 @@ git push origin --tags
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-cherry-pick/"" data-c="
-          &lt;p&gt;&lt;code&gt;git cherry-pick&lt;/code&gt;命令”复制”一个提交节点并在当前分支做一次完全一样的新提交。&lt;/p&gt;
-&lt;!-- more --&gt;
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;对于多分支的代码库，将代码从一个分支转移到另一个分支是常见需求。&lt;/p&gt;
+&lt;p&gt;这时分两种情况。一种情况是，你需要另一个分支的所有代码变动，那么就采用合并（&lt;code&gt;git merge&lt;/code&gt;）。另一种情况是，你只需要部分代码变动（某几个提交），这时可以采用 Cherry pick。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git cherry-pick&lt;/code&gt;命令”复制”一个提交节点并在当前分支做一次完全一样的新提交。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cherry-pick commitID
-git cherry-pick c2 c4
+git cherry-pick c1
 &lt;/code&gt;&lt;/pre&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624778009309.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;h3 id=&#34;一-基本用法&#34;&gt;一、基本用法&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;git cherry-pick&lt;/code&gt;命令的作用，就是将指定的提交（commit）应用于其他分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git cherry-pick &amp;lt;commitHash&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面命令就会将指定的提交&lt;code&gt;commitHash&lt;/code&gt;，应用于当前分支。这会在当前分支产生一个新的提交，当然它们的哈希值会不一样。&lt;/p&gt;
+&lt;p&gt;举例来说，代码仓库有&lt;code&gt;master&lt;/code&gt;和&lt;code&gt;feature&lt;/code&gt;两个分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;    a - b - c - d   Master
+         \
+           e - f - g Feature
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;现在将提交&lt;code&gt;f&lt;/code&gt;应用到&lt;code&gt;master&lt;/code&gt;分支。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 切换到 master 分支
+$ git checkout master
+
+# Cherry pick 操作
+$ git cherry-pick f
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面的操作完成以后，代码库就变成了下面的样子。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;    a - b - c - d - f   Master
+         \
+           e - f - g Feature
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从上面可以看到，&lt;code&gt;master&lt;/code&gt;分支的末尾增加了一个提交&lt;code&gt;f&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;git cherry-pick&lt;/code&gt;命令的参数，不一定是提交的哈希值，分支名也是可以的，表示转移该分支的最新提交。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git cherry-pick feature
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面代码表示将&lt;code&gt;feature&lt;/code&gt;分支的最近一次提交，转移到当前分支。&lt;/p&gt;
+&lt;h3 id=&#34;二-转移多个提交&#34;&gt;二、转移多个提交&lt;/h3&gt;
+&lt;p&gt;Cherry pick 支持一次转移多个提交。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git cherry-pick &amp;lt;HashA&amp;gt; &amp;lt;HashB&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面的命令将 A 和 B 两个提交应用到当前分支。这会在当前分支生成两个对应的新提交。&lt;/p&gt;
+&lt;p&gt;如果想要转移一系列的连续提交，可以使用下面的简便语法。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git cherry-pick A..B 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面的命令可以转移从 A 到 B 的所有提交。它们必须按照正确的顺序放置：提交 A 必须早于提交 B，否则命令将失败，但不会报错。&lt;/p&gt;
+&lt;p&gt;注意，使用上面的命令，提交 A 将不会包含在 Cherry pick 中。如果要包含提交 A，可以使用下面的语法。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;$ git cherry-pick A^..B 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;阮一峰&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.bookstack.cn/read/git-tutorial/docs-commands-git-cherry-pick.md&#34;&gt;网道&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 ">git-cherry-pick</a>
       </div>
       
@@ -2280,6 +2746,46 @@ git cherry-pick c2 c4
 &lt;p&gt;reset（重置）：将版本回退到某个commit&lt;/p&gt;
 &lt;p&gt;恢复（revert）:  回滚某个具体的commit,将它撤销&lt;/p&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777944096.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
+&lt;p&gt;先说一个场景，普通的commit可以直接用revert回滚，假如是一个合并的commit呢&lt;/p&gt;
+&lt;p&gt;普通commit&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git revert &amp;lt;commit-id&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;合并commit&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git revert &amp;lt;commit-id&amp;gt; -m
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;-m&#34;&gt;-m&lt;/h3&gt;
+&lt;p&gt;当一个commit有两个父节点时，git并不知道你想要回滚它与哪个父节点之间联系，所以需要我们帮git确定保留哪一个。这时需要指定一个 parent number 标识出&amp;quot;主线&amp;quot;，主线的内容将会保留，而另一条分支的内容将被revert。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;即m的意义为指定要保留的父节点。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;以下图中为例：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625366627629.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;我们可以看到合并的节点为&lt;code&gt;bd86846&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;使用 &lt;code&gt;git show&lt;/code&gt; 命令可以查看 commit 的详细信息&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git show bd86846
+---
+commit bd868465569400a6b9408050643e5949e8f2b8f5
+Merge: ba25a9d 1c7036f
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;Merge: ba25a9d 1c7036f&lt;/code&gt;代表该 merge commit 是从 ba25a9d 和 1c7036f 两个 commit 合并过来的。&lt;/p&gt;
+&lt;p&gt;普通的commit是没有merge这一行的。&lt;/p&gt;
+&lt;p&gt;从图中可以看出，ba25a9d 代表 master 分支，1c7036f 代表 will-be-revert 分支&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;-m&lt;/code&gt; 选项接收的参数是一个数字，数字取值为 1 和 2，也就是 Merge 行里面列出来的第一个还是第二个。&lt;/p&gt;
+&lt;p&gt;我们要保留主分支上的内容，所以应该指定为1&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git revert -m 1 bd86846
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;需要注意的地方&#34;&gt;需要注意的地方&lt;/h4&gt;
+&lt;p&gt;小明从节点A拉了一条dev分支出来，在节点B中新增了一个文件http.js，并且合并到master分支，合并节点为E。这个时候发现会引起线上bug，赶紧撤回这个合并，新增一个revert节点E’。过了几天小明继续在dev分支上面开发新增了一个文件main.js，并在这个文件中import了http.js里面的逻辑，在dev分支上面一切运行正常。可当他将此时的dev分支合并到master时候却发现，&lt;strong&gt;http.js文件不见了&lt;/strong&gt;，导致main.js里面的逻辑运行报错了。但这次合并并没有任何冲突。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625366673091.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;根据Git的合并策略，在合并两个有分叉的分支（上图中的D、E‘）时，Git 默认会选择Recursive策略。找到D和E’的最短路径共同祖先节点B，以B为base，对D，E‘做三向合并。B中有http.js，D中有http.js和main.js，E’中什么都没有。根据三向合并，B、D中都有http.js且没有变更，E‘删除了http.js，所以合并结果就是没有http.js，没有冲突，所以http.js文件不见了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;即你之前被合并的分支上的提交，都会被丢弃，但是新增的提交，会保留下来。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;解决办法：&lt;/p&gt;
+&lt;p&gt;1、revert节点E’之后，此时的dev分支要抛弃删除掉，重新从E’节点拉出分支继续工作，而不是在原dev分支上继续开发节点D；&lt;/p&gt;
+&lt;p&gt;2、在节点D合并回E’节点时，先revert一下E’，将之前丢弃的合并提交都找回来，然后再将节点D合并进来。&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://segmentfault.com/a/1190000012897697&#34;&gt;segmentfault某作者&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.lzane.com/tech/git-merge/&#34;&gt;李泽帆&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 ">git-revert</a>
       </div>
       
@@ -2813,10 +3319,16 @@ git branch -u origin/main foo
 &lt;p&gt;2、&lt;a href=&#34;https://www.bookstack.cn/read/git-tutorial/README.md&#34;&gt;阮一峰&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;​      &lt;a href=&#34;http://www.ruanyifeng.com/blog/2014/06/git_remote.html&#34;&gt;阮一峰blog1&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;​      &lt;a href=&#34;http://www.ruanyifeng.com/blog/2015/12/git-cheat-sheet.html&#34;&gt;阮一峰blog2&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;3、&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/896043488029600&#34;&gt;廖雪峰&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;4、&lt;a href=&#34;https://www.zsythink.net/&#34;&gt;朱双印&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;5、&lt;a href=&#34;https://marklodato.github.io/visual-git-guide/index-zh-cn.html&#34;&gt;图解git&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;6、&lt;a href=&#34;https://git-scm.com/book/zh/v2&#34;&gt;官网&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3、&lt;a href=&#34;https://www.zsythink.net/&#34;&gt;朱双印&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4、&lt;a href=&#34;https://www.lzane.com/tech/git-internal/&#34;&gt;李泽帆&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5、&lt;a href=&#34;https://dev.to/lydiahallie/cs-visualized-useful-git-commands-37p1&#34;&gt;Lydia Hallie&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6、&lt;a href=&#34;https://marklodato.github.io/visual-git-guide/index-zh-cn.html&#34;&gt;图解git&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;7、&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/896043488029600&#34;&gt;廖雪峰&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;8、&lt;a href=&#34;http://www.worldhello.net/gotgit/&#34;&gt;蒋鑫-git权威指南&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.worldhello.net/gotgithub/&#34;&gt;蒋鑫-gotgithub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;9、&lt;a href=&#34;https://www.jianshu.com/nb/49854893&#34;&gt;简书某作者&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;10、&lt;a href=&#34;https://git-scm.com/book/zh/v2&#34;&gt;git文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;11、&lt;a href=&#34;https://docs.github.com/en&#34;&gt;github文档&lt;/a&gt;&lt;/p&gt;
 ">前端教程导航</a>
       </div>
       

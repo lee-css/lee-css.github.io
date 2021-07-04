@@ -2,13 +2,456 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-03T13:22:04.634Z</updated>
+    <updated>2021-07-04T09:17:42.254Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[git命令总结]]></title>
+        <id>https://leecss.com/post/git-ming-ling-zong-jie/</id>
+        <link href="https://leecss.com/post/git-ming-ling-zong-jie/">
+        </link>
+        <updated>2021-07-04T08:37:45.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>命令加思维导图</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>命令加思维导图</p>
+<!-- more -->
+<h2 id="新建代码库">新建代码库</h2>
+<pre><code class="language-bash"># 在当前目录新建一个Git代码库
+$ git init
+
+# 新建一个目录，将其初始化为Git代码库
+$ git init [project-name]
+
+# 下载一个项目和它的整个代码历史
+$ git clone [url]
+</code></pre>
+<h2 id="配置">配置</h2>
+<p>Git的设置文件为<code>.gitconfig</code>，它可以在用户主目录下，也可以在项目目录下。</p>
+<pre><code class="language-bash"># 显示当前的Git配置
+$ git config --list
+
+# 编辑Git配置文件
+$ git config -e [--global]
+
+# 设置提交代码时的用户信息
+$ git config [--global] user.name &quot;[name]&quot;
+$ git config [--global] user.email &quot;[email address]&quot;
+</code></pre>
+<h2 id="增加删除文件">增加/删除文件</h2>
+<pre><code class="language-bash"># 添加指定文件到暂存区
+$ git add [file1] [file2] ...
+
+# 添加指定目录到暂存区，包括子目录
+$ git add [dir]
+
+# 添加当前目录的所有文件到暂存区
+$ git add .
+
+# 删除工作区文件，并且将这次删除放入暂存区
+$ git rm [file1] [file2] ...
+
+# 停止追踪指定文件，但该文件会保留在工作区
+$ git rm --cached [file]
+
+# 改名文件，并且将这个改名放入暂存区
+$ git mv [file-original] [file-renamed]
+</code></pre>
+<h2 id="代码提交">代码提交</h2>
+<pre><code class="language-bash"># 提交暂存区到仓库区
+$ git commit -m [message]
+
+# 提交暂存区的指定文件到仓库区
+$ git commit [file1] [file2] ... -m [message]
+
+# 提交工作区自上次commit之后的变化，直接到仓库区
+$ git commit -a
+
+# 提交时显示所有diff信息
+$ git commit -v
+
+# 使用一次新的commit，替代上一次提交
+# 如果代码没有任何新变化，则用来改写上一次commit的提交信息
+$ git commit --amend -m [message]
+
+# 重做上一次commit，并包括指定文件的新变化
+$ git commit --amend &lt;file1&gt; &lt;file2&gt; ...
+</code></pre>
+<h2 id="分支">分支</h2>
+<pre><code class="language-bash"># 列出所有本地分支
+$ git branch
+
+# 列出所有远程分支
+$ git branch -r
+
+# 列出所有本地分支和远程分支
+$ git branch -a
+
+# 新建一个分支，但依然停留在当前分支
+$ git branch [branch-name]
+
+# 新建一个分支，并切换到该分支
+$ git checkout -b [branch]
+
+# 新建一个分支，指向指定commit
+$ git branch [branch] [commit]
+
+# 新建一个分支，与指定的远程分支建立追踪关系
+$ git branch --track [branch] [remote-branch]
+
+# 切换到指定分支，并更新工作区
+$ git checkout [branch-name]
+
+# 建立追踪关系，在现有分支与指定的远程分支之间
+$ git branch --set-upstream [branch] [remote-branch]
+
+# 合并指定分支到当前分支
+$ git merge [branch]
+
+# 选择一个commit，合并进当前分支
+$ git cherry-pick [commit]
+
+# 删除分支
+$ git branch -d [branch-name]
+
+# 删除远程分支
+$ git push origin --delete &lt;branch-name&gt;
+$ git branch -dr &lt;remote/branch&gt;
+</code></pre>
+<h2 id="标签">标签</h2>
+<pre><code class="language-bash"># 列出所有tag
+$ git tag
+
+# 新建一个tag在当前commit
+$ git tag [tag]
+
+# 新建一个tag在指定commit
+$ git tag [tag] [commit]
+
+# 查看tag信息
+$ git show [tag]
+
+# 提交指定tag
+$ git push [remote] [tag]
+
+# 提交所有tag
+$ git push [remote] --tags
+
+# 新建一个分支，指向某个tag
+$ git checkout -b [branch] [tag]
+</code></pre>
+<h2 id="查看信息">查看信息</h2>
+<pre><code class="language-bash"># 显示有变更的文件
+$ git status
+
+# 显示当前分支的版本历史
+$ git log
+
+# 显示commit历史，以及每次commit发生变更的文件
+$ git log --stat
+
+# 显示某个文件的版本历史，包括文件改名
+$ git log --follow [file]
+$ git whatchanged [file]
+
+# 显示指定文件相关的每一次diff
+$ git log -p [file]
+
+# 显示指定文件是什么人在什么时间修改过
+$ git blame [file]
+
+# 显示暂存区和工作区的差异
+$ git diff
+
+# 显示暂存区和上一个commit的差异
+$ git diff --cached [&lt;file&gt;]
+
+# 显示工作区与当前分支最新commit之间的差异
+$ git diff HEAD
+
+# 显示两次提交之间的差异
+$ git diff [first-branch]...[second-branch]
+
+# 显示某次提交的元数据和内容变化
+$ git show [commit]
+
+# 显示某次提交发生变化的文件
+$ git show --name-only [commit]
+
+# 显示某次提交时，某个文件的内容
+$ git show [commit]:[filename]
+
+# 显示当前分支的最近几次提交
+$ git reflog
+</code></pre>
+<h2 id="远程同步">远程同步</h2>
+<pre><code class="language-bash"># 下载远程仓库的所有变动
+$ git fetch [remote]
+
+# 显示所有远程仓库
+$ git remote -v
+
+# 显示某个远程仓库的信息
+$ git remote show [remote]
+
+# 增加一个新的远程仓库，并命名
+$ git remote add [shortname] [url]
+
+# 取回远程仓库的变化，并与本地分支合并
+$ git pull [remote] [branch]
+
+# 上传本地指定分支到远程仓库
+$ git push [remote] [branch]
+
+# 强行推送当前分支到远程仓库，即使有冲突
+$ git push [remote] --force
+
+# 推送所有分支到远程仓库
+$ git push [remote] --all
+</code></pre>
+<h2 id="撤销">撤销</h2>
+<pre><code class="language-bash"># 恢复暂存区的指定文件到工作区
+$ git checkout [file]
+
+# 恢复某个commit的指定文件到工作区
+$ git checkout [commit] [file]
+
+# 恢复上一个commit的所有文件到工作区
+$ git checkout .
+
+# 重置暂存区的指定文件，与上一次commit保持一致，但工作区不变
+$ git reset [file]
+
+# 重置暂存区与工作区，与上一次commit保持一致
+$ git reset --hard
+
+# 重置当前分支的指针为指定commit，同时重置暂存区，但工作区不变
+$ git reset [commit]
+
+# 重置当前分支的HEAD为指定commit，同时重置暂存区和工作区，与指定commit一致
+$ git reset --hard [commit]
+
+# 重置当前HEAD为指定commit，但保持暂存区和工作区不变
+$ git reset --keep [commit]
+
+# 新建一个commit，用来撤销指定commit
+# 后者的所有变化都将被前者抵消，并且应用到当前分支
+$ git revert [commit]
+</code></pre>
+<h2 id="其他">其他</h2>
+<pre><code class="language-bash"># 生成一个可供发布的压缩包
+# git archive
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625387910788.jpg" alt="" loading="lazy"></figure>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>先抄一下阮老师的文章和腾讯的图</p>
+<p>以后有时间再整理</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-实用场景]]></title>
+        <id>https://leecss.com/post/git-shi-yong-chang-jing/</id>
+        <link href="https://leecss.com/post/git-shi-yong-chang-jing/">
+        </link>
+        <updated>2021-07-04T08:23:50.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>一些工作中会用到的知识点</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>一些工作中会用到的知识点</p>
+<!-- more -->
+<h2 id="正常操作流程">正常操作流程</h2>
+<pre><code class="language-sh">git add .
+git commit -m &quot;提交描述&quot;
+git pull
+git push
+</code></pre>
+<p>上述操作流程是经常会使用的操作，为什么pull之前要先提交commit？</p>
+<p>分两步理解</p>
+<p>第一步是<code>git add &amp; git commit</code>，这是你本地仓库的操作记录</p>
+<p>第二步是<code>git pull &amp; git push</code>，这是本地仓库和远程仓库的交互与同步。</p>
+<p>假如你本地没有修改文件，可以直接进行第二步，随时和远程仓库进行同步。</p>
+<p>假如你本地有修改文件，需要先将本地代码保存起来，做一次提交，这样在和远程交互的时候，才能对比操作。</p>
+<p>否则本地修改文件会被覆盖丢失。</p>
+<h2 id="合并代码">合并代码</h2>
+<p>当开发完成一个迭代后，需要发布上线，此时需要将dev分支的代码合并到master</p>
+<pre><code class="language-sh">git switch master
+git pull origin dev
+git push
+</code></pre>
+<h2 id="暂存代码">暂存代码</h2>
+<p>当你需要去合并分支的时候，假如你dev分支上有未完成的工作，此时是不能切换分支的。</p>
+<p>但是因为工作还没有完成，你不想提交到远程，那么就可以将代码先暂存起来。</p>
+<pre><code class="language-sh">git stash
+
+git switch master
+git pull origin dev
+git push
+
+git switch dev
+git stash pop
+</code></pre>
+<h2 id="修复线上bug">修复线上bug</h2>
+<p>此时已经发布上线了，但是发现线上有一个bug需要紧急处理，应该怎么做？</p>
+<pre><code class="language-sh">// 从master分支检出bugfix分支
+git switch master
+git switch -c bugfix
+// 修复bug,提交到仓库
+git add .
+git commit -m 'fix bug x'
+// 切换到master,合并bugfix分支并删除
+git switch master
+git merge --no-ff -m &quot;merged bugfix x&quot; bugfix
+git branch -d fixbug
+</code></pre>
+<p>假如你没有检出bug分支，直接在dev分支上开发的</p>
+<pre><code class="language-sh">// 修复bug,提交到仓库
+git add .
+git commit -m 'fix bug x'
+// 拉取远程更新,并推送
+git pull --rebase
+git push
+// 此时发现另外一名同事已经提交了一些东西，但是这些没经过验证不可以发到线上
+// 查看提交记录，记录下你刚刚提交的commitId，假设为c0
+git log --oneline
+// 切换到master
+git cherry-pick [刚刚提交的commitID]
+git cherry-pick c0
+// 提交
+git pull
+git push
+</code></pre>
+<h2 id="版本回退">版本回退</h2>
+<pre><code class="language-sh">// 查看提交记录
+git log --oneline
+// 以上次提交举例HEAD~，实际以具体commitID
+git reset --hard [commitid]
+git reset --hard HEAD~
+// 强行推送到远程
+git push -f
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-clean]]></title>
+        <id>https://leecss.com/post/git-clean/</id>
+        <link href="https://leecss.com/post/git-clean/">
+        </link>
+        <updated>2021-07-04T03:21:45.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p><code>git clean</code>从你的工作区中删除所有没有 tracked，没有被管理过的文件。</p>
+<p>作用是让使工作区回到一个干净的状态(一个指定的commit状态)</p>
+<p>git clean 和 git reset --hard 结合使用。</p>
+<p>clean 影响没有被 track 过的文件（清除未被 add 或被 commit 的本地修改）</p>
+<p>reset 影响被 track 过的文件 （回退到上一个 commit）</p>
+<p>说到这里，我不禁想起了restore。两者结合不就是restore吗？</p>
+<h2 id="命令">命令</h2>
+<p>查看可使用<code>git clean</code>命令清除的文件</p>
+<pre><code class="language-sh">git clean -n
+</code></pre>
+<p>删除当前目录下所有没有 track 过的文件</p>
+<p>不会删除 <code>.gitignore</code> 文件里面指定的文件夹和文件, 不管这些文件有没有被 track 过</p>
+<pre><code class="language-sh">git clean -f
+</code></pre>
+<p>删除指定路径下的没有被 track 过的文件</p>
+<pre><code class="language-sh">git clean -f &lt;path&gt;
+</code></pre>
+<p>删除当前目录下没有被 track 过的文件和文件夹</p>
+<pre><code class="language-sh">git clean -df
+</code></pre>
+<p>删除当前目录下所有没有 track 过的文件</p>
+<p>不管是否是 <code>.gitignore</code>文件里面指定的文件夹和文件</p>
+<pre><code class="language-sh">git clean -xf
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-show]]></title>
+        <id>https://leecss.com/post/git-show/</id>
+        <link href="https://leecss.com/post/git-show/">
+        </link>
+        <updated>2021-07-04T02:54:11.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p><code>git show</code>命令用于查看commit的内容</p>
+<h2 id="命令">命令</h2>
+<pre><code class="language-sh"># 输出某次提交的元数据和内容变化
+$ git show [commit]
+$ git show 12a86bc38 # By revision
+$ git show v1.0.1 # By tag
+$ git show feature132 # By branch name
+$ git show 12a86bc38^ # Parent of a commit
+$ git show 12a86bc38~2 # Grandparent of a commit
+$ git show feature132@{yesterday} # Time relative
+$ git show feature132@{2.hours.ago} # Time relative
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-show-branch]]></title>
+        <id>https://leecss.com/post/git-show-branch/</id>
+        <link href="https://leecss.com/post/git-show-branch/">
+        </link>
+        <updated>2021-07-04T01:22:22.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>查看分支及其历史提交记录</p>
+<h2 id="命令">命令</h2>
+<p>查看本地分支</p>
+<pre><code class="language-sh">git show-branch
+</code></pre>
+<p>查看远程分支</p>
+<pre><code class="language-sh">git show-branch -r
+</code></pre>
+<p>查看所有分支</p>
+<pre><code class="language-sh">git show-branch -a
+</code></pre>
+<h2 id="解析">解析</h2>
+<p>1、输出分为上下两部分，使用若干个短划线<code>-</code>分隔。两个分支使用两个短划线<code>--</code>，三个分支使用三个短划线<code>---</code>，依次类推。</p>
+<p>2、上半部分为层次缩进的分支列表，下半部分为commit列表。</p>
+<p>3、上半部分的分支列表中，使用<code>*</code>标识当前分支，使用<code>!</code>标识其他分支（不同的分支！标识颜色不一样）。</p>
+<p>分支前的标识符<code>*</code>或者<code>!</code>一直垂直贯通到下半部分，这一列完全相同的符号代表的commit都是属于这个分支的。</p>
+<p>4、下半部分的commit列表中，前导的符号有<code>*</code>和<code>+</code>号。</p>
+<p><code>*</code>表示当前分支上有此commit。</p>
+<p><code>+</code>表示此颜色代表的分支上有此commit。</p>
+<p>5、标识符的颜色只是用于容易区分列，一个分支一个颜色。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625361802965.png" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-鼠标右键手动添加git-bash]]></title>
+        <id>https://leecss.com/post/git-shu-biao-you-jian-shou-dong-tian-jia-git-bash/</id>
+        <link href="https://leecss.com/post/git-shu-biao-you-jian-shou-dong-tian-jia-git-bash/">
+        </link>
+        <updated>2021-07-04T01:04:12.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>鼠标右键没有git bash的解决办法</p>
+<h2 id="操作">操作</h2>
+<p>1、打开注册表</p>
+<blockquote>
+<p><code>win+r</code>,输入<code>regedit</code></p>
+</blockquote>
+<p>2、找到shell目录</p>
+<blockquote>
+<p>路径为：计算机\HKEY_CLASSES_ROOT\Directory\Background\shell</p>
+<p>如果Background目录下没有shell文件夹就新建shell文件夹。</p>
+</blockquote>
+<p>3、在shell目录上右键-新建-项，命名bash</p>
+<p>4、点击新建的Bash 右侧出现默认，点击默认，设置值为Open in Bash</p>
+<p>5、在bash目录上右键-新建-项，命名command</p>
+<p>6、点击commond，右侧出现默认，点击默认，修改值为你的git-bash路径</p>
+<blockquote>
+<p>以我的举例</p>
+<p>D:\software\git\Git\git-bash.exe</p>
+</blockquote>
+<p>7、保存关闭注册表，在任意目录鼠标右键测试</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[git-blame]]></title>
         <id>https://leecss.com/post/git-blame/</id>
@@ -209,221 +652,6 @@ IdentityFile ~/.ssh/id_rsa.company
 PreferredAuthentications publickey
 </code></pre>
 <pre><code class="language-sh">git clone git@company:lee/test.git
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-stash]]></title>
-        <id>https://leecss.com/post/git-stash/</id>
-        <link href="https://leecss.com/post/git-stash/">
-        </link>
-        <updated>2021-07-02T00:44:51.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git stash</code>命令用于暂时保存没有提交的工作。运行该命令后，所有没有commit的代码，都会暂时从工作区移除，回到上次commit时的状态。</p>
-<h2 id="命令">命令</h2>
-<h3 id="新增暂存">新增暂存</h3>
-<p>暂时保存没有提交的工作</p>
-<pre><code class="language-sh">git stash
-</code></pre>
-<h3 id="查看暂存">查看暂存</h3>
-<p>查看暂存列表</p>
-<pre><code class="language-sh">git stash list
----
-stash@{0}: WIP on workbranch: 56cd5d4 Revert &quot;update old files&quot;
-stash@{1}: WIP on project1: 1dd87ea commit &quot;fix typos and grammar&quot;
-</code></pre>
-<p>展示目前存在的stash</p>
-<pre><code class="language-sh">git stash show -p
-</code></pre>
-<h3 id="恢复暂存">恢复暂存</h3>
-<h4 id="需手动删除">需手动删除</h4>
-<p>恢复stash 列表的第一条stash 的内容，即最近的一次暂存,不会自动删除取出的修改</p>
-<pre><code>git stash apply stash@{0}
-</code></pre>
-<p>取出指定某一次的修改,不会自动删除取出的修改</p>
-<pre><code class="language-sh">git stash apply stash@{[number]}
-git stash apply stash@{1}
-</code></pre>
-<hr>
-<h4 id="自动删除">自动删除</h4>
-<p>恢复stash 列表的第一条stash 的内容并自动删除</p>
-<pre><code class="language-sh">git stash pop stash@{0}
-</code></pre>
-<p>取出最近一次的修改并自动删除，作用同上，书写更简便</p>
-<pre><code class="language-sh">git stash pop
-</code></pre>
-<h3 id="删除暂存">删除暂存</h3>
-<p>删除stash 列表的第一条stash 的内容</p>
-<pre><code class="language-sh">git stash drop stash@{0}
-</code></pre>
-<p>清空stash 列表</p>
-<pre><code class="language-sh">git stash clear
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-remote]]></title>
-        <id>https://leecss.com/post/git-remote/</id>
-        <link href="https://leecss.com/post/git-remote/">
-        </link>
-        <updated>2021-07-02T00:18:55.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>此命令用于管理远程主机(仓库)</p>
-<h2 id="命令">命令</h2>
-<h3 id="查看">查看</h3>
-<p>列出所有远程主机</p>
-<pre><code class="language-sh">git remote
----
-origin
-</code></pre>
-<p>查看远程主机的网址</p>
-<pre><code class="language-sh">git remote -v
----
-origin  git@github.com:jquery/jquery.git (fetch)
-origin  git@github.com:jquery/jquery.git (push)
-</code></pre>
-<p>查看该主机的详细信息</p>
-<pre><code class="language-sh">git remote show &lt;主机名&gt;
-</code></pre>
-<h3 id="添加">添加</h3>
-<p>添加远程主机</p>
-<pre><code>git remote add &lt;主机名&gt; &lt;网址&gt;
-</code></pre>
-<h3 id="删除">删除</h3>
-<p>删除远程主机</p>
-<pre><code class="language-sh">git remote rm &lt;主机名&gt;
-</code></pre>
-<h3 id="更改名称">更改名称</h3>
-<p>更改远程主机的名称</p>
-<pre><code class="language-sh">git remote rename &lt;原主机名&gt; &lt;新主机名&gt;
-</code></pre>
-<p>克隆时指定名称</p>
-<pre><code class="language-sh">git clone -o &lt;主机名&gt; &lt;网址&gt;
-git clone -o jQuery https://github.com/jquery/jquery.git
-
-git remote
----
-jQuery
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-mv]]></title>
-        <id>https://leecss.com/post/git-mv/</id>
-        <link href="https://leecss.com/post/git-mv/">
-        </link>
-        <updated>2021-07-01T14:44:17.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>平时我们会遇到重命名文件的情况，git会把重命名的操作理解为以下几步</p>
-<p>1、先删除了原文件</p>
-<p>2、添加了新文件</p>
-<p>3、将变更添加到暂存区</p>
-<p>以上几步可以使用git命令直接完成</p>
-<pre><code class="language-sh">git mv [old-name] [new-name]
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-rm]]></title>
-        <id>https://leecss.com/post/git-rm/</id>
-        <link href="https://leecss.com/post/git-rm/">
-        </link>
-        <updated>2021-07-01T14:34:45.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>平时我们都会有删除文件的需求，正常操作为</p>
-<p>1、在文件系统中删除某文件</p>
-<p>2、在git中将删除文件的变更添加到暂存区。</p>
-<p>上述两步操作可以通过一条命令来完成，即</p>
-<pre><code class="language-sh">git rm [file]
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-rev-parse]]></title>
-        <id>https://leecss.com/post/git-rev-parse/</id>
-        <link href="https://leecss.com/post/git-rev-parse/">
-        </link>
-        <updated>2021-06-30T15:48:04.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>显示某个指示符的SHA1哈希值。</p>
-<h2 id="命令">命令</h2>
-<p>通过提交名获取到对应提交的哈希码</p>
-<pre><code class="language-sh">git rev-parse HEAD
-</code></pre>
-<p>通过哈希码的缩写获取到完整的哈希码</p>
-<pre><code class="language-sh">git rev-parse a63d5b
-</code></pre>
-<p>通过分支名获取到对应提交的哈希码</p>
-<pre><code class="language-sh">git rev-parse master
-</code></pre>
-<p>通过标签名获取到对应提交的哈希码</p>
-<pre><code class="language-sh">git rev-parse v1.0.0
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-diff]]></title>
-        <id>https://leecss.com/post/git-diff/</id>
-        <link href="https://leecss.com/post/git-diff/">
-        </link>
-        <updated>2021-06-30T15:37:30.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>git diff</code>命令用于查看文件之间的差异。</p>
-<h2 id="命令">命令</h2>
-<h3 id="工作区与暂存区">工作区与暂存区</h3>
-<p>查看工作区与暂存区的差异</p>
-<pre><code class="language-sh">git diff
-</code></pre>
-<p>查看工作区与暂存区某个文件的差异</p>
-<pre><code class="language-sh">git diff [file]
-git diff file.txt
-// 或
-git diff -- [file]
-git diff -- ./[file]
-</code></pre>
-<p>查看工作区与暂存区多个文件的差异，以空格分隔</p>
-<pre><code class="language-sh">git diff -- [file1] [file2]
-</code></pre>
-<p>查看工作区与暂存区目录下所有文件的差异</p>
-<pre><code class="language-sh">git diff -- [dir]/
-</code></pre>
-<h3 id="工作区与commit快照">工作区与commit快照</h3>
-<p>查看工作区与上一次commit之间的差异</p>
-<pre><code class="language-sh">git diff HEAD
-</code></pre>
-<p>查看工作区与某个 commit 的差异</p>
-<pre><code class="language-sh">git diff [commit]
-</code></pre>
-<hr>
-<p>当我们修改工作区的内容后，我们没有暂存，也没有提交，所以此时暂存区和仓库的状态是相同的。</p>
-<p>即此时<code>git diff</code> 与<code>git diff HEAD</code>返回的结果是完全相同的</p>
-<hr>
-<p>当我们执行<code>git add</code>命令后，此时<code>git diff</code>不会显示任何内容，因为此时工作区与暂存区没有差异。</p>
-<p>但是如果执行<code>git diff HEAD</code>命令，仍然可以查看到工作区和提交之间的差异。</p>
-<hr>
-<p>假如此时再次修改工作区的内容，我们就能同时对比工作区和(暂存区/仓库)的差异</p>
-<p>并且此时暂存区和仓库也是有差异的</p>
-<h3 id="暂存区与仓库区">暂存区与仓库区</h3>
-<p>查看暂存区与当前 commit 的差异</p>
-<pre><code class="language-sh">git diff --cached
-</code></pre>
-<h3 id="对比两次提交">对比两次提交</h3>
-<p>显示两次提交之间的差异</p>
-<pre><code class="language-sh">git diff [first-commit] [second-commit]
-</code></pre>
-<p>我们也可以使用引用，更加方便的对比，比如：最新提交和上一次提交</p>
-<pre><code class="language-sh">git diff HEAD HEAD~
-</code></pre>
-<h3 id="对比两个分支">对比两个分支</h3>
-<p>即对比两个分支上最新提交之间的差异</p>
-<pre><code class="language-sh">git diff [first-branch] [second-branch]
-git diff master dev
-// 等效于
-git diff [first-branch]..[second-branch]
-git diff maste..dev
-</code></pre>
-<p>查看自从topic分支建立以后，master分支发生的变化</p>
-<pre><code class="language-sh">git diff topic...master
 </code></pre>
 ]]></content>
     </entry>
