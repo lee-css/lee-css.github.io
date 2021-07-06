@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-mv | 当下</title>
+<title>http-网络模型 | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1625583414168">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="git-mv" />
-  <meta name="keywords" content="git" />
+  <meta name="description" content="http-网络模型" />
+  <meta name="keywords" content="http" />
 </head>
 
 <body>
@@ -209,9 +209,36 @@
   <div class="toc-wrapper auto-number auto"
     id="toc_wrapper">
     <ul class="markdownIt-TOC">
-<li>
+<li><a href="#http-%E4%BA%94%E5%B1%82%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B">http-五层网络模型</a>
 <ul>
-<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#1%E6%A6%82%E8%BF%B0">1.概述</a>
+<ul>
+<li><a href="#11%E5%8D%8F%E8%AE%AE">1.1协议</a></li>
+<li><a href="#12%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B">1.2网络模型</a>
+<ul>
+<li><a href="#121%E5%9B%9B%E5%B1%82">1.2.1四层</a></li>
+<li><a href="#122%E4%B8%83%E5%B1%82">1.2.2七层</a></li>
+<li><a href="#123%E4%BA%94%E5%B1%82">1.2.3五层</a></li>
+</ul>
+</li>
+<li><a href="#13%E5%B1%82%E4%B8%8E%E5%8D%8F%E8%AE%AE">1.3层与协议</a></li>
+</ul>
+</li>
+<li><a href="#2%E4%BA%94%E5%B1%82%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3">2.五层网络模型详解</a>
+<ul>
+<li><a href="#21%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%A7%92%E5%BA%A6">2.1系统的角度</a>
+<ul>
+<li><a href="#211%E7%89%A9%E7%90%86%E5%B1%82">2.1.1物理层</a></li>
+<li><a href="#212%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82">2.1.2数据链路层</a></li>
+<li><a href="#213%E7%BD%91%E7%BB%9C%E5%B1%82">2.1.3网络层</a></li>
+<li><a href="#214%E4%BC%A0%E8%BE%93%E5%B1%82">2.1.4传输层</a></li>
+<li><a href="#215%E5%BA%94%E7%94%A8%E5%B1%82">2.1.5应用层</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#3tcpip%E9%80%9A%E4%BF%A1%E4%BC%A0%E8%BE%93%E6%B5%81">3.TCP/IP通信传输流</a></li>
+<li><a href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB">推荐阅读</a></li>
 </ul>
 </li>
 </ul>
@@ -479,8 +506,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-mv/">
-      git-mv
+    <a class="post-title-link" href="https://leecss.com/post/http-wang-luo-mo-xing/">
+      http-网络模型
     </a>
   </h1>
   <div class="post-meta">
@@ -488,7 +515,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-07-01 22:44:17">2021-07-01</span>
+      <span class="publish-time" data-t="2021-07-05 22:41:22">2021-07-05</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -497,8 +524,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/TDboywfcf/">
-        <span>git</span>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/">
+        <span>http</span>
       </a>
       
       
@@ -507,25 +534,148 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>1<span class="language" data-lan="minute">分钟</span></span>
+      <span>14<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>79<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>3809<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="概述">概述</h2>
-<p>平时我们会遇到重命名文件的情况，git会把重命名的操作理解为以下几步</p>
-<p>1、先删除了原文件</p>
-<p>2、添加了新文件</p>
-<p>3、将变更添加到暂存区</p>
-<p>以上几步可以使用git命令直接完成</p>
-<pre><code class="language-sh">git mv [old-name] [new-name]
+              <h1 id="http-五层网络模型">http-五层网络模型</h1>
+<h2 id="1概述">1.概述</h2>
+<h3 id="11协议">1.1协议</h3>
+<p>协议，网络协议的简称，网络协议是通信计算机双方必须共同遵从的一组约定。如怎么样建立连接、怎么样互相识别等。只有遵守这个约定，计算机之间才能相互通信交流。</p>
+<p>为了使数据在网络上从源到达目的，网络通信的参与方必须遵循相同的规则，这套规则称为协议（protocol），它最终体现为在网络上传输的数据包的格式。</p>
+<p>协议往往分成几个层次进行定义，分层定义是为了使某一层协议的改变不影响其他层次的协议。</p>
+<h3 id="12网络模型">1.2网络模型</h3>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625500448131.jpg" alt="" loading="lazy"></figure>
+<h4 id="121四层">1.2.1四层</h4>
+<p>TCP/IP 协议族是Internet最基本的协议，按照是否具有TCP/IP 协议族的协议来划分的话，从下到上为：</p>
+<ul>
+<li>
+<p><strong>链路层</strong></p>
+<p>用来处理连接网络的硬件部分，包括控制操作系统、硬件的设备驱动、NIC（Network Interface Card，网络适配器，即网卡），及光纤等物理可见部分（还包括连接器等一切传输媒介）。硬件上的范畴均在链路层的作用范围之内。</p>
+</li>
+<li>
+<p><strong>网络层</strong></p>
+<p>网络层规定了数据通过怎样的传输路线到达对方计算机传送给对方（IP协议等）。</p>
+</li>
+<li>
+<p><strong>传输层</strong></p>
+<p>传输层对接上层应用层，提供处于网络连接中两台计算机之间的数据传输所使用的协议。</p>
+</li>
+<li>
+<p><strong>应用层</strong></p>
+<p>应用层规定了向用户提供应用服务时通信的协议。</p>
+</li>
+</ul>
+<h4 id="122七层">1.2.2七层</h4>
+<p>国际标准化组织（ISO）为了规范协议层次的划分制定了开发系统互联（OSI，Open Systems Interconnection）模型，即ISO/OSI参考模型。此模型根据网络功能制定出7层网络协议结构，由低到高分别为物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。</p>
+<h4 id="123五层">1.2.3五层</h4>
+<p>五层网络模型分别为：物理层，数据链路层，网络层，传输层，应用层。</p>
+<p>物理层：主要作用是定义物理设备如何传输数据。</p>
+<p>数据链路层：在通信的实体间建立数据链路连接。</p>
+<p>网络层：为数据在结点之间传输创建逻辑链路。</p>
+<p>传输层：为应用层实体提供端到端的通信功能。</p>
+<p>应用层：为应用软件提供了很多服务。</p>
+<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1625500557587.jpg" alt="" loading="lazy"></figure>
+<h3 id="13层与协议">1.3层与协议</h3>
+<p>每一层都是为了完成一种功能。为了实现这些功能，就需要大家都遵守共同的规则。</p>
+<p>大家都遵守的规则，就叫做&quot;协议&quot;（protocol）。</p>
+<p>互联网的每一层，都定义了很多协议。这些协议集合起来总称为TCP/IP</p>
+<h2 id="2五层网络模型详解">2.五层网络模型详解</h2>
+<p>数据包格式：<br>
+<img src="https://leecss.com/post-images/1625500599926.png" alt="" loading="lazy"></p>
+<h3 id="21系统的角度">2.1系统的角度</h3>
+<h4 id="211物理层">2.1.1物理层</h4>
+<p>光缆、电缆、双绞线、无线电波等方式，<u>把电脑连接起来的物理手段</u>。</p>
+<p>它主要规定了网络的一些电气特性，<u>作用是负责传送0和1的电信号。</u></p>
+<h4 id="212数据链路层">2.1.2数据链路层</h4>
+<p>在&quot;实体层&quot;的上方，<u>确定了0和1的分组方式。</u></p>
+<p>有了数据包的定义、网卡的MAC地址、广播的发送方式，&quot;链接层&quot;就可以在多台计算机之间传送数据了。</p>
+<p><strong>以太网协议</strong></p>
+<p>以太网规定，一组电信号构成一个数据包，叫做&quot;帧&quot;（Frame）。每一帧分成两个部分：标头（Head）和数据（Data）。</p>
+<p>&quot;标头&quot;包含数据包的一些说明项，比如发送者、接受者、数据类型等等；&quot;数据&quot;则是数据包的具体内容。</p>
+<p>&quot;标头&quot;的长度，固定为18字节。&quot;数据&quot;的长度，最短为46字节，最长为1500字节。因此，整个&quot;帧&quot;最短为64字节，最长为1518字节。如果数据很长，就必须分割成多个帧进行发送。</p>
+<p><strong>MAC地址</strong></p>
+<p>以太网规定，连入网络的所有设备，都必须具有&quot;网卡&quot;接口。数据包必须是从一块网卡，传送到另一块网卡。网卡的地址，就是数据包的发送地址和接收地址，这叫做MAC地址。</p>
+<p>每块网卡出厂的时候，都有一个AC地址，重复概率很小。长度是48个二进制位，通常用12个十六进制数表示。</p>
+<pre><code class="language-sh"># MAC Address
+00-B0-D0-86-BB-F7
 </code></pre>
+<p>前6个十六进制数是厂商编号，后6个是该厂商的网卡流水号。有了MAC地址，就可以定位网卡和数据包的路径了。</p>
+<p><strong>广播</strong></p>
+<p>早期，以太网采用了一种很原始的方式来识别<strong>服务器</strong>网卡的地址，它不是把数据包准确送到接收方，而是向本网络内所有计算机发送，让每台计算机自己判断，是否为接收方。</p>
+<p>同一子网络下所有计算机都会收到<strong>客户端</strong>发出的数据包。它们读取这个包的&quot;标头&quot;，找到接收方的MAC地址，然后与自身的MAC地址相比较，如果两者相同，就接受这个包，做进一步处理，否则就丢弃这个包。这种发送方式就叫做&quot;广播&quot;（broadcasting）。</p>
+<h4 id="213网络层">2.1.3网络层</h4>
+<p>互联网是无数子网络共同组成的一个巨型网络，如果客户端与服务器不在一个子网络内，则无法通过广播的方式识别对方。</p>
+<p>网络层引进一套新的地址，使得我们能够<u>区分不同的计算机是否属于同一个子网络</u>。这套地址就叫做&quot;网络地址&quot;，简称&quot;网址&quot;。</p>
+<p>于是，&quot;网络层&quot;出现以后，每台计算机有了两种地址，一种是MAC地址，另一种是网络地址。</p>
+<p>两种地址之间没有任何联系，MAC地址是绑定在网卡上的，网络地址则是管理员分配的，它们只是随机组合在一起。</p>
+<p>网络地址帮助我们确定计算机所在的子网络，MAC地址则将数据包送到该子网络中的目标网卡。</p>
+<p><strong>IP协议</strong></p>
+<p>规定网络地址的协议，叫做IP协议。它所定义的地址，就被称为IP地址。</p>
+<p>IP协议的作用主要有两个，<u>一个是为每一台计算机分配IP地址，另一个是确定哪些地址在同一个子网络。</u></p>
+<p>目前，广泛采用的是IP协议第四版，简称IPv4。这个版本规定，网络地址由32个二进制位组成。</p>
+<pre><code class="language-sh"># IP Address
+172.16.254.1
+10101100.00010000.11111110.00000001
+</code></pre>
+<p>习惯上，我们用分成四段的十进制数表示IP地址，从0.0.0.0一直到255.255.255.255。</p>
+<p>互联网上的每一台计算机，都会分配到一个IP地址。这个地址分成两个部分，前一部分代表网络，后一部分代表主机。比如，IP地址172.16.254.1，这是一个32位的地址，假定它的网络部分是前24位（172.16.254），那么主机部分就是后8位（最后的那个1）。处于同一个子网络的电脑，它们IP地址的网络部分必定是相同的，也就是说172.16.254.2应该与172.16.254.1处在同一个子网络。</p>
+<p>但是，问题在于单单从IP地址，我们无法判断网络部分。还是以172.16.254.1为例，它的网络部分，到底是前24位，还是前16位，甚至前28位，从IP地址上是看不出来的。</p>
+<p>那么，怎样才能从IP地址，判断两台计算机是否属于同一个子网络呢？这就要用到另一个参数&quot;子网掩码&quot;（subnet mask）。</p>
+<p><strong>子网掩码</strong></p>
+<p>所谓&quot;子网掩码&quot;，就是表示子网络特征的一个参数。它在形式上等同于IP地址，也是一个32位二进制数字，它的网络部分全部为1，主机部分全部为0。比如，IP地址172.16.254.1，如果已知网络部分是前24位，主机部分是后8位，那么子网络掩码就是11111111.11111111.11111111.00000000，写成十进制就是255.255.255.0。</p>
+<p>知道&quot;子网掩码&quot;，我们就能判断，任意两个IP地址是否处在同一个子网络。方法是将两个IP地址与子网掩码分别进行AND运算（两个数位都为1，运算结果为1，否则为0），然后比较结果是否相同，如果是的话，就表明它们在同一个子网络中，否则就不是。</p>
+<p>比如，已知IP地址172.16.254.1和172.16.254.233的子网掩码都是255.255.255.0，请问它们是否在同一个子网络？两者与子网掩码分别进行AND运算，结果都是172.16.254.0，因此它们在同一个子网络。</p>
+<p><strong>IP数据包</strong></p>
+<p>根据IP协议发送的数据，就叫做IP数据包。不难想象，其中必定包括IP地址信息。</p>
+<p>IP数据包直接放进以太网数据包的&quot;数据&quot;部分</p>
+<p>具体来说，IP数据包也分为&quot;标头&quot;和&quot;数据&quot;两个部分。</p>
+<p>&quot;标头&quot;部分主要包括版本、长度、IP地址等信息，&quot;数据&quot;部分则是IP数据包的具体内容。</p>
+<p>IP数据包的&quot;标头&quot;部分的长度为20到60字节，整个数据包的总长度最大为65,535字节。因此，理论上，一个IP数据包的&quot;数据&quot;部分，最长为65,515字节。前面说过，以太网数据包的&quot;数据&quot;部分，最长只有1500字节。因此，如果IP数据包超过了1500字节，它就需要分割成几个以太网数据包，分开发送了。</p>
+<h4 id="214传输层">2.1.4传输层</h4>
+<p><u>建立&quot;端口到端口&quot;的通信。</u></p>
+<p>有了MAC地址和IP地址，我们已经可以在互联网上任意两台主机上建立通信。</p>
+<p>接下来的问题是，同一台主机上有许多程序都需要用到网络，比如，你一边浏览网页，一边与朋友在线聊天。当一个数据包从互联网上发来的时候，你怎么知道，它是表示网页的内容，还是表示在线聊天的内容？</p>
+<p>也就是说，我们还需要一个参数，表示这个数据包到底供哪个程序（进程）使用。这个参数就叫做&quot;端口&quot;（port），它其实是每一个使用网卡的程序的编号。每个数据包都发到主机的特定端口，所以不同的程序就能取到自己所需要的数据。</p>
+<p>&quot;端口&quot;是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。</p>
+<p><strong>UDP协议</strong></p>
+<p>现在，我们必须在数据包中加入端口信息，这就需要新的协议。最简单的实现叫做UDP协议，它的格式几乎就是在数据前面，加上端口号。</p>
+<p>UDP数据包，也是由&quot;标头&quot;和&quot;数据&quot;两部分组成。</p>
+<p>标头&quot;部分主要定义了发出端口和接收端口，&quot;数据&quot;部分就是具体的内容。</p>
+<p>整个UDP数据包放入IP数据包的&quot;数据&quot;部分</p>
+<p>UDP数据包非常简单，&quot;标头&quot;部分一共只有8个字节，总长度不超过65,535字节，正好放进一个IP数据包。</p>
+<p><strong>TCP协议</strong></p>
+<p>UDP协议的优点是比较简单，容易实现，但是缺点是可靠性较差，一旦数据包发出，无法知道对方是否收到。</p>
+<p>为了解决这个问题，提高网络可靠性，TCP协议就诞生了。这个协议非常复杂，但可以近似认为，它就是有确认机制的UDP协议，每发出一个数据包都要求确认。如果有一个数据包遗失，就收不到确认，发出方就知道有必要重发这个数据包了。</p>
+<p>因此，TCP协议能够确保数据不会遗失。它的缺点是过程复杂、实现困难、消耗较多的资源。</p>
+<p>TCP数据包和UDP数据包一样，都是内嵌在IP数据包的&quot;数据&quot;部分。TCP数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常TCP数据包的长度不会超过IP数据包的长度，以确保单个TCP数据包不必再分割。</p>
+<h4 id="215应用层">2.1.5应用层</h4>
+<p><u>规定应用程序的数据格式。</u></p>
+<p>应用程序收到&quot;传输层&quot;的数据，接下来就要进行解读。由于互联网是开放架构，数据来源五花八门，必须事先规定好格式，否则根本无法解读。</p>
+<p>举例来说，TCP协议可以为各种各样的程序传递数据，比如Email、WWW、FTP等等。那么，必须有不同协议规定电子邮件、网页、FTP数据的格式，这些应用程序协议就构成了&quot;应用层&quot;。</p>
+<p>这是最高的一层，直接面对用户。它的数据就放在TCP数据包的&quot;数据&quot;部分。</p>
+<h2 id="3tcpip通信传输流">3.TCP/IP通信传输流</h2>
+<p>利用 TCP/IP 协议族进行网络通信时，会通过分层顺序与对方进行通信。发送端从应用层往下走，接收端则往应用层往上走。</p>
+<p>我们用 HTTP 举例来说明，首先作为发送端的客户端在应用层（HTTP 协议）发出一个想看某个 Web 页面的 HTTP 请求。</p>
+<p>接着，为了传输方便，在传输层（TCP 协议）把从应用层处收到的数据（HTTP 请求报文）进行分割，并在各个报文上打上标记序号及端口号后转发给网络层。</p>
+<p>在网络层（IP 协议），增加作为通信目的地的 MAC 地址后转发给链路层。这样一来，发往网络的通信请求就准备齐全了。</p>
+<p>接收端的服务器在链路层接收到数据，按序往上层发送，一直到应用层。当传输到应用层，才能算真正接收到由客户端发送过来的 HTTP请求。</p>
+<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1625528569737.jpg" alt="" loading="lazy"></figure>
+<p>发送端在层与层之间传输数据时，每经过一层时必定会被打上一个该层所属的首部信息。反之，接收端在层与层传输数据时，每经过一层时会把对应的首部消去。</p>
+<p>这种把数据信息包装起来的做法称为封装（encapsulate）。</p>
+<h2 id="推荐阅读">推荐阅读</h2>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="https://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html">互联网协议1</a></p>
+<p><a href="https://www.ruanyifeng.com/blog/2012/06/internet_protocol_suite_part_ii.html">互联网协议2</a></p>
+</blockquote>
 
             </div>
             
@@ -538,7 +688,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-mv/" title="git-mv">https://leecss.com/post/git-mv/</a>
+      <a href="https://leecss.com/post/http-wang-luo-mo-xing/" title="http-网络模型">https://leecss.com/post/http-wang-luo-mo-xing/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -547,21 +697,21 @@
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/"># http</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-remote" href="https://leecss.com/post/git-remote/">git-remote</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-remote" href="https://leecss.com/post/git-remote/">上一篇</a>
+        <a class="nav-pc-next" title="http-版本历史" href="https://leecss.com/post/http-ban-ben-li-shi/">http-版本历史</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="http-版本历史" href="https://leecss.com/post/http-ban-ben-li-shi/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-rm" href="https://leecss.com/post/git-rm/">git-rm</a>
-        <a class="nav-mobile-next" title="git-rm" href="https://leecss.com/post/git-rm/">下一篇</a>
+        <a class="nav-pc-next" title="git命令总结" href="https://leecss.com/post/git-ming-ling-zong-jie/">git命令总结</a>
+        <a class="nav-mobile-next" title="git命令总结" href="https://leecss.com/post/git-ming-ling-zong-jie/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-实用场景 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1625390256159">
+<link rel="shortcut icon" href="/favicon.ico?v=1625583414168">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,19 +176,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">47</span>
+        <span class="site-item-stat-count">49</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">4</span>
+        <span class="site-item-stat-count">5</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">4</span>
+        <span class="site-item-stat-count">5</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -1138,6 +1138,211 @@ git push -f
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-ban-ben-li-shi/"" data-c="
+          &lt;h2 id=&#34;1-概述&#34;&gt;1. 概述&lt;/h2&gt;
+&lt;p&gt;现在使用的HTTP协议有几个版本。HTTP程序要尽量强健地处理各种不同的HTTP协议变体。&lt;/p&gt;
+&lt;h2 id=&#34;2-版本&#34;&gt;2. 版本&lt;/h2&gt;
+&lt;h3 id=&#34;21-http09&#34;&gt;2.1 HTTP/0.9&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;HTTP/0.9只支持GET方法。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;不支持多媒体内容的MIME类型、各种HTTP首部，或者版本号。&lt;/p&gt;
+&lt;p&gt;服务器发送完毕，就关闭TCP连接。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;命名&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;HTTP 于 1990 年问世。那时的 HTTP 并没有作为正式的标准被建立。&lt;/p&gt;
+&lt;p&gt;实含有 HTTP1.0 之前版本的意思，因此被称为HTTP/0.9。&lt;/p&gt;
+&lt;h3 id=&#34;22-http10&#34;&gt;2.2 HTTP/1.0&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;HTTP/1.0添加了status code、header(各种HTTP首部)、版本号、一些额外的方法。&lt;/p&gt;
+&lt;p&gt;多字符集支持、多部分发送、权限、缓存等。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;每次请求都打开一个新的TCP链接，收到响应之后立即断开连接。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;命名&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;HTTP 正式作为标准被公布是在 1996 年的 5 月，版本被命名为HTTP/1.0，并记载于 &lt;a href=&#34;https://www.ietf.org/rfc/rfc1945.txt&#34;&gt;RFC1945&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;虽说是初期标准，但该协议标准至今仍被广泛使用在服务器端。&lt;/p&gt;
+&lt;h3 id=&#34;23-http11&#34;&gt;2.3 HTTP/1.1&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;231-持久化&#34;&gt;2.3.1 持久化&lt;/h4&gt;
+&lt;p&gt;&lt;u&gt;HTTP/1.1 默认开启持久连接，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟。&lt;/u&gt;&lt;/p&gt;
+&lt;p&gt;在1.0版本中，每进行一次HTTP通信就要断开一次TCP连接。&lt;/p&gt;
+&lt;p&gt;TCP连接的新建成本很高，频繁地打开关闭会极大地增加开销，影响性能。&lt;/p&gt;
+&lt;p&gt;于是在1.1版本中引入持久连接的方法。其特点就是任意一端没有明确提出断开连接，则保持TCP连接的状态。&lt;/p&gt;
+&lt;h4 id=&#34;232-管线化&#34;&gt;2.3.2 管线化&lt;/h4&gt;
+&lt;p&gt;&lt;u&gt;HTTP/1.1增加了pipeline支持。&lt;/u&gt;&lt;/p&gt;
+&lt;p&gt;管线化的连接建立在持久化连接的基础上，且响应需要顺序返回。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625583403314.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;非管线化的请求：如上图中第一幅&lt;/p&gt;
+&lt;p&gt;客户端发送一个请求之后，必须等待服务器响应之后才能发送下一个请求，不能同时并行发送多个请求。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;管线化的请求：如上图中第二幅&lt;/p&gt;
+&lt;p&gt;客户端一次性发送多个请求，不用等待服务器响应就可以发送下一个请求。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;队头阻塞&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;管线化：如上图中第三幅&lt;/p&gt;
+&lt;p&gt;http1.1规定，服务器端的响应的发送要根据请求被接收的顺序排队，即先接收到的请求需要先响应回来。所以当第一个请求阻塞后，后面的请求都需要等待。&lt;/p&gt;
+&lt;p&gt;请求可以并行发出，但是响应必须串行返回。后一个响应必须在前一个响应之后。原因是，没有序号标明顺序，只能串行接收，阻塞发生在服务端，http响应阻塞。&lt;/p&gt;
+&lt;p&gt;非管线化: 如上图中第一幅&lt;/p&gt;
+&lt;p&gt;后一个请求必须在前一个响应之后发送，发生在客户端，http请求阻塞。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;HTTP2多路复用：如上图中第四幅&lt;/p&gt;
+&lt;p&gt;解决第二个请求不被第一个请求阻塞，最好的办法就是来两个TCP连接。传统上浏览器也是这么干的。但是TCP要握手，这个效率低，所以HTTP2把多个这种请求流塞到一个TCP连接里面，这样的连接复用方式就提高了效率，又节省了连接握手。&lt;/p&gt;
+&lt;p&gt;为了解决HTTP1.1管线化队头阻塞的问题，http2中，将多个请求复用到同一个tcp通道中，通过&lt;strong&gt;二进制分帧&lt;/strong&gt;并且&lt;strong&gt;给每个帧&lt;/strong&gt;打上&lt;strong&gt;流&lt;/strong&gt;的 &lt;strong&gt;ID&lt;/strong&gt; 去避免依次响应的问题，对方接收到帧之后&lt;strong&gt;根据 ID 拼接出流&lt;/strong&gt;，这样就可以做到乱序响应从而避免请求时的队首阻塞问题。&lt;/p&gt;
+&lt;p&gt;但是HTTP2没有完全解决队头阻塞问题，因为实际中TCP的连接buffer有限，一个响应又慢，又大的请求会把链接buffer完全占满，导致buffer阻塞，从而导致跟队头阻塞一样的效果。&lt;/p&gt;
+&lt;h4 id=&#34;233-增加host字段&#34;&gt;2.3.3 增加HOST字段&lt;/h4&gt;
+&lt;p&gt;HTTP/1.1 的请求消息和响应消息都必须包含&lt;code&gt;Host&lt;/code&gt;头部，以区分同一个物理主机中的不同虚拟主机的域名。&lt;/p&gt;
+&lt;p&gt;1.0版本中，认为每台物理服务器对应唯一的IP地址。所以，在1.0版本中是没有主机名这个概念的。但随着Web技术的发展，一台物理服务器可以存在多个虚拟主机，他们共享同一个IP地址。为了解决这个问题，HOST字段应运而生。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;命名&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1997 年 1 月公布的 HTTP/1.1 是目前主流的 HTTP 协议版本。当初的标准是 RFC2068，之后发布的修订版 &lt;a href=&#34;https://www.ietf.org/rfc/rfc2616.txt&#34;&gt;RFC2616&lt;/a&gt; 就是当前的最新版本。&lt;/p&gt;
+&lt;h3 id=&#34;24-http20&#34;&gt;2.4 HTTP/2.0&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;241-二进制分帧&#34;&gt;2.4.1 二进制分帧&lt;/h4&gt;
+&lt;p&gt;在HTTP协议2.0中，应用层和传输层之间会多一个二进制分帧层。在二进制分帧层上，HTTP 2.0 会将所有传输的信息分割为更小的帧,并对它们采用二进制格式的编码 。之前HTTP1.x版本中的HTTP报文首部信息会被封装到Headers帧，而我们的HTTP报文主体则封装到Data帧里面。原先我们是以HTTP报文为单位传输的，现在HTTP报文被拆成了多个帧的形式，并且这些帧可以乱序发送，我们只需根据每个帧首部的流标识符就可以重新完成组装。这样极大提升了HTTP的性能。&lt;/p&gt;
+&lt;h4 id=&#34;242-多路复用&#34;&gt;2.4.2 多路复用&lt;/h4&gt;
+&lt;p&gt;HTTP/2.0支持多路复用，就是在一个 TCP 连接中可以存在多条流，也就是可以发送多个请求，服务端则可以通过帧中的标识知道该帧属于哪个流（即请求），通过重新排序还原请求。多路复用允许并发的发起多个请求，每个请求及该请求的响应不需要等待其他的请求或响应，避免了队头阻塞问题。这样某个请求任务耗时严重，不会影响到其它连接的正常执行,极大的提高传输性能。&lt;/p&gt;
+&lt;h4 id=&#34;243-头部压缩&#34;&gt;2.4.3 头部压缩&lt;/h4&gt;
+&lt;p&gt;每次HTTP请求都会有一个请求首部，这个首部放到一些重要信息，比如Cookie、User Agent之类的字段，这些字段每次请求都是一样的，但还必须要带上。这就造成了一些不必要的浪费。2.0中就优化这一点，引入首部压缩机制，客户端和服务端会维护同样一张首部信息表，每次请求只要发送索引号就可以了，不必带上请求首部上冗余的key-value，极大地减少了不必要的浪费。&lt;/p&gt;
+&lt;h4 id=&#34;244-服务端推送&#34;&gt;2.4.4 服务端推送&lt;/h4&gt;
+&lt;p&gt;在2.0之前的版本中，服务端是属于被动一方，只有客户端发送请求，服务端才能发送资源。2.0协议中，服务端可以主动地向客户端发送资源。例如：客户端请求一个html，里面所需要的js和css完全不需要客户端解析完html之后再去请求这些内容那么麻烦，服务端可以在客户端请求html的时候一起回传过来。&lt;/p&gt;
+">http-版本历史</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-wang-luo-mo-xing/"" data-c="
+          &lt;h1 id=&#34;http-五层网络模型&#34;&gt;http-五层网络模型&lt;/h1&gt;
+&lt;h2 id=&#34;1概述&#34;&gt;1.概述&lt;/h2&gt;
+&lt;h3 id=&#34;11协议&#34;&gt;1.1协议&lt;/h3&gt;
+&lt;p&gt;协议，网络协议的简称，网络协议是通信计算机双方必须共同遵从的一组约定。如怎么样建立连接、怎么样互相识别等。只有遵守这个约定，计算机之间才能相互通信交流。&lt;/p&gt;
+&lt;p&gt;为了使数据在网络上从源到达目的，网络通信的参与方必须遵循相同的规则，这套规则称为协议（protocol），它最终体现为在网络上传输的数据包的格式。&lt;/p&gt;
+&lt;p&gt;协议往往分成几个层次进行定义，分层定义是为了使某一层协议的改变不影响其他层次的协议。&lt;/p&gt;
+&lt;h3 id=&#34;12网络模型&#34;&gt;1.2网络模型&lt;/h3&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625500448131.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h4 id=&#34;121四层&#34;&gt;1.2.1四层&lt;/h4&gt;
+&lt;p&gt;TCP/IP 协议族是Internet最基本的协议，按照是否具有TCP/IP 协议族的协议来划分的话，从下到上为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;链路层&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;用来处理连接网络的硬件部分，包括控制操作系统、硬件的设备驱动、NIC（Network Interface Card，网络适配器，即网卡），及光纤等物理可见部分（还包括连接器等一切传输媒介）。硬件上的范畴均在链路层的作用范围之内。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;网络层&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;网络层规定了数据通过怎样的传输路线到达对方计算机传送给对方（IP协议等）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;传输层&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;传输层对接上层应用层，提供处于网络连接中两台计算机之间的数据传输所使用的协议。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;应用层&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;应用层规定了向用户提供应用服务时通信的协议。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;122七层&#34;&gt;1.2.2七层&lt;/h4&gt;
+&lt;p&gt;国际标准化组织（ISO）为了规范协议层次的划分制定了开发系统互联（OSI，Open Systems Interconnection）模型，即ISO/OSI参考模型。此模型根据网络功能制定出7层网络协议结构，由低到高分别为物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。&lt;/p&gt;
+&lt;h4 id=&#34;123五层&#34;&gt;1.2.3五层&lt;/h4&gt;
+&lt;p&gt;五层网络模型分别为：物理层，数据链路层，网络层，传输层，应用层。&lt;/p&gt;
+&lt;p&gt;物理层：主要作用是定义物理设备如何传输数据。&lt;/p&gt;
+&lt;p&gt;数据链路层：在通信的实体间建立数据链路连接。&lt;/p&gt;
+&lt;p&gt;网络层：为数据在结点之间传输创建逻辑链路。&lt;/p&gt;
+&lt;p&gt;传输层：为应用层实体提供端到端的通信功能。&lt;/p&gt;
+&lt;p&gt;应用层：为应用软件提供了很多服务。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625500557587.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;13层与协议&#34;&gt;1.3层与协议&lt;/h3&gt;
+&lt;p&gt;每一层都是为了完成一种功能。为了实现这些功能，就需要大家都遵守共同的规则。&lt;/p&gt;
+&lt;p&gt;大家都遵守的规则，就叫做&amp;quot;协议&amp;quot;（protocol）。&lt;/p&gt;
+&lt;p&gt;互联网的每一层，都定义了很多协议。这些协议集合起来总称为TCP/IP&lt;/p&gt;
+&lt;h2 id=&#34;2五层网络模型详解&#34;&gt;2.五层网络模型详解&lt;/h2&gt;
+&lt;p&gt;数据包格式：&lt;br&gt;
+&lt;img src=&#34;https://leecss.com/post-images/1625500599926.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;21系统的角度&#34;&gt;2.1系统的角度&lt;/h3&gt;
+&lt;h4 id=&#34;211物理层&#34;&gt;2.1.1物理层&lt;/h4&gt;
+&lt;p&gt;光缆、电缆、双绞线、无线电波等方式，&lt;u&gt;把电脑连接起来的物理手段&lt;/u&gt;。&lt;/p&gt;
+&lt;p&gt;它主要规定了网络的一些电气特性，&lt;u&gt;作用是负责传送0和1的电信号。&lt;/u&gt;&lt;/p&gt;
+&lt;h4 id=&#34;212数据链路层&#34;&gt;2.1.2数据链路层&lt;/h4&gt;
+&lt;p&gt;在&amp;quot;实体层&amp;quot;的上方，&lt;u&gt;确定了0和1的分组方式。&lt;/u&gt;&lt;/p&gt;
+&lt;p&gt;有了数据包的定义、网卡的MAC地址、广播的发送方式，&amp;quot;链接层&amp;quot;就可以在多台计算机之间传送数据了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;以太网协议&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;以太网规定，一组电信号构成一个数据包，叫做&amp;quot;帧&amp;quot;（Frame）。每一帧分成两个部分：标头（Head）和数据（Data）。&lt;/p&gt;
+&lt;p&gt;&amp;quot;标头&amp;quot;包含数据包的一些说明项，比如发送者、接受者、数据类型等等；&amp;quot;数据&amp;quot;则是数据包的具体内容。&lt;/p&gt;
+&lt;p&gt;&amp;quot;标头&amp;quot;的长度，固定为18字节。&amp;quot;数据&amp;quot;的长度，最短为46字节，最长为1500字节。因此，整个&amp;quot;帧&amp;quot;最短为64字节，最长为1518字节。如果数据很长，就必须分割成多个帧进行发送。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;MAC地址&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;以太网规定，连入网络的所有设备，都必须具有&amp;quot;网卡&amp;quot;接口。数据包必须是从一块网卡，传送到另一块网卡。网卡的地址，就是数据包的发送地址和接收地址，这叫做MAC地址。&lt;/p&gt;
+&lt;p&gt;每块网卡出厂的时候，都有一个AC地址，重复概率很小。长度是48个二进制位，通常用12个十六进制数表示。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# MAC Address
+00-B0-D0-86-BB-F7
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;前6个十六进制数是厂商编号，后6个是该厂商的网卡流水号。有了MAC地址，就可以定位网卡和数据包的路径了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;广播&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;早期，以太网采用了一种很原始的方式来识别&lt;strong&gt;服务器&lt;/strong&gt;网卡的地址，它不是把数据包准确送到接收方，而是向本网络内所有计算机发送，让每台计算机自己判断，是否为接收方。&lt;/p&gt;
+&lt;p&gt;同一子网络下所有计算机都会收到&lt;strong&gt;客户端&lt;/strong&gt;发出的数据包。它们读取这个包的&amp;quot;标头&amp;quot;，找到接收方的MAC地址，然后与自身的MAC地址相比较，如果两者相同，就接受这个包，做进一步处理，否则就丢弃这个包。这种发送方式就叫做&amp;quot;广播&amp;quot;（broadcasting）。&lt;/p&gt;
+&lt;h4 id=&#34;213网络层&#34;&gt;2.1.3网络层&lt;/h4&gt;
+&lt;p&gt;互联网是无数子网络共同组成的一个巨型网络，如果客户端与服务器不在一个子网络内，则无法通过广播的方式识别对方。&lt;/p&gt;
+&lt;p&gt;网络层引进一套新的地址，使得我们能够&lt;u&gt;区分不同的计算机是否属于同一个子网络&lt;/u&gt;。这套地址就叫做&amp;quot;网络地址&amp;quot;，简称&amp;quot;网址&amp;quot;。&lt;/p&gt;
+&lt;p&gt;于是，&amp;quot;网络层&amp;quot;出现以后，每台计算机有了两种地址，一种是MAC地址，另一种是网络地址。&lt;/p&gt;
+&lt;p&gt;两种地址之间没有任何联系，MAC地址是绑定在网卡上的，网络地址则是管理员分配的，它们只是随机组合在一起。&lt;/p&gt;
+&lt;p&gt;网络地址帮助我们确定计算机所在的子网络，MAC地址则将数据包送到该子网络中的目标网卡。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;IP协议&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;规定网络地址的协议，叫做IP协议。它所定义的地址，就被称为IP地址。&lt;/p&gt;
+&lt;p&gt;IP协议的作用主要有两个，&lt;u&gt;一个是为每一台计算机分配IP地址，另一个是确定哪些地址在同一个子网络。&lt;/u&gt;&lt;/p&gt;
+&lt;p&gt;目前，广泛采用的是IP协议第四版，简称IPv4。这个版本规定，网络地址由32个二进制位组成。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# IP Address
+172.16.254.1
+10101100.00010000.11111110.00000001
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;习惯上，我们用分成四段的十进制数表示IP地址，从0.0.0.0一直到255.255.255.255。&lt;/p&gt;
+&lt;p&gt;互联网上的每一台计算机，都会分配到一个IP地址。这个地址分成两个部分，前一部分代表网络，后一部分代表主机。比如，IP地址172.16.254.1，这是一个32位的地址，假定它的网络部分是前24位（172.16.254），那么主机部分就是后8位（最后的那个1）。处于同一个子网络的电脑，它们IP地址的网络部分必定是相同的，也就是说172.16.254.2应该与172.16.254.1处在同一个子网络。&lt;/p&gt;
+&lt;p&gt;但是，问题在于单单从IP地址，我们无法判断网络部分。还是以172.16.254.1为例，它的网络部分，到底是前24位，还是前16位，甚至前28位，从IP地址上是看不出来的。&lt;/p&gt;
+&lt;p&gt;那么，怎样才能从IP地址，判断两台计算机是否属于同一个子网络呢？这就要用到另一个参数&amp;quot;子网掩码&amp;quot;（subnet mask）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;子网掩码&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;所谓&amp;quot;子网掩码&amp;quot;，就是表示子网络特征的一个参数。它在形式上等同于IP地址，也是一个32位二进制数字，它的网络部分全部为1，主机部分全部为0。比如，IP地址172.16.254.1，如果已知网络部分是前24位，主机部分是后8位，那么子网络掩码就是11111111.11111111.11111111.00000000，写成十进制就是255.255.255.0。&lt;/p&gt;
+&lt;p&gt;知道&amp;quot;子网掩码&amp;quot;，我们就能判断，任意两个IP地址是否处在同一个子网络。方法是将两个IP地址与子网掩码分别进行AND运算（两个数位都为1，运算结果为1，否则为0），然后比较结果是否相同，如果是的话，就表明它们在同一个子网络中，否则就不是。&lt;/p&gt;
+&lt;p&gt;比如，已知IP地址172.16.254.1和172.16.254.233的子网掩码都是255.255.255.0，请问它们是否在同一个子网络？两者与子网掩码分别进行AND运算，结果都是172.16.254.0，因此它们在同一个子网络。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;IP数据包&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;根据IP协议发送的数据，就叫做IP数据包。不难想象，其中必定包括IP地址信息。&lt;/p&gt;
+&lt;p&gt;IP数据包直接放进以太网数据包的&amp;quot;数据&amp;quot;部分&lt;/p&gt;
+&lt;p&gt;具体来说，IP数据包也分为&amp;quot;标头&amp;quot;和&amp;quot;数据&amp;quot;两个部分。&lt;/p&gt;
+&lt;p&gt;&amp;quot;标头&amp;quot;部分主要包括版本、长度、IP地址等信息，&amp;quot;数据&amp;quot;部分则是IP数据包的具体内容。&lt;/p&gt;
+&lt;p&gt;IP数据包的&amp;quot;标头&amp;quot;部分的长度为20到60字节，整个数据包的总长度最大为65,535字节。因此，理论上，一个IP数据包的&amp;quot;数据&amp;quot;部分，最长为65,515字节。前面说过，以太网数据包的&amp;quot;数据&amp;quot;部分，最长只有1500字节。因此，如果IP数据包超过了1500字节，它就需要分割成几个以太网数据包，分开发送了。&lt;/p&gt;
+&lt;h4 id=&#34;214传输层&#34;&gt;2.1.4传输层&lt;/h4&gt;
+&lt;p&gt;&lt;u&gt;建立&amp;quot;端口到端口&amp;quot;的通信。&lt;/u&gt;&lt;/p&gt;
+&lt;p&gt;有了MAC地址和IP地址，我们已经可以在互联网上任意两台主机上建立通信。&lt;/p&gt;
+&lt;p&gt;接下来的问题是，同一台主机上有许多程序都需要用到网络，比如，你一边浏览网页，一边与朋友在线聊天。当一个数据包从互联网上发来的时候，你怎么知道，它是表示网页的内容，还是表示在线聊天的内容？&lt;/p&gt;
+&lt;p&gt;也就是说，我们还需要一个参数，表示这个数据包到底供哪个程序（进程）使用。这个参数就叫做&amp;quot;端口&amp;quot;（port），它其实是每一个使用网卡的程序的编号。每个数据包都发到主机的特定端口，所以不同的程序就能取到自己所需要的数据。&lt;/p&gt;
+&lt;p&gt;&amp;quot;端口&amp;quot;是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;UDP协议&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;现在，我们必须在数据包中加入端口信息，这就需要新的协议。最简单的实现叫做UDP协议，它的格式几乎就是在数据前面，加上端口号。&lt;/p&gt;
+&lt;p&gt;UDP数据包，也是由&amp;quot;标头&amp;quot;和&amp;quot;数据&amp;quot;两部分组成。&lt;/p&gt;
+&lt;p&gt;标头&amp;quot;部分主要定义了发出端口和接收端口，&amp;quot;数据&amp;quot;部分就是具体的内容。&lt;/p&gt;
+&lt;p&gt;整个UDP数据包放入IP数据包的&amp;quot;数据&amp;quot;部分&lt;/p&gt;
+&lt;p&gt;UDP数据包非常简单，&amp;quot;标头&amp;quot;部分一共只有8个字节，总长度不超过65,535字节，正好放进一个IP数据包。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;TCP协议&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;UDP协议的优点是比较简单，容易实现，但是缺点是可靠性较差，一旦数据包发出，无法知道对方是否收到。&lt;/p&gt;
+&lt;p&gt;为了解决这个问题，提高网络可靠性，TCP协议就诞生了。这个协议非常复杂，但可以近似认为，它就是有确认机制的UDP协议，每发出一个数据包都要求确认。如果有一个数据包遗失，就收不到确认，发出方就知道有必要重发这个数据包了。&lt;/p&gt;
+&lt;p&gt;因此，TCP协议能够确保数据不会遗失。它的缺点是过程复杂、实现困难、消耗较多的资源。&lt;/p&gt;
+&lt;p&gt;TCP数据包和UDP数据包一样，都是内嵌在IP数据包的&amp;quot;数据&amp;quot;部分。TCP数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常TCP数据包的长度不会超过IP数据包的长度，以确保单个TCP数据包不必再分割。&lt;/p&gt;
+&lt;h4 id=&#34;215应用层&#34;&gt;2.1.5应用层&lt;/h4&gt;
+&lt;p&gt;&lt;u&gt;规定应用程序的数据格式。&lt;/u&gt;&lt;/p&gt;
+&lt;p&gt;应用程序收到&amp;quot;传输层&amp;quot;的数据，接下来就要进行解读。由于互联网是开放架构，数据来源五花八门，必须事先规定好格式，否则根本无法解读。&lt;/p&gt;
+&lt;p&gt;举例来说，TCP协议可以为各种各样的程序传递数据，比如Email、WWW、FTP等等。那么，必须有不同协议规定电子邮件、网页、FTP数据的格式，这些应用程序协议就构成了&amp;quot;应用层&amp;quot;。&lt;/p&gt;
+&lt;p&gt;这是最高的一层，直接面对用户。它的数据就放在TCP数据包的&amp;quot;数据&amp;quot;部分。&lt;/p&gt;
+&lt;h2 id=&#34;3tcpip通信传输流&#34;&gt;3.TCP/IP通信传输流&lt;/h2&gt;
+&lt;p&gt;利用 TCP/IP 协议族进行网络通信时，会通过分层顺序与对方进行通信。发送端从应用层往下走，接收端则往应用层往上走。&lt;/p&gt;
+&lt;p&gt;我们用 HTTP 举例来说明，首先作为发送端的客户端在应用层（HTTP 协议）发出一个想看某个 Web 页面的 HTTP 请求。&lt;/p&gt;
+&lt;p&gt;接着，为了传输方便，在传输层（TCP 协议）把从应用层处收到的数据（HTTP 请求报文）进行分割，并在各个报文上打上标记序号及端口号后转发给网络层。&lt;/p&gt;
+&lt;p&gt;在网络层（IP 协议），增加作为通信目的地的 MAC 地址后转发给链路层。这样一来，发往网络的通信请求就准备齐全了。&lt;/p&gt;
+&lt;p&gt;接收端的服务器在链路层接收到数据，按序往上层发送，一直到应用层。当传输到应用层，才能算真正接收到由客户端发送过来的 HTTP请求。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625528569737.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;发送端在层与层之间传输数据时，每经过一层时必定会被打上一个该层所属的首部信息。反之，接收端在层与层传输数据时，每经过一层时会把对应的首部消去。&lt;/p&gt;
+&lt;p&gt;这种把数据信息包装起来的做法称为封装（encapsulate）。&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;阮一峰&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html&#34;&gt;互联网协议1&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.ruanyifeng.com/blog/2012/06/internet_protocol_suite_part_ii.html&#34;&gt;互联网协议2&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+">http-网络模型</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-ming-ling-zong-jie/"" data-c="
