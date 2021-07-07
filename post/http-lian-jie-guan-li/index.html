@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-log | 当下</title>
+<title>http-连接管理 | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1625668887522">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="git-log" />
-  <meta name="keywords" content="git" />
+  <meta name="description" content="http-连接管理" />
+  <meta name="keywords" content="http" />
 </head>
 
 <body>
@@ -209,37 +209,17 @@
   <div class="toc-wrapper auto-number auto"
     id="toc_wrapper">
     <ul class="markdownIt-TOC">
-<li><a href="#git-log">git-log</a>
+<li><a href="#http-%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86">http-连接管理</a>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
-<li><a href="#%E5%91%BD%E4%BB%A4">命令</a>
+<li><a href="#%E5%88%86%E7%B1%BB">分类</a>
 <ul>
-<li><a href="#%E6%A0%BC%E5%BC%8F">格式</a></li>
-<li><a href="#%E6%90%9C%E7%B4%A2%E6%9F%A5%E6%89%BE%E5%8E%86%E5%8F%B2">搜索查找历史</a>
-<ul>
-<li><a href="#%E9%80%9A%E8%BF%87%E4%BD%9C%E8%80%85%E6%90%9C%E7%B4%A2">通过作者搜索</a></li>
-<li><a href="#%E9%80%9A%E8%BF%87%E6%8F%90%E4%BA%A4%E5%85%B3%E9%94%AE%E5%AD%97%E6%90%9C%E7%B4%A2">通过提交关键字搜索</a></li>
-<li><a href="#%E9%80%9A%E8%BF%87%E6%96%87%E4%BB%B6%E5%90%8D%E6%90%9C%E7%B4%A2">通过文件名搜索</a></li>
+<li><a href="#%E4%B8%B2%E8%A1%8C%E8%BF%9E%E6%8E%A5">串行连接</a></li>
+<li><a href="#%E5%B9%B6%E8%A1%8C%E8%BF%9E%E6%8E%A5">并行连接</a></li>
+<li><a href="#%E6%8C%81%E4%B9%85%E8%BF%9E%E6%8E%A5">持久连接</a></li>
+<li><a href="#%E7%AE%A1%E9%81%93%E5%8C%96%E8%BF%9E%E6%8E%A5">管道化连接</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E6%95%B0">参数</a>
-<ul>
-<li><a href="#%E7%BE%8E%E5%8C%96%E8%BE%93%E5%87%BA">美化输出</a></li>
-<li><a href="#%E8%AF%A6%E8%A7%A3">详解</a>
-<ul>
-<li><a href="#-name-status">--name-status</a></li>
-<li><a href="#-follow">--follow</a>
-<ul>
-<li><a href="#demo-follow">demo-follow</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
 </ul>
 </li>
 </ul>
@@ -507,8 +487,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-log/">
-      git-log
+    <a class="post-title-link" href="https://leecss.com/post/http-lian-jie-guan-li/">
+      http-连接管理
     </a>
   </h1>
   <div class="post-meta">
@@ -516,7 +496,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-30 07:17:47">2021-06-30</span>
+      <span class="publish-time" data-t="2021-07-07 21:12:39">2021-07-07</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -525,8 +505,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/TDboywfcf/">
-        <span>git</span>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/">
+        <span>http</span>
       </a>
       
       
@@ -535,106 +515,63 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>4<span class="language" data-lan="minute">分钟</span></span>
+      <span>5<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>719<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>1154<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h1 id="git-log">git-log</h1>
+              <h1 id="http-连接管理">http-连接管理</h1>
 <h2 id="概述">概述</h2>
-<p><code>git log</code>命令按照提交时间从最晚到最早的顺序，列出所有 commit。</p>
-<h2 id="命令">命令</h2>
-<h3 id="格式">格式</h3>
-<pre><code class="language-xml">git log [&lt;options&gt;] [&lt;since&gt;..&lt;until&gt;] [[--] &lt;path&gt;...]
-</code></pre>
-<p>默认列出当前分支的版本历史，<strong>按Q退出</strong></p>
-<pre><code class="language-sh">git log
-</code></pre>
-<p><code>--oneline</code>参数让输出时，每个 commit 只占用一行。<code>--pretty=oneline --abbrev-commit</code> 合用的简写。</p>
-<pre><code class="language-sh">git log --oneline
-</code></pre>
-<p><code>-n</code>查看最近n次的提交信息</p>
-<pre><code class="language-sh">// 查看最近2次的提交历史记录
-git log -2
-</code></pre>
-<p><code>-p</code>按补丁格式显示每个更新之间的差异。</p>
-<pre><code class="language-sh">git log -p -2
-</code></pre>
-<h3 id="搜索查找历史">搜索查找历史</h3>
-<p>查找log，即搜索commit信息。</p>
-<p><code>-i</code>参数表示搜索时忽略大小写。</p>
-<h4 id="通过作者搜索">通过作者搜索</h4>
-<pre><code class="language-sh">git log --author Andy
-</code></pre>
-<h4 id="通过提交关键字搜索">通过提交关键字搜索</h4>
-<pre><code class="language-sh">git log -i --grep=[keywords]
-// 该命令会列出所有包含Something字样的提交信息说明的提交记录
-git log -i --grep=&quot;Something&quot;
-</code></pre>
-<h4 id="通过文件名搜索">通过文件名搜索</h4>
-<p>列出某个文件的版本历史</p>
-<pre><code class="language-sh">git log [file]
-</code></pre>
-<p>列出某个文件的版本历史，包括文件改名</p>
-<pre><code class="language-sh">git log --follow [file]
-</code></pre>
-<h2 id="参数">参数</h2>
-<h3 id="美化输出">美化输出</h3>
-<p><code>--graph</code>：在日志旁以 ASCII 图形显示分支与合并历史。</p>
-<p><code>--abbrev-commit</code>：仅显示SHA-1的前7位，而非所有的40个字符。</p>
-<p><code>--decorate</code>参数用来显示一些相关的信息，如HEAD、分支名、tag名等</p>
-<p><code>--pretty</code>：使用其他格式显示历史提交信息。可用的选项包括<code>oneline</code>、<code>short</code>、<code>full</code>、<code>fuller</code>和 <code>format</code>（用来定义自己的格式）。</p>
-<pre><code class="language-sh">git log --graph --decorate --pretty=oneline --abbrev-commit
-</code></pre>
-<h3 id="详解">详解</h3>
-<h4 id="-name-status">--name-status</h4>
-<p><code>--name-status</code>参数会带出每次提交对应的文件改动。</p>
-<pre><code class="language-sh">git log --name-status --oneline
----
-c08099d add hello.txt to git rep
-A       hello.txt
-723687a add c.txt
-A       c.txt
-1a29bde 新增了a.txt和b.txt文件
-A       a.txt
-A       b.txt
-</code></pre>
-<h4 id="-follow">--follow</h4>
-<ul>
-<li><em>不带</em>follow参数的情况下，git把名为a.txt的文件全部提交记录找出来</li>
-<li>带follow参数的情况下，git会把当前以及重命名前的文件提交记录找出来</li>
-</ul>
-<p>二者的差异，就像是，一个『浮于表面』，只认历史上与当前文件名匹配的提交记录，一个认准文件的『真身』，不管当前文件曾经披着什么的『皮』，始终追溯它的真身。</p>
-<h5 id="demo-follow">demo-follow</h5>
-<pre><code class="language-sh">git init
-echo ‘1st line —in a’ &gt;&gt; a.txt
-git add a.txt &amp;&amp; git commit -m ‘add line for a.txt’
-echo ‘2nd line —in a’ &gt;&gt; a.txt
-git add a.txt &amp;&amp; git commit -m ‘add 1 line for a.txt’
-echo ‘line 1 —in b’ &gt;&gt; b.txt
-git add b.txt &amp;&amp; git commit -m ‘add line for b.txt’
-echo ‘line 2 —in b’ &gt;&gt; b.txt
-git add b.txt &amp;&amp; git commit -m ‘add line for b.txt’
-git rm a.txt &amp;&amp; git commit -m ‘remove a.txt’
-git mv b.txt a.txt &amp;&amp; git commit -m ‘rename b.txt to a.txt’
-
----文件状态变更
-a.txt =&gt; a.txt b.txt =&gt; b.txt =&gt; a.txt
-</code></pre>
-<p><code>git log -p a.txt</code></p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625285396990.png" alt="" loading="lazy"></figure>
-<p><code>git log -p --follow a.txt</code></p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1625285403872.png" alt="" loading="lazy"></figure>
-<h2 id="参考">参考</h2>
-<blockquote>
-<p><a href="https://x-front-team.github.io/2016/12/22/git-log-follow%E5%A5%87%E9%81%87%E8%AE%B0/">https://x-front-team.github.io/</a></p>
-</blockquote>
+<p>http连接的几种方式：串行连接、并行连接、持久连接、管道化连接……</p>
+<h2 id="分类">分类</h2>
+<h3 id="串行连接">串行连接</h3>
+<p>也称为短连接、短轮询。</p>
+<p>HTTP事务需要按顺序进行传输，等待服务端完成处理并回传。</p>
+<p>缺点：</p>
+<p>每次HTTP通信后都要断开TCP连接，所以每个新的HTTP请求都需要建立一个新的tcp连接，极大的增加了通信开销。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625668312340.png" alt="" loading="lazy"></figure>
+<h3 id="并行连接">并行连接</h3>
+<p>并发的执行多条HTTP请求，且每个请求都有自己的TCP连接。</p>
+<p>特点：</p>
+<p>并行连接的速度可能会更快，但不一定总是更快。</p>
+<p>实际上多条连接会产生一些额外的开销，使用并行连接装载整个页面所需的时间很可能比串行下载的时间更长。</p>
+<p>如果并行加载多个对象，每个对象都会去竞争这有限的带宽，每个对象都会以比较慢的速度按比例加载，这样带来的性能提升就很小，甚至没什么提升。</p>
+<p>而且打开大量连接会消耗很多内存资源，从而引发自身的性能问题。</p>
+<p>假如一百个用户同时发出申请，每个用户打开100个连接，服务器就要处理10 000个连接。这会造成服务器性能的严重下降。</p>
+<hr>
+<p>实际上，浏览器确实使用了并行连接，但它们并行连接的总数限制为一个较小的值(通常是4个)。</p>
+<p>服务器可以随意的关闭来自特定客户端的超量连接。</p>
+<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1625668321507.png" alt="" loading="lazy"></figure>
+<h3 id="持久连接">持久连接</h3>
+<p>也叫长连接、长轮询</p>
+<p>在事务处理结束之后仍然保持在打开状态的TCP连接称为持久连接。</p>
+<p><strong>方式</strong></p>
+<p>持久连接有两种方式，分别为HTTP/1.0+的“Keep-alive”连接，以及HTTP/1.1的“persistent”连接。</p>
+<p><strong>Keep-alive</strong>：该首部只是请求将连接保持在活跃状态，客户端和服务端可以随时关闭空闲的Keep-alive连接。</p>
+<p>限制和规则：</p>
+<p>1、必须客户端发送一个Connection：Keep-alive请求首部来激活Keep-alive连接，服务端不一定答应启用Keep-Alive会话；</p>
+<p>2、必须随每个希望保持持久连接的请求的头部一起发送，如果某个请求没有带Keep-Alive头部，则服务器会在这个请求后关闭该连接。</p>
+<hr>
+<p><strong>Persistent</strong>：该首部默认情况下是激活的，除非特别指明，否则HTTP/1.1假定所有连接都是持久的。</p>
+<p>限制和规则：</p>
+<p>1、发送了 Connection: close 请求首部之后，客户端就无法在那条连接上发送更多的请求了。</p>
+<p>如果客户端不想在连接上发送其他请求了，就应该在最后一条请求中发送一个Connection: close 请求首部。</p>
+<p>2、只有当连接上所有的报文都有正确的、自定义报文长度时——也就是说，实体主体部分的长度都和相应的Content-Length 一致，或者是用分块传输编码方式编码的——连接才能持久保持。</p>
+<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1625668334800.png" alt="" loading="lazy"></figure>
+<h3 id="管道化连接">管道化连接</h3>
+<p>在持久连接的基础上可选的使用请求管道。在响应到达之前，可以将多条请求放入队列。</p>
+<p>限制：</p>
+<p>1、如果HTTP客户端无法确认连接是持久的,就不应该使用管道。</p>
+<p>2、必须按照与请求相同的顺序回送HTTP响应。HTTP报文中没有序列号标签,因此如果收到的响应失序了,就没办法将其与请求匹配起来了。</p>
+<p>3、HTTP 客户端必须做好连接会在任意时刻关闭的准备,还要准备好重发所有未完成的管道化请求。如果客户端打开了一条持久连接,并立即发出了10条请求,服务器可能在只处理了,比方说,5条请求之后关闭连接。剩下的5 条请求会失败,客户端必须能够应对这些过早关闭连接的情况,重新发出这些请求。</p>
+<p>4、HTTP 客户端不应该用管道化的方式发送会产生副作用的请求(比如POST)。总之,出错的时候,管道化方式会阻碍客户端了解服务器执行的是一系列管道化请求中的哪一些。由于无法安全地重试POST这样的非幂等请求,所以出错时,就存在某些方法永远不会被执行的风险。</p>
+<figure data-type="image" tabindex="4"><img src="https://leecss.com/post-images/1625668345578.png" alt="" loading="lazy"></figure>
 
             </div>
             
@@ -647,7 +584,7 @@ a.txt =&gt; a.txt b.txt =&gt; b.txt =&gt; a.txt
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-log/" title="git-log">https://leecss.com/post/git-log/</a>
+      <a href="https://leecss.com/post/http-lian-jie-guan-li/" title="http-连接管理">https://leecss.com/post/http-lian-jie-guan-li/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -656,21 +593,21 @@ a.txt =&gt; a.txt b.txt =&gt; b.txt =&gt; a.txt
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/"># http</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-reflog" href="https://leecss.com/post/git-reflog/">git-reflog</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-reflog" href="https://leecss.com/post/git-reflog/">上一篇</a>
+        <a class="nav-pc-next" title="http-TCP/IP三次握手" href="https://leecss.com/post/http-tcpip-san-ci-wo-shou/">http-TCP/IP三次握手</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="http-TCP/IP三次握手" href="https://leecss.com/post/http-tcpip-san-ci-wo-shou/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-restore" href="https://leecss.com/post/git-restore/">git-restore</a>
-        <a class="nav-mobile-next" title="git-restore" href="https://leecss.com/post/git-restore/">下一篇</a>
+        <a class="nav-pc-next" title="http-版本历史" href="https://leecss.com/post/http-ban-ben-li-shi/">http-版本历史</a>
+        <a class="nav-mobile-next" title="http-版本历史" href="https://leecss.com/post/http-ban-ben-li-shi/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
