@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-安装 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1625668887522">
+<link rel="shortcut icon" href="/favicon.ico?v=1625789150620">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">51</span>
+        <span class="site-item-stat-count">55</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1092,6 +1092,401 @@ local选项设置的优先级最高。
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-zhuang-tai-ma/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;当浏览者访问一个网页时，浏览者的浏览器会向网页所在服务器发出请求。当浏览器接收并显示网页前，此网页所在的服务器会返回一个包含HTTP状态码的信息头（server header）用以响应浏览器的请求。&lt;/p&gt;
+&lt;p&gt;HTTP状态码的英文为HTTP Status Code。&lt;/p&gt;
+&lt;p&gt;下面是常见的HTTP状态码：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;200 - 请求成功&lt;/li&gt;
+&lt;li&gt;301 - 资源（网页等）被永久转移到其它URL&lt;/li&gt;
+&lt;li&gt;404 - 请求的资源（网页等）不存在&lt;/li&gt;
+&lt;li&gt;500 - 内部服务器错误&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;http状态码分类&#34;&gt;HTTP状态码分类&lt;/h2&gt;
+&lt;p&gt;HTTP状态码由三个十进制数字组成，第一个十进制数字定义了状态码的类型，后两个数字没有分类的作用。HTTP状态码共分为5种类型：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;分类&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;分类描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;1**&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;信息，服务器收到请求，需要请求者继续执行操作&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;2**&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;成功，操作被成功接收并处理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;3**&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;重定向，需要进一步的操作以完成请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;4**&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;客户端错误，请求包含语法错误或无法完成请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;5**&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器错误，服务器在处理请求的过程中发生了错误&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;HTTP状态码列表:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;状态码&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;状态码英文名称&lt;/th&gt;
+&lt;th style=&#34;text-align:left&#34;&gt;中文描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;100&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Continue&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;继续。客户端应继续其请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;101&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Switching Protocols&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;200&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;OK&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;请求成功。一般用于GET与POST请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;201&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Created&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;已创建。成功请求并创建了新的资源&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;202&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Accepted&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;已接受。已经接受请求，但未处理完成&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;203&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Non-Authoritative Information&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;204&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;No Content&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;205&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Reset Content&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;206&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Partial Content&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;部分内容。服务器成功处理了部分GET请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;300&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Multiple Choices&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;301&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Moved Permanently&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;302&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Found&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;303&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;See Other&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;查看其它地址。与301类似。使用GET和POST请求查看&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;304&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Not Modified&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;305&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Use Proxy&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;使用代理。所请求的资源必须通过代理访问&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;306&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Unused&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;已经被废弃的HTTP状态码&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;307&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Temporary Redirect&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;临时重定向。与302类似。使用GET请求重定向&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Bad Request&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;客户端请求的语法错误，服务器无法理解&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;401&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Unauthorized&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;请求要求用户的身份认证&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;402&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Payment Required&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;保留，将来使用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;403&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Forbidden&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器理解请求客户端的请求，但是拒绝执行此请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;404&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Not Found&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置&amp;quot;您所请求的资源无法找到&amp;quot;的个性页面&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;405&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Method Not Allowed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;客户端请求中的方法被禁止&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;406&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Not Acceptable&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器无法根据客户端请求的内容特性完成请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;407&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Proxy Authentication Required&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;408&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Request Time-out&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器等待客户端发送的请求时间过长，超时&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;409&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Conflict&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;410&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Gone&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;411&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Length Required&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器无法处理客户端发送的不带Content-Length的请求信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;412&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Precondition Failed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;客户端请求信息的先决条件错误&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;413&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Request Entity Too Large&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;414&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Request-URI Too Large&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;请求的URI过长（URI通常为网址），服务器无法处理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;415&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Unsupported Media Type&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器无法处理请求附带的媒体格式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;416&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Requested range not satisfiable&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;客户端请求的范围无效&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;417&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Expectation Failed&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器无法满足Expect的请求头信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;500&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Internal Server Error&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器内部错误，无法完成请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;501&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Not Implemented&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器不支持请求的功能，无法完成请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;502&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Bad Gateway&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;503&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Service Unavailable&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;504&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;Gateway Time-out&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;充当网关或代理的服务器，未及时从远端服务器获取请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;505&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;HTTP Version not supported&lt;/td&gt;
+&lt;td style=&#34;text-align:left&#34;&gt;服务器不支持请求的HTTP协议的版本，无法完成处理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+">http-状态码</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-qing-qiu-fang-fa/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;根据 HTTP 标准，HTTP 请求可以使用多种请求方法。&lt;/p&gt;
+&lt;p&gt;HTTP1.0 定义了三种请求方法： GET, POST 和 HEAD方法。&lt;/p&gt;
+&lt;p&gt;HTTP1.1 新增了六种请求方法：OPTIONS、PUT、PATCH、DELETE、TRACE 和 CONNECT 方法。&lt;/p&gt;
+&lt;h2 id=&#34;方法&#34;&gt;方法&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;幂等&lt;/strong&gt;是说这个请求可以重复发送多次相同请求求，会返回相同的响应消息&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;GET&lt;/td&gt;
+&lt;td&gt;请求指定的页面信息，并返回实体主体&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;HEAD&lt;/td&gt;
+&lt;td&gt;类似于 GET请求，但只返回响应报头，不返回响应正文&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;POST (非)&lt;/td&gt;
+&lt;td&gt;向指定资源提交数据（例如提交表单或者上传文件） 数据被包含在请求体中 POST请求可能会导致新的资源的建立和/或已有资源的修改&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;PUT&lt;/td&gt;
+&lt;td&gt;从客户端向服务器传送的数据取代指定的文档的内容&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;DELETE&lt;/td&gt;
+&lt;td&gt;请求服务器删除指定的页面&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CONNECT&lt;/td&gt;
+&lt;td&gt;HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;OPTIONS&lt;/td&gt;
+&lt;td&gt;允许客户端查看服务器的性能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TRACE&lt;/td&gt;
+&lt;td&gt;回显服务器收到的请求，主要用于测试或诊断&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;PATCH(非)&lt;/td&gt;
+&lt;td&gt;是对 PUT 方法的补充，用来对已知资源进行局部更新 。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+">http-请求方法</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-bao-wen/"" data-c="
+          &lt;h2 id=&#34;http报文结构&#34;&gt;HTTP报文结构&lt;/h2&gt;
+&lt;p&gt;用于HTTP协议交互的信息被称为HTTP报文。请求端（客户端）的HTTP报文叫做&lt;strong&gt;请求报文&lt;/strong&gt;，响应端（服务器端）的叫做&lt;strong&gt;响应报文&lt;/strong&gt;。HTTP报文本身是由多行（用CR+LF作换行符）数据构成的字符串文本。 HTTP报文大致可分为&lt;strong&gt;请求行/响应行、报文首部和报文主体&lt;/strong&gt;两块。两者由最初出现的空行（CR+LF）来划分。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625756720174.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;请求报文&#34;&gt;请求报文&lt;/h3&gt;
+&lt;p&gt;请求报文的请求行主要三个部分组成：请求方法、URI地址和HTTP协议版本号。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;POST /test/hi-there.txt HTTP/1.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625756732543.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;响应报文&#34;&gt;响应报文&lt;/h3&gt;
+&lt;p&gt;响应报文的响应行主要三个部分组成：HTTP协议版本号、HTTP状态码和状态描述。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 200 OK
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625756742764.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">http-报文</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-url/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;HTTP协议使用 URI 定位互联网上的资源。&lt;/p&gt;
+&lt;h2 id=&#34;定义&#34;&gt;定义&lt;/h2&gt;
+&lt;h3 id=&#34;uri&#34;&gt;URI&lt;/h3&gt;
+&lt;p&gt;Uniform Resource Identifier：统一资源标识符&lt;/p&gt;
+&lt;p&gt;用来唯一标识互联网上的信息资源&lt;/p&gt;
+&lt;p&gt;URI包括URL和URN。&lt;/p&gt;
+&lt;h3 id=&#34;url&#34;&gt;URL&lt;/h3&gt;
+&lt;p&gt;Uniform Resource Locator：统一资源定位器&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;http://user:pass@host.com:80/path?query=string#hash&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;协议 用户名密码 域名或hostName 端口 路由 搜索参数 哈希(锚点定位)&lt;/p&gt;
+&lt;p&gt;上述格式的都叫做URL，平常见到的URI 基本都是URL&lt;/p&gt;
+&lt;h3 id=&#34;urn&#34;&gt;URN&lt;/h3&gt;
+&lt;p&gt;Uniform Resource Name：统一资源名称(永久统一资源定位符)&lt;/p&gt;
+&lt;p&gt;在资源移动之后还能被找到&lt;/p&gt;
+&lt;p&gt;目前还没有非常成熟的使用方案&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;假如互联网上的资源换了位置，我们访问之前的路径就会404，但是URL并不会告诉你资源搬到了哪里，URN就是为了解决这个问题，当URN指向一个资源，无论它换了多少位置，依然可以找到它。&lt;/p&gt;
+&lt;h2 id=&#34;关系&#34;&gt;关系&lt;/h2&gt;
+&lt;p&gt;URI是抽象的定义，不管用什么方法表示，只要能定位一个资源，就叫URI&lt;/p&gt;
+&lt;p&gt;定位资源的两种方式：1，URL，用地址定位；2，URN，用名称定位。&lt;/p&gt;
+&lt;p&gt;举个例子：&lt;/p&gt;
+&lt;p&gt;找个具体的人（URI），&lt;/p&gt;
+&lt;p&gt;如果用地址：住在中国北京昌平区某村多少号房子第几间屋子的人 就是URL，&lt;/p&gt;
+&lt;p&gt;如果用身份证号+名字 去找就是URN。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;找个具体的学生(URI)&lt;/p&gt;
+&lt;p&gt;如果用地址： 南开小学三年二班的第一排第几列的人 就是URL&lt;/p&gt;
+&lt;p&gt;如果用学号+名字 去找就是URN&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web&#34;&gt;标志互联网上的内容&lt;/a&gt;&lt;/p&gt;
+">http-URL</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-tcpip-san-ci-wo-shou/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;目的是为了保证可靠的通信&lt;/p&gt;
@@ -1103,6 +1498,12 @@ local选项设置的优先级最高。
 1：A发，B收， B知道A能发&lt;br&gt;
 2：B发，A收， A知道B能发收&lt;br&gt;
 3：A发，B收， B知道A能收&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;tcp三次握手是tcp的建立连接的过程，所谓连接就是客户端知道服务端的发送和接收能力是否正常，服务端知道客户端的发送和接收能力是否正常。&lt;/p&gt;
+&lt;p&gt;第一次握手，客户端向服务端发送报文，服务端接收到信息之后，知道了客户端的发送能力正常&lt;/p&gt;
+&lt;p&gt;第二次握手，服务端向客户端发送报文，客户端接收到了信息之后，知道了服务端的发送和接收能力都正常&lt;/p&gt;
+&lt;p&gt;第三次握手，客户端再向服务端发送报文，服务端接收到信息之后，知道了客户端的发送和接收能力都正常&lt;/p&gt;
+&lt;p&gt;至此，三次握手完成，客户端和服务端都确定了双方的发送和接收能力，可以进行数据传输了&lt;/p&gt;
 &lt;h3 id=&#34;版本二图解http&#34;&gt;版本二：图解HTTP&lt;/h3&gt;
 &lt;p&gt;按层次分，TCP 位于传输层，提供可靠的字节流服务。&lt;/p&gt;
 &lt;p&gt;所谓的字节流服务（Byte Stream Service）是指，为了方便传输，将大块数据分割成以报文段（segment）为单位的数据包进行管理。而可靠的传输服务是指，能够把数据准确可靠地传给对方。一言以蔽之，TCP 协议为了更容易传送大数据才把数据分割，而且 TCP 协议能够确认数据最终是否送达到对方。&lt;/p&gt;
@@ -1222,8 +1623,26 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;1、如果HTTP客户端无法确认连接是持久的,就不应该使用管道。&lt;/p&gt;
 &lt;p&gt;2、必须按照与请求相同的顺序回送HTTP响应。HTTP报文中没有序列号标签,因此如果收到的响应失序了,就没办法将其与请求匹配起来了。&lt;/p&gt;
 &lt;p&gt;3、HTTP 客户端必须做好连接会在任意时刻关闭的准备,还要准备好重发所有未完成的管道化请求。如果客户端打开了一条持久连接,并立即发出了10条请求,服务器可能在只处理了,比方说,5条请求之后关闭连接。剩下的5 条请求会失败,客户端必须能够应对这些过早关闭连接的情况,重新发出这些请求。&lt;/p&gt;
-&lt;p&gt;4、HTTP 客户端不应该用管道化的方式发送会产生副作用的请求(比如POST)。总之,出错的时候,管道化方式会阻碍客户端了解服务器执行的是一系列管道化请求中的哪一些。由于无法安全地重试POST这样的非幂等请求,所以出错时,就存在某些方法永远不会被执行的风险。&lt;/p&gt;
+&lt;p&gt;4、HTTP 客户端不应该用管道化的方式发送会产生副作用的请求(比如POST)。总之,出错的时候,管道化方式会阻碍客户端了解服务器执行的是一系列管道化请求中的哪一些。由于无法安全地重试POST这样的&lt;strong&gt;非幂等请求&lt;/strong&gt;,所以出错时,就存在某些方法永远不会被执行的风险。&lt;/p&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625668345578.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;幂等请求&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;所谓幂等就是 多次执行对资源的影响，和一次执行对资源的影响相同。不管进行多少次重复操作，都是实现相同的结果。&lt;/p&gt;
+&lt;p&gt;幂等保证在pipeline中的所有请求可以不必关心发送次序和到达服务器后执行的次序，即使多次请求，返回的结果一直是一样的。&lt;/p&gt;
+&lt;p&gt;反之，若其中包含了不幂等的请求，两个请求，第一个是更新用户张三信息，第二请求是获取更新后的张三最新信息。 他们是按照次序顺序在服务器端执行的：1先执行，2紧接着执行。 但是&lt;strong&gt;后一个请求不会等前一个请求完成才执行&lt;/strong&gt;， 即可能 获取张三最新信息的2号请求先&lt;strong&gt;执行完成&lt;/strong&gt;，这样返回的信息就不是期望的了。&lt;/p&gt;
+&lt;p&gt;所有请求虽然是按次序到达执行，&lt;strong&gt;但是不能保证一定是按照次序依次执行&lt;/strong&gt;，比如1，2两个请求顺序到达，1是更新用户信息，2是获取这个更新用户的最新信息，1先执行，2不等1执行完就开始执行，得到的用户信息是旧的。&lt;/p&gt;
+&lt;p&gt;即，依次发了1，2，3这三个请求。如果1和2和3不是幂等的，即2可能要依赖1的返回，3可能要依赖1和2的返回，此种情况下就不能通过pipeline来进行发送。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;REST请求按幂等区分&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;GET请求很好理解，对资源做查询多次，此实现的结果都是一样的。&lt;/p&gt;
+&lt;p&gt;PUT请求的幂等性可以这样理解，将A修改为B，它第一次请求值变为了B，再进行多次此操作，最终的结果还是B，与一次执行的结果是一样的，所以PUT是幂等操作。&lt;/p&gt;
+&lt;p&gt;DELETE请求，第一次将资源删除后，后面多次进行此删除请求，最终结果是一样的，将资源删除掉了。&lt;/p&gt;
+&lt;p&gt;POST不是幂等操作，因为一次请求添加一份新资源，二次请求则添加了两份新资源，多次请求会产生不同的结果，因此POST不是幂等操作。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;比较容易混淆的是HTTP POST和PUT。POST和PUT的区别容易被简单地误认为“POST表示创建资源，PUT表示更新资源”；而实际上，二者均可用于创建资源，更为本质的差别是在幂等性方面。在HTTP规范中对POST和PUT是这样定义的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The POST method is used to request that the origin server accept the entity enclosed in the request as a new subordinate of the resource identified by the Request-URI in the Request-Line ...... If a resource has been created on the origin server, the response SHOULD be 201 (Created) and contain an entity which describes the status of the request and refers to the new resource, and a Location header.&lt;/p&gt;
+&lt;p&gt;The PUT method requests that the enclosed entity be stored under the supplied Request-URI. If the Request-URI refers to an already existing resource, the enclosed entity SHOULD be considered as a modified version of the one residing on the origin server. If the Request-URI does not point to an existing resource, and that URI is capable of being defined as a new resource by the requesting user agent, the origin server can create the resource with that URI.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;POST所对应的URI并非创建的资源本身，而是资源的接收者。比如：POST &lt;code&gt;createArticles&lt;/code&gt;的语义是在目标网站下创建一篇帖子，HTTP响应中应包含帖子的创建状态以及帖子的URI。两次相同的POST请求会在服务器端创建两份资源，它们具有不同的URI；所以，POST方法不具备幂等性。而PUT所对应的URI是要创建或更新的资源本身。比如：PUT &lt;code&gt;updateArticles/4231&lt;/code&gt;的语义是创建或更新ID为4231的帖子。对同一URI进行多次PUT的副作用和一次PUT是相同的；因此，PUT方法具有幂等性。&lt;/p&gt;
 ">http-连接管理</a>
       </div>
       
@@ -1231,6 +1650,10 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-ban-ben-li-shi/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;现在使用的HTTP协议有几个版本。HTTP程序要尽量强健地处理各种不同的HTTP协议变体。&lt;/p&gt;
+&lt;p&gt;http请求是要通过tcp去建立连接，并在此之上发送数据,http只有请求和响应这个概念，没有链接这个概念。&lt;/p&gt;
+&lt;p&gt;http1.0的时候，在http request的时候，在里面发起三次握手，创建TCP链接，然后再发起请求，请求结束后则关闭TCP链接。&lt;/p&gt;
+&lt;p&gt;http1.1可以通过声明这个链接，可以保持在那里，后面就不需要三次握手开销;但是在一个tcp连接上同时只能发送一个请求，所以在有并发请求的时候只能建立多个tcp连接。&lt;/p&gt;
+&lt;p&gt;HTTP2中是可以在一个TCP连接同时中发送多个HTTP请求。&lt;/p&gt;
 &lt;h2 id=&#34;版本&#34;&gt;版本&lt;/h2&gt;
 &lt;h3 id=&#34;http09&#34;&gt;HTTP/0.9&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;特点&lt;/strong&gt;&lt;/p&gt;
