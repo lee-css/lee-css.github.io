@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-rm | 当下</title>
+<title>http-使用node创建一个简单的web服务 | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1626097202450">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="git-rm" />
-  <meta name="keywords" content="git" />
+  <meta name="description" content="http-使用node创建一个简单的web服务" />
+  <meta name="keywords" content="http" />
 </head>
 
 <body>
@@ -212,6 +212,7 @@
 <li>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81">代码</a></li>
 </ul>
 </li>
 </ul>
@@ -479,8 +480,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-rm/">
-      git-rm
+    <a class="post-title-link" href="https://leecss.com/post/http-shi-yong-node-chuang-jian-yi-ge-jian-dan-de-web-fu-wu/">
+      http-使用node创建一个简单的web服务
     </a>
   </h1>
   <div class="post-meta">
@@ -488,7 +489,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-07-01 22:34:45">2021-07-01</span>
+      <span class="publish-time" data-t="2021-07-12 20:47:16">2021-07-12</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -497,8 +498,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/TDboywfcf/">
-        <span>git</span>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/">
+        <span>http</span>
       </a>
       
       
@@ -512,18 +513,24 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>72<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>53<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p>平时我们都会有删除文件的需求，正常操作为</p>
-<p>1、在文件系统中删除某文件</p>
-<p>2、在git中将删除文件的变更添加到暂存区。</p>
-<p>上述两步操作可以通过一条命令来完成，即</p>
-<pre><code class="language-sh">git rm [file]
+<p>电脑上安装好node,新建server.js文件，使用<code>node server.js</code>运行该文件。</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-js">const http = require('http')
+
+http.createServer(function (request, response) {
+    console.log('request come', request.url)
+
+    response.end('123')
+}).listen(8888)
+
+console.log('server listening on 8888')
 </code></pre>
 
             </div>
@@ -537,7 +544,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-rm/" title="git-rm">https://leecss.com/post/git-rm/</a>
+      <a href="https://leecss.com/post/http-shi-yong-node-chuang-jian-yi-ge-jian-dan-de-web-fu-wu/" title="http-使用node创建一个简单的web服务">https://leecss.com/post/http-shi-yong-node-chuang-jian-yi-ge-jian-dan-de-web-fu-wu/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -546,21 +553,21 @@
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/"># http</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-mv" href="https://leecss.com/post/git-mv/">git-mv</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-mv" href="https://leecss.com/post/git-mv/">上一篇</a>
+        <a class="nav-pc-next" title="http-curl命令行" href="https://leecss.com/post/http-curl-ming-ling-xing/">http-curl命令行</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="http-curl命令行" href="https://leecss.com/post/http-curl-ming-ling-xing/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-rev-parse" href="https://leecss.com/post/git-rev-parse/">git-rev-parse</a>
-        <a class="nav-mobile-next" title="git-rev-parse" href="https://leecss.com/post/git-rev-parse/">下一篇</a>
+        <a class="nav-pc-next" title="http-状态码" href="https://leecss.com/post/http-zhuang-tai-ma/">http-状态码</a>
+        <a class="nav-mobile-next" title="http-状态码" href="https://leecss.com/post/http-zhuang-tai-ma/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

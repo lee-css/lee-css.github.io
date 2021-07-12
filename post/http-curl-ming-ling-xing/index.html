@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-rm | 当下</title>
+<title>http-curl命令行 | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1626097202450">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="git-rm" />
-  <meta name="keywords" content="git" />
+  <meta name="description" content="http-curl命令行" />
+  <meta name="keywords" content="http" />
 </head>
 
 <body>
@@ -479,8 +479,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-rm/">
-      git-rm
+    <a class="post-title-link" href="https://leecss.com/post/http-curl-ming-ling-xing/">
+      http-curl命令行
     </a>
   </h1>
   <div class="post-meta">
@@ -488,7 +488,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-07-01 22:34:45">2021-07-01</span>
+      <span class="publish-time" data-t="2021-07-12 21:39:28">2021-07-12</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -497,8 +497,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/TDboywfcf/">
-        <span>git</span>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/">
+        <span>http</span>
       </a>
       
       
@@ -507,24 +507,94 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>1<span class="language" data-lan="minute">分钟</span></span>
+      <span>3<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>72<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>540<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
               <h2 id="概述">概述</h2>
-<p>平时我们都会有删除文件的需求，正常操作为</p>
-<p>1、在文件系统中删除某文件</p>
-<p>2、在git中将删除文件的变更添加到暂存区。</p>
-<p>上述两步操作可以通过一条命令来完成，即</p>
-<pre><code class="language-sh">git rm [file]
+<p><a href="http://curl.haxx.se/">curl</a>是一种命令行工具，作用是发出网络请求，然后得到和提取数据，显示在&quot;标准输出&quot;（stdout）上面。</p>
+<p><strong>一、查看网页源码</strong></p>
+<p>直接在curl命令后加上网址，就可以看到网页源码。我们以网址baidu.com为例（选择该网址，主要因为它的网页代码较短）：</p>
+<pre><code class="language-shell">curl baidu.com
 </code></pre>
+<pre><code class="language-html">&lt;html&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;url=http://www.baidu.com/&quot;&gt;
+&lt;/html&gt;
+</code></pre>
+<p>页面会重定向到百度</p>
+<p>如果要把这个网页保存下来，可以使用<code>-o</code>参数，这就相当于使用wget命令了。</p>
+<pre><code class="language-sh">curl -o [文件名] baidu.com
+</code></pre>
+<pre><code class="language-sh">curl -o baudu.html baidu.com
+</code></pre>
+<p><strong>二、显示头信息</strong></p>
+<p><code>-i</code>参数可以显示http response的头信息，连同网页代码一起。</p>
+<p><code>-I</code>参数则是只显示http response的头信息。</p>
+<pre><code class="language-sh">curl -i baidu.com
+</code></pre>
+<pre><code class="language-shell">HTTP/1.1 200 OK                                                   
+Date: Sun, 06 Jun 2021 08:49:54 GMT                               
+Server: Apache                                                    
+Last-Modified: Tue, 12 Jan 2010 13:48:00 GMT                      
+ETag: &quot;51-47cf7e6ee8400&quot;                                          
+Accept-Ranges: bytes                                              
+Content-Length: 81                                                
+Cache-Control: max-age=86400                                      
+Expires: Mon, 07 Jun 2021 08:49:54 GMT                            
+Connection: Keep-Alive                                            
+Content-Type: text/html                                           
+                                                                  
+&lt;html&gt;                                                            
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;url=http://www.baidu.com/&quot;&gt; 
+&lt;/html&gt;                                                           
+</code></pre>
+<p><strong>三、显示通信过程</strong></p>
+<p><code>-v</code>参数可以显示一次http通信的整个过程，包括端口连接和http request头信息。</p>
+<pre><code class="language-sh">curl -v baidu.com
+</code></pre>
+<pre><code class="language-shell">* Rebuilt URL to: baidu.com/
+*   Trying 220.181.38.148...
+* TCP_NODELAY set
+* Connected to baidu.com (220.181.38.148) port 80 (#0)
+&gt; GET / HTTP/1.1
+&gt; Host: baidu.com
+&gt; User-Agent: curl/7.55.1
+&gt; Accept: */*
+&gt;
+&lt; HTTP/1.1 200 OK
+&lt; Date: Sun, 06 Jun 2021 08:53:20 GMT
+&lt; Server: Apache
+&lt; Last-Modified: Tue, 12 Jan 2010 13:48:00 GMT
+&lt; ETag: &quot;51-47cf7e6ee8400&quot;
+&lt; Accept-Ranges: bytes
+&lt; Content-Length: 81
+&lt; Cache-Control: max-age=86400
+&lt; Expires: Mon, 07 Jun 2021 08:53:20 GMT
+&lt; Connection: Keep-Alive
+&lt; Content-Type: text/html
+&lt;
+&lt;html&gt;
+&lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;url=http://www.baidu.com/&quot;&gt;
+&lt;/html&gt;
+* Connection #0 to host baidu.com left intact
+</code></pre>
+<p>如果你觉得上面的信息还不够，那么下面的命令可以查看更详细的通信过程。</p>
+<pre><code class="language-sh">curl --trace output.txt baidu.com
+</code></pre>
+<pre><code class="language-sh">curl --trace-ascii output.txt baidu.com
+</code></pre>
+<p>推荐阅读</p>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="http://www.ruanyifeng.com/blog/2019/09/curl-reference.html">http://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
+</blockquote>
 
             </div>
             
@@ -537,7 +607,7 @@
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-rm/" title="git-rm">https://leecss.com/post/git-rm/</a>
+      <a href="https://leecss.com/post/http-curl-ming-ling-xing/" title="http-curl命令行">https://leecss.com/post/http-curl-ming-ling-xing/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -546,21 +616,17 @@
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/"># http</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-mv" href="https://leecss.com/post/git-mv/">git-mv</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-mv" href="https://leecss.com/post/git-mv/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-rev-parse" href="https://leecss.com/post/git-rev-parse/">git-rev-parse</a>
-        <a class="nav-mobile-next" title="git-rev-parse" href="https://leecss.com/post/git-rev-parse/">下一篇</a>
+        <a class="nav-pc-next" title="http-使用node创建一个简单的web服务" href="https://leecss.com/post/http-shi-yong-node-chuang-jian-yi-ge-jian-dan-de-web-fu-wu/">http-使用node创建一个简单的web服务</a>
+        <a class="nav-mobile-next" title="http-使用node创建一个简单的web服务" href="https://leecss.com/post/http-shi-yong-node-chuang-jian-yi-ge-jian-dan-de-web-fu-wu/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
