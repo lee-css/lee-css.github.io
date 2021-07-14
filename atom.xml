@@ -2,13 +2,517 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-12T13:40:07.861Z</updated>
+    <updated>2021-07-14T15:33:42.505Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[http-跨域CORS]]></title>
+        <id>https://leecss.com/post/http-kua-yu-cors/</id>
+        <link href="https://leecss.com/post/http-kua-yu-cors/">
+        </link>
+        <updated>2021-07-14T15:15:19.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>CORS是一个W3C标准，全称是&quot;跨域资源共享&quot;（Cross-origin resource sharing）。</p>
+<p>它允许浏览器向跨源服务器，发出<a href="https://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html"><code>XMLHttpRequest</code></a>请求，从而克服了AJAX只能<a href="https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html">同源</a>使用的限制。</p>
+<h2 id="一-简介">一、简介</h2>
+<p>CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE浏览器不能低于IE10。</p>
+<p>整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。</p>
+<p>因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。</p>
+<h2 id="二-两种请求">二、两种请求</h2>
+<p>浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。</p>
+<p>只要同时满足以下两大条件，就属于简单请求。</p>
+<blockquote>
+<p>（1) 请求方法是以下三种方法之一：</p>
+<ul>
+<li>HEAD</li>
+<li>GET</li>
+<li>POST</li>
+</ul>
+<p>（2）HTTP的头信息不超出以下几种字段：</p>
+<ul>
+<li>Accept</li>
+<li>Accept-Language</li>
+<li>Content-Language</li>
+<li>Last-Event-ID</li>
+<li>Content-Type：只限于三个值<code>application/x-www-form-urlencoded</code>、<code>multipart/form-data</code>、<code>text/plain</code></li>
+</ul>
+</blockquote>
+<p>这是为了兼容表单（form），因为历史上表单一直可以发出跨域请求。AJAX 的跨域设计就是，只要表单可以发，AJAX 就可以直接发。</p>
+<p>凡是不同时满足上面两个条件，就属于非简单请求。</p>
+<p>浏览器对这两种请求的处理，是不一样的。</p>
+<h2 id="三-简单请求">三、简单请求</h2>
+<h3 id="31-基本流程">3.1 基本流程</h3>
+<p>对于简单请求，浏览器直接发出CORS请求。具体来说，就是在头信息之中，增加一个<code>Origin</code>字段。</p>
+<p>下面是一个例子，浏览器发现这次跨源AJAX请求是简单请求，就自动在头信息之中，添加一个<code>Origin</code>字段。</p>
+<blockquote>
+<pre><code class="language-http">GET /cors HTTP/1.1
+Origin: http://api.bob.com
+Host: api.alice.com
+Accept-Language: en-US
+Connection: keep-alive
+User-Agent: Mozilla/5.0...
+</code></pre>
+</blockquote>
+<p>上面的头信息中，<code>Origin</code>字段用来说明，本次请求来自哪个源（协议 + 域名 + 端口）。服务器根据这个值，决定是否同意这次请求。</p>
+<p>如果<code>Origin</code>指定的源，不在许可范围内，服务器会返回一个正常的HTTP回应。浏览器发现，这个回应的头信息没有包含<code>Access-Control-Allow-Origin</code>字段（详见下文），就知道出错了，从而抛出一个错误，被<code>XMLHttpRequest</code>的<code>onerror</code>回调函数捕获。注意，这种错误无法通过状态码识别，因为HTTP回应的状态码有可能是200。</p>
+<p>如果<code>Origin</code>指定的域名在许可范围内，服务器返回的响应，会多出几个头信息字段。</p>
+<blockquote>
+<pre><code class="language-http">Access-Control-Allow-Origin: http://api.bob.com
+Access-Control-Allow-Credentials: true
+Access-Control-Expose-Headers: FooBar
+Content-Type: text/html; charset=utf-8
+</code></pre>
+</blockquote>
+<p>上面的头信息之中，有三个与CORS请求相关的字段，都以<code>Access-Control-</code>开头。</p>
+<p><strong>（1）Access-Control-Allow-Origin</strong></p>
+<p>该字段是必须的。它的值要么是请求时<code>Origin</code>字段的值，要么是一个<code>*</code>，表示接受任意域名的请求。</p>
+<p><strong>（2）Access-Control-Allow-Credentials</strong></p>
+<p>该字段可选。它的值是一个布尔值，表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为<code>true</code>，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为<code>true</code>，如果服务器不要浏览器发送Cookie，删除该字段即可。</p>
+<p><strong>（3）Access-Control-Expose-Headers</strong></p>
+<p>该字段可选。CORS请求时，<code>XMLHttpRequest</code>对象的<code>getResponseHeader()</code>方法只能拿到6个基本字段：<code>Cache-Control</code>、<code>Content-Language</code>、<code>Content-Type</code>、<code>Expires</code>、<code>Last-Modified</code>、<code>Pragma</code>。如果想拿到其他字段，就必须在<code>Access-Control-Expose-Headers</code>里面指定。上面的例子指定，<code>getResponseHeader('FooBar')</code>可以返回<code>FooBar</code>字段的值。</p>
+<h3 id="32-withcredentials-属性">3.2 withCredentials 属性</h3>
+<p>上面说到，CORS请求默认不发送Cookie和HTTP认证信息。如果要把Cookie发到服务器，一方面要服务器同意，指定<code>Access-Control-Allow-Credentials</code>字段。</p>
+<blockquote>
+<pre><code class="language-http">Access-Control-Allow-Credentials: true
+</code></pre>
+</blockquote>
+<p>另一方面，开发者必须在AJAX请求中打开<code>withCredentials</code>属性。</p>
+<blockquote>
+<pre><code class="language-javascript">var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+</code></pre>
+</blockquote>
+<p>否则，即使服务器同意发送Cookie，浏览器也不会发送。或者，服务器要求设置Cookie，浏览器也不会处理。</p>
+<p>但是，如果省略<code>withCredentials</code>设置，有的浏览器还是会一起发送Cookie。这时，可以显式关闭<code>withCredentials</code>。</p>
+<blockquote>
+<pre><code class="language-javascript">xhr.withCredentials = false;
+</code></pre>
+</blockquote>
+<p>需要注意的是，如果要发送Cookie，<code>Access-Control-Allow-Origin</code>就不能设为星号，必须指定明确的、与请求网页一致的域名。同时，Cookie依然遵循同源政策，只有用服务器域名设置的Cookie才会上传，其他域名的Cookie并不会上传，且（跨源）原网页代码中的<code>document.cookie</code>也无法读取服务器域名下的Cookie。</p>
+<h2 id="四-非简单请求">四、非简单请求</h2>
+<h3 id="41-预检请求">4.1 预检请求</h3>
+<p>非简单请求是那种对服务器有特殊要求的请求，比如请求方法是<code>PUT</code>或<code>DELETE</code>，或者<code>Content-Type</code>字段的类型是<code>application/json</code>。</p>
+<p>非简单请求的CORS请求，会在正式通信之前，增加一次HTTP查询请求，称为&quot;预检&quot;请求（preflight）。</p>
+<p>浏览器先询问服务器，当前网页所在的域名是否在服务器的许可名单之中，以及可以使用哪些HTTP动词和头信息字段。只有得到肯定答复，浏览器才会发出正式的<code>XMLHttpRequest</code>请求，否则就报错。</p>
+<p>下面是一段浏览器的JavaScript脚本。</p>
+<blockquote>
+<pre><code class="language-javascript">var url = 'http://api.alice.com/cors';
+var xhr = new XMLHttpRequest();
+xhr.open('PUT', url, true);
+xhr.setRequestHeader('X-Custom-Header', 'value');
+xhr.send();
+</code></pre>
+</blockquote>
+<p>上面代码中，HTTP请求的方法是<code>PUT</code>，并且发送一个自定义头信息<code>X-Custom-Header</code>。</p>
+<p>浏览器发现，这是一个非简单请求，就自动发出一个&quot;预检&quot;请求，要求服务器确认可以这样请求。下面是这个&quot;预检&quot;请求的HTTP头信息。</p>
+<blockquote>
+<pre><code class="language-http">OPTIONS /cors HTTP/1.1
+Origin: http://api.bob.com
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: X-Custom-Header
+Host: api.alice.com
+Accept-Language: en-US
+Connection: keep-alive
+User-Agent: Mozilla/5.0...
+</code></pre>
+</blockquote>
+<p>&quot;预检&quot;请求用的请求方法是<code>OPTIONS</code>，表示这个请求是用来询问的。头信息里面，关键字段是<code>Origin</code>，表示请求来自哪个源。</p>
+<p>除了<code>Origin</code>字段，&quot;预检&quot;请求的头信息包括两个特殊字段。</p>
+<p><strong>（1）Access-Control-Request-Method</strong></p>
+<p>该字段是必须的，用来列出浏览器的CORS请求会用到哪些HTTP方法，上例是<code>PUT</code>。</p>
+<p><strong>（2）Access-Control-Request-Headers</strong></p>
+<p>该字段是一个逗号分隔的字符串，指定浏览器CORS请求会额外发送的头信息字段，上例是<code>X-Custom-Header</code>。</p>
+<h3 id="42-预检请求的回应">4.2 预检请求的回应</h3>
+<p>服务器收到&quot;预检&quot;请求以后，检查了<code>Origin</code>、<code>Access-Control-Request-Method</code>和<code>Access-Control-Request-Headers</code>字段以后，确认允许跨源请求，就可以做出回应。</p>
+<blockquote>
+<pre><code class="language-http">HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 01:15:39 GMT
+Server: Apache/2.0.61 (Unix)
+Access-Control-Allow-Origin: http://api.bob.com
+Access-Control-Allow-Methods: GET, POST, PUT
+Access-Control-Allow-Headers: X-Custom-Header
+Content-Type: text/html; charset=utf-8
+Content-Encoding: gzip
+Content-Length: 0
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+Content-Type: text/plain
+</code></pre>
+</blockquote>
+<p>上面的HTTP回应中，关键的是<code>Access-Control-Allow-Origin</code>字段，表示<code>http://api.bob.com</code>可以请求数据。该字段也可以设为星号，表示同意任意跨源请求。</p>
+<blockquote>
+<pre><code class="language-http">Access-Control-Allow-Origin: *
+</code></pre>
+</blockquote>
+<p>如果服务器否定了&quot;预检&quot;请求，会返回一个正常的HTTP回应，但是没有任何CORS相关的头信息字段。这时，浏览器就会认定，服务器不同意预检请求，因此触发一个错误，被<code>XMLHttpRequest</code>对象的<code>onerror</code>回调函数捕获。控制台会打印出如下的报错信息。</p>
+<blockquote>
+<pre><code class="language-bash">XMLHttpRequest cannot load http://api.alice.com.
+Origin http://api.bob.com is not allowed by Access-Control-Allow-Origin.
+</code></pre>
+</blockquote>
+<p>服务器回应的其他CORS相关字段如下。</p>
+<blockquote>
+<pre><code class="language-http">Access-Control-Allow-Methods: GET, POST, PUT
+Access-Control-Allow-Headers: X-Custom-Header
+Access-Control-Allow-Credentials: true
+Access-Control-Max-Age: 1728000
+</code></pre>
+</blockquote>
+<p><strong>（1）Access-Control-Allow-Methods</strong></p>
+<p>该字段必需，它的值是逗号分隔的一个字符串，表明服务器支持的所有跨域请求的方法。注意，返回的是所有支持的方法，而不单是浏览器请求的那个方法。这是为了避免多次&quot;预检&quot;请求。</p>
+<p><strong>（2）Access-Control-Allow-Headers</strong></p>
+<p>如果浏览器请求包括<code>Access-Control-Request-Headers</code>字段，则<code>Access-Control-Allow-Headers</code>字段是必需的。它也是一个逗号分隔的字符串，表明服务器支持的所有头信息字段，不限于浏览器在&quot;预检&quot;中请求的字段。</p>
+<p><strong>（3）Access-Control-Allow-Credentials</strong></p>
+<p>该字段与简单请求时的含义相同。</p>
+<p><strong>（4）Access-Control-Max-Age</strong></p>
+<p>该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是20天（1728000秒），即允许缓存该条回应1728000秒（即20天），在此期间，不用发出另一条预检请求。</p>
+<h3 id="43-浏览器的正常请求和回应">4.3 浏览器的正常请求和回应</h3>
+<p>一旦服务器通过了&quot;预检&quot;请求，以后每次浏览器正常的CORS请求，就都跟简单请求一样，会有一个<code>Origin</code>头信息字段。服务器的回应，也都会有一个<code>Access-Control-Allow-Origin</code>头信息字段。</p>
+<p>下面是&quot;预检&quot;请求之后，浏览器的正常CORS请求。</p>
+<blockquote>
+<pre><code class="language-http">PUT /cors HTTP/1.1
+Origin: http://api.bob.com
+Host: api.alice.com
+X-Custom-Header: value
+Accept-Language: en-US
+Connection: keep-alive
+User-Agent: Mozilla/5.0...
+</code></pre>
+</blockquote>
+<p>上面头信息的<code>Origin</code>字段是浏览器自动添加的。</p>
+<p>下面是服务器正常的回应。</p>
+<blockquote>
+<pre><code class="language-http">Access-Control-Allow-Origin: http://api.bob.com
+Content-Type: text/html; charset=utf-8
+</code></pre>
+</blockquote>
+<p>上面头信息中，<code>Access-Control-Allow-Origin</code>字段是每次回应都必定包含的。</p>
+<h2 id="五-与jsonp的比较">五、与JSONP的比较</h2>
+<p>CORS与JSONP的使用目的相同，但是比JSONP更强大。</p>
+<p>JSONP只支持<code>GET</code>请求，CORS支持所有类型的HTTP请求。JSONP的优势在于支持老式浏览器，以及可以向不支持CORS的网站请求数据。</p>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="https://www.ruanyifeng.com/blog/2016/04/cors.html">https://www.ruanyifeng.com/blog/2016/04/cors.html</a></p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[http-浏览器同源政策及其规避方法]]></title>
+        <id>https://leecss.com/post/http-kua-yu/</id>
+        <link href="https://leecss.com/post/http-kua-yu/">
+        </link>
+        <updated>2021-07-13T13:37:13.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>**「同源策略」**是一个重要的安全策略，它用于限制一个<a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Origin">origin</a>的文档或者它加载的脚本如何能与另一个源的资源进行交互。它能帮助阻隔恶意文档，减少可能被攻击的媒介。</p>
+<p>--来源 MDN</p>
+<h2 id="一-概述">一、概述</h2>
+<h3 id="11-含义">1.1 含义</h3>
+<p>1995年，同源政策由 Netscape 公司引入浏览器。目前，所有浏览器都实行这个政策。</p>
+<p>最初，它的含义是指，A网页设置的 Cookie，B网页不能打开，除非这两个网页&quot;同源&quot;。所谓&quot;同源&quot;指的是&quot;三个相同&quot;。</p>
+<blockquote>
+<ul>
+<li>协议相同</li>
+<li>域名相同</li>
+<li>端口相同</li>
+</ul>
+</blockquote>
+<p>举例来说，<code>http://www.example.com/dir/page.html</code>这个网址，协议是<code>http://</code>，域名是<code>www.example.com</code>，端口是<code>80</code>（默认端口可以省略）。它的同源情况如下。</p>
+<blockquote>
+<ul>
+<li><code>http://www.example.com/dir2/other.html</code>：同源</li>
+<li><code>http://example.com/dir/other.html</code>：不同源（域名不同）</li>
+<li><code>http://v2.www.example.com/dir/other.html</code>：不同源（域名不同）</li>
+<li><code>http://www.example.com:81/dir/other.html</code>：不同源（端口不同）</li>
+</ul>
+</blockquote>
+<h3 id="12-目的">1.2 目的</h3>
+<p>同源政策的目的，是为了保证用户信息的安全，防止恶意的网站窃取数据。</p>
+<p>设想这样一种情况：A网站是一家银行，用户登录以后，又去浏览其他网站。如果其他网站可以读取A网站的 Cookie，会发生什么？</p>
+<p>很显然，如果 Cookie 包含隐私（比如存款总额），这些信息就会泄漏。更可怕的是，Cookie 往往用来保存用户的登录状态，如果用户没有退出登录，其他网站就可以冒充用户，为所欲为。因为浏览器同时还规定，提交表单不受同源政策的限制。</p>
+<p>由此可见，&quot;同源政策&quot;是必需的，否则 Cookie 可以共享，互联网就毫无安全可言了。</p>
+<h3 id="13-限制范围">1.3 限制范围</h3>
+<p>随着互联网的发展，&quot;同源政策&quot;越来越严格。目前，如果非同源，共有三种行为受到限制。</p>
+<blockquote>
+<p>（1） Cookie、LocalStorage 和 IndexDB 无法读取。</p>
+<p>（2） DOM 无法获得。</p>
+<p>（3） AJAX 请求不能发送。</p>
+</blockquote>
+<p>虽然这些限制是必要的，但是有时很不方便，合理的用途也受到影响。下面，我将详细介绍，如何规避上面三种限制。</p>
+<h2 id="二-cookie">二、Cookie</h2>
+<p>Cookie 是服务器写入浏览器的一小段信息，只有同源的网页才能共享。但是，两个网页一级域名相同，只是二级域名不同，浏览器允许通过设置<code>document.domain</code>共享 Cookie。</p>
+<p>举例来说，A网页是<code>http://w1.example.com/a.html</code>，B网页是<code>http://w2.example.com/b.html</code>，那么只要设置相同的<code>document.domain</code>，两个网页就可以共享Cookie。</p>
+<blockquote>
+<pre><code class="language-javascript">document.domain = 'example.com';
+</code></pre>
+</blockquote>
+<p>现在，A网页通过脚本设置一个 Cookie。</p>
+<blockquote>
+<pre><code class="language-javascript">document.cookie = &quot;test1=hello&quot;;
+</code></pre>
+</blockquote>
+<p>B网页就可以读到这个 Cookie。</p>
+<blockquote>
+<pre><code class="language-javascript">var allCookie = document.cookie;
+</code></pre>
+</blockquote>
+<p>注意，这种方法只适用于 Cookie 和 iframe 窗口，LocalStorage 和 IndexDB 无法通过这种方法，规避同源政策，而要使用下文介绍的PostMessage API。</p>
+<p>另外，服务器也可以在设置Cookie的时候，指定Cookie的所属域名为一级域名，比如<code>.example.com</code>。</p>
+<blockquote>
+<pre><code class="language-http">Set-Cookie: key=value; domain=.example.com; path=/
+</code></pre>
+</blockquote>
+<p>这样的话，二级域名和三级域名不用做任何设置，都可以读取这个Cookie。</p>
+<h2 id="三-iframe">三、iframe</h2>
+<p>如果两个网页不同源，就无法拿到对方的DOM。典型的例子是<code>iframe</code>窗口和<code>window.open</code>方法打开的窗口，它们与父窗口无法通信。</p>
+<p>比如，父窗口运行下面的命令，如果<code>iframe</code>窗口不是同源，就会报错。</p>
+<blockquote>
+<pre><code class="language-javascript">document.getElementById(&quot;myIFrame&quot;).contentWindow.document
+// Uncaught DOMException: Blocked a frame from accessing a cross-origin frame.
+</code></pre>
+</blockquote>
+<p>上面命令中，父窗口想获取子窗口的DOM，因为跨源导致报错。</p>
+<p>反之亦然，子窗口获取主窗口的DOM也会报错。</p>
+<blockquote>
+<pre><code class="language-javascript">window.parent.document.body
+// 报错
+</code></pre>
+</blockquote>
+<p>如果两个窗口一级域名相同，只是二级域名不同，那么设置上一节介绍的<code>document.domain</code>属性，就可以规避同源政策，拿到DOM。</p>
+<p>对于完全不同源的网站，目前有三种方法，可以解决跨域窗口的通信问题。</p>
+<blockquote>
+<ul>
+<li>片段识别符（fragment identifier）</li>
+<li>window.name</li>
+<li>跨文档通信API（Cross-document messaging）</li>
+</ul>
+</blockquote>
+<h3 id="31-片段识别符">3.1 片段识别符</h3>
+<p>片段标识符（fragment identifier）指的是，URL的<code>#</code>号后面的部分，比如<code>http://example.com/x.html#fragment</code>的<code>#fragment</code>。如果只是改变片段标识符，页面不会重新刷新。</p>
+<p>父窗口可以把信息，写入子窗口的片段标识符。</p>
+<blockquote>
+<pre><code class="language-javascript">var src = originURL + '#' + data;
+document.getElementById('myIFrame').src = src;
+</code></pre>
+</blockquote>
+<p>子窗口通过监听<code>hashchange</code>事件得到通知。</p>
+<blockquote>
+<pre><code class="language-javascript">window.onhashchange = checkMessage;
+
+function checkMessage() {
+  var message = window.location.hash;
+  // ...
+}
+</code></pre>
+</blockquote>
+<p>同样的，子窗口也可以改变父窗口的片段标识符。</p>
+<blockquote>
+<pre><code class="language-javascript">parent.location.href= target + &quot;#&quot; + hash;
+</code></pre>
+</blockquote>
+<h3 id="32-windowname">3.2 window.name</h3>
+<p>浏览器窗口有<code>window.name</code>属性。这个属性的最大特点是，无论是否同源，只要在同一个窗口里，前一个网页设置了这个属性，后一个网页可以读取它。</p>
+<p>父窗口先打开一个子窗口，载入一个不同源的网页，该网页将信息写入<code>window.name</code>属性。</p>
+<blockquote>
+<pre><code class="language-javascript">window.name = data;
+</code></pre>
+</blockquote>
+<p>接着，子窗口跳回一个与主窗口同域的网址。</p>
+<blockquote>
+<pre><code class="language-javascript">location = 'http://parent.url.com/xxx.html';
+</code></pre>
+</blockquote>
+<p>然后，主窗口就可以读取子窗口的<code>window.name</code>了。</p>
+<blockquote>
+<pre><code class="language-javascript">var data = document.getElementById('myFrame').contentWindow.name;
+</code></pre>
+</blockquote>
+<p>这种方法的优点是，<code>window.name</code>容量很大，可以放置非常长的字符串；缺点是必须监听子窗口<code>window.name</code>属性的变化，影响网页性能。</p>
+<h3 id="33-windowpostmessage">3.3 window.postMessage</h3>
+<p>上面两种方法都属于破解，HTML5为了解决这个问题，引入了一个全新的API：跨文档通信 API（Cross-document messaging）。</p>
+<p>这个API为<code>window</code>对象新增了一个<code>window.postMessage</code>方法，允许跨窗口通信，不论这两个窗口是否同源。</p>
+<p>举例来说，父窗口<code>http://aaa.com</code>向子窗口<code>http://bbb.com</code>发消息，调用<code>postMessage</code>方法就可以了。</p>
+<blockquote>
+<pre><code class="language-javascript">var popup = window.open('http://bbb.com', 'title');
+popup.postMessage('Hello World!', 'http://bbb.com');
+</code></pre>
+</blockquote>
+<p><code>postMessage</code>方法的第一个参数是具体的信息内容，第二个参数是接收消息的窗口的源（origin），即&quot;协议 + 域名 + 端口&quot;。也可以设为<code>*</code>，表示不限制域名，向所有窗口发送。</p>
+<p>子窗口向父窗口发送消息的写法类似。</p>
+<blockquote>
+<pre><code class="language-javascript">window.opener.postMessage('Nice to see you', 'http://aaa.com');
+</code></pre>
+</blockquote>
+<p>父窗口和子窗口都可以通过<code>message</code>事件，监听对方的消息。</p>
+<blockquote>
+<pre><code class="language-javascript">window.addEventListener('message', function(e) {
+  console.log(e.data);
+},false);
+</code></pre>
+</blockquote>
+<p><code>message</code>事件的事件对象<code>event</code>，提供以下三个属性。</p>
+<blockquote>
+<ul>
+<li><code>event.source</code>：发送消息的窗口</li>
+<li><code>event.origin</code>: 消息发向的网址</li>
+<li><code>event.data</code>: 消息内容</li>
+</ul>
+</blockquote>
+<p>下面的例子是，子窗口通过<code>event.source</code>属性引用父窗口，然后发送消息。</p>
+<blockquote>
+<pre><code class="language-javascript">window.addEventListener('message', receiveMessage);
+function receiveMessage(event) {
+  event.source.postMessage('Nice to see you!', '*');
+}
+</code></pre>
+</blockquote>
+<p><code>event.origin</code>属性可以过滤不是发给本窗口的消息。</p>
+<blockquote>
+<pre><code class="language-javascript">window.addEventListener('message', receiveMessage);
+function receiveMessage(event) {
+  if (event.origin !== 'http://aaa.com') return;
+  if (event.data === 'Hello World') {
+      event.source.postMessage('Hello', event.origin);
+  } else {
+    console.log(event.data);
+  }
+}
+</code></pre>
+</blockquote>
+<h3 id="34-localstorage">3.4 LocalStorage</h3>
+<p>通过<code>window.postMessage</code>，读写其他窗口的 LocalStorage 也成为了可能。</p>
+<p>下面是一个例子，主窗口写入iframe子窗口的<code>localStorage</code>。</p>
+<blockquote>
+<pre><code class="language-javascript">window.onmessage = function(e) {
+  if (e.origin !== 'http://bbb.com') {
+    return;
+  }
+  var payload = JSON.parse(e.data);
+  localStorage.setItem(payload.key, JSON.stringify(payload.data));
+};
+</code></pre>
+</blockquote>
+<p>上面代码中，子窗口将父窗口发来的消息，写入自己的LocalStorage。</p>
+<p>父窗口发送消息的代码如下。</p>
+<blockquote>
+<pre><code class="language-javascript">var win = document.getElementsByTagName('iframe')[0].contentWindow;
+var obj = { name: 'Jack' };
+win.postMessage(JSON.stringify({key: 'storage', data: obj}), 'http://bbb.com');
+</code></pre>
+</blockquote>
+<p>加强版的子窗口接收消息的代码如下。</p>
+<blockquote>
+<pre><code class="language-javascript">window.onmessage = function(e) {
+  if (e.origin !== 'http://bbb.com') return;
+  var payload = JSON.parse(e.data);
+  switch (payload.method) {
+    case 'set':
+      localStorage.setItem(payload.key, JSON.stringify(payload.data));
+      break;
+    case 'get':
+      var parent = window.parent;
+      var data = localStorage.getItem(payload.key);
+      parent.postMessage(data, 'http://aaa.com');
+      break;
+    case 'remove':
+      localStorage.removeItem(payload.key);
+      break;
+  }
+};
+</code></pre>
+</blockquote>
+<p>加强版的父窗口发送消息代码如下。</p>
+<blockquote>
+<pre><code class="language-javascript">var win = document.getElementsByTagName('iframe')[0].contentWindow;
+var obj = { name: 'Jack' };
+// 存入对象
+win.postMessage(JSON.stringify({key: 'storage', method: 'set', data: obj}), 'http://bbb.com');
+// 读取对象
+win.postMessage(JSON.stringify({key: 'storage', method: &quot;get&quot;}), &quot;*&quot;);
+window.onmessage = function(e) {
+  if (e.origin != 'http://aaa.com') return;
+  // &quot;Jack&quot;
+  console.log(JSON.parse(e.data).name);
+};
+</code></pre>
+</blockquote>
+<h2 id="四-ajax">四、AJAX</h2>
+<p>同源政策规定，AJAX请求只能发给同源的网址，否则就报错。</p>
+<p>除了架设服务器代理（浏览器请求同源服务器，再由后者请求外部服务），有三种方法规避这个限制。</p>
+<blockquote>
+<ul>
+<li>JSONP</li>
+<li>WebSocket</li>
+<li>CORS</li>
+</ul>
+</blockquote>
+<h3 id="41-jsonp">4.1 JSONP</h3>
+<p>JSONP是服务器与客户端跨源通信的常用方法。最大特点就是简单适用，老式浏览器全部支持，服务器改造非常小。</p>
+<p>它的基本思想是，网页通过添加一个<code>&lt;script&gt;</code>元素，向服务器请求JSON数据，这种做法不受同源政策限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。</p>
+<p>首先，网页动态插入<code>&lt;script&gt;</code>元素，由它向跨源网址发出请求。</p>
+<blockquote>
+<pre><code class="language-javascript">function addScriptTag(src) {
+  var script = document.createElement('script');
+  script.setAttribute(&quot;type&quot;,&quot;text/javascript&quot;);
+  script.src = src;
+  document.body.appendChild(script);
+}
+
+window.onload = function () {
+  addScriptTag('http://example.com/ip?callback=foo');
+}
+
+function foo(data) {
+  console.log('Your public IP address is: ' + data.ip);
+};
+</code></pre>
+</blockquote>
+<p>上面代码通过动态添加<code>&lt;script&gt;</code>元素，向服务器<code>example.com</code>发出请求。注意，该请求的查询字符串有一个<code>callback</code>参数，用来指定回调函数的名字，这对于JSONP是必需的。</p>
+<p>服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。</p>
+<blockquote>
+<pre><code class="language-javascript">foo({
+  &quot;ip&quot;: &quot;8.8.8.8&quot;
+});
+</code></pre>
+</blockquote>
+<p>由于<code>&lt;script&gt;</code>元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了<code>foo</code>函数，该函数就会立即调用。作为参数的JSON数据被视为JavaScript对象，而不是字符串，因此避免了使用<code>JSON.parse</code>的步骤。</p>
+<h3 id="42-websocket">4.2 WebSocket</h3>
+<p>WebSocket是一种通信协议，使用<code>ws://</code>（非加密）和<code>wss://</code>（加密）作为协议前缀。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。</p>
+<p>下面是一个例子，浏览器发出的WebSocket请求的头信息（摘自<a href="https://en.wikipedia.org/wiki/WebSocket">维基百科</a>）。</p>
+<blockquote>
+<pre><code class="language-http">GET /chat HTTP/1.1
+Host: server.example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+Origin: http://example.com
+</code></pre>
+</blockquote>
+<p>上面代码中，有一个字段是<code>Origin</code>，表示该请求的请求源（origin），即发自哪个域名。</p>
+<p>正是因为有了<code>Origin</code>这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。如果该域名在白名单内，服务器就会做出如下回应。</p>
+<blockquote>
+<pre><code class="language-http">HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+Sec-WebSocket-Protocol: chat
+</code></pre>
+</blockquote>
+<h3 id="43-cors">4.3 CORS</h3>
+<p>CORS是跨源资源分享（Cross-Origin Resource Sharing）的缩写。它是W3C标准，是跨源AJAX请求的根本解决方法。相比JSONP只能发<code>GET</code>请求，CORS允许任何类型的请求。</p>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html">https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html</a></p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[http-curl命令行]]></title>
         <id>https://leecss.com/post/http-curl-ming-ling-xing/</id>
@@ -460,6 +964,14 @@ console.log('server listening on 8888')
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>GET：get方法一般用于获取服务器资源</p>
+<p>POST：post方法一般用于传输实体主体</p>
+<p>PUT：put方法一般用于传输文件</p>
+<p>DELETE：delete方法用于删除文件</p>
+<p>HEAD：head方法用于获取报文首部，不返回报文主体</p>
+<p>OPTIONS：options方法用于询问请求URI资源支持的方法</p>
+</blockquote>
 ]]></content>
     </entry>
     <entry>
@@ -686,221 +1198,6 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
 <p>The PUT method requests that the enclosed entity be stored under the supplied Request-URI. If the Request-URI refers to an already existing resource, the enclosed entity SHOULD be considered as a modified version of the one residing on the origin server. If the Request-URI does not point to an existing resource, and that URI is capable of being defined as a new resource by the requesting user agent, the origin server can create the resource with that URI.</p>
 </blockquote>
 <p>POST所对应的URI并非创建的资源本身，而是资源的接收者。比如：POST <code>createArticles</code>的语义是在目标网站下创建一篇帖子，HTTP响应中应包含帖子的创建状态以及帖子的URI。两次相同的POST请求会在服务器端创建两份资源，它们具有不同的URI；所以，POST方法不具备幂等性。而PUT所对应的URI是要创建或更新的资源本身。比如：PUT <code>updateArticles/4231</code>的语义是创建或更新ID为4231的帖子。对同一URI进行多次PUT的副作用和一次PUT是相同的；因此，PUT方法具有幂等性。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-版本历史]]></title>
-        <id>https://leecss.com/post/http-ban-ben-li-shi/</id>
-        <link href="https://leecss.com/post/http-ban-ben-li-shi/">
-        </link>
-        <updated>2021-07-06T14:54:48.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>现在使用的HTTP协议有几个版本。HTTP程序要尽量强健地处理各种不同的HTTP协议变体。</p>
-<p>http请求是要通过tcp去建立连接，并在此之上发送数据,http只有请求和响应这个概念，没有链接这个概念。</p>
-<p>http1.0的时候，在http request的时候，在里面发起三次握手，创建TCP链接，然后再发起请求，请求结束后则关闭TCP链接。</p>
-<p>http1.1可以通过声明这个链接，可以保持在那里，后面就不需要三次握手开销;但是在一个tcp连接上同时只能发送一个请求，所以在有并发请求的时候只能建立多个tcp连接。</p>
-<p>HTTP2中是可以在一个TCP连接同时中发送多个HTTP请求。</p>
-<h2 id="版本">版本</h2>
-<h3 id="http09">HTTP/0.9</h3>
-<p><strong>特点</strong></p>
-<p>HTTP/0.9只支持GET方法。</p>
-<hr>
-<p>不支持多媒体内容的MIME类型、各种HTTP首部，或者版本号。</p>
-<p>服务器发送完毕，就关闭TCP连接。</p>
-<p><strong>命名</strong></p>
-<p>HTTP 于 1990 年问世。那时的 HTTP 并没有作为正式的标准被建立。</p>
-<p>实含有 HTTP1.0 之前版本的意思，因此被称为HTTP/0.9。</p>
-<h3 id="http10">HTTP/1.0</h3>
-<p><strong>特点</strong></p>
-<p>HTTP/1.0添加了status code、header(各种HTTP首部)、版本号、一些额外的方法。</p>
-<p>多字符集支持、多部分发送、权限、缓存等。</p>
-<hr>
-<p>每次请求都打开一个新的TCP链接，收到响应之后立即断开连接。</p>
-<p><strong>命名</strong></p>
-<p>HTTP 正式作为标准被公布是在 1996 年的 5 月，版本被命名为HTTP/1.0，并记载于 <a href="https://www.ietf.org/rfc/rfc1945.txt">RFC1945</a>。</p>
-<p>虽说是初期标准，但该协议标准至今仍被广泛使用在服务器端。</p>
-<h3 id="http11">HTTP/1.1</h3>
-<p><strong>特点</strong></p>
-<h4 id="持久化">持久化</h4>
-<p><u>HTTP/1.1 默认开启持久连接，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟。</u></p>
-<p>在1.0版本中，每进行一次HTTP通信就要断开一次TCP连接。</p>
-<p>TCP连接的新建成本很高，频繁地打开关闭会极大地增加开销，影响性能。</p>
-<p>于是在1.1版本中引入持久连接的方法。其特点就是任意一端没有明确提出断开连接，则保持TCP连接的状态。</p>
-<h4 id="管线化">管线化</h4>
-<p><u>HTTP/1.1增加了pipeline支持。</u></p>
-<p>管线化的连接建立在持久化连接的基础上，且响应需要顺序返回。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625583403314.jpg" alt="" loading="lazy"></figure>
-<p>非管线化的请求：如上图中第一幅</p>
-<p>客户端发送一个请求之后，必须等待服务器响应之后才能发送下一个请求，不能同时并行发送多个请求。</p>
-<hr>
-<p>管线化的请求：如上图中第二幅</p>
-<p>客户端一次性发送多个请求，不用等待服务器响应就可以发送下一个请求。</p>
-<hr>
-<p><strong>队头阻塞</strong></p>
-<p>管线化：如上图中第三幅</p>
-<p>http1.1规定，服务器端的响应的发送要根据请求被接收的顺序排队，即先接收到的请求需要先响应回来。所以当第一个请求阻塞后，后面的请求都需要等待。</p>
-<p>请求可以并行发出，但是响应必须串行返回。后一个响应必须在前一个响应之后。原因是，没有序号标明顺序，只能串行接收，阻塞发生在服务端，http响应阻塞。</p>
-<p>非管线化: 如上图中第一幅</p>
-<p>后一个请求必须在前一个响应之后发送，发生在客户端，http请求阻塞。</p>
-<hr>
-<p>HTTP2多路复用：如上图中第四幅</p>
-<p>解决第二个请求不被第一个请求阻塞，最好的办法就是来两个TCP连接。传统上浏览器也是这么干的。但是TCP要握手，这个效率低，所以HTTP2把多个这种请求流塞到一个TCP连接里面，这样的连接复用方式就提高了效率，又节省了连接握手。</p>
-<p>为了解决HTTP1.1管线化队头阻塞的问题，http2中，将多个请求复用到同一个tcp通道中，通过<strong>二进制分帧</strong>并且<strong>给每个帧</strong>打上<strong>流</strong>的 <strong>ID</strong> 去避免依次响应的问题，对方接收到帧之后<strong>根据 ID 拼接出流</strong>，这样就可以做到乱序响应从而避免请求时的队首阻塞问题。</p>
-<p>但是HTTP2没有完全解决队头阻塞问题，因为实际中TCP的连接buffer有限，一个响应又慢，又大的请求会把链接buffer完全占满，导致buffer阻塞，从而导致跟队头阻塞一样的效果。</p>
-<h4 id="增加host字段">增加HOST字段</h4>
-<p>HTTP/1.1 的请求消息和响应消息都必须包含<code>Host</code>头部，以区分同一个物理主机中的不同虚拟主机的域名。</p>
-<p>1.0版本中，认为每台物理服务器对应唯一的IP地址。所以，在1.0版本中是没有主机名这个概念的。但随着Web技术的发展，一台物理服务器可以存在多个虚拟主机，他们共享同一个IP地址。为了解决这个问题，HOST字段应运而生。</p>
-<p><strong>命名</strong></p>
-<p>1997 年 1 月公布的 HTTP/1.1 是目前主流的 HTTP 协议版本。当初的标准是 RFC2068，之后发布的修订版 <a href="https://www.ietf.org/rfc/rfc2616.txt">RFC2616</a> 就是当前的最新版本。</p>
-<h3 id="http20">HTTP/2.0</h3>
-<p><strong>特点</strong></p>
-<h4 id="二进制分帧">二进制分帧</h4>
-<p>在HTTP协议2.0中，应用层和传输层之间会多一个二进制分帧层。在二进制分帧层上，HTTP 2.0 会将所有传输的信息分割为更小的帧,并对它们采用二进制格式的编码 。之前HTTP1.x版本中的HTTP报文首部信息会被封装到Headers帧，而我们的HTTP报文主体则封装到Data帧里面。原先我们是以HTTP报文为单位传输的，现在HTTP报文被拆成了多个帧的形式，并且这些帧可以乱序发送，我们只需根据每个帧首部的流标识符就可以重新完成组装。这样极大提升了HTTP的性能。</p>
-<h4 id="多路复用">多路复用</h4>
-<p>HTTP/2.0支持多路复用，就是在一个 TCP 连接中可以存在多条流，也就是可以发送多个请求，服务端则可以通过帧中的标识知道该帧属于哪个流（即请求），通过重新排序还原请求。多路复用允许并发的发起多个请求，每个请求及该请求的响应不需要等待其他的请求或响应，避免了队头阻塞问题。这样某个请求任务耗时严重，不会影响到其它连接的正常执行,极大的提高传输性能。</p>
-<h4 id="头部压缩">头部压缩</h4>
-<p>每次HTTP请求都会有一个请求首部，这个首部放到一些重要信息，比如Cookie、User Agent之类的字段，这些字段每次请求都是一样的，但还必须要带上。这就造成了一些不必要的浪费。2.0中就优化这一点，引入首部压缩机制，客户端和服务端会维护同样一张首部信息表，每次请求只要发送索引号就可以了，不必带上请求首部上冗余的key-value，极大地减少了不必要的浪费。</p>
-<h4 id="服务端推送">服务端推送</h4>
-<p>在2.0之前的版本中，服务端是属于被动一方，只有客户端发送请求，服务端才能发送资源。2.0协议中，服务端可以主动地向客户端发送资源。例如：客户端请求一个html，里面所需要的js和css完全不需要客户端解析完html之后再去请求这些内容那么麻烦，服务端可以在客户端请求html的时候一起回传过来。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-网络模型]]></title>
-        <id>https://leecss.com/post/http-wang-luo-mo-xing/</id>
-        <link href="https://leecss.com/post/http-wang-luo-mo-xing/">
-        </link>
-        <updated>2021-07-05T14:41:22.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="http-五层网络模型">http-五层网络模型</h1>
-<h2 id="1概述">1.概述</h2>
-<h3 id="11协议">1.1协议</h3>
-<p>协议，网络协议的简称，网络协议是通信计算机双方必须共同遵从的一组约定。如怎么样建立连接、怎么样互相识别等。只有遵守这个约定，计算机之间才能相互通信交流。</p>
-<p>为了使数据在网络上从源到达目的，网络通信的参与方必须遵循相同的规则，这套规则称为协议（protocol），它最终体现为在网络上传输的数据包的格式。</p>
-<p>协议往往分成几个层次进行定义，分层定义是为了使某一层协议的改变不影响其他层次的协议。</p>
-<h3 id="12网络模型">1.2网络模型</h3>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625500448131.jpg" alt="" loading="lazy"></figure>
-<h4 id="121四层">1.2.1四层</h4>
-<p>TCP/IP 协议族是Internet最基本的协议，按照是否具有TCP/IP 协议族的协议来划分的话，从下到上为：</p>
-<ul>
-<li>
-<p><strong>链路层</strong></p>
-<p>用来处理连接网络的硬件部分，包括控制操作系统、硬件的设备驱动、NIC（Network Interface Card，网络适配器，即网卡），及光纤等物理可见部分（还包括连接器等一切传输媒介）。硬件上的范畴均在链路层的作用范围之内。</p>
-</li>
-<li>
-<p><strong>网络层</strong></p>
-<p>网络层规定了数据通过怎样的传输路线到达对方计算机传送给对方（IP协议等）。</p>
-</li>
-<li>
-<p><strong>传输层</strong></p>
-<p>传输层对接上层应用层，提供处于网络连接中两台计算机之间的数据传输所使用的协议。</p>
-</li>
-<li>
-<p><strong>应用层</strong></p>
-<p>应用层规定了向用户提供应用服务时通信的协议。</p>
-</li>
-</ul>
-<h4 id="122七层">1.2.2七层</h4>
-<p>国际标准化组织（ISO）为了规范协议层次的划分制定了开发系统互联（OSI，Open Systems Interconnection）模型，即ISO/OSI参考模型。此模型根据网络功能制定出7层网络协议结构，由低到高分别为物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。</p>
-<h4 id="123五层">1.2.3五层</h4>
-<p>五层网络模型分别为：物理层，数据链路层，网络层，传输层，应用层。</p>
-<p>物理层：主要作用是定义物理设备如何传输数据。</p>
-<p>数据链路层：在通信的实体间建立数据链路连接。</p>
-<p>网络层：为数据在结点之间传输创建逻辑链路。</p>
-<p>传输层：为应用层实体提供端到端的通信功能。</p>
-<p>应用层：为应用软件提供了很多服务。</p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1625500557587.jpg" alt="" loading="lazy"></figure>
-<h3 id="13层与协议">1.3层与协议</h3>
-<p>每一层都是为了完成一种功能。为了实现这些功能，就需要大家都遵守共同的规则。</p>
-<p>大家都遵守的规则，就叫做&quot;协议&quot;（protocol）。</p>
-<p>互联网的每一层，都定义了很多协议。这些协议集合起来总称为TCP/IP</p>
-<h2 id="2五层网络模型详解">2.五层网络模型详解</h2>
-<p>数据包格式：<br>
-<img src="https://leecss.com/post-images/1625500599926.png" alt="" loading="lazy"></p>
-<h3 id="21系统的角度">2.1系统的角度</h3>
-<h4 id="211物理层">2.1.1物理层</h4>
-<p>光缆、电缆、双绞线、无线电波等方式，<u>把电脑连接起来的物理手段</u>。</p>
-<p>它主要规定了网络的一些电气特性，<u>作用是负责传送0和1的电信号。</u></p>
-<h4 id="212数据链路层">2.1.2数据链路层</h4>
-<p>在&quot;实体层&quot;的上方，<u>确定了0和1的分组方式。</u></p>
-<p>有了数据包的定义、网卡的MAC地址、广播的发送方式，&quot;链接层&quot;就可以在多台计算机之间传送数据了。</p>
-<p><strong>以太网协议</strong></p>
-<p>以太网规定，一组电信号构成一个数据包，叫做&quot;帧&quot;（Frame）。每一帧分成两个部分：标头（Head）和数据（Data）。</p>
-<p>&quot;标头&quot;包含数据包的一些说明项，比如发送者、接受者、数据类型等等；&quot;数据&quot;则是数据包的具体内容。</p>
-<p>&quot;标头&quot;的长度，固定为18字节。&quot;数据&quot;的长度，最短为46字节，最长为1500字节。因此，整个&quot;帧&quot;最短为64字节，最长为1518字节。如果数据很长，就必须分割成多个帧进行发送。</p>
-<p><strong>MAC地址</strong></p>
-<p>以太网规定，连入网络的所有设备，都必须具有&quot;网卡&quot;接口。数据包必须是从一块网卡，传送到另一块网卡。网卡的地址，就是数据包的发送地址和接收地址，这叫做MAC地址。</p>
-<p>每块网卡出厂的时候，都有一个AC地址，重复概率很小。长度是48个二进制位，通常用12个十六进制数表示。</p>
-<pre><code class="language-sh"># MAC Address
-00-B0-D0-86-BB-F7
-</code></pre>
-<p>前6个十六进制数是厂商编号，后6个是该厂商的网卡流水号。有了MAC地址，就可以定位网卡和数据包的路径了。</p>
-<p><strong>广播</strong></p>
-<p>早期，以太网采用了一种很原始的方式来识别<strong>服务器</strong>网卡的地址，它不是把数据包准确送到接收方，而是向本网络内所有计算机发送，让每台计算机自己判断，是否为接收方。</p>
-<p>同一子网络下所有计算机都会收到<strong>客户端</strong>发出的数据包。它们读取这个包的&quot;标头&quot;，找到接收方的MAC地址，然后与自身的MAC地址相比较，如果两者相同，就接受这个包，做进一步处理，否则就丢弃这个包。这种发送方式就叫做&quot;广播&quot;（broadcasting）。</p>
-<h4 id="213网络层">2.1.3网络层</h4>
-<p>互联网是无数子网络共同组成的一个巨型网络，如果客户端与服务器不在一个子网络内，则无法通过广播的方式识别对方。</p>
-<p>网络层引进一套新的地址，使得我们能够<u>区分不同的计算机是否属于同一个子网络</u>。这套地址就叫做&quot;网络地址&quot;，简称&quot;网址&quot;。</p>
-<p>于是，&quot;网络层&quot;出现以后，每台计算机有了两种地址，一种是MAC地址，另一种是网络地址。</p>
-<p>两种地址之间没有任何联系，MAC地址是绑定在网卡上的，网络地址则是管理员分配的，它们只是随机组合在一起。</p>
-<p>网络地址帮助我们确定计算机所在的子网络，MAC地址则将数据包送到该子网络中的目标网卡。</p>
-<p><strong>IP协议</strong></p>
-<p>规定网络地址的协议，叫做IP协议。它所定义的地址，就被称为IP地址。</p>
-<p>IP协议的作用主要有两个，<u>一个是为每一台计算机分配IP地址，另一个是确定哪些地址在同一个子网络。</u></p>
-<p>目前，广泛采用的是IP协议第四版，简称IPv4。这个版本规定，网络地址由32个二进制位组成。</p>
-<pre><code class="language-sh"># IP Address
-172.16.254.1
-10101100.00010000.11111110.00000001
-</code></pre>
-<p>习惯上，我们用分成四段的十进制数表示IP地址，从0.0.0.0一直到255.255.255.255。</p>
-<p>互联网上的每一台计算机，都会分配到一个IP地址。这个地址分成两个部分，前一部分代表网络，后一部分代表主机。比如，IP地址172.16.254.1，这是一个32位的地址，假定它的网络部分是前24位（172.16.254），那么主机部分就是后8位（最后的那个1）。处于同一个子网络的电脑，它们IP地址的网络部分必定是相同的，也就是说172.16.254.2应该与172.16.254.1处在同一个子网络。</p>
-<p>但是，问题在于单单从IP地址，我们无法判断网络部分。还是以172.16.254.1为例，它的网络部分，到底是前24位，还是前16位，甚至前28位，从IP地址上是看不出来的。</p>
-<p>那么，怎样才能从IP地址，判断两台计算机是否属于同一个子网络呢？这就要用到另一个参数&quot;子网掩码&quot;（subnet mask）。</p>
-<p><strong>子网掩码</strong></p>
-<p>所谓&quot;子网掩码&quot;，就是表示子网络特征的一个参数。它在形式上等同于IP地址，也是一个32位二进制数字，它的网络部分全部为1，主机部分全部为0。比如，IP地址172.16.254.1，如果已知网络部分是前24位，主机部分是后8位，那么子网络掩码就是11111111.11111111.11111111.00000000，写成十进制就是255.255.255.0。</p>
-<p>知道&quot;子网掩码&quot;，我们就能判断，任意两个IP地址是否处在同一个子网络。方法是将两个IP地址与子网掩码分别进行AND运算（两个数位都为1，运算结果为1，否则为0），然后比较结果是否相同，如果是的话，就表明它们在同一个子网络中，否则就不是。</p>
-<p>比如，已知IP地址172.16.254.1和172.16.254.233的子网掩码都是255.255.255.0，请问它们是否在同一个子网络？两者与子网掩码分别进行AND运算，结果都是172.16.254.0，因此它们在同一个子网络。</p>
-<p><strong>IP数据包</strong></p>
-<p>根据IP协议发送的数据，就叫做IP数据包。不难想象，其中必定包括IP地址信息。</p>
-<p>IP数据包直接放进以太网数据包的&quot;数据&quot;部分</p>
-<p>具体来说，IP数据包也分为&quot;标头&quot;和&quot;数据&quot;两个部分。</p>
-<p>&quot;标头&quot;部分主要包括版本、长度、IP地址等信息，&quot;数据&quot;部分则是IP数据包的具体内容。</p>
-<p>IP数据包的&quot;标头&quot;部分的长度为20到60字节，整个数据包的总长度最大为65,535字节。因此，理论上，一个IP数据包的&quot;数据&quot;部分，最长为65,515字节。前面说过，以太网数据包的&quot;数据&quot;部分，最长只有1500字节。因此，如果IP数据包超过了1500字节，它就需要分割成几个以太网数据包，分开发送了。</p>
-<h4 id="214传输层">2.1.4传输层</h4>
-<p><u>建立&quot;端口到端口&quot;的通信。</u></p>
-<p>有了MAC地址和IP地址，我们已经可以在互联网上任意两台主机上建立通信。</p>
-<p>接下来的问题是，同一台主机上有许多程序都需要用到网络，比如，你一边浏览网页，一边与朋友在线聊天。当一个数据包从互联网上发来的时候，你怎么知道，它是表示网页的内容，还是表示在线聊天的内容？</p>
-<p>也就是说，我们还需要一个参数，表示这个数据包到底供哪个程序（进程）使用。这个参数就叫做&quot;端口&quot;（port），它其实是每一个使用网卡的程序的编号。每个数据包都发到主机的特定端口，所以不同的程序就能取到自己所需要的数据。</p>
-<p>&quot;端口&quot;是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。</p>
-<p><strong>UDP协议</strong></p>
-<p>现在，我们必须在数据包中加入端口信息，这就需要新的协议。最简单的实现叫做UDP协议，它的格式几乎就是在数据前面，加上端口号。</p>
-<p>UDP数据包，也是由&quot;标头&quot;和&quot;数据&quot;两部分组成。</p>
-<p>标头&quot;部分主要定义了发出端口和接收端口，&quot;数据&quot;部分就是具体的内容。</p>
-<p>整个UDP数据包放入IP数据包的&quot;数据&quot;部分</p>
-<p>UDP数据包非常简单，&quot;标头&quot;部分一共只有8个字节，总长度不超过65,535字节，正好放进一个IP数据包。</p>
-<p><strong>TCP协议</strong></p>
-<p>UDP协议的优点是比较简单，容易实现，但是缺点是可靠性较差，一旦数据包发出，无法知道对方是否收到。</p>
-<p>为了解决这个问题，提高网络可靠性，TCP协议就诞生了。这个协议非常复杂，但可以近似认为，它就是有确认机制的UDP协议，每发出一个数据包都要求确认。如果有一个数据包遗失，就收不到确认，发出方就知道有必要重发这个数据包了。</p>
-<p>因此，TCP协议能够确保数据不会遗失。它的缺点是过程复杂、实现困难、消耗较多的资源。</p>
-<p>TCP数据包和UDP数据包一样，都是内嵌在IP数据包的&quot;数据&quot;部分。TCP数据包没有长度限制，理论上可以无限长，但是为了保证网络的效率，通常TCP数据包的长度不会超过IP数据包的长度，以确保单个TCP数据包不必再分割。</p>
-<h4 id="215应用层">2.1.5应用层</h4>
-<p><u>规定应用程序的数据格式。</u></p>
-<p>应用程序收到&quot;传输层&quot;的数据，接下来就要进行解读。由于互联网是开放架构，数据来源五花八门，必须事先规定好格式，否则根本无法解读。</p>
-<p>举例来说，TCP协议可以为各种各样的程序传递数据，比如Email、WWW、FTP等等。那么，必须有不同协议规定电子邮件、网页、FTP数据的格式，这些应用程序协议就构成了&quot;应用层&quot;。</p>
-<p>这是最高的一层，直接面对用户。它的数据就放在TCP数据包的&quot;数据&quot;部分。</p>
-<h2 id="3tcpip通信传输流">3.TCP/IP通信传输流</h2>
-<p>利用 TCP/IP 协议族进行网络通信时，会通过分层顺序与对方进行通信。发送端从应用层往下走，接收端则往应用层往上走。</p>
-<p>我们用 HTTP 举例来说明，首先作为发送端的客户端在应用层（HTTP 协议）发出一个想看某个 Web 页面的 HTTP 请求。</p>
-<p>接着，为了传输方便，在传输层（TCP 协议）把从应用层处收到的数据（HTTP 请求报文）进行分割，并在各个报文上打上标记序号及端口号后转发给网络层。</p>
-<p>在网络层（IP 协议），增加作为通信目的地的 MAC 地址后转发给链路层。这样一来，发往网络的通信请求就准备齐全了。</p>
-<p>接收端的服务器在链路层接收到数据，按序往上层发送，一直到应用层。当传输到应用层，才能算真正接收到由客户端发送过来的 HTTP请求。</p>
-<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1625528569737.jpg" alt="" loading="lazy"></figure>
-<p>发送端在层与层之间传输数据时，每经过一层时必定会被打上一个该层所属的首部信息。反之，接收端在层与层传输数据时，每经过一层时会把对应的首部消去。</p>
-<p>这种把数据信息包装起来的做法称为封装（encapsulate）。</p>
-<h2 id="推荐阅读">推荐阅读</h2>
-<blockquote>
-<p>阮一峰</p>
-<p><a href="https://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html">互联网协议1</a></p>
-<p><a href="https://www.ruanyifeng.com/blog/2012/06/internet_protocol_suite_part_ii.html">互联网协议2</a></p>
-</blockquote>
 ]]></content>
     </entry>
 </feed>

@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>http-TCP/IP三次握手 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1626097202450">
+<link rel="shortcut icon" href="/favicon.ico?v=1626276814010">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">57</span>
+        <span class="site-item-stat-count">59</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1156,6 +1156,504 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-kua-yu-cors/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;CORS是一个W3C标准，全称是&amp;quot;跨域资源共享&amp;quot;（Cross-origin resource sharing）。&lt;/p&gt;
+&lt;p&gt;它允许浏览器向跨源服务器，发出&lt;a href=&#34;https://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html&#34;&gt;&lt;code&gt;XMLHttpRequest&lt;/code&gt;&lt;/a&gt;请求，从而克服了AJAX只能&lt;a href=&#34;https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html&#34;&gt;同源&lt;/a&gt;使用的限制。&lt;/p&gt;
+&lt;h2 id=&#34;一-简介&#34;&gt;一、简介&lt;/h2&gt;
+&lt;p&gt;CORS需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE浏览器不能低于IE10。&lt;/p&gt;
+&lt;p&gt;整个CORS通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS通信与同源的AJAX通信没有差别，代码完全一样。浏览器一旦发现AJAX请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。&lt;/p&gt;
+&lt;p&gt;因此，实现CORS通信的关键是服务器。只要服务器实现了CORS接口，就可以跨源通信。&lt;/p&gt;
+&lt;h2 id=&#34;二-两种请求&#34;&gt;二、两种请求&lt;/h2&gt;
+&lt;p&gt;浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。&lt;/p&gt;
+&lt;p&gt;只要同时满足以下两大条件，就属于简单请求。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（1) 请求方法是以下三种方法之一：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;HEAD&lt;/li&gt;
+&lt;li&gt;GET&lt;/li&gt;
+&lt;li&gt;POST&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;（2）HTTP的头信息不超出以下几种字段：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Accept&lt;/li&gt;
+&lt;li&gt;Accept-Language&lt;/li&gt;
+&lt;li&gt;Content-Language&lt;/li&gt;
+&lt;li&gt;Last-Event-ID&lt;/li&gt;
+&lt;li&gt;Content-Type：只限于三个值&lt;code&gt;application/x-www-form-urlencoded&lt;/code&gt;、&lt;code&gt;multipart/form-data&lt;/code&gt;、&lt;code&gt;text/plain&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这是为了兼容表单（form），因为历史上表单一直可以发出跨域请求。AJAX 的跨域设计就是，只要表单可以发，AJAX 就可以直接发。&lt;/p&gt;
+&lt;p&gt;凡是不同时满足上面两个条件，就属于非简单请求。&lt;/p&gt;
+&lt;p&gt;浏览器对这两种请求的处理，是不一样的。&lt;/p&gt;
+&lt;h2 id=&#34;三-简单请求&#34;&gt;三、简单请求&lt;/h2&gt;
+&lt;h3 id=&#34;31-基本流程&#34;&gt;3.1 基本流程&lt;/h3&gt;
+&lt;p&gt;对于简单请求，浏览器直接发出CORS请求。具体来说，就是在头信息之中，增加一个&lt;code&gt;Origin&lt;/code&gt;字段。&lt;/p&gt;
+&lt;p&gt;下面是一个例子，浏览器发现这次跨源AJAX请求是简单请求，就自动在头信息之中，添加一个&lt;code&gt;Origin&lt;/code&gt;字段。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;GET /cors HTTP/1.1
+Origin: http://api.bob.com
+Host: api.alice.com
+Accept-Language: en-US
+Connection: keep-alive
+User-Agent: Mozilla/5.0...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面的头信息中，&lt;code&gt;Origin&lt;/code&gt;字段用来说明，本次请求来自哪个源（协议 + 域名 + 端口）。服务器根据这个值，决定是否同意这次请求。&lt;/p&gt;
+&lt;p&gt;如果&lt;code&gt;Origin&lt;/code&gt;指定的源，不在许可范围内，服务器会返回一个正常的HTTP回应。浏览器发现，这个回应的头信息没有包含&lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt;字段（详见下文），就知道出错了，从而抛出一个错误，被&lt;code&gt;XMLHttpRequest&lt;/code&gt;的&lt;code&gt;onerror&lt;/code&gt;回调函数捕获。注意，这种错误无法通过状态码识别，因为HTTP回应的状态码有可能是200。&lt;/p&gt;
+&lt;p&gt;如果&lt;code&gt;Origin&lt;/code&gt;指定的域名在许可范围内，服务器返回的响应，会多出几个头信息字段。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Access-Control-Allow-Origin: http://api.bob.com
+Access-Control-Allow-Credentials: true
+Access-Control-Expose-Headers: FooBar
+Content-Type: text/html; charset=utf-8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面的头信息之中，有三个与CORS请求相关的字段，都以&lt;code&gt;Access-Control-&lt;/code&gt;开头。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）Access-Control-Allow-Origin&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;该字段是必须的。它的值要么是请求时&lt;code&gt;Origin&lt;/code&gt;字段的值，要么是一个&lt;code&gt;*&lt;/code&gt;，表示接受任意域名的请求。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（2）Access-Control-Allow-Credentials&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;该字段可选。它的值是一个布尔值，表示是否允许发送Cookie。默认情况下，Cookie不包括在CORS请求之中。设为&lt;code&gt;true&lt;/code&gt;，即表示服务器明确许可，Cookie可以包含在请求中，一起发给服务器。这个值也只能设为&lt;code&gt;true&lt;/code&gt;，如果服务器不要浏览器发送Cookie，删除该字段即可。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（3）Access-Control-Expose-Headers&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;该字段可选。CORS请求时，&lt;code&gt;XMLHttpRequest&lt;/code&gt;对象的&lt;code&gt;getResponseHeader()&lt;/code&gt;方法只能拿到6个基本字段：&lt;code&gt;Cache-Control&lt;/code&gt;、&lt;code&gt;Content-Language&lt;/code&gt;、&lt;code&gt;Content-Type&lt;/code&gt;、&lt;code&gt;Expires&lt;/code&gt;、&lt;code&gt;Last-Modified&lt;/code&gt;、&lt;code&gt;Pragma&lt;/code&gt;。如果想拿到其他字段，就必须在&lt;code&gt;Access-Control-Expose-Headers&lt;/code&gt;里面指定。上面的例子指定，&lt;code&gt;getResponseHeader(&#39;FooBar&#39;)&lt;/code&gt;可以返回&lt;code&gt;FooBar&lt;/code&gt;字段的值。&lt;/p&gt;
+&lt;h3 id=&#34;32-withcredentials-属性&#34;&gt;3.2 withCredentials 属性&lt;/h3&gt;
+&lt;p&gt;上面说到，CORS请求默认不发送Cookie和HTTP认证信息。如果要把Cookie发到服务器，一方面要服务器同意，指定&lt;code&gt;Access-Control-Allow-Credentials&lt;/code&gt;字段。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Access-Control-Allow-Credentials: true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;另一方面，开发者必须在AJAX请求中打开&lt;code&gt;withCredentials&lt;/code&gt;属性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;否则，即使服务器同意发送Cookie，浏览器也不会发送。或者，服务器要求设置Cookie，浏览器也不会处理。&lt;/p&gt;
+&lt;p&gt;但是，如果省略&lt;code&gt;withCredentials&lt;/code&gt;设置，有的浏览器还是会一起发送Cookie。这时，可以显式关闭&lt;code&gt;withCredentials&lt;/code&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;xhr.withCredentials = false;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;需要注意的是，如果要发送Cookie，&lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt;就不能设为星号，必须指定明确的、与请求网页一致的域名。同时，Cookie依然遵循同源政策，只有用服务器域名设置的Cookie才会上传，其他域名的Cookie并不会上传，且（跨源）原网页代码中的&lt;code&gt;document.cookie&lt;/code&gt;也无法读取服务器域名下的Cookie。&lt;/p&gt;
+&lt;h2 id=&#34;四-非简单请求&#34;&gt;四、非简单请求&lt;/h2&gt;
+&lt;h3 id=&#34;41-预检请求&#34;&gt;4.1 预检请求&lt;/h3&gt;
+&lt;p&gt;非简单请求是那种对服务器有特殊要求的请求，比如请求方法是&lt;code&gt;PUT&lt;/code&gt;或&lt;code&gt;DELETE&lt;/code&gt;，或者&lt;code&gt;Content-Type&lt;/code&gt;字段的类型是&lt;code&gt;application/json&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;非简单请求的CORS请求，会在正式通信之前，增加一次HTTP查询请求，称为&amp;quot;预检&amp;quot;请求（preflight）。&lt;/p&gt;
+&lt;p&gt;浏览器先询问服务器，当前网页所在的域名是否在服务器的许可名单之中，以及可以使用哪些HTTP动词和头信息字段。只有得到肯定答复，浏览器才会发出正式的&lt;code&gt;XMLHttpRequest&lt;/code&gt;请求，否则就报错。&lt;/p&gt;
+&lt;p&gt;下面是一段浏览器的JavaScript脚本。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var url = &#39;http://api.alice.com/cors&#39;;
+var xhr = new XMLHttpRequest();
+xhr.open(&#39;PUT&#39;, url, true);
+xhr.setRequestHeader(&#39;X-Custom-Header&#39;, &#39;value&#39;);
+xhr.send();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面代码中，HTTP请求的方法是&lt;code&gt;PUT&lt;/code&gt;，并且发送一个自定义头信息&lt;code&gt;X-Custom-Header&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;浏览器发现，这是一个非简单请求，就自动发出一个&amp;quot;预检&amp;quot;请求，要求服务器确认可以这样请求。下面是这个&amp;quot;预检&amp;quot;请求的HTTP头信息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;OPTIONS /cors HTTP/1.1
+Origin: http://api.bob.com
+Access-Control-Request-Method: PUT
+Access-Control-Request-Headers: X-Custom-Header
+Host: api.alice.com
+Accept-Language: en-US
+Connection: keep-alive
+User-Agent: Mozilla/5.0...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&amp;quot;预检&amp;quot;请求用的请求方法是&lt;code&gt;OPTIONS&lt;/code&gt;，表示这个请求是用来询问的。头信息里面，关键字段是&lt;code&gt;Origin&lt;/code&gt;，表示请求来自哪个源。&lt;/p&gt;
+&lt;p&gt;除了&lt;code&gt;Origin&lt;/code&gt;字段，&amp;quot;预检&amp;quot;请求的头信息包括两个特殊字段。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）Access-Control-Request-Method&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;该字段是必须的，用来列出浏览器的CORS请求会用到哪些HTTP方法，上例是&lt;code&gt;PUT&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（2）Access-Control-Request-Headers&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;该字段是一个逗号分隔的字符串，指定浏览器CORS请求会额外发送的头信息字段，上例是&lt;code&gt;X-Custom-Header&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;42-预检请求的回应&#34;&gt;4.2 预检请求的回应&lt;/h3&gt;
+&lt;p&gt;服务器收到&amp;quot;预检&amp;quot;请求以后，检查了&lt;code&gt;Origin&lt;/code&gt;、&lt;code&gt;Access-Control-Request-Method&lt;/code&gt;和&lt;code&gt;Access-Control-Request-Headers&lt;/code&gt;字段以后，确认允许跨源请求，就可以做出回应。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;HTTP/1.1 200 OK
+Date: Mon, 01 Dec 2008 01:15:39 GMT
+Server: Apache/2.0.61 (Unix)
+Access-Control-Allow-Origin: http://api.bob.com
+Access-Control-Allow-Methods: GET, POST, PUT
+Access-Control-Allow-Headers: X-Custom-Header
+Content-Type: text/html; charset=utf-8
+Content-Encoding: gzip
+Content-Length: 0
+Keep-Alive: timeout=2, max=100
+Connection: Keep-Alive
+Content-Type: text/plain
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面的HTTP回应中，关键的是&lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt;字段，表示&lt;code&gt;http://api.bob.com&lt;/code&gt;可以请求数据。该字段也可以设为星号，表示同意任意跨源请求。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Access-Control-Allow-Origin: *
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如果服务器否定了&amp;quot;预检&amp;quot;请求，会返回一个正常的HTTP回应，但是没有任何CORS相关的头信息字段。这时，浏览器就会认定，服务器不同意预检请求，因此触发一个错误，被&lt;code&gt;XMLHttpRequest&lt;/code&gt;对象的&lt;code&gt;onerror&lt;/code&gt;回调函数捕获。控制台会打印出如下的报错信息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;XMLHttpRequest cannot load http://api.alice.com.
+Origin http://api.bob.com is not allowed by Access-Control-Allow-Origin.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;服务器回应的其他CORS相关字段如下。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Access-Control-Allow-Methods: GET, POST, PUT
+Access-Control-Allow-Headers: X-Custom-Header
+Access-Control-Allow-Credentials: true
+Access-Control-Max-Age: 1728000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;（1）Access-Control-Allow-Methods&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;该字段必需，它的值是逗号分隔的一个字符串，表明服务器支持的所有跨域请求的方法。注意，返回的是所有支持的方法，而不单是浏览器请求的那个方法。这是为了避免多次&amp;quot;预检&amp;quot;请求。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（2）Access-Control-Allow-Headers&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果浏览器请求包括&lt;code&gt;Access-Control-Request-Headers&lt;/code&gt;字段，则&lt;code&gt;Access-Control-Allow-Headers&lt;/code&gt;字段是必需的。它也是一个逗号分隔的字符串，表明服务器支持的所有头信息字段，不限于浏览器在&amp;quot;预检&amp;quot;中请求的字段。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（3）Access-Control-Allow-Credentials&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;该字段与简单请求时的含义相同。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（4）Access-Control-Max-Age&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;该字段可选，用来指定本次预检请求的有效期，单位为秒。上面结果中，有效期是20天（1728000秒），即允许缓存该条回应1728000秒（即20天），在此期间，不用发出另一条预检请求。&lt;/p&gt;
+&lt;h3 id=&#34;43-浏览器的正常请求和回应&#34;&gt;4.3 浏览器的正常请求和回应&lt;/h3&gt;
+&lt;p&gt;一旦服务器通过了&amp;quot;预检&amp;quot;请求，以后每次浏览器正常的CORS请求，就都跟简单请求一样，会有一个&lt;code&gt;Origin&lt;/code&gt;头信息字段。服务器的回应，也都会有一个&lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt;头信息字段。&lt;/p&gt;
+&lt;p&gt;下面是&amp;quot;预检&amp;quot;请求之后，浏览器的正常CORS请求。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;PUT /cors HTTP/1.1
+Origin: http://api.bob.com
+Host: api.alice.com
+X-Custom-Header: value
+Accept-Language: en-US
+Connection: keep-alive
+User-Agent: Mozilla/5.0...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面头信息的&lt;code&gt;Origin&lt;/code&gt;字段是浏览器自动添加的。&lt;/p&gt;
+&lt;p&gt;下面是服务器正常的回应。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Access-Control-Allow-Origin: http://api.bob.com
+Content-Type: text/html; charset=utf-8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面头信息中，&lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt;字段是每次回应都必定包含的。&lt;/p&gt;
+&lt;h2 id=&#34;五-与jsonp的比较&#34;&gt;五、与JSONP的比较&lt;/h2&gt;
+&lt;p&gt;CORS与JSONP的使用目的相同，但是比JSONP更强大。&lt;/p&gt;
+&lt;p&gt;JSONP只支持&lt;code&gt;GET&lt;/code&gt;请求，CORS支持所有类型的HTTP请求。JSONP的优势在于支持老式浏览器，以及可以向不支持CORS的网站请求数据。&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;阮一峰&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.ruanyifeng.com/blog/2016/04/cors.html&#34;&gt;https://www.ruanyifeng.com/blog/2016/04/cors.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+">http-跨域CORS</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-kua-yu/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;**「同源策略」**是一个重要的安全策略，它用于限制一个&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Glossary/Origin&#34;&gt;origin&lt;/a&gt;的文档或者它加载的脚本如何能与另一个源的资源进行交互。它能帮助阻隔恶意文档，减少可能被攻击的媒介。&lt;/p&gt;
+&lt;p&gt;--来源 MDN&lt;/p&gt;
+&lt;h2 id=&#34;一-概述&#34;&gt;一、概述&lt;/h2&gt;
+&lt;h3 id=&#34;11-含义&#34;&gt;1.1 含义&lt;/h3&gt;
+&lt;p&gt;1995年，同源政策由 Netscape 公司引入浏览器。目前，所有浏览器都实行这个政策。&lt;/p&gt;
+&lt;p&gt;最初，它的含义是指，A网页设置的 Cookie，B网页不能打开，除非这两个网页&amp;quot;同源&amp;quot;。所谓&amp;quot;同源&amp;quot;指的是&amp;quot;三个相同&amp;quot;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;协议相同&lt;/li&gt;
+&lt;li&gt;域名相同&lt;/li&gt;
+&lt;li&gt;端口相同&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;举例来说，&lt;code&gt;http://www.example.com/dir/page.html&lt;/code&gt;这个网址，协议是&lt;code&gt;http://&lt;/code&gt;，域名是&lt;code&gt;www.example.com&lt;/code&gt;，端口是&lt;code&gt;80&lt;/code&gt;（默认端口可以省略）。它的同源情况如下。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;http://www.example.com/dir2/other.html&lt;/code&gt;：同源&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;http://example.com/dir/other.html&lt;/code&gt;：不同源（域名不同）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;http://v2.www.example.com/dir/other.html&lt;/code&gt;：不同源（域名不同）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;http://www.example.com:81/dir/other.html&lt;/code&gt;：不同源（端口不同）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;12-目的&#34;&gt;1.2 目的&lt;/h3&gt;
+&lt;p&gt;同源政策的目的，是为了保证用户信息的安全，防止恶意的网站窃取数据。&lt;/p&gt;
+&lt;p&gt;设想这样一种情况：A网站是一家银行，用户登录以后，又去浏览其他网站。如果其他网站可以读取A网站的 Cookie，会发生什么？&lt;/p&gt;
+&lt;p&gt;很显然，如果 Cookie 包含隐私（比如存款总额），这些信息就会泄漏。更可怕的是，Cookie 往往用来保存用户的登录状态，如果用户没有退出登录，其他网站就可以冒充用户，为所欲为。因为浏览器同时还规定，提交表单不受同源政策的限制。&lt;/p&gt;
+&lt;p&gt;由此可见，&amp;quot;同源政策&amp;quot;是必需的，否则 Cookie 可以共享，互联网就毫无安全可言了。&lt;/p&gt;
+&lt;h3 id=&#34;13-限制范围&#34;&gt;1.3 限制范围&lt;/h3&gt;
+&lt;p&gt;随着互联网的发展，&amp;quot;同源政策&amp;quot;越来越严格。目前，如果非同源，共有三种行为受到限制。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（1） Cookie、LocalStorage 和 IndexDB 无法读取。&lt;/p&gt;
+&lt;p&gt;（2） DOM 无法获得。&lt;/p&gt;
+&lt;p&gt;（3） AJAX 请求不能发送。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;虽然这些限制是必要的，但是有时很不方便，合理的用途也受到影响。下面，我将详细介绍，如何规避上面三种限制。&lt;/p&gt;
+&lt;h2 id=&#34;二-cookie&#34;&gt;二、Cookie&lt;/h2&gt;
+&lt;p&gt;Cookie 是服务器写入浏览器的一小段信息，只有同源的网页才能共享。但是，两个网页一级域名相同，只是二级域名不同，浏览器允许通过设置&lt;code&gt;document.domain&lt;/code&gt;共享 Cookie。&lt;/p&gt;
+&lt;p&gt;举例来说，A网页是&lt;code&gt;http://w1.example.com/a.html&lt;/code&gt;，B网页是&lt;code&gt;http://w2.example.com/b.html&lt;/code&gt;，那么只要设置相同的&lt;code&gt;document.domain&lt;/code&gt;，两个网页就可以共享Cookie。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;document.domain = &#39;example.com&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;现在，A网页通过脚本设置一个 Cookie。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;document.cookie = &amp;quot;test1=hello&amp;quot;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;B网页就可以读到这个 Cookie。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var allCookie = document.cookie;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;注意，这种方法只适用于 Cookie 和 iframe 窗口，LocalStorage 和 IndexDB 无法通过这种方法，规避同源政策，而要使用下文介绍的PostMessage API。&lt;/p&gt;
+&lt;p&gt;另外，服务器也可以在设置Cookie的时候，指定Cookie的所属域名为一级域名，比如&lt;code&gt;.example.com&lt;/code&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Set-Cookie: key=value; domain=.example.com; path=/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这样的话，二级域名和三级域名不用做任何设置，都可以读取这个Cookie。&lt;/p&gt;
+&lt;h2 id=&#34;三-iframe&#34;&gt;三、iframe&lt;/h2&gt;
+&lt;p&gt;如果两个网页不同源，就无法拿到对方的DOM。典型的例子是&lt;code&gt;iframe&lt;/code&gt;窗口和&lt;code&gt;window.open&lt;/code&gt;方法打开的窗口，它们与父窗口无法通信。&lt;/p&gt;
+&lt;p&gt;比如，父窗口运行下面的命令，如果&lt;code&gt;iframe&lt;/code&gt;窗口不是同源，就会报错。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;document.getElementById(&amp;quot;myIFrame&amp;quot;).contentWindow.document
+// Uncaught DOMException: Blocked a frame from accessing a cross-origin frame.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面命令中，父窗口想获取子窗口的DOM，因为跨源导致报错。&lt;/p&gt;
+&lt;p&gt;反之亦然，子窗口获取主窗口的DOM也会报错。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.parent.document.body
+// 报错
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如果两个窗口一级域名相同，只是二级域名不同，那么设置上一节介绍的&lt;code&gt;document.domain&lt;/code&gt;属性，就可以规避同源政策，拿到DOM。&lt;/p&gt;
+&lt;p&gt;对于完全不同源的网站，目前有三种方法，可以解决跨域窗口的通信问题。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;片段识别符（fragment identifier）&lt;/li&gt;
+&lt;li&gt;window.name&lt;/li&gt;
+&lt;li&gt;跨文档通信API（Cross-document messaging）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;31-片段识别符&#34;&gt;3.1 片段识别符&lt;/h3&gt;
+&lt;p&gt;片段标识符（fragment identifier）指的是，URL的&lt;code&gt;#&lt;/code&gt;号后面的部分，比如&lt;code&gt;http://example.com/x.html#fragment&lt;/code&gt;的&lt;code&gt;#fragment&lt;/code&gt;。如果只是改变片段标识符，页面不会重新刷新。&lt;/p&gt;
+&lt;p&gt;父窗口可以把信息，写入子窗口的片段标识符。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var src = originURL + &#39;#&#39; + data;
+document.getElementById(&#39;myIFrame&#39;).src = src;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;子窗口通过监听&lt;code&gt;hashchange&lt;/code&gt;事件得到通知。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.onhashchange = checkMessage;
+
+function checkMessage() {
+  var message = window.location.hash;
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;同样的，子窗口也可以改变父窗口的片段标识符。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;parent.location.href= target + &amp;quot;#&amp;quot; + hash;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;32-windowname&#34;&gt;3.2 window.name&lt;/h3&gt;
+&lt;p&gt;浏览器窗口有&lt;code&gt;window.name&lt;/code&gt;属性。这个属性的最大特点是，无论是否同源，只要在同一个窗口里，前一个网页设置了这个属性，后一个网页可以读取它。&lt;/p&gt;
+&lt;p&gt;父窗口先打开一个子窗口，载入一个不同源的网页，该网页将信息写入&lt;code&gt;window.name&lt;/code&gt;属性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.name = data;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接着，子窗口跳回一个与主窗口同域的网址。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;location = &#39;http://parent.url.com/xxx.html&#39;;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后，主窗口就可以读取子窗口的&lt;code&gt;window.name&lt;/code&gt;了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var data = document.getElementById(&#39;myFrame&#39;).contentWindow.name;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这种方法的优点是，&lt;code&gt;window.name&lt;/code&gt;容量很大，可以放置非常长的字符串；缺点是必须监听子窗口&lt;code&gt;window.name&lt;/code&gt;属性的变化，影响网页性能。&lt;/p&gt;
+&lt;h3 id=&#34;33-windowpostmessage&#34;&gt;3.3 window.postMessage&lt;/h3&gt;
+&lt;p&gt;上面两种方法都属于破解，HTML5为了解决这个问题，引入了一个全新的API：跨文档通信 API（Cross-document messaging）。&lt;/p&gt;
+&lt;p&gt;这个API为&lt;code&gt;window&lt;/code&gt;对象新增了一个&lt;code&gt;window.postMessage&lt;/code&gt;方法，允许跨窗口通信，不论这两个窗口是否同源。&lt;/p&gt;
+&lt;p&gt;举例来说，父窗口&lt;code&gt;http://aaa.com&lt;/code&gt;向子窗口&lt;code&gt;http://bbb.com&lt;/code&gt;发消息，调用&lt;code&gt;postMessage&lt;/code&gt;方法就可以了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var popup = window.open(&#39;http://bbb.com&#39;, &#39;title&#39;);
+popup.postMessage(&#39;Hello World!&#39;, &#39;http://bbb.com&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;postMessage&lt;/code&gt;方法的第一个参数是具体的信息内容，第二个参数是接收消息的窗口的源（origin），即&amp;quot;协议 + 域名 + 端口&amp;quot;。也可以设为&lt;code&gt;*&lt;/code&gt;，表示不限制域名，向所有窗口发送。&lt;/p&gt;
+&lt;p&gt;子窗口向父窗口发送消息的写法类似。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.opener.postMessage(&#39;Nice to see you&#39;, &#39;http://aaa.com&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;父窗口和子窗口都可以通过&lt;code&gt;message&lt;/code&gt;事件，监听对方的消息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.addEventListener(&#39;message&#39;, function(e) {
+  console.log(e.data);
+},false);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;message&lt;/code&gt;事件的事件对象&lt;code&gt;event&lt;/code&gt;，提供以下三个属性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;event.source&lt;/code&gt;：发送消息的窗口&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;event.origin&lt;/code&gt;: 消息发向的网址&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;event.data&lt;/code&gt;: 消息内容&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;下面的例子是，子窗口通过&lt;code&gt;event.source&lt;/code&gt;属性引用父窗口，然后发送消息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.addEventListener(&#39;message&#39;, receiveMessage);
+function receiveMessage(event) {
+  event.source.postMessage(&#39;Nice to see you!&#39;, &#39;*&#39;);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;event.origin&lt;/code&gt;属性可以过滤不是发给本窗口的消息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.addEventListener(&#39;message&#39;, receiveMessage);
+function receiveMessage(event) {
+  if (event.origin !== &#39;http://aaa.com&#39;) return;
+  if (event.data === &#39;Hello World&#39;) {
+      event.source.postMessage(&#39;Hello&#39;, event.origin);
+  } else {
+    console.log(event.data);
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;34-localstorage&#34;&gt;3.4 LocalStorage&lt;/h3&gt;
+&lt;p&gt;通过&lt;code&gt;window.postMessage&lt;/code&gt;，读写其他窗口的 LocalStorage 也成为了可能。&lt;/p&gt;
+&lt;p&gt;下面是一个例子，主窗口写入iframe子窗口的&lt;code&gt;localStorage&lt;/code&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.onmessage = function(e) {
+  if (e.origin !== &#39;http://bbb.com&#39;) {
+    return;
+  }
+  var payload = JSON.parse(e.data);
+  localStorage.setItem(payload.key, JSON.stringify(payload.data));
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面代码中，子窗口将父窗口发来的消息，写入自己的LocalStorage。&lt;/p&gt;
+&lt;p&gt;父窗口发送消息的代码如下。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var win = document.getElementsByTagName(&#39;iframe&#39;)[0].contentWindow;
+var obj = { name: &#39;Jack&#39; };
+win.postMessage(JSON.stringify({key: &#39;storage&#39;, data: obj}), &#39;http://bbb.com&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;加强版的子窗口接收消息的代码如下。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;window.onmessage = function(e) {
+  if (e.origin !== &#39;http://bbb.com&#39;) return;
+  var payload = JSON.parse(e.data);
+  switch (payload.method) {
+    case &#39;set&#39;:
+      localStorage.setItem(payload.key, JSON.stringify(payload.data));
+      break;
+    case &#39;get&#39;:
+      var parent = window.parent;
+      var data = localStorage.getItem(payload.key);
+      parent.postMessage(data, &#39;http://aaa.com&#39;);
+      break;
+    case &#39;remove&#39;:
+      localStorage.removeItem(payload.key);
+      break;
+  }
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;加强版的父窗口发送消息代码如下。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var win = document.getElementsByTagName(&#39;iframe&#39;)[0].contentWindow;
+var obj = { name: &#39;Jack&#39; };
+// 存入对象
+win.postMessage(JSON.stringify({key: &#39;storage&#39;, method: &#39;set&#39;, data: obj}), &#39;http://bbb.com&#39;);
+// 读取对象
+win.postMessage(JSON.stringify({key: &#39;storage&#39;, method: &amp;quot;get&amp;quot;}), &amp;quot;*&amp;quot;);
+window.onmessage = function(e) {
+  if (e.origin != &#39;http://aaa.com&#39;) return;
+  // &amp;quot;Jack&amp;quot;
+  console.log(JSON.parse(e.data).name);
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;四-ajax&#34;&gt;四、AJAX&lt;/h2&gt;
+&lt;p&gt;同源政策规定，AJAX请求只能发给同源的网址，否则就报错。&lt;/p&gt;
+&lt;p&gt;除了架设服务器代理（浏览器请求同源服务器，再由后者请求外部服务），有三种方法规避这个限制。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;JSONP&lt;/li&gt;
+&lt;li&gt;WebSocket&lt;/li&gt;
+&lt;li&gt;CORS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;41-jsonp&#34;&gt;4.1 JSONP&lt;/h3&gt;
+&lt;p&gt;JSONP是服务器与客户端跨源通信的常用方法。最大特点就是简单适用，老式浏览器全部支持，服务器改造非常小。&lt;/p&gt;
+&lt;p&gt;它的基本思想是，网页通过添加一个&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素，向服务器请求JSON数据，这种做法不受同源政策限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。&lt;/p&gt;
+&lt;p&gt;首先，网页动态插入&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素，由它向跨源网址发出请求。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function addScriptTag(src) {
+  var script = document.createElement(&#39;script&#39;);
+  script.setAttribute(&amp;quot;type&amp;quot;,&amp;quot;text/javascript&amp;quot;);
+  script.src = src;
+  document.body.appendChild(script);
+}
+
+window.onload = function () {
+  addScriptTag(&#39;http://example.com/ip?callback=foo&#39;);
+}
+
+function foo(data) {
+  console.log(&#39;Your public IP address is: &#39; + data.ip);
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面代码通过动态添加&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素，向服务器&lt;code&gt;example.com&lt;/code&gt;发出请求。注意，该请求的查询字符串有一个&lt;code&gt;callback&lt;/code&gt;参数，用来指定回调函数的名字，这对于JSONP是必需的。&lt;/p&gt;
+&lt;p&gt;服务器收到这个请求以后，会将数据放在回调函数的参数位置返回。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;foo({
+  &amp;quot;ip&amp;quot;: &amp;quot;8.8.8.8&amp;quot;
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;由于&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素请求的脚本，直接作为代码运行。这时，只要浏览器定义了&lt;code&gt;foo&lt;/code&gt;函数，该函数就会立即调用。作为参数的JSON数据被视为JavaScript对象，而不是字符串，因此避免了使用&lt;code&gt;JSON.parse&lt;/code&gt;的步骤。&lt;/p&gt;
+&lt;h3 id=&#34;42-websocket&#34;&gt;4.2 WebSocket&lt;/h3&gt;
+&lt;p&gt;WebSocket是一种通信协议，使用&lt;code&gt;ws://&lt;/code&gt;（非加密）和&lt;code&gt;wss://&lt;/code&gt;（加密）作为协议前缀。该协议不实行同源政策，只要服务器支持，就可以通过它进行跨源通信。&lt;/p&gt;
+&lt;p&gt;下面是一个例子，浏览器发出的WebSocket请求的头信息（摘自&lt;a href=&#34;https://en.wikipedia.org/wiki/WebSocket&#34;&gt;维基百科&lt;/a&gt;）。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;GET /chat HTTP/1.1
+Host: server.example.com
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+Origin: http://example.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面代码中，有一个字段是&lt;code&gt;Origin&lt;/code&gt;，表示该请求的请求源（origin），即发自哪个域名。&lt;/p&gt;
+&lt;p&gt;正是因为有了&lt;code&gt;Origin&lt;/code&gt;这个字段，所以WebSocket才没有实行同源政策。因为服务器可以根据这个字段，判断是否许可本次通信。如果该域名在白名单内，服务器就会做出如下回应。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: HSmrc0sMlYUkAGmm5OPpG2HaGWk=
+Sec-WebSocket-Protocol: chat
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;43-cors&#34;&gt;4.3 CORS&lt;/h3&gt;
+&lt;p&gt;CORS是跨源资源分享（Cross-Origin Resource Sharing）的缩写。它是W3C标准，是跨源AJAX请求的根本解决方法。相比JSONP只能发&lt;code&gt;GET&lt;/code&gt;请求，CORS允许任何类型的请求。&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;阮一峰&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html&#34;&gt;https://www.ruanyifeng.com/blog/2016/04/same-origin-policy.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+">http-浏览器同源政策及其规避方法</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-curl-ming-ling-xing/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;http://curl.haxx.se/&#34;&gt;curl&lt;/a&gt;是一种命令行工具，作用是发出网络请求，然后得到和提取数据，显示在&amp;quot;标准输出&amp;quot;（stdout）上面。&lt;/p&gt;
@@ -1593,6 +2091,14 @@ console.log(&#39;server listening on 8888&#39;)
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;GET：get方法一般用于获取服务器资源&lt;/p&gt;
+&lt;p&gt;POST：post方法一般用于传输实体主体&lt;/p&gt;
+&lt;p&gt;PUT：put方法一般用于传输文件&lt;/p&gt;
+&lt;p&gt;DELETE：delete方法用于删除文件&lt;/p&gt;
+&lt;p&gt;HEAD：head方法用于获取报文首部，不返回报文主体&lt;/p&gt;
+&lt;p&gt;OPTIONS：options方法用于询问请求URI资源支持的方法&lt;/p&gt;
+&lt;/blockquote&gt;
 ">http-请求方法</a>
       </div>
       
@@ -2341,6 +2847,9 @@ git push -f
 git restore --source [commitID] .
 // 工作区切换到最新提交
 git restore --source HEAD .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;清空工作区内容&#34;&gt;清空工作区内容&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git restore --staged --worktree .
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;git命令行反应慢&#34;&gt;git命令行反应慢&lt;/h2&gt;
 &lt;p&gt;1、删除本地无用的分支&lt;/p&gt;
@@ -4222,6 +4731,8 @@ git branch -u origin/main foo
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/sheng-huo-wang-zhan-dao-hang/"" data-c="
           &lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;http://www.tiqianhuandai.cc/&#34;&gt;房贷计算&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;壁纸&#34;&gt;壁纸&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://wallhaven.cc/&#34;&gt;https://wallhaven.cc/&lt;/a&gt;&lt;/p&gt;
 ">生活网站导航</a>
       </div>
       
