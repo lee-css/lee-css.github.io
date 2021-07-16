@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>当下</title>
+<title>electron增量更新 | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1626436760481">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,6 +41,8 @@
 
 
 
+  <meta name="description" content="electron增量更新" />
+  <meta name="keywords" content="electron" />
 </head>
 
 <body>
@@ -144,10 +146,26 @@
   <div class="main-continer">
     
     <div
-      class="section-layout  gemini">
+      class="section-layout gemini ">
       <div class="section-layout-wrapper">
-        <div id="sidebarMeta" class="sidebar">
-    
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active language" data-lan="index">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item language" data-lan="preview">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body gemini" id="sidebar_body">
+        
+          
+            <div class="post-side-meta" id="post_side_meta">
+              
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -185,300 +203,950 @@
 
 
 </div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E6%80%9D%E8%B7%AF">思路</a></li>
+<li><a href="#%E8%AF%A6%E8%A7%A3">详解</a>
+<ul>
+<li><a href="#%E4%B8%80-vue-cli-plugin-electron-builder">一、vue-cli-plugin-electron-builder</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8C-%E6%96%B0%E5%BB%BAvueconfigjs">二、新建vue.config.js</a></li>
+<li><a href="#%E4%B8%89-%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF">三、配置信息</a></li>
+<li><a href="#%E5%9B%9B-%E6%96%B0%E5%A2%9Eelectron%E7%9B%AE%E5%BD%95%E5%8F%8A%E8%AE%BE%E7%BD%AE%E8%8F%9C%E5%8D%95">四、新增electron目录及设置菜单</a></li>
+<li><a href="#%E4%BA%94-%E6%B7%BB%E5%8A%A0%E8%B0%83%E8%AF%95%E5%8F%8A%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%E8%BE%93%E5%87%BA">五、添加调试及日志文件输出</a></li>
+<li><a href="#%E5%85%AD-%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B%E6%AF%94%E8%BE%83%E7%89%88%E6%9C%AC">六、更新流程：比较版本</a></li>
+<li><a href="#%E4%B8%83-%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B%E4%B8%8B%E8%BD%BD%E8%BF%9C%E7%A8%8B%E6%9B%B4%E6%96%B0%E5%8C%85appzip">七、更新流程：下载远程更新包app.zip</a></li>
+<li><a href="#%E5%85%AB-%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B%E5%B0%86%E4%B8%8B%E8%BD%BD%E7%9A%84appzip%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%B9%B6%E5%88%A0%E9%99%A4">八、更新流程：将下载的app.zip解压缩并删除</a></li>
+<li><a href="#%E4%B9%9D-%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B%E5%B0%86%E6%9B%B4%E6%96%B0%E9%87%8D%E5%90%AF%E6%9B%BF%E6%8D%A2%E4%B8%BA%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD">九、更新流程：将更新重启替换为重新加载</a></li>
+<li><a href="#%E5%8D%81-%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98">十、遇到的问题</a></li>
+<li><a href="#%E5%8D%81%E4%B8%80-%E5%9C%A8ts%E9%A1%B9%E7%9B%AE%E4%B8%AD%E4%BD%BF%E7%94%A8">十一、在ts项目中使用</a></li>
+<li><a href="#github%E5%9C%B0%E5%9D%80">GitHub地址</a></li>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+<li><a href="#%E6%96%87%E6%A1%A3">文档</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
 </div>
+
 <script>
-  let sidebarMeta = document.querySelector('#sidebarMeta');
-  let scheme = 'gemini';
-  let sidebarWrapper = document.querySelector('.sidebar-wrapper');
-  if (sidebarMeta && (scheme === 'pisces' || scheme === 'gemini')) {
-    document.addEventListener('scroll', function(e) {
-      if (document.scrollingElement.scrollTop > parseInt(sidebarMeta.style.marginTop) + 10) {
-        sidebarWrapper.classList.add('home-sidebar-fixed')
-      } else {
-        sidebarWrapper.classList.remove('home-sidebar-fixed')
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
       }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
     });
   }
-  </script>
-        <div class="section-box tag-line box-shadow-wrapper">
-          <section class="section tags-section posts-expand bg-color">
-            <div class="padding-wrapper">
-  <div class="tag-timeline-box">
-    <div class="tag-timeline-wrapper">
-      <div class="tag-timeline-title">
-        <h2>
-          工具
-          <small class="language" data-lan="tag">标签</small>
-        </h2>
+
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
+    }
+  }
+
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
+    }
+  }
+
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
+  }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
+
+</script>
+            </div>
+          
+        
       </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    jQuery.Velocity(hideElement, 'stop');
+    jQuery.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        jQuery.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://leecss.com/post/electron-zeng-liang-geng-xin/">
+      electron增量更新
+    </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span class="language" data-lan="publish">发布于</span>
+      <span class="publish-time" data-t="2021-07-16 19:49:28">2021-07-16</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-folder-o"></i>
+      <span class="pc-show language" data-lan="category-in">分类于</span>
+      
       
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      <a href="https://leecss.com/post/google-cha-jian/">
-        <div class="motion-warpper">
-          <div class="tag-post-node">
-            <h1>
-              06-15
-              <small>Chrome插件</small>
-            </h1>
-          </div>
-        </div>
+      <a href="https://leecss.com/tag/kctJsJ_A6/">
+        <span>electron</span>
       </a>
       
       
+    </span>
+    <span class="post-meta-divider">|</span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>12<span class="language" data-lan="minute">分钟</span></span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>2307<span class="pc-show language" data-lan="words">字数</span></span>
+    </span>
+    
+  </div>
+</section>
+            <div class="post-body next-md-body" id="post_body">
+              <h2 id="概述">概述</h2>
+<p>先介绍一下技术构成，项目是完整的vue项目，在现有项目上完成electron打包及更新。</p>
+<p>打包使用的vue-cli-plugin-electron-builder插件，增量更新为具体的代码实现，并没有用到electron-updater。</p>
+<h2 id="思路">思路</h2>
+<p>1、比较本地和远程的版本</p>
+<p>本地的版本可以放在一个app.txt文件中，或者通过变量获取。</p>
+<p>远程的版本通过服务端文件（yml或者json）获取</p>
+<p>比较版本，若相同则不更新，返回。</p>
+<p>若不同，则提示更新，或直接进入更新流程</p>
+<p>2、更新流程：通过线上增量包文件地址，进行下载</p>
+<p>3、将zip压缩包解压缩</p>
+<p>4、重新加载</p>
+<h2 id="详解">详解</h2>
+<h3 id="一-vue-cli-plugin-electron-builder">一、vue-cli-plugin-electron-builder</h3>
+<p>安装vue-cli-plugin-electron-builder</p>
+<pre><code>vue add electron-builder@2.0.0-rc.6
+</code></pre>
+<p>版本选择9.0.0</p>
+<h2 id="二-新建vueconfigjs">二、新建vue.config.js</h2>
+<p>1、重点是：<strong>&quot;asar&quot;: false,</strong></p>
+<p>这句话的意思是，打包的时候<code>resources</code>下就不产生<code>app.asar</code>，而是一个app文件夹，而这个文件夹呢是可以直接进行替换的，里面的内容就是我们的前端整个项目的打包，就是渲染进程。所以，我们每次只需要替换前端的打包就可以了，而不需要每次都安装替换整个app</p>
+<p>2、将app图标放到public文件夹下</p>
+<pre><code class="language-js">module.exports = {
+  pluginOptions: {
+    electronBuilder: {
+      builderOptions: {
+        //productName: &quot;ebopo&quot;, // 项目名,这也是生成的exe文件的前缀名
+        copyright: 'Copyright © Ambow',  // 应用程序版权行
+        publish: [{
+          &quot;provider&quot;: &quot;generic&quot;,
+          &quot;channel&quot;: &quot;latest&quot;,
+          &quot;url&quot;: &quot;http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron/&quot;,
+        }],
+        &quot;win&quot;: {//win相关配置
+          &quot;icon&quot;: &quot;./public/app.ico&quot;,//图标，当前图标在根目录下，注意这里有两个坑
+          &quot;target&quot;: [
+              {
+                  &quot;target&quot;: &quot;nsis&quot;,//利用nsis制作安装程序
+                  &quot;arch&quot;: [
+                      &quot;x64&quot;,//64位
+                      &quot;ia32&quot;//32位
+                  ]
+              }
+          ]
+        },
+        &quot;asar&quot;: false,
+        &quot;nsis&quot;: {
+          &quot;oneClick&quot;: false, // 是否一键安装
+          &quot;allowElevation&quot;: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。          
+          &quot;allowToChangeInstallationDirectory&quot;: true, // 允许修改安装目录
+          &quot;installerIcon&quot;: &quot;./public/app.ico&quot;,// 安装图标
+          &quot;uninstallerIcon&quot;: &quot;./public/app.ico&quot;,//卸载图标
+          &quot;installerHeaderIcon&quot;: &quot;./public/app.ico&quot;, // 安装时头部图标
+          &quot;createDesktopShortcut&quot;: true, // 创建桌面图标
+          &quot;createStartMenuShortcut&quot;: true,// 创建开始菜单图标
+          &quot;shortcutName&quot;: &quot;ebopo&quot;, // 图标名称
+        },
+      }
+    }
+  }
+}
+</code></pre>
+<h2 id="三-配置信息">三、配置信息</h2>
+<p>background.js</p>
+<pre><code class="language-js">
+let win
+
+function createWindow() {
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,     
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+}
+</code></pre>
+<p>package.json</p>
+<pre><code class="language-js">// 打包exe前缀名称,及项目内左上角显示名称
+&quot;name&quot;: &quot;ebopo&quot;,
+// 版本号
+&quot;version&quot;: &quot;1.0.0&quot;,
+&quot;author&quot;: &quot;leecss&quot;,
+&quot;description&quot;: &quot;electronApp&quot;,
+</code></pre>
+<h2 id="四-新增electron目录及设置菜单">四、新增electron目录及设置菜单</h2>
+<p>在src文件夹下新建electron目录，在目录中新建menu.js</p>
+<pre><code class="language-js">import { BrowserWindow, Menu, app} from 'electron'
+
+let template = [{
+  label: '查看',
+  submenu: [{
+    label: '重载',
+    accelerator: 'CmdOrCtrl+R',
+    click: (item, focusedWindow) =&gt; {
+      if (focusedWindow) {
+        // 重载之后, 刷新并关闭所有之前打开的次要窗体
+        if (focusedWindow.id === 1) {
+          BrowserWindow.getAllWindows().forEach(win =&gt; {
+            if (win.id &gt; 1) win.close()
+          })
+        }
+        focusedWindow.reload()
+      }
+    }
+  }, {
+    label: '切换全屏',
+    accelerator: (() =&gt; {
+      if (process.platform === 'darwin') {
+        return 'Ctrl+Command+F'
+      } else {
+        return 'F11'
+      }
+    })(),
+    click: (item, focusedWindow) =&gt; {
+      if (focusedWindow) {
+        focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
+      }
+    }
+  }]
+}, {
+  label: '窗口',
+  role: 'window',
+  submenu: [{
+    label: '最小化',
+    accelerator: 'CmdOrCtrl+M',
+    role: 'minimize'
+  }, {
+    label: '关闭',
+    accelerator: 'CmdOrCtrl+W',
+    role: 'close'
+  }]
+}, {
+  label: '帮助',
+  role: 'help',
+  submenu: [     
+    {
+      label: `版本` + app.getVersion(),
+      enabled: false      
+    },
+    {
+      label: '切换开发者工具',
+      accelerator: (() =&gt; {
+        if (process.platform === 'darwin') {
+          return 'Alt+Command+I'
+        } else {
+          return 'Ctrl+Shift+I'
+        }
+      })(),
+      click: (item, focusedWindow) =&gt; {
+        if (focusedWindow) {
+          focusedWindow.toggleDevTools()
+        }
+      }
+    }
+  ]
+}]
+
+var list = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(list)
+</code></pre>
+<p>修改background.js ，在主进程中引入菜单</p>
+<pre><code class="language-js">async function createWindow() {
++	require('./electron/menu.js')
+}
+</code></pre>
+<h2 id="五-添加调试及日志文件输出">五、添加调试及日志文件输出</h2>
+<pre><code>npm i  electron-log
+</code></pre>
+<p>在electron目录下新建log.js</p>
+<pre><code class="language-js">import log from 'electron-log'
+
+log.transports.file.level = 'silly'
+log.transports.console.level = false // 禁用console输出
+
+export default log
+</code></pre>
+<p>在background.js 中使用</p>
+<pre><code class="language-js">import log from './electron/log'
+
+log.warn('hello')
+</code></pre>
+<p>日志文件查看：文件main.log存储位置</p>
+<pre><code>C:\Users\{用户}\AppData\Roaming\{appName}\logs
+</code></pre>
+<h2 id="六-更新流程比较版本">六、更新流程：比较版本</h2>
+<p>安装并引入axios</p>
+<pre><code>npm i axios
+</code></pre>
+<p>background.js</p>
+<pre><code>import axios from 'axios'
+</code></pre>
+<p>比较版本，若相同则返回，不相同则更新</p>
+<pre><code>async function createWindow() {
+  require('./electron/menu.js')
+  // Create the browser window.
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {      
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
+  } else {
+    createProtocol('app')
+    // Load the index.html when not in development
+    win.loadURL('app://./index.html')
+    
+    
+    
+    log.warn('hello')
+    // 判断是否热更新，版本对比
+    const updateUrl = 'http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron'
+    const currentVersion = app.getVersion()
+    log.warn('currentVersion',currentVersion)    
+    axios({
+      url: updateUrl + '/latest.yml',
+      method: 'GET'
+    }).then(res =&gt; {      
+      const remoteVersion = JSON.stringify(res.data).split('\\n')[0].split(' ')[1]
+      log.warn('remoteVersion',remoteVersion)      
+      if (currentVersion === remoteVersion) {
+        log.warn('版本相同，无需更新')
+        return;
+      }
+      // 热更新
+      const updateZipUrl = updateUrl + '/app.zip'
+      increment(updateZipUrl)      
+    })
+    
+    
+    
+  }
+}
+</code></pre>
+<h2 id="七-更新流程下载远程更新包appzip">七、更新流程：下载远程更新包app.zip</h2>
+<p>在electron目录中新建downloadFile.js</p>
+<p>下载文件需要两个参数：下载路径，保存路径</p>
+<p>下载文件返回一个参数：保存路径</p>
+<p>安装fs-extra</p>
+<pre><code>npm i fs-extra
+</code></pre>
+<pre><code class="language-js">const request = require('request')
+const fs = require('fs')
+const fse = require('fs-extra')
+const path = require('path')
+import log from './log'
+
+function download(url, targetPath, cb = () =&gt; { }) {
+  let status
+  const req = request({
+    method: 'GET',
+    uri: encodeURI(url)
+  })
+  try {
+    const stream = fs.createWriteStream(targetPath)
+    let len = 0
+    let cur = 0
+    req.pipe(stream)
+    req.on('response', (data) =&gt; {
+      len = parseInt(data.headers['content-length'])
+    })
+    req.on('data', (chunk) =&gt; {
+      cur += chunk.length
+      const progress = (100 * cur / len).toFixed(2)
+      status = 'progressing'
+      cb(status, progress)
+    })
+    req.on('end', function () {
+      if (req.response.statusCode === 200) {
+        if (len === cur) {
+          console.log(targetPath + ' Download complete ')
+          status = 'completed'
+          cb(status, 100)
+        } else {
+          stream.end()
+          removeFile(targetPath)
+          status = 'error'
+          cb(status, '网络波动，下载文件不全')
+        }
+      } else {
+        stream.end()
+        removeFile(targetPath)
+        status = 'error'
+        cb(status, req.response.statusMessage)
+      }
+    })
+    req.on('error', (e) =&gt; {
+      stream.end()
+      removeFile(targetPath)
+      if (len !== cur) {
+        status = 'error'
+        cb(status, '网络波动，下载失败')
+      } else {
+        status = 'error'
+        cb(status, e)
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function removeFile(targetPath) {
+  try {
+    fse.removeSync(targetPath)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export default async function downloadFile({ url, targetPath, folder = './' }, cb = () =&gt; { }) {  
+  log.warn('download-url',url)
+  log.warn('download-saveurl',targetPath)
+  if (!targetPath || !url) {
+    throw new Error('targetPath or url is nofind')
+  }
+  try {
+    await fse.ensureDirSync(path.join(targetPath, folder))
+  } catch (error) {
+    throw new Error(error)
+  }
+  return new Promise((resolve, reject) =&gt; {
+    const name = url.split('/').pop()
+    const filePath = path.join(targetPath, folder, name)
+    download(url, filePath, (status, result) =&gt; {
+      if (status === 'completed') {
+        resolve(filePath)
+      }
+      if (status === 'error') {
+        reject(result)
+      }
+      if (status === 'progressing') {
+        cb &amp;&amp; cb(result)
+      }
+    })
+  })
+}
+</code></pre>
+<h2 id="八-更新流程将下载的appzip解压缩并删除">八、更新流程：将下载的app.zip解压缩并删除</h2>
+<p>在electron目录中新建increment.js</p>
+<p>解压缩需要一个参数：加压压缩包的路径</p>
+<p>在文件下载完成后执行</p>
+<p>安装adm-zip</p>
+<pre><code>npm i adm-zip
+</code></pre>
+<pre><code class="language-js">import downloadFile from './downloadFile'
+import { app } from 'electron'
+const fse = require('fs-extra')
+const AdmZip = require('adm-zip')
+import log from './log'
+
+export default async (updateZipUrl) =&gt; {  
+  const resourcesPath = process.resourcesPath
+  downloadFile({ url: updateZipUrl, targetPath: resourcesPath }).then(async (filePath) =&gt; {
+    log.warn('unzip-filePath',filePath)
+    const zip = new AdmZip(filePath)
+    zip.extractAllToAsync(resourcesPath, true, (err) =&gt; {
+      if (err) {
+        console.error(err)
+        return
+      }      
+      fse.removeSync(filePath)      
+      setTimeout(() =&gt; {
+        log.warn('relaunch')
+        app.relaunch()
+        app.exit(0)                
+      }, 2000);
+    })
+  }).catch(err =&gt; {
+    console.log(err)
+  })
+}
+</code></pre>
+<p>在background.js引入并调用</p>
+<pre><code class="language-js">import increment from './electron/increment'
+</code></pre>
+<pre><code class="language-js">// 热更新
+const updateZipUrl = updateUrl + '/app.zip'
+increment(updateZipUrl)
+</code></pre>
+<h2 id="九-更新流程将更新重启替换为重新加载">九、更新流程：将更新重启替换为重新加载</h2>
+<p>在electron目录下新建global.js</p>
+<pre><code class="language-js">global.sharedObject = {
+  win: ''
+}
+
+export default global
+</code></pre>
+<p>在background.js引入并调用</p>
+<pre><code>import global from './electron/global'
+</code></pre>
+<pre><code class="language-js">async function createWindow() {
+  require('./electron/menu.js')
+  // Create the browser window.
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {      
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
+  } else {
+    createProtocol('app')
+    // Load the index.html when not in development
+    win.loadURL('app://./index.html')
+
+    log.warn('hello')
+    // 判断是否热更新，版本对比
+    const updateUrl = 'http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron'
+    const currentVersion = app.getVersion()
+    log.warn('currentVersion',currentVersion)    
+    axios({
+      url: updateUrl + '/latest.yml',
+      method: 'GET'
+    }).then(res =&gt; {      
+      const remoteVersion = JSON.stringify(res.data).split('\\n')[0].split(' ')[1]
+      log.warn('remoteVersion',remoteVersion)      
+      if (currentVersion === remoteVersion) {
+        log.warn('版本相同，无需更新')
+        return;
+      }
+      // 热更新
+      const updateZipUrl = updateUrl + '/app.zip'
+      increment(updateZipUrl)      
+    })
+
+  }
+
+
+
+  global.sharedObject.win = win
+  win.on('closed', () =&gt; {
+    win = null
+    global.sharedObject.win = null
+  })
+
+
+  
+}
+</code></pre>
+<p>在increment.js中引入并调用</p>
+<pre><code class="language-js">import downloadFile from './downloadFile'
+import global from './global'
+const fse = require('fs-extra')
+const AdmZip = require('adm-zip')
+import log from './log'
+
+export default async (updateZipUrl) =&gt; {  
+  const resourcesPath = process.resourcesPath
+  downloadFile({ url: updateZipUrl, targetPath: resourcesPath }).then(async (filePath) =&gt; {
+    log.warn('unzip-filePath',filePath)
+    const zip = new AdmZip(filePath)
+    zip.extractAllToAsync(resourcesPath, true, (err) =&gt; {
+      if (err) {
+        console.error(err)
+        return
+      }      
+      fse.removeSync(filePath)      
+      setTimeout(() =&gt; {        
+        log.warn('relaunch')
+        global.sharedObject.win.webContents.reloadIgnoringCache()          
+      }, 2000);
+    })
+  }).catch(err =&gt; {
+    console.log(err)
+  })
+}
+</code></pre>
+<p>setTimeout是为了演示效果，最后去掉。</p>
+<h2 id="十-遇到的问题">十、遇到的问题</h2>
+<p>更新时报错，如下：</p>
+<pre><code>Error: EPERM: operation not permitted
+</code></pre>
+<p>原因是没有管理员权限，且安装时选择的为所有用户安装。</p>
+<p>方案一：运行时选择：以管理员身份运行</p>
+<p>方案二：下载时，仅为当前用户安装</p>
+<p>解决方案：</p>
+<p>在设置上，不给用户选择为所有用户安装的机会，默认一键安装，设置如下</p>
+<pre><code class="language-json">&quot;nsis&quot;: {
+    &quot;oneClick&quot;: true, // 是否一键安装          
+    &quot;installerIcon&quot;: &quot;./public/app.ico&quot;,// 安装图标
+    &quot;uninstallerIcon&quot;: &quot;./public/app.ico&quot;,//卸载图标
+    &quot;installerHeaderIcon&quot;: &quot;./public/app.ico&quot;, // 安装时头部图标
+    &quot;createDesktopShortcut&quot;: true, // 创建桌面图标
+    &quot;createStartMenuShortcut&quot;: true,// 创建开始菜单图标
+    &quot;shortcutName&quot;: &quot;ebopo&quot;, // 图标名称
+},
+</code></pre>
+<h2 id="十一-在ts项目中使用">十一、在ts项目中使用</h2>
+<p>electron-log的使用要用ts文件，并且用any声明，其他相似问题同理。</p>
+<p>log.ts</p>
+<pre><code class="language-typescript">const log:any = require('electron-log');
+
+log.transports.file.level = 'silly'
+log.transports.console.level = false // 禁用console输出
+
+export default log
+</code></pre>
+<h2 id="github地址">GitHub地址</h2>
+<p><a href="https://github.com/lee-css/vue-cli-electron-update-part">vue-cli-electron-update-part</a></p>
+<h2 id="参考">参考</h2>
+<p><a href="https://xuxin123.com/electron/increment-update1/">https://xuxin123.com/electron/increment-update1/</a></p>
+<h2 id="文档">文档</h2>
+<p><a href="https://nklayman.github.io/vue-cli-plugin-electron-builder/">https://nklayman.github.io/vue-cli-plugin-electron-builder/</a></p>
+
+            </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      lee
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://leecss.com/post/electron-zeng-liang-geng-xin/" title="electron增量更新">https://leecss.com/post/electron-zeng-liang-geng-xin/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+      <a href="https://leecss.com/tag/kctJsJ_A6/"># electron</a>
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="http-XMLHttpRequest Level2" href="https://leecss.com/post/http-xmlhttprequest-level2/">http-XMLHttpRequest Level2</a>
+        <a class="nav-mobile-next" title="http-XMLHttpRequest Level2" href="https://leecss.com/post/http-xmlhttprequest-level2/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
       
     </div>
   </div>
 </div>
-          </section>
+            
+            
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<div id="vcomments" style="padding: 10px 0px 0px 0px"></div>
+
+<style>
+  .v .veditor {
+    min-height: 10rem;
+    background-image: url('');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-color: rgba(255, 255, 255, 0);
+    resize: none;
+  }
+
+  .v .vwrap {
+    border: 1px solid #000 !important;
+  }
+
+  .v .vbtn {
+    padding: .4rem 1.2rem !important;
+    border-color: #fff !important;
+    background-color: #49b1f5 !important;
+    color: #fff !important;
+    font-size: .7rem !important;
+  }
+
+  .v .vcards .vcard .vh .vmeta .vat {
+    padding: 0 .8rem !important;
+    border: 1px solid #00c4b6 !important;
+    border-radius: 5px !important;
+    color: #00c4b6 !important;
+  }
+</style>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'EtGAaWMPMfBv4R8mHt4OVOK0-gzGzoHsz',
+    appKey: 'JYHcCIGVcuAO36RXVrdt0DYM',
+    avatar: '',
+    placeholder: '',
+    pageSize: '',
+    lang: 'zh-cn',
+    enableQQ: 'true' === 'false',
+    visitor: 'true' === 'false',
+    highlight: 'true' === 'true',
+    avatarForce: 'true' === 'false',
+  });
+</script>
+
+          </div>
         </div>
       </div>
     </div>
@@ -692,6 +1360,223 @@
     aelem.appendChild(image);
     parent.insertBefore(aelem, next);
   })
+</script>
+
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word">扫码打赏，你说多少就多少</p>
+      <p class="reward-tip">打开微信扫一扫，即可进行扫码打赏哦</p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        jQuery.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        jQuery.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        jQuery.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        jQuery.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      jQuery.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      jQuery.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
 </script>
 
   </div>
@@ -6214,7 +7099,6 @@ git branch -u origin/main foo
 
 
 <script src="/media/js/mouse/peace.js"></script>
-
 
 
 

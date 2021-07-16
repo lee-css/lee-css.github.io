@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>祝宝贝生日快乐 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1626393337617">
+<link rel="shortcut icon" href="/favicon.ico?v=1626436760481">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -175,19 +175,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">62</span>
+        <span class="site-item-stat-count">63</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">6</span>
+        <span class="site-item-stat-count">7</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">6</span>
+        <span class="site-item-stat-count">7</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -874,6 +874,532 @@
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/electron-zeng-liang-geng-xin/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;先介绍一下技术构成，项目是完整的vue项目，在现有项目上完成electron打包及更新。&lt;/p&gt;
+&lt;p&gt;打包使用的vue-cli-plugin-electron-builder插件，增量更新为具体的代码实现，并没有用到electron-updater。&lt;/p&gt;
+&lt;h2 id=&#34;思路&#34;&gt;思路&lt;/h2&gt;
+&lt;p&gt;1、比较本地和远程的版本&lt;/p&gt;
+&lt;p&gt;本地的版本可以放在一个app.txt文件中，或者通过变量获取。&lt;/p&gt;
+&lt;p&gt;远程的版本通过服务端文件（yml或者json）获取&lt;/p&gt;
+&lt;p&gt;比较版本，若相同则不更新，返回。&lt;/p&gt;
+&lt;p&gt;若不同，则提示更新，或直接进入更新流程&lt;/p&gt;
+&lt;p&gt;2、更新流程：通过线上增量包文件地址，进行下载&lt;/p&gt;
+&lt;p&gt;3、将zip压缩包解压缩&lt;/p&gt;
+&lt;p&gt;4、重新加载&lt;/p&gt;
+&lt;h2 id=&#34;详解&#34;&gt;详解&lt;/h2&gt;
+&lt;h3 id=&#34;一-vue-cli-plugin-electron-builder&#34;&gt;一、vue-cli-plugin-electron-builder&lt;/h3&gt;
+&lt;p&gt;安装vue-cli-plugin-electron-builder&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;vue add electron-builder@2.0.0-rc.6
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;版本选择9.0.0&lt;/p&gt;
+&lt;h2 id=&#34;二-新建vueconfigjs&#34;&gt;二、新建vue.config.js&lt;/h2&gt;
+&lt;p&gt;1、重点是：&lt;strong&gt;&amp;quot;asar&amp;quot;: false,&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;这句话的意思是，打包的时候&lt;code&gt;resources&lt;/code&gt;下就不产生&lt;code&gt;app.asar&lt;/code&gt;，而是一个app文件夹，而这个文件夹呢是可以直接进行替换的，里面的内容就是我们的前端整个项目的打包，就是渲染进程。所以，我们每次只需要替换前端的打包就可以了，而不需要每次都安装替换整个app&lt;/p&gt;
+&lt;p&gt;2、将app图标放到public文件夹下&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;module.exports = {
+  pluginOptions: {
+    electronBuilder: {
+      builderOptions: {
+        //productName: &amp;quot;ebopo&amp;quot;, // 项目名,这也是生成的exe文件的前缀名
+        copyright: &#39;Copyright © Ambow&#39;,  // 应用程序版权行
+        publish: [{
+          &amp;quot;provider&amp;quot;: &amp;quot;generic&amp;quot;,
+          &amp;quot;channel&amp;quot;: &amp;quot;latest&amp;quot;,
+          &amp;quot;url&amp;quot;: &amp;quot;http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron/&amp;quot;,
+        }],
+        &amp;quot;win&amp;quot;: {//win相关配置
+          &amp;quot;icon&amp;quot;: &amp;quot;./public/app.ico&amp;quot;,//图标，当前图标在根目录下，注意这里有两个坑
+          &amp;quot;target&amp;quot;: [
+              {
+                  &amp;quot;target&amp;quot;: &amp;quot;nsis&amp;quot;,//利用nsis制作安装程序
+                  &amp;quot;arch&amp;quot;: [
+                      &amp;quot;x64&amp;quot;,//64位
+                      &amp;quot;ia32&amp;quot;//32位
+                  ]
+              }
+          ]
+        },
+        &amp;quot;asar&amp;quot;: false,
+        &amp;quot;nsis&amp;quot;: {
+          &amp;quot;oneClick&amp;quot;: false, // 是否一键安装
+          &amp;quot;allowElevation&amp;quot;: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。          
+          &amp;quot;allowToChangeInstallationDirectory&amp;quot;: true, // 允许修改安装目录
+          &amp;quot;installerIcon&amp;quot;: &amp;quot;./public/app.ico&amp;quot;,// 安装图标
+          &amp;quot;uninstallerIcon&amp;quot;: &amp;quot;./public/app.ico&amp;quot;,//卸载图标
+          &amp;quot;installerHeaderIcon&amp;quot;: &amp;quot;./public/app.ico&amp;quot;, // 安装时头部图标
+          &amp;quot;createDesktopShortcut&amp;quot;: true, // 创建桌面图标
+          &amp;quot;createStartMenuShortcut&amp;quot;: true,// 创建开始菜单图标
+          &amp;quot;shortcutName&amp;quot;: &amp;quot;ebopo&amp;quot;, // 图标名称
+        },
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;三-配置信息&#34;&gt;三、配置信息&lt;/h2&gt;
+&lt;p&gt;background.js&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;
+let win
+
+function createWindow() {
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,     
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;package.json&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 打包exe前缀名称,及项目内左上角显示名称
+&amp;quot;name&amp;quot;: &amp;quot;ebopo&amp;quot;,
+// 版本号
+&amp;quot;version&amp;quot;: &amp;quot;1.0.0&amp;quot;,
+&amp;quot;author&amp;quot;: &amp;quot;leecss&amp;quot;,
+&amp;quot;description&amp;quot;: &amp;quot;electronApp&amp;quot;,
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;四-新增electron目录及设置菜单&#34;&gt;四、新增electron目录及设置菜单&lt;/h2&gt;
+&lt;p&gt;在src文件夹下新建electron目录，在目录中新建menu.js&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;import { BrowserWindow, Menu, app} from &#39;electron&#39;
+
+let template = [{
+  label: &#39;查看&#39;,
+  submenu: [{
+    label: &#39;重载&#39;,
+    accelerator: &#39;CmdOrCtrl+R&#39;,
+    click: (item, focusedWindow) =&amp;gt; {
+      if (focusedWindow) {
+        // 重载之后, 刷新并关闭所有之前打开的次要窗体
+        if (focusedWindow.id === 1) {
+          BrowserWindow.getAllWindows().forEach(win =&amp;gt; {
+            if (win.id &amp;gt; 1) win.close()
+          })
+        }
+        focusedWindow.reload()
+      }
+    }
+  }, {
+    label: &#39;切换全屏&#39;,
+    accelerator: (() =&amp;gt; {
+      if (process.platform === &#39;darwin&#39;) {
+        return &#39;Ctrl+Command+F&#39;
+      } else {
+        return &#39;F11&#39;
+      }
+    })(),
+    click: (item, focusedWindow) =&amp;gt; {
+      if (focusedWindow) {
+        focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
+      }
+    }
+  }]
+}, {
+  label: &#39;窗口&#39;,
+  role: &#39;window&#39;,
+  submenu: [{
+    label: &#39;最小化&#39;,
+    accelerator: &#39;CmdOrCtrl+M&#39;,
+    role: &#39;minimize&#39;
+  }, {
+    label: &#39;关闭&#39;,
+    accelerator: &#39;CmdOrCtrl+W&#39;,
+    role: &#39;close&#39;
+  }]
+}, {
+  label: &#39;帮助&#39;,
+  role: &#39;help&#39;,
+  submenu: [     
+    {
+      label: `版本` + app.getVersion(),
+      enabled: false      
+    },
+    {
+      label: &#39;切换开发者工具&#39;,
+      accelerator: (() =&amp;gt; {
+        if (process.platform === &#39;darwin&#39;) {
+          return &#39;Alt+Command+I&#39;
+        } else {
+          return &#39;Ctrl+Shift+I&#39;
+        }
+      })(),
+      click: (item, focusedWindow) =&amp;gt; {
+        if (focusedWindow) {
+          focusedWindow.toggleDevTools()
+        }
+      }
+    }
+  ]
+}]
+
+var list = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(list)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修改background.js ，在主进程中引入菜单&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;async function createWindow() {
++	require(&#39;./electron/menu.js&#39;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;五-添加调试及日志文件输出&#34;&gt;五、添加调试及日志文件输出&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;npm i  electron-log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在electron目录下新建log.js&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;import log from &#39;electron-log&#39;
+
+log.transports.file.level = &#39;silly&#39;
+log.transports.console.level = false // 禁用console输出
+
+export default log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在background.js 中使用&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;import log from &#39;./electron/log&#39;
+
+log.warn(&#39;hello&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;日志文件查看：文件main.log存储位置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;C:\Users\{用户}\AppData\Roaming\{appName}\logs
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;六-更新流程比较版本&#34;&gt;六、更新流程：比较版本&lt;/h2&gt;
+&lt;p&gt;安装并引入axios&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm i axios
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;background.js&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import axios from &#39;axios&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;比较版本，若相同则返回，不相同则更新&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;async function createWindow() {
+  require(&#39;./electron/menu.js&#39;)
+  // Create the browser window.
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {      
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
+  } else {
+    createProtocol(&#39;app&#39;)
+    // Load the index.html when not in development
+    win.loadURL(&#39;app://./index.html&#39;)
+    
+    
+    
+    log.warn(&#39;hello&#39;)
+    // 判断是否热更新，版本对比
+    const updateUrl = &#39;http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron&#39;
+    const currentVersion = app.getVersion()
+    log.warn(&#39;currentVersion&#39;,currentVersion)    
+    axios({
+      url: updateUrl + &#39;/latest.yml&#39;,
+      method: &#39;GET&#39;
+    }).then(res =&amp;gt; {      
+      const remoteVersion = JSON.stringify(res.data).split(&#39;\\n&#39;)[0].split(&#39; &#39;)[1]
+      log.warn(&#39;remoteVersion&#39;,remoteVersion)      
+      if (currentVersion === remoteVersion) {
+        log.warn(&#39;版本相同，无需更新&#39;)
+        return;
+      }
+      // 热更新
+      const updateZipUrl = updateUrl + &#39;/app.zip&#39;
+      increment(updateZipUrl)      
+    })
+    
+    
+    
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;七-更新流程下载远程更新包appzip&#34;&gt;七、更新流程：下载远程更新包app.zip&lt;/h2&gt;
+&lt;p&gt;在electron目录中新建downloadFile.js&lt;/p&gt;
+&lt;p&gt;下载文件需要两个参数：下载路径，保存路径&lt;/p&gt;
+&lt;p&gt;下载文件返回一个参数：保存路径&lt;/p&gt;
+&lt;p&gt;安装fs-extra&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm i fs-extra
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const request = require(&#39;request&#39;)
+const fs = require(&#39;fs&#39;)
+const fse = require(&#39;fs-extra&#39;)
+const path = require(&#39;path&#39;)
+import log from &#39;./log&#39;
+
+function download(url, targetPath, cb = () =&amp;gt; { }) {
+  let status
+  const req = request({
+    method: &#39;GET&#39;,
+    uri: encodeURI(url)
+  })
+  try {
+    const stream = fs.createWriteStream(targetPath)
+    let len = 0
+    let cur = 0
+    req.pipe(stream)
+    req.on(&#39;response&#39;, (data) =&amp;gt; {
+      len = parseInt(data.headers[&#39;content-length&#39;])
+    })
+    req.on(&#39;data&#39;, (chunk) =&amp;gt; {
+      cur += chunk.length
+      const progress = (100 * cur / len).toFixed(2)
+      status = &#39;progressing&#39;
+      cb(status, progress)
+    })
+    req.on(&#39;end&#39;, function () {
+      if (req.response.statusCode === 200) {
+        if (len === cur) {
+          console.log(targetPath + &#39; Download complete &#39;)
+          status = &#39;completed&#39;
+          cb(status, 100)
+        } else {
+          stream.end()
+          removeFile(targetPath)
+          status = &#39;error&#39;
+          cb(status, &#39;网络波动，下载文件不全&#39;)
+        }
+      } else {
+        stream.end()
+        removeFile(targetPath)
+        status = &#39;error&#39;
+        cb(status, req.response.statusMessage)
+      }
+    })
+    req.on(&#39;error&#39;, (e) =&amp;gt; {
+      stream.end()
+      removeFile(targetPath)
+      if (len !== cur) {
+        status = &#39;error&#39;
+        cb(status, &#39;网络波动，下载失败&#39;)
+      } else {
+        status = &#39;error&#39;
+        cb(status, e)
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function removeFile(targetPath) {
+  try {
+    fse.removeSync(targetPath)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export default async function downloadFile({ url, targetPath, folder = &#39;./&#39; }, cb = () =&amp;gt; { }) {  
+  log.warn(&#39;download-url&#39;,url)
+  log.warn(&#39;download-saveurl&#39;,targetPath)
+  if (!targetPath || !url) {
+    throw new Error(&#39;targetPath or url is nofind&#39;)
+  }
+  try {
+    await fse.ensureDirSync(path.join(targetPath, folder))
+  } catch (error) {
+    throw new Error(error)
+  }
+  return new Promise((resolve, reject) =&amp;gt; {
+    const name = url.split(&#39;/&#39;).pop()
+    const filePath = path.join(targetPath, folder, name)
+    download(url, filePath, (status, result) =&amp;gt; {
+      if (status === &#39;completed&#39;) {
+        resolve(filePath)
+      }
+      if (status === &#39;error&#39;) {
+        reject(result)
+      }
+      if (status === &#39;progressing&#39;) {
+        cb &amp;amp;&amp;amp; cb(result)
+      }
+    })
+  })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;八-更新流程将下载的appzip解压缩并删除&#34;&gt;八、更新流程：将下载的app.zip解压缩并删除&lt;/h2&gt;
+&lt;p&gt;在electron目录中新建increment.js&lt;/p&gt;
+&lt;p&gt;解压缩需要一个参数：加压压缩包的路径&lt;/p&gt;
+&lt;p&gt;在文件下载完成后执行&lt;/p&gt;
+&lt;p&gt;安装adm-zip&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm i adm-zip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;import downloadFile from &#39;./downloadFile&#39;
+import { app } from &#39;electron&#39;
+const fse = require(&#39;fs-extra&#39;)
+const AdmZip = require(&#39;adm-zip&#39;)
+import log from &#39;./log&#39;
+
+export default async (updateZipUrl) =&amp;gt; {  
+  const resourcesPath = process.resourcesPath
+  downloadFile({ url: updateZipUrl, targetPath: resourcesPath }).then(async (filePath) =&amp;gt; {
+    log.warn(&#39;unzip-filePath&#39;,filePath)
+    const zip = new AdmZip(filePath)
+    zip.extractAllToAsync(resourcesPath, true, (err) =&amp;gt; {
+      if (err) {
+        console.error(err)
+        return
+      }      
+      fse.removeSync(filePath)      
+      setTimeout(() =&amp;gt; {
+        log.warn(&#39;relaunch&#39;)
+        app.relaunch()
+        app.exit(0)                
+      }, 2000);
+    })
+  }).catch(err =&amp;gt; {
+    console.log(err)
+  })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在background.js引入并调用&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;import increment from &#39;./electron/increment&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 热更新
+const updateZipUrl = updateUrl + &#39;/app.zip&#39;
+increment(updateZipUrl)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;九-更新流程将更新重启替换为重新加载&#34;&gt;九、更新流程：将更新重启替换为重新加载&lt;/h2&gt;
+&lt;p&gt;在electron目录下新建global.js&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;global.sharedObject = {
+  win: &#39;&#39;
+}
+
+export default global
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在background.js引入并调用&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import global from &#39;./electron/global&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;async function createWindow() {
+  require(&#39;./electron/menu.js&#39;)
+  // Create the browser window.
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {      
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
+  } else {
+    createProtocol(&#39;app&#39;)
+    // Load the index.html when not in development
+    win.loadURL(&#39;app://./index.html&#39;)
+
+    log.warn(&#39;hello&#39;)
+    // 判断是否热更新，版本对比
+    const updateUrl = &#39;http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron&#39;
+    const currentVersion = app.getVersion()
+    log.warn(&#39;currentVersion&#39;,currentVersion)    
+    axios({
+      url: updateUrl + &#39;/latest.yml&#39;,
+      method: &#39;GET&#39;
+    }).then(res =&amp;gt; {      
+      const remoteVersion = JSON.stringify(res.data).split(&#39;\\n&#39;)[0].split(&#39; &#39;)[1]
+      log.warn(&#39;remoteVersion&#39;,remoteVersion)      
+      if (currentVersion === remoteVersion) {
+        log.warn(&#39;版本相同，无需更新&#39;)
+        return;
+      }
+      // 热更新
+      const updateZipUrl = updateUrl + &#39;/app.zip&#39;
+      increment(updateZipUrl)      
+    })
+
+  }
+
+
+
+  global.sharedObject.win = win
+  win.on(&#39;closed&#39;, () =&amp;gt; {
+    win = null
+    global.sharedObject.win = null
+  })
+
+
+  
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在increment.js中引入并调用&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;import downloadFile from &#39;./downloadFile&#39;
+import global from &#39;./global&#39;
+const fse = require(&#39;fs-extra&#39;)
+const AdmZip = require(&#39;adm-zip&#39;)
+import log from &#39;./log&#39;
+
+export default async (updateZipUrl) =&amp;gt; {  
+  const resourcesPath = process.resourcesPath
+  downloadFile({ url: updateZipUrl, targetPath: resourcesPath }).then(async (filePath) =&amp;gt; {
+    log.warn(&#39;unzip-filePath&#39;,filePath)
+    const zip = new AdmZip(filePath)
+    zip.extractAllToAsync(resourcesPath, true, (err) =&amp;gt; {
+      if (err) {
+        console.error(err)
+        return
+      }      
+      fse.removeSync(filePath)      
+      setTimeout(() =&amp;gt; {        
+        log.warn(&#39;relaunch&#39;)
+        global.sharedObject.win.webContents.reloadIgnoringCache()          
+      }, 2000);
+    })
+  }).catch(err =&amp;gt; {
+    console.log(err)
+  })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;setTimeout是为了演示效果，最后去掉。&lt;/p&gt;
+&lt;h2 id=&#34;十-遇到的问题&#34;&gt;十、遇到的问题&lt;/h2&gt;
+&lt;p&gt;更新时报错，如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Error: EPERM: operation not permitted
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;原因是没有管理员权限，且安装时选择的为所有用户安装。&lt;/p&gt;
+&lt;p&gt;方案一：运行时选择：以管理员身份运行&lt;/p&gt;
+&lt;p&gt;方案二：下载时，仅为当前用户安装&lt;/p&gt;
+&lt;p&gt;解决方案：&lt;/p&gt;
+&lt;p&gt;在设置上，不给用户选择为所有用户安装的机会，默认一键安装，设置如下&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;&amp;quot;nsis&amp;quot;: {
+    &amp;quot;oneClick&amp;quot;: true, // 是否一键安装          
+    &amp;quot;installerIcon&amp;quot;: &amp;quot;./public/app.ico&amp;quot;,// 安装图标
+    &amp;quot;uninstallerIcon&amp;quot;: &amp;quot;./public/app.ico&amp;quot;,//卸载图标
+    &amp;quot;installerHeaderIcon&amp;quot;: &amp;quot;./public/app.ico&amp;quot;, // 安装时头部图标
+    &amp;quot;createDesktopShortcut&amp;quot;: true, // 创建桌面图标
+    &amp;quot;createStartMenuShortcut&amp;quot;: true,// 创建开始菜单图标
+    &amp;quot;shortcutName&amp;quot;: &amp;quot;ebopo&amp;quot;, // 图标名称
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;十一-在ts项目中使用&#34;&gt;十一、在ts项目中使用&lt;/h2&gt;
+&lt;p&gt;electron-log的使用要用ts文件，并且用any声明，其他相似问题同理。&lt;/p&gt;
+&lt;p&gt;log.ts&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-typescript&#34;&gt;const log:any = require(&#39;electron-log&#39;);
+
+log.transports.file.level = &#39;silly&#39;
+log.transports.console.level = false // 禁用console输出
+
+export default log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;github地址&#34;&gt;GitHub地址&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/lee-css/vue-cli-electron-update-part&#34;&gt;vue-cli-electron-update-part&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://xuxin123.com/electron/increment-update1/&#34;&gt;https://xuxin123.com/electron/increment-update1/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;文档&#34;&gt;文档&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://nklayman.github.io/vue-cli-plugin-electron-builder/&#34;&gt;https://nklayman.github.io/vue-cli-plugin-electron-builder/&lt;/a&gt;&lt;/p&gt;
+">electron增量更新</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-xmlhttprequest-level2/"" data-c="
@@ -1647,6 +2173,8 @@ interface XMLHttpRequest : XMLHttpRequestEventTarget {
 &amp;gt; Hi username! You&#39;ve successfully authenticated, but GitHub does not
 &amp;gt; provide shell access.
 &lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
+&lt;p&gt;当时解决了，但是第二天又不行了。怀疑是网络的问题，然后用我手机流量开热点，提交成功了。&lt;/p&gt;
 &lt;h2 id=&#34;文档&#34;&gt;文档&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://docs.github.com/cn/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port&#34;&gt;https://docs.github.com/cn/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port&lt;/a&gt;&lt;/p&gt;
 ">github-连接错误Connection reset by 13.229.188.59 port 22 ssh</a>

@@ -2,13 +2,542 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-15T23:57:26.447Z</updated>
+    <updated>2021-07-16T11:59:25.231Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[electron增量更新]]></title>
+        <id>https://leecss.com/post/electron-zeng-liang-geng-xin/</id>
+        <link href="https://leecss.com/post/electron-zeng-liang-geng-xin/">
+        </link>
+        <updated>2021-07-16T11:49:28.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>先介绍一下技术构成，项目是完整的vue项目，在现有项目上完成electron打包及更新。</p>
+<p>打包使用的vue-cli-plugin-electron-builder插件，增量更新为具体的代码实现，并没有用到electron-updater。</p>
+<h2 id="思路">思路</h2>
+<p>1、比较本地和远程的版本</p>
+<p>本地的版本可以放在一个app.txt文件中，或者通过变量获取。</p>
+<p>远程的版本通过服务端文件（yml或者json）获取</p>
+<p>比较版本，若相同则不更新，返回。</p>
+<p>若不同，则提示更新，或直接进入更新流程</p>
+<p>2、更新流程：通过线上增量包文件地址，进行下载</p>
+<p>3、将zip压缩包解压缩</p>
+<p>4、重新加载</p>
+<h2 id="详解">详解</h2>
+<h3 id="一-vue-cli-plugin-electron-builder">一、vue-cli-plugin-electron-builder</h3>
+<p>安装vue-cli-plugin-electron-builder</p>
+<pre><code>vue add electron-builder@2.0.0-rc.6
+</code></pre>
+<p>版本选择9.0.0</p>
+<h2 id="二-新建vueconfigjs">二、新建vue.config.js</h2>
+<p>1、重点是：<strong>&quot;asar&quot;: false,</strong></p>
+<p>这句话的意思是，打包的时候<code>resources</code>下就不产生<code>app.asar</code>，而是一个app文件夹，而这个文件夹呢是可以直接进行替换的，里面的内容就是我们的前端整个项目的打包，就是渲染进程。所以，我们每次只需要替换前端的打包就可以了，而不需要每次都安装替换整个app</p>
+<p>2、将app图标放到public文件夹下</p>
+<pre><code class="language-js">module.exports = {
+  pluginOptions: {
+    electronBuilder: {
+      builderOptions: {
+        //productName: &quot;ebopo&quot;, // 项目名,这也是生成的exe文件的前缀名
+        copyright: 'Copyright © Ambow',  // 应用程序版权行
+        publish: [{
+          &quot;provider&quot;: &quot;generic&quot;,
+          &quot;channel&quot;: &quot;latest&quot;,
+          &quot;url&quot;: &quot;http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron/&quot;,
+        }],
+        &quot;win&quot;: {//win相关配置
+          &quot;icon&quot;: &quot;./public/app.ico&quot;,//图标，当前图标在根目录下，注意这里有两个坑
+          &quot;target&quot;: [
+              {
+                  &quot;target&quot;: &quot;nsis&quot;,//利用nsis制作安装程序
+                  &quot;arch&quot;: [
+                      &quot;x64&quot;,//64位
+                      &quot;ia32&quot;//32位
+                  ]
+              }
+          ]
+        },
+        &quot;asar&quot;: false,
+        &quot;nsis&quot;: {
+          &quot;oneClick&quot;: false, // 是否一键安装
+          &quot;allowElevation&quot;: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。          
+          &quot;allowToChangeInstallationDirectory&quot;: true, // 允许修改安装目录
+          &quot;installerIcon&quot;: &quot;./public/app.ico&quot;,// 安装图标
+          &quot;uninstallerIcon&quot;: &quot;./public/app.ico&quot;,//卸载图标
+          &quot;installerHeaderIcon&quot;: &quot;./public/app.ico&quot;, // 安装时头部图标
+          &quot;createDesktopShortcut&quot;: true, // 创建桌面图标
+          &quot;createStartMenuShortcut&quot;: true,// 创建开始菜单图标
+          &quot;shortcutName&quot;: &quot;ebopo&quot;, // 图标名称
+        },
+      }
+    }
+  }
+}
+</code></pre>
+<h2 id="三-配置信息">三、配置信息</h2>
+<p>background.js</p>
+<pre><code class="language-js">
+let win
+
+function createWindow() {
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,     
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+}
+</code></pre>
+<p>package.json</p>
+<pre><code class="language-js">// 打包exe前缀名称,及项目内左上角显示名称
+&quot;name&quot;: &quot;ebopo&quot;,
+// 版本号
+&quot;version&quot;: &quot;1.0.0&quot;,
+&quot;author&quot;: &quot;leecss&quot;,
+&quot;description&quot;: &quot;electronApp&quot;,
+</code></pre>
+<h2 id="四-新增electron目录及设置菜单">四、新增electron目录及设置菜单</h2>
+<p>在src文件夹下新建electron目录，在目录中新建menu.js</p>
+<pre><code class="language-js">import { BrowserWindow, Menu, app} from 'electron'
+
+let template = [{
+  label: '查看',
+  submenu: [{
+    label: '重载',
+    accelerator: 'CmdOrCtrl+R',
+    click: (item, focusedWindow) =&gt; {
+      if (focusedWindow) {
+        // 重载之后, 刷新并关闭所有之前打开的次要窗体
+        if (focusedWindow.id === 1) {
+          BrowserWindow.getAllWindows().forEach(win =&gt; {
+            if (win.id &gt; 1) win.close()
+          })
+        }
+        focusedWindow.reload()
+      }
+    }
+  }, {
+    label: '切换全屏',
+    accelerator: (() =&gt; {
+      if (process.platform === 'darwin') {
+        return 'Ctrl+Command+F'
+      } else {
+        return 'F11'
+      }
+    })(),
+    click: (item, focusedWindow) =&gt; {
+      if (focusedWindow) {
+        focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
+      }
+    }
+  }]
+}, {
+  label: '窗口',
+  role: 'window',
+  submenu: [{
+    label: '最小化',
+    accelerator: 'CmdOrCtrl+M',
+    role: 'minimize'
+  }, {
+    label: '关闭',
+    accelerator: 'CmdOrCtrl+W',
+    role: 'close'
+  }]
+}, {
+  label: '帮助',
+  role: 'help',
+  submenu: [     
+    {
+      label: `版本` + app.getVersion(),
+      enabled: false      
+    },
+    {
+      label: '切换开发者工具',
+      accelerator: (() =&gt; {
+        if (process.platform === 'darwin') {
+          return 'Alt+Command+I'
+        } else {
+          return 'Ctrl+Shift+I'
+        }
+      })(),
+      click: (item, focusedWindow) =&gt; {
+        if (focusedWindow) {
+          focusedWindow.toggleDevTools()
+        }
+      }
+    }
+  ]
+}]
+
+var list = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(list)
+</code></pre>
+<p>修改background.js ，在主进程中引入菜单</p>
+<pre><code class="language-js">async function createWindow() {
++	require('./electron/menu.js')
+}
+</code></pre>
+<h2 id="五-添加调试及日志文件输出">五、添加调试及日志文件输出</h2>
+<pre><code>npm i  electron-log
+</code></pre>
+<p>在electron目录下新建log.js</p>
+<pre><code class="language-js">import log from 'electron-log'
+
+log.transports.file.level = 'silly'
+log.transports.console.level = false // 禁用console输出
+
+export default log
+</code></pre>
+<p>在background.js 中使用</p>
+<pre><code class="language-js">import log from './electron/log'
+
+log.warn('hello')
+</code></pre>
+<p>日志文件查看：文件main.log存储位置</p>
+<pre><code>C:\Users\{用户}\AppData\Roaming\{appName}\logs
+</code></pre>
+<h2 id="六-更新流程比较版本">六、更新流程：比较版本</h2>
+<p>安装并引入axios</p>
+<pre><code>npm i axios
+</code></pre>
+<p>background.js</p>
+<pre><code>import axios from 'axios'
+</code></pre>
+<p>比较版本，若相同则返回，不相同则更新</p>
+<pre><code>async function createWindow() {
+  require('./electron/menu.js')
+  // Create the browser window.
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {      
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
+  } else {
+    createProtocol('app')
+    // Load the index.html when not in development
+    win.loadURL('app://./index.html')
+    
+    
+    
+    log.warn('hello')
+    // 判断是否热更新，版本对比
+    const updateUrl = 'http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron'
+    const currentVersion = app.getVersion()
+    log.warn('currentVersion',currentVersion)    
+    axios({
+      url: updateUrl + '/latest.yml',
+      method: 'GET'
+    }).then(res =&gt; {      
+      const remoteVersion = JSON.stringify(res.data).split('\\n')[0].split(' ')[1]
+      log.warn('remoteVersion',remoteVersion)      
+      if (currentVersion === remoteVersion) {
+        log.warn('版本相同，无需更新')
+        return;
+      }
+      // 热更新
+      const updateZipUrl = updateUrl + '/app.zip'
+      increment(updateZipUrl)      
+    })
+    
+    
+    
+  }
+}
+</code></pre>
+<h2 id="七-更新流程下载远程更新包appzip">七、更新流程：下载远程更新包app.zip</h2>
+<p>在electron目录中新建downloadFile.js</p>
+<p>下载文件需要两个参数：下载路径，保存路径</p>
+<p>下载文件返回一个参数：保存路径</p>
+<p>安装fs-extra</p>
+<pre><code>npm i fs-extra
+</code></pre>
+<pre><code class="language-js">const request = require('request')
+const fs = require('fs')
+const fse = require('fs-extra')
+const path = require('path')
+import log from './log'
+
+function download(url, targetPath, cb = () =&gt; { }) {
+  let status
+  const req = request({
+    method: 'GET',
+    uri: encodeURI(url)
+  })
+  try {
+    const stream = fs.createWriteStream(targetPath)
+    let len = 0
+    let cur = 0
+    req.pipe(stream)
+    req.on('response', (data) =&gt; {
+      len = parseInt(data.headers['content-length'])
+    })
+    req.on('data', (chunk) =&gt; {
+      cur += chunk.length
+      const progress = (100 * cur / len).toFixed(2)
+      status = 'progressing'
+      cb(status, progress)
+    })
+    req.on('end', function () {
+      if (req.response.statusCode === 200) {
+        if (len === cur) {
+          console.log(targetPath + ' Download complete ')
+          status = 'completed'
+          cb(status, 100)
+        } else {
+          stream.end()
+          removeFile(targetPath)
+          status = 'error'
+          cb(status, '网络波动，下载文件不全')
+        }
+      } else {
+        stream.end()
+        removeFile(targetPath)
+        status = 'error'
+        cb(status, req.response.statusMessage)
+      }
+    })
+    req.on('error', (e) =&gt; {
+      stream.end()
+      removeFile(targetPath)
+      if (len !== cur) {
+        status = 'error'
+        cb(status, '网络波动，下载失败')
+      } else {
+        status = 'error'
+        cb(status, e)
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function removeFile(targetPath) {
+  try {
+    fse.removeSync(targetPath)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export default async function downloadFile({ url, targetPath, folder = './' }, cb = () =&gt; { }) {  
+  log.warn('download-url',url)
+  log.warn('download-saveurl',targetPath)
+  if (!targetPath || !url) {
+    throw new Error('targetPath or url is nofind')
+  }
+  try {
+    await fse.ensureDirSync(path.join(targetPath, folder))
+  } catch (error) {
+    throw new Error(error)
+  }
+  return new Promise((resolve, reject) =&gt; {
+    const name = url.split('/').pop()
+    const filePath = path.join(targetPath, folder, name)
+    download(url, filePath, (status, result) =&gt; {
+      if (status === 'completed') {
+        resolve(filePath)
+      }
+      if (status === 'error') {
+        reject(result)
+      }
+      if (status === 'progressing') {
+        cb &amp;&amp; cb(result)
+      }
+    })
+  })
+}
+</code></pre>
+<h2 id="八-更新流程将下载的appzip解压缩并删除">八、更新流程：将下载的app.zip解压缩并删除</h2>
+<p>在electron目录中新建increment.js</p>
+<p>解压缩需要一个参数：加压压缩包的路径</p>
+<p>在文件下载完成后执行</p>
+<p>安装adm-zip</p>
+<pre><code>npm i adm-zip
+</code></pre>
+<pre><code class="language-js">import downloadFile from './downloadFile'
+import { app } from 'electron'
+const fse = require('fs-extra')
+const AdmZip = require('adm-zip')
+import log from './log'
+
+export default async (updateZipUrl) =&gt; {  
+  const resourcesPath = process.resourcesPath
+  downloadFile({ url: updateZipUrl, targetPath: resourcesPath }).then(async (filePath) =&gt; {
+    log.warn('unzip-filePath',filePath)
+    const zip = new AdmZip(filePath)
+    zip.extractAllToAsync(resourcesPath, true, (err) =&gt; {
+      if (err) {
+        console.error(err)
+        return
+      }      
+      fse.removeSync(filePath)      
+      setTimeout(() =&gt; {
+        log.warn('relaunch')
+        app.relaunch()
+        app.exit(0)                
+      }, 2000);
+    })
+  }).catch(err =&gt; {
+    console.log(err)
+  })
+}
+</code></pre>
+<p>在background.js引入并调用</p>
+<pre><code class="language-js">import increment from './electron/increment'
+</code></pre>
+<pre><code class="language-js">// 热更新
+const updateZipUrl = updateUrl + '/app.zip'
+increment(updateZipUrl)
+</code></pre>
+<h2 id="九-更新流程将更新重启替换为重新加载">九、更新流程：将更新重启替换为重新加载</h2>
+<p>在electron目录下新建global.js</p>
+<pre><code class="language-js">global.sharedObject = {
+  win: ''
+}
+
+export default global
+</code></pre>
+<p>在background.js引入并调用</p>
+<pre><code>import global from './electron/global'
+</code></pre>
+<pre><code class="language-js">async function createWindow() {
+  require('./electron/menu.js')
+  // Create the browser window.
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: `${__static}/app.ico`, // app内左上角图标
+    webPreferences: {      
+      webSecurity: false, //取消跨域限制
+      nodeIntegration:true, //开启node
+    }
+  })
+
+  if (process.env.WEBPACK_DEV_SERVER_URL) {
+    // Load the url of the dev server if in development mode
+    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
+    if (!process.env.IS_TEST) win.webContents.openDevTools()
+  } else {
+    createProtocol('app')
+    // Load the index.html when not in development
+    win.loadURL('app://./index.html')
+
+    log.warn('hello')
+    // 判断是否热更新，版本对比
+    const updateUrl = 'http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron'
+    const currentVersion = app.getVersion()
+    log.warn('currentVersion',currentVersion)    
+    axios({
+      url: updateUrl + '/latest.yml',
+      method: 'GET'
+    }).then(res =&gt; {      
+      const remoteVersion = JSON.stringify(res.data).split('\\n')[0].split(' ')[1]
+      log.warn('remoteVersion',remoteVersion)      
+      if (currentVersion === remoteVersion) {
+        log.warn('版本相同，无需更新')
+        return;
+      }
+      // 热更新
+      const updateZipUrl = updateUrl + '/app.zip'
+      increment(updateZipUrl)      
+    })
+
+  }
+
+
+
+  global.sharedObject.win = win
+  win.on('closed', () =&gt; {
+    win = null
+    global.sharedObject.win = null
+  })
+
+
+  
+}
+</code></pre>
+<p>在increment.js中引入并调用</p>
+<pre><code class="language-js">import downloadFile from './downloadFile'
+import global from './global'
+const fse = require('fs-extra')
+const AdmZip = require('adm-zip')
+import log from './log'
+
+export default async (updateZipUrl) =&gt; {  
+  const resourcesPath = process.resourcesPath
+  downloadFile({ url: updateZipUrl, targetPath: resourcesPath }).then(async (filePath) =&gt; {
+    log.warn('unzip-filePath',filePath)
+    const zip = new AdmZip(filePath)
+    zip.extractAllToAsync(resourcesPath, true, (err) =&gt; {
+      if (err) {
+        console.error(err)
+        return
+      }      
+      fse.removeSync(filePath)      
+      setTimeout(() =&gt; {        
+        log.warn('relaunch')
+        global.sharedObject.win.webContents.reloadIgnoringCache()          
+      }, 2000);
+    })
+  }).catch(err =&gt; {
+    console.log(err)
+  })
+}
+</code></pre>
+<p>setTimeout是为了演示效果，最后去掉。</p>
+<h2 id="十-遇到的问题">十、遇到的问题</h2>
+<p>更新时报错，如下：</p>
+<pre><code>Error: EPERM: operation not permitted
+</code></pre>
+<p>原因是没有管理员权限，且安装时选择的为所有用户安装。</p>
+<p>方案一：运行时选择：以管理员身份运行</p>
+<p>方案二：下载时，仅为当前用户安装</p>
+<p>解决方案：</p>
+<p>在设置上，不给用户选择为所有用户安装的机会，默认一键安装，设置如下</p>
+<pre><code class="language-json">&quot;nsis&quot;: {
+    &quot;oneClick&quot;: true, // 是否一键安装          
+    &quot;installerIcon&quot;: &quot;./public/app.ico&quot;,// 安装图标
+    &quot;uninstallerIcon&quot;: &quot;./public/app.ico&quot;,//卸载图标
+    &quot;installerHeaderIcon&quot;: &quot;./public/app.ico&quot;, // 安装时头部图标
+    &quot;createDesktopShortcut&quot;: true, // 创建桌面图标
+    &quot;createStartMenuShortcut&quot;: true,// 创建开始菜单图标
+    &quot;shortcutName&quot;: &quot;ebopo&quot;, // 图标名称
+},
+</code></pre>
+<h2 id="十一-在ts项目中使用">十一、在ts项目中使用</h2>
+<p>electron-log的使用要用ts文件，并且用any声明，其他相似问题同理。</p>
+<p>log.ts</p>
+<pre><code class="language-typescript">const log:any = require('electron-log');
+
+log.transports.file.level = 'silly'
+log.transports.console.level = false // 禁用console输出
+
+export default log
+</code></pre>
+<h2 id="github地址">GitHub地址</h2>
+<p><a href="https://github.com/lee-css/vue-cli-electron-update-part">vue-cli-electron-update-part</a></p>
+<h2 id="参考">参考</h2>
+<p><a href="https://xuxin123.com/electron/increment-update1/">https://xuxin123.com/electron/increment-update1/</a></p>
+<h2 id="文档">文档</h2>
+<p><a href="https://nklayman.github.io/vue-cli-plugin-electron-builder/">https://nklayman.github.io/vue-cli-plugin-electron-builder/</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[http-XMLHttpRequest Level2]]></title>
         <id>https://leecss.com/post/http-xmlhttprequest-level2/</id>
@@ -791,6 +1320,8 @@ interface XMLHttpRequest : XMLHttpRequestEventTarget {
 &gt; Hi username! You've successfully authenticated, but GitHub does not
 &gt; provide shell access.
 </code></pre>
+<h2 id="问题">问题</h2>
+<p>当时解决了，但是第二天又不行了。怀疑是网络的问题，然后用我手机流量开热点，提交成功了。</p>
 <h2 id="文档">文档</h2>
 <p><a href="https://docs.github.com/cn/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port">https://docs.github.com/cn/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port</a></p>
 ]]></content>
@@ -1762,27 +2293,6 @@ console.log('server listening on 8888')
 <p>HEAD：head方法用于获取报文首部，不返回报文主体</p>
 <p>OPTIONS：options方法用于询问请求URI资源支持的方法</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-报文]]></title>
-        <id>https://leecss.com/post/http-bao-wen/</id>
-        <link href="https://leecss.com/post/http-bao-wen/">
-        </link>
-        <updated>2021-07-08T15:04:50.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="http报文结构">HTTP报文结构</h2>
-<p>用于HTTP协议交互的信息被称为HTTP报文。请求端（客户端）的HTTP报文叫做<strong>请求报文</strong>，响应端（服务器端）的叫做<strong>响应报文</strong>。HTTP报文本身是由多行（用CR+LF作换行符）数据构成的字符串文本。 HTTP报文大致可分为<strong>请求行/响应行、报文首部和报文主体</strong>两块。两者由最初出现的空行（CR+LF）来划分。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625756720174.png" alt="" loading="lazy"></figure>
-<h3 id="请求报文">请求报文</h3>
-<p>请求报文的请求行主要三个部分组成：请求方法、URI地址和HTTP协议版本号。</p>
-<pre><code>POST /test/hi-there.txt HTTP/1.1
-</code></pre>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1625756732543.jpg" alt="" loading="lazy"></figure>
-<h3 id="响应报文">响应报文</h3>
-<p>响应报文的响应行主要三个部分组成：HTTP协议版本号、HTTP状态码和状态描述。</p>
-<pre><code>HTTP/1.1 200 OK
-</code></pre>
-<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1625756742764.jpg" alt="" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
