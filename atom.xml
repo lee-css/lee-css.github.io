@@ -2,13 +2,799 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-14T15:33:42.505Z</updated>
+    <updated>2021-07-15T23:57:26.447Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[http-XMLHttpRequest Level2]]></title>
+        <id>https://leecss.com/post/http-xmlhttprequest-level2/</id>
+        <link href="https://leecss.com/post/http-xmlhttprequest-level2/">
+        </link>
+        <updated>2021-07-15T22:49:03.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p><a href="https://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequest</a>是一个浏览器接口，使得Javascript可以进行HTTP(S)通信。</p>
+<p>最早，微软在IE 5引进了这个接口。因为它太有用，其他浏览器也模仿部署了，ajax操作因此得以诞生。</p>
+<p>但是，这个接口一直没有标准化，每家浏览器的实现或多或少有点不同。HTML 5的概念形成后，W3C开始考虑标准化这个接口。2008年2月，就提出了<a href="https://dev.w3.org/2006/webapi/XMLHttpRequest-2/">XMLHttpRequest Level 2</a> 草案。</p>
+<h2 id="一-老版本的xmlhttprequest对象"><strong>一、老版本的XMLHttpRequest对象</strong></h2>
+<p>在介绍新版本之前，我们先回顾一下老版本的用法。</p>
+<p>首先，新建一个XMLHttpRequest的实例。</p>
+<blockquote>
+<p>var xhr = new XMLHttpRequest();</p>
+</blockquote>
+<p>然后，向远程主机发出一个HTTP请求。</p>
+<blockquote>
+<p>xhr.open('GET', 'example.php');</p>
+<p>xhr.send();</p>
+</blockquote>
+<p>接着，就等待远程主机做出回应。这时需要监控XMLHttpRequest对象的状态变化，指定回调函数。</p>
+<blockquote>
+<p>xhr.onreadystatechange = function(){</p>
+<p>if ( xhr.readyState == 4 &amp;&amp; xhr.status == 200 ) {</p>
+<p>alert( xhr.responseText );</p>
+<p>} else {</p>
+<p>alert( xhr.statusText );</p>
+<p>}</p>
+<p>};</p>
+</blockquote>
+<p>上面的代码包含了老版本XMLHttpRequest对象的主要属性：</p>
+<blockquote>
+<p>* xhr.readyState：XMLHttpRequest对象的状态，等于4表示数据已经接收完毕。</p>
+<p>* xhr.status：服务器返回的状态码，等于200表示一切正常。</p>
+<p>* xhr.responseText：服务器返回的文本数据</p>
+<p>* xhr.responseXML：服务器返回的XML格式的数据</p>
+<p>* xhr.statusText：服务器返回的状态文本。</p>
+</blockquote>
+<h2 id="二-老版本的缺点"><strong>二、老版本的缺点</strong></h2>
+<p>老版本的XMLHttpRequest对象有以下几个缺点：</p>
+<blockquote>
+<p>* 只支持文本数据的传送，无法用来读取和上传二进制文件。</p>
+<p>* 传送和接收数据时，没有进度信息，只能提示有没有完成。</p>
+<p>* 受到<a href="https://www.w3.org/Security/wiki/Same_Origin_Policy">&quot;同域限制&quot;</a>（Same Origin Policy），只能向同一域名的服务器请求数据。</p>
+</blockquote>
+<h2 id="三-新版本的功能"><strong>三、新版本的功能</strong></h2>
+<p>新版本的XMLHttpRequest对象，针对老版本的缺点，做出了大幅改进。</p>
+<blockquote>
+<p>* 可以设置HTTP请求的时限。</p>
+<p>* 可以使用FormData对象管理表单数据。</p>
+<p>* 可以上传文件。</p>
+<p>* 可以请求不同域名下的数据（跨域请求）。</p>
+<p>* 可以获取服务器端的二进制数据。</p>
+<p>* 可以获得数据传输的进度信息。</p>
+</blockquote>
+<p>下面，我就一一介绍这些新功能。</p>
+<h2 id="四-http请求的时限"><strong>四、HTTP请求的时限</strong></h2>
+<p>有时，ajax操作很耗时，而且无法预知要花多少时间。如果网速很慢，用户可能要等很久。</p>
+<p>新版本的XMLHttpRequest对象，增加了timeout属性，可以设置HTTP请求的时限。</p>
+<blockquote>
+<p>xhr.timeout = 3000;</p>
+</blockquote>
+<p>上面的语句，将最长等待时间设为3000毫秒。过了这个时限，就自动停止HTTP请求。与之配套的还有一个timeout事件，用来指定回调函数。</p>
+<blockquote>
+<p>xhr.ontimeout = function(event){</p>
+<p>alert('请求超时！');</p>
+<p>}</p>
+</blockquote>
+<p>目前，Opera、Firefox和IE 10支持该属性，IE 8和IE 9的这个属性属于XDomainRequest对象，而Chrome和Safari还不支持。</p>
+<h2 id="五-formdata对象"><strong>五、FormData对象</strong></h2>
+<p>ajax操作往往用来传递表单数据。为了方便表单处理，HTML 5新增了一个FormData对象，可以模拟表单。</p>
+<p>首先，新建一个FormData对象。</p>
+<blockquote>
+<p>var formData = new FormData();</p>
+</blockquote>
+<p>然后，为它添加表单项。</p>
+<blockquote>
+<p>formData.append('username', '张三');</p>
+<p>formData.append('id', 123456);</p>
+</blockquote>
+<p>最后，直接传送这个FormData对象。这与提交网页表单的效果，完全一样。</p>
+<blockquote>
+<p>xhr.send(formData);</p>
+</blockquote>
+<p>FormData对象也可以用来获取网页表单的值。</p>
+<blockquote>
+<p>var form = document.getElementById('myform');</p>
+<p>var formData = new FormData(form);</p>
+<p>formData.append('secret', '123456'); // 添加一个表单项</p>
+<p>xhr.open('POST', form.action);</p>
+<p>xhr.send(formData);</p>
+</blockquote>
+<h2 id="六-上传文件"><strong>六、上传文件</strong></h2>
+<p>新版XMLHttpRequest对象，不仅可以发送文本信息，还可以上传文件。</p>
+<p>假定files是一个&quot;选择文件&quot;的表单元素（input[type=&quot;file&quot;]），我们将它装入FormData对象。</p>
+<blockquote>
+<p>var formData = new FormData();</p>
+<p>for (var i = 0; i &lt; files.length;i++) {</p>
+<p>formData.append('files[]', files[i]);</p>
+<p>}</p>
+</blockquote>
+<p>然后，发送这个FormData对象。</p>
+<blockquote>
+<p>xhr.send(formData);</p>
+</blockquote>
+<h2 id="七-跨域资源共享cors"><strong>七、跨域资源共享（CORS）</strong></h2>
+<p>新版本的XMLHttpRequest对象，可以向不同域名的服务器发出HTTP请求。这叫做<a href="https://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing">&quot;跨域资源共享&quot;</a>（Cross-origin resource sharing，简称CORS）。</p>
+<p>使用&quot;跨域资源共享&quot;的前提，是浏览器必须支持这个功能，而且服务器端必须同意这种&quot;跨域&quot;。如果能够满足上面的条件，则代码的写法与不跨域的请求完全一样。</p>
+<blockquote>
+<p>xhr.open('GET', 'http://other.server/and/path/to/script');</p>
+</blockquote>
+<p>目前，除了IE 8和IE 9，主流浏览器都支持CORS，IE 10也将支持这个功能。服务器端的设置，请参考<a href="https://developer.mozilla.org/en-US/docs/Server-Side_Access_Control">《Server-Side Access Control》</a>。</p>
+<h2 id="八-接收二进制数据方法a改写mimetype"><strong>八、接收二进制数据（方法A：改写MIMEType）</strong></h2>
+<p>老版本的XMLHttpRequest对象，只能从服务器取回文本数据（否则它的名字就不用XML起首了），新版则可以取回二进制数据。</p>
+<p>这里又分成两种做法。较老的做法是改写数据的MIMEType，将服务器返回的二进制数据伪装成文本数据，并且告诉浏览器这是用户自定义的字符集。</p>
+<blockquote>
+<p>xhr.overrideMimeType(&quot;text/plain; charset=x-user-defined&quot;);</p>
+</blockquote>
+<p>然后，用responseText属性接收服务器返回的二进制数据。</p>
+<blockquote>
+<p>var binStr = xhr.responseText;</p>
+</blockquote>
+<p>由于这时，浏览器把它当做文本数据，所以还必须再一个个字节地还原成二进制数据。</p>
+<blockquote>
+<p>for (var i = 0, len = binStr.length; i &lt; len; ++i) {</p>
+<p>var c = binStr.charCodeAt(i);</p>
+<p>var byte = c &amp; 0xff;</p>
+<p>}</p>
+</blockquote>
+<p>最后一行的位运算&quot;c &amp; 0xff&quot;，表示在每个字符的两个字节之中，只保留后一个字节，将前一个字节扔掉。原因是浏览器解读字符的时候，会把字符自动<a href="https://web.archive.org/web/20080821092906/http://mgran.blogspot.com/2006/08/downloading-binary-streams-with.html">解读</a>成Unicode的0xF700-0xF7ff区段。</p>
+<h2 id="八-接收二进制数据方法bresponsetype属性"><strong>八、接收二进制数据（方法B：responseType属性）</strong></h2>
+<p>从服务器取回二进制数据，较新的方法是使用新增的responseType属性。如果服务器返回文本数据，这个属性的值是&quot;TEXT&quot;，这是默认值。较新的浏览器还支持其他值，也就是说，可以接收其他格式的数据。</p>
+<p>你可以把responseType设为blob，表示服务器传回的是二进制对象。</p>
+<blockquote>
+<p>var xhr = new XMLHttpRequest();</p>
+<p>xhr.open('GET', '/path/to/image.png');</p>
+<p>xhr.responseType = 'blob';</p>
+</blockquote>
+<p>接收数据的时候，用浏览器自带的Blob对象即可。</p>
+<blockquote>
+<p>var blob = new Blob([xhr.response], {type: 'image/png'});</p>
+</blockquote>
+<p>注意，是读取xhr.response，而不是xhr.responseText。</p>
+<p>你还可以将responseType设为arraybuffer，把二进制数据装在一个数组里。</p>
+<blockquote>
+<p>var xhr = new XMLHttpRequest();</p>
+<p>xhr.open('GET', '/path/to/image.png');</p>
+<p>xhr.responseType = &quot;arraybuffer&quot;;</p>
+</blockquote>
+<p>接收数据的时候，需要遍历这个数组。</p>
+<blockquote>
+<p>var arrayBuffer = xhr.response;</p>
+<p>if (arrayBuffer) {</p>
+<p>var byteArray = new Uint8Array(arrayBuffer);</p>
+<p>for (var i = 0; i &lt; byteArray.byteLength; i++) {</p>
+<p>// do something</p>
+<p>}<br>
+　　}</p>
+</blockquote>
+<p>更详细的讨论，请看<a href="https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Sending_and_Receiving_Binary_Data">Sending and Receiving Binary Data</a>。</p>
+<h2 id="九-进度信息"><strong>九、进度信息</strong></h2>
+<p>新版本的XMLHttpRequest对象，传送数据的时候，有一个progress事件，用来返回进度信息。</p>
+<p>它分成上传和下载两种情况。下载的progress事件属于XMLHttpRequest对象，上传的progress事件属于XMLHttpRequest.upload对象。</p>
+<p>我们先定义progress事件的回调函数。</p>
+<blockquote>
+<p>xhr.onprogress = updateProgress;</p>
+<p>xhr.upload.onprogress = updateProgress;</p>
+</blockquote>
+<p>然后，在回调函数里面，使用这个事件的一些属性。</p>
+<blockquote>
+<p>function updateProgress(event) {</p>
+<p>if (event.lengthComputable) {</p>
+<p>var percentComplete = event.loaded / event.total;</p>
+<p>}</p>
+<p>}</p>
+</blockquote>
+<p>上面的代码中，event.total是需要传输的总字节，event.loaded是已经传输的字节。如果event.lengthComputable不为真，则event.total等于0。</p>
+<p>与progress事件相关的，还有其他五个事件，可以分别指定回调函数：</p>
+<blockquote>
+<p>* load事件：传输成功完成。</p>
+<p>* abort事件：传输被用户取消。</p>
+<p>* error事件：传输中出现错误。</p>
+<p>* loadstart事件：传输开始。</p>
+<p>* loadEnd事件：传输结束，但是不知道成功还是失败。</p>
+</blockquote>
+<h2 id="十-阅读材料"><strong>十、阅读材料</strong></h2>
+<p>1. <a href="https://dev.opera.com/articles/view/xhr2/">Introduction to XMLHttpRequest Level 2</a>： 新功能的综合介绍。</p>
+<p>2. <a href="https://www.html5rocks.com/en/tutorials/file/xhr2/">New Tricks in XMLHttpRequest 2</a>：一些用法的介绍。</p>
+<p>3. <a href="https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Using_XMLHttpRequest">Using XMLHttpRequest</a>：一些高级用法，主要针对Firefox浏览器。</p>
+<p>4. <a href="https://developer.mozilla.org/en-US/docs/HTTP_access_control">HTTP Access Control</a>：CORS综述。</p>
+<p>5. <a href="https://dev.opera.com/articles/view/dom-access-control-using-cross-origin-resource-sharing/">DOM access control using cross-origin resource sharing</a>：CORS的9种HTTP头信息</p>
+<p>6. <a href="https://developer.mozilla.org/en-US/docs/Server-Side_Access_Control">Server-Side Access Control</a>：服务器端CORS设置。</p>
+<p>7. <a href="http://enable-cors.org/">Enable CORS</a>：服务端CORS设置。</p>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html">http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html</a></p>
+</blockquote>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://www.html5rocks.com/zh/tutorials/file/xhr2/">https://www.html5rocks.com/zh/tutorials/file/xhr2/</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[http-XMLHttpRequest]]></title>
+        <id>https://leecss.com/post/http-xmlhttprequest/</id>
+        <link href="https://leecss.com/post/http-xmlhttprequest/">
+        </link>
+        <updated>2021-07-15T14:49:23.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>XMLHttpRequest详解</p>
+<h2 id="ajax和xmlhttprequest"><code>Ajax</code>和<code>XMLHttpRequest</code></h2>
+<p>我们通常将<code>Ajax</code>等同于<code>XMLHttpRequest</code>，但细究起来它们两个是属于不同维度的2个概念。</p>
+<blockquote>
+<p>以下是我认为对<code>Ajax</code>较为准确的解释：（摘自<a href="https://link.segmentfault.com/?url=http%3A%2F%2Fwww.tutorialspoint.com%2Fajax%2Fwhat_is_ajax.htm">what is Ajax</a>）<br>
+AJAX stands for Asynchronous JavaScript and XML. AJAX is a new technique for creating better, faster, and more interactive web applications with the help of XML, HTML, CSS, and Java Script.</p>
+<p>AJAX is based on the following open standards:</p>
+<ul>
+<li>Browser-based presentation using HTML and Cascading Style Sheets (CSS).</li>
+<li>Data is stored in XML format and fetched from the server.</li>
+<li>Behind-the-scenes data fetches using XMLHttpRequest objects in the browser.</li>
+<li>JavaScript to make everything happen.</li>
+</ul>
+</blockquote>
+<p>从上面的解释中可以知道：<code>ajax</code>是一种技术方案，但并不是一种<strong>新技术</strong>。它依赖的是现有的<code>CSS</code>/<code>HTML</code>/<code>Javascript</code>，而其中最核心的依赖是浏览器提供的<code>XMLHttpRequest</code>对象，是这个对象使得浏览器可以发出<code>HTTP</code>请求与接收<code>HTTP</code>响应。</p>
+<p>所以我用一句话来总结两者的关系：我们使用<code>XMLHttpRequest</code>对象来发送一个<code>Ajax</code>请求。</p>
+<h2 id="xmlhttprequest的发展历程"><code>XMLHttpRequest</code>的发展历程</h2>
+<p><code>XMLHttpRequest</code>一开始只是微软浏览器提供的一个接口，后来各大浏览器纷纷效仿也提供了这个接口，再后来W3C对它进行了标准化，提出了<a href="https://link.segmentfault.com/?url=https%3A%2F%2Fwww.w3.org%2FTR%2FXMLHttpRequest%2F"><code>XMLHttpRequest</code>标准</a>。<code>XMLHttpRequest</code>标准又分为<code>Level 1</code>和<code>Level 2</code>。<br>
+<code>XMLHttpRequest Level 1</code>主要存在以下缺点：</p>
+<ul>
+<li>受同源策略的限制，不能发送跨域请求；</li>
+<li>不能发送二进制文件（如图片、视频、音频等），只能发送纯文本数据；</li>
+<li>在发送和获取数据的过程中，无法实时获取进度信息，只能判断是否完成；</li>
+</ul>
+<p>那么<code>Level 2</code>对<code>Level 1</code> 进行了改进，<code>XMLHttpRequest Level 2</code>中新增了以下功能：</p>
+<ul>
+<li>可以发送跨域请求，在服务端允许的情况下；</li>
+<li>支持发送和接收二进制数据；</li>
+<li>新增formData对象，支持发送表单数据；</li>
+<li>发送和获取数据时，可以获取进度信息；</li>
+<li>可以设置请求的超时时间；</li>
+</ul>
+<h2 id="xmlhttprequest兼容性"><code>XMLHttpRequest</code>兼容性</h2>
+<p>关于<code>xhr</code>的浏览器兼容性，大家可以直接查看“Can I use”这个网站提供的结果<a href="https://link.segmentfault.com/?url=http%3A%2F%2Fcaniuse.com%2F%23search%3DXMLHttpRequest">XMLHttpRequest兼容性</a>，下面提供一个截图。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1626360606163.png" alt="" loading="lazy"></figure>
+<p>从图中可以看到：</p>
+<ul>
+<li>IE8/IE9、Opera Mini 完全不支持<code>xhr</code>对象</li>
+<li>IE10/IE11部分支持，不支持 <code>xhr.responseType</code>为<code>json</code></li>
+<li>部分浏览器不支持设置请求超时，即无法使用<code>xhr.timeout</code></li>
+<li>部分浏览器不支持<code>xhr.responseType</code>为<code>blob</code></li>
+</ul>
+<h2 id="细说xmlhttprequest如何使用">细说<code>XMLHttpRequest</code>如何使用</h2>
+<p>先来看一段使用<code>XMLHttpRequest</code>发送<code>Ajax</code>请求的简单示例代码。</p>
+<pre><code class="language-js">function sendAjax() {
+  //构造表单数据
+  var formData = new FormData();
+  formData.append('username', 'johndoe');
+  formData.append('id', 123456);
+  //创建xhr对象 
+  var xhr = new XMLHttpRequest();
+  //设置xhr请求的超时时间
+  xhr.timeout = 3000;
+  //设置响应返回的数据格式
+  xhr.responseType = &quot;text&quot;;
+  //创建一个 post 请求，采用异步
+  xhr.open('POST', '/server', true);
+  //注册相关事件回调处理函数
+  xhr.onload = function(e) { 
+    if(this.status == 200||this.status == 304){
+        alert(this.responseText);
+    }
+  };
+  xhr.ontimeout = function(e) { ... };
+  xhr.onerror = function(e) { ... };
+  xhr.upload.onprogress = function(e) { ... };
+  
+  //发送数据
+  xhr.send(formData);
+}
+</code></pre>
+<p>上面是一个使用<code>xhr</code>发送表单数据的示例，整个流程可以参考注释。</p>
+<p>接下来我将站在使用者的角度，以问题的形式介绍<code>xhr</code>的基本使用。<br>
+我对每一个问题涉及到的知识点都会进行比较细致地介绍，有些知识点可能是你平时忽略关注的。</p>
+<h3 id="如何设置request-header">如何设置request header</h3>
+<p>在发送<code>Ajax</code>请求（实质是一个<a href="https://link.segmentfault.com/?url=http%3A%2F%2Fwww.tutorialspoint.com%2Fhttp%2Fhttp_header_fields.htm">HTTP</a>请求）时，我们可能需要设置一些请求头部信息，比如<code>content-type</code>、<code>connection</code>、<code>cookie</code>、<code>accept-xxx</code>等。<code>xhr</code>提供了<code>setRequestHeader</code>来允许我们修改请求 header。</p>
+<blockquote>
+<pre><code>void setRequestHeader(DOMString header, DOMString value);
+</code></pre>
+</blockquote>
+<p><strong>注意点</strong>：</p>
+<ul>
+<li>方法的第一个参数 header 大小写不敏感，即可以写成<code>content-type</code>，也可以写成<code>Content-Type</code>，甚至写成<code>content-Type</code>;</li>
+<li><code>Content-Type</code>的默认值与具体发送的数据类型有关，请参考本文【可以发送什么类型的数据】一节；</li>
+<li><code>setRequestHeader</code>必须在<code>open()</code>方法之后，<code>send()</code>方法之前调用，否则会抛错；</li>
+<li><code>setRequestHeader</code>可以调用多次，最终的值不会采用覆盖<code>override</code>的方式，而是采用追加<code>append</code>的方式。下面是一个示例代码：</li>
+</ul>
+<pre><code class="language-js">var client = new XMLHttpRequest();
+client.open('GET', 'demo.cgi');
+client.setRequestHeader('X-Test', 'one');
+client.setRequestHeader('X-Test', 'two');
+// 最终request header中&quot;X-Test&quot;为: one, two
+client.send();
+</code></pre>
+<h3 id="如何获取response-header">如何获取response header</h3>
+<p><code>xhr</code>提供了2个用来获取响应头部的方法：<code>getAllResponseHeaders</code>和<code>getResponseHeader</code>。前者是获取 response 中的所有header 字段，后者只是获取某个指定 header 字段的值。另外，<code>getResponseHeader(header)</code>的<code>header</code>参数不区分大小写。</p>
+<blockquote>
+<pre><code>DOMString getAllResponseHeaders();`
+`DOMString getResponseHeader(DOMString header);
+</code></pre>
+</blockquote>
+<p><em>这2个方法看起来简单，但却处处是坑儿。</em></p>
+<p>你是否遇到过下面的坑儿?——反正我是遇到了。。。</p>
+<ol>
+<li>使用<code>getAllResponseHeaders()</code>看到的所有<code>response header</code>与实际在控制台 <code>Network</code> 中看到的 <code>response header</code> 不一样</li>
+<li>使用<code>getResponseHeader()</code>获取某个 <code>header</code> 的值时，浏览器抛错<code>Refused to get unsafe header &quot;XXX&quot;</code></li>
+</ol>
+<p>经过一番寻找最终在 <a href="https://link.segmentfault.com/?url=http%3A%2F%2Fstackoverflow.com%2Fquestions%2F7462968%2Frestrictions-of-xmlhttprequests-getresponseheader">Stack Overflow找到了答案</a>。</p>
+<ul>
+<li>原因1：<a href="https://link.segmentfault.com/?url=https%3A%2F%2Fwww.w3.org%2FTR%2FXMLHttpRequest%2F">W3C的 xhr 标准中做了限制</a>，规定客户端无法获取 response 中的 <code>Set-Cookie</code>、<code>Set-Cookie2</code>这2个字段，无论是同域还是跨域请求；</li>
+<li>原因2：<a href="https://link.segmentfault.com/?url=https%3A%2F%2Fwww.w3.org%2FTR%2Fcors%2F%23access-control-allow-credentials-response-header">W3C 的 cors 标准对于跨域请求也做了限制</a>，规定对于跨域请求，客户端允许获取的response header字段只限于“<code>simple response header</code>”和“<code>Access-Control-Expose-Headers</code>” （两个名词的解释见下方）。</li>
+</ul>
+<blockquote>
+<p>&quot;<code>simple response header</code>&quot;包括的 header 字段有：<code>Cache-Control</code>,<code>Content-Language</code>,<code>Content-Type</code>,<code>Expires</code>,<code>Last-Modified</code>,<code>Pragma</code>;<br>
+&quot;<code>Access-Control-Expose-Headers</code>&quot;：首先得注意是&quot;<code>Access-Control-Expose-Headers</code>&quot;进行<strong>跨域请求</strong>时响应头部中的一个字段，对于同域请求，响应头部是没有这个字段的。这个字段中列举的 header 字段就是服务器允许暴露给客户端访问的字段。</p>
+</blockquote>
+<p>所以<code>getAllResponseHeaders()</code>只能拿到*<strong>限制以外*</strong>（即被视为<code>safe</code>）的header字段，而不是全部字段；而调用<code>getResponseHeader(header)</code>方法时，<code>header</code>参数必须是***限制以外***的header字段，否则调用就会报<code>Refused to get unsafe header</code>的错误。</p>
+<h3 id="如何指定xhrresponse的数据类型">如何指定<code>xhr.response</code>的数据类型</h3>
+<p>有些时候我们希望<code>xhr.response</code>返回的就是我们想要的数据类型。比如：响应返回的数据是纯JSON字符串，但我们期望最终通过<code>xhr.response</code>拿到的直接就是一个 js 对象，我们该怎么实现呢？<br>
+有2种方法可以实现，一个是<code>level 1</code>就提供的<code>overrideMimeType()</code>方法，另一个是<code>level 2</code>才提供的<code>xhr.responseType</code>属性。</p>
+<h4 id="xhroverridemimetype"><code>xhr.overrideMimeType()</code></h4>
+<p><code>overrideMimeType</code>是<code>xhr level 1</code>就有的方法，所以浏览器兼容性良好。这个方法的作用就是用来重写<code>response</code>的<code>content-type</code>，这样做有什么意义呢？比如：server 端给客户端返回了一份<code>document</code>或者是 <code>xml</code>文档，我们希望最终通过<code>xhr.response</code>拿到的就是一个<code>DOM</code>对象，那么就可以用<code>xhr.overrideMimeType('text/xml; charset = utf-8')</code>来实现。</p>
+<p>再举一个使用场景，我们都知道<code>xhr level 1</code>不支持直接传输blob二进制数据，那如果真要传输 blob 该怎么办呢？当时就是利用<code>overrideMimeType</code>方法来解决这个问题的。</p>
+<p>下面是一个获取图片文件的代码示例：</p>
+<pre><code class="language-js">var xhr = new XMLHttpRequest();
+//向 server 端获取一张图片
+xhr.open('GET', '/path/to/image.png', true);
+
+// 这行是关键！
+//将响应数据按照纯文本格式来解析，字符集替换为用户自己定义的字符集
+xhr.overrideMimeType('text/plain; charset=x-user-defined');
+
+xhr.onreadystatechange = function(e) {
+  if (this.readyState == 4 &amp;&amp; this.status == 200) {
+    //通过 responseText 来获取图片文件对应的二进制字符串
+    var binStr = this.responseText;
+    //然后自己再想方法将逐个字节还原为二进制数据
+    for (var i = 0, len = binStr.length; i &lt; len; ++i) {
+      var c = binStr.charCodeAt(i);
+      //String.fromCharCode(c &amp; 0xff);
+      var byte = c &amp; 0xff; 
+    }
+  }
+};
+
+xhr.send();
+</code></pre>
+<p>代码示例中<code>xhr</code>请求的是一张图片，通过将 <code>response</code> 的 <code>content-type</code> 改为'text/plain; charset=x-user-defined'，使得 <code>xhr</code> 以纯文本格式来解析接收到的blob 数据，最终用户通过<code>this.responseText</code>拿到的就是图片文件对应的二进制字符串，最后再将其转换为 blob 数据。</p>
+<h4 id="xhrresponsetype"><code>xhr.responseType</code></h4>
+<p><code>responseType</code>是<code>xhr level 2</code>新增的属性，用来指定<code>xhr.response</code>的数据类型，目前还存在些兼容性问题，可以参考本文的【<code>XMLHttpRequest</code>的兼容性】这一小节。那么<code>responseType</code>可以设置为哪些格式呢，我简单做了一个表，如下：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th><code>xhr.response</code> 数据类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&quot;&quot;</code></td>
+<td><code>String</code>字符串</td>
+<td>默认值(在不设置<code>responseType</code>时)</td>
+</tr>
+<tr>
+<td><code>&quot;text&quot;</code></td>
+<td><code>String</code>字符串</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&quot;document&quot;</code></td>
+<td><code>Document</code>对象</td>
+<td>希望返回 <code>XML</code> 格式数据时使用</td>
+</tr>
+<tr>
+<td><code>&quot;json&quot;</code></td>
+<td><code>javascript</code> 对象</td>
+<td>存在兼容性问题，IE10/IE11不支持</td>
+</tr>
+<tr>
+<td><code>&quot;blob&quot;</code></td>
+<td><code>Blob</code>对象</td>
+<td></td>
+</tr>
+<tr>
+<td><code>&quot;arrayBuffer&quot;</code></td>
+<td><code>ArrayBuffer</code>对象</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>下面是同样是获取一张图片的代码示例，相比<code>xhr.overrideMimeType</code>,用<code>xhr.response</code>来实现简单得多。</p>
+<pre><code class="language-js">var xhr = new XMLHttpRequest();
+xhr.open('GET', '/path/to/image.png', true);
+//可以将`xhr.responseType`设置为`&quot;blob&quot;`也可以设置为`&quot; arrayBuffer&quot;`
+//xhr.responseType = 'arrayBuffer';
+xhr.responseType = 'blob';
+
+xhr.onload = function(e) {
+  if (this.status == 200) {
+    var blob = this.response;
+    ...
+  }
+};
+
+xhr.send();
+</code></pre>
+<h4 id="小结">小结</h4>
+<p>虽然在<code>xhr level 2</code>中，2者是共同存在的。但其实不难发现，<code>xhr.responseType</code>就是用来取代<code>xhr.overrideMimeType()</code>的，<code>xhr.responseType</code>功能强大的多，<code>xhr.overrideMimeType()</code>能做到的<code>xhr.responseType</code>都能做到。所以我们现在完全可以摒弃使用<code>xhr.overrideMimeType()</code>了。</p>
+<h3 id="如何获取response数据">如何获取response数据</h3>
+<pre><code>xhr`提供了3个属性来获取请求返回的数据，分别是：`xhr.response`、`xhr.responseText`、`xhr.responseXML
+</code></pre>
+<ul>
+<li><code>xhr.response</code>
+<ul>
+<li>默认值：空字符串<code>&quot;&quot;</code></li>
+<li>当请求完成时，此属性才有正确的值</li>
+<li>请求未完成时，此属性的值可能是<code>&quot;&quot;</code>或者 <code>null</code>，具体与 <code>xhr.responseType</code>有关：当<code>responseType</code>为<code>&quot;&quot;</code>或<code>&quot;text&quot;</code>时，值为<code>&quot;&quot;</code>；<code>responseType</code>为其他值时，值为 <code>null</code></li>
+</ul>
+</li>
+<li><code>xhr.responseText</code>
+<ul>
+<li>默认值为空字符串<code>&quot;&quot;</code></li>
+<li>只有当 <code>responseType</code> 为<code>&quot;text&quot;</code>、<code>&quot;&quot;</code>时，<code>xhr</code>对象上才有此属性，此时才能调用<code>xhr.responseText</code>，否则抛错</li>
+<li>只有当请求成功时，才能拿到正确值。以下2种情况下值都为空字符串<code>&quot;&quot;</code>：请求未完成、请求失败</li>
+</ul>
+</li>
+<li><code>xhr.responseXML</code>
+<ul>
+<li>默认值为 <code>null</code></li>
+<li>只有当 <code>responseType</code> 为<code>&quot;text&quot;</code>、<code>&quot;&quot;</code>、<code>&quot;document&quot;</code>时，<code>xhr</code>对象上才有此属性，此时才能调用<code>xhr.responseXML</code>，否则抛错</li>
+<li>只有当请求成功且返回数据被正确解析时，才能拿到正确值。以下3种情况下值都为<code>null</code>：请求未完成、请求失败、请求成功但返回数据无法被正确解析时</li>
+</ul>
+</li>
+</ul>
+<h3 id="如何追踪ajax请求的当前状态">如何追踪<code>ajax</code>请求的当前状态</h3>
+<p>在发一个<code>ajax</code>请求后，如果想追踪请求当前处于哪种状态，该怎么做呢？</p>
+<p>用<code>xhr.readyState</code>这个属性即可追踪到。这个属性是只读属性，总共有5种可能值，分别对应<code>xhr</code>不同的不同阶段。每次<code>xhr.readyState</code>的值发生变化时，都会触发<code>xhr.onreadystatechange</code>事件，我们可以在这个事件中进行相关状态判断。</p>
+<pre><code class="language-js">  xhr.onreadystatechange = function () {
+    switch(xhr.readyState){
+      case 1://OPENED
+        //do something
+            break;
+      case 2://HEADERS_RECEIVED
+        //do something
+        break;
+      case 3://LOADING
+        //do something
+        break;
+      case 4://DONE
+        //do something
+        break;
+    }
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>状态</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td><code>UNSENT</code> (初始状态，未打开)</td>
+<td>此时<code>xhr</code>对象被成功构造，<code>open()</code>方法还未被调用</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td><code>OPENED</code> (已打开，未发送)</td>
+<td><code>open()</code>方法已被成功调用，<code>send()</code>方法还未被调用。注意：只有<code>xhr</code>处于<code>OPENED</code>状态，才能调用<code>xhr.setRequestHeader()</code>和<code>xhr.send()</code>,否则会报错</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td><code>HEADERS_RECEIVED</code> (已获取响应头)</td>
+<td><code>send()</code>方法已经被调用, 响应头和响应状态已经返回</td>
+</tr>
+<tr>
+<td><code>3</code></td>
+<td><code>LOADING</code> (正在下载响应体)</td>
+<td>响应体(<code>response entity body</code>)正在下载中，此状态下通过<code>xhr.response</code>可能已经有了响应数据</td>
+</tr>
+<tr>
+<td><code>4</code></td>
+<td><code>DONE</code> (整个数据传输过程结束)</td>
+<td>整个数据传输过程结束，不管本次请求是成功还是失败</td>
+</tr>
+</tbody>
+</table>
+<h3 id="如何设置请求的超时时间">如何设置请求的超时时间</h3>
+<p>如果请求过了很久还没有成功，为了不会白白占用的网络资源，我们一般会主动终止请求。<code>XMLHttpRequest</code>提供了<code>timeout</code>属性来允许设置请求的超时时间。</p>
+<blockquote>
+<pre><code>xhr.timeout
+</code></pre>
+</blockquote>
+<p>单位：milliseconds 毫秒<br>
+默认值：<code>0</code>，即不设置超时</p>
+<p>很多同学都知道：从*<strong>请求开始*</strong> 算起，若超过 <code>timeout</code> 时间请求还没有结束（包括成功/失败），则会触发ontimeout事件，主动结束该请求。</p>
+<p>【那么到底什么时候才算是*<strong>请求开始*</strong> ？】<br>
+——<code>xhr.onloadstart</code>事件触发的时候，也就是你调用<code>xhr.send()</code>方法的时候。<br>
+因为<code>xhr.open()</code>只是创建了一个连接，但并没有真正开始数据的传输，而<code>xhr.send()</code>才是真正开始了数据的传输过程。只有调用了<code>xhr.send()</code>，才会触发<code>xhr.onloadstart</code> 。</p>
+<p>【那么什么时候才算是*<strong>请求结束*</strong> ？】<br>
+—— <code>xhr.loadend</code>事件触发的时候。</p>
+<p>另外，还有2个需要注意的坑儿：</p>
+<ol>
+<li>可以在 <code>send()</code>之后再设置此<code>xhr.timeout</code>，但计时起始点仍为调用<code>xhr.send()</code>方法的时刻。</li>
+<li>当<code>xhr</code>为一个<code>sync</code>同步请求时，<code>xhr.timeout</code>必须置为<code>0</code>，否则会抛错。原因可以参考本文的【如何发一个同步请求】一节。</li>
+</ol>
+<h3 id="如何发一个同步请求">如何发一个同步请求</h3>
+<p><code>xhr</code>默认发的是异步请求，但也支持发同步请求（当然实际开发中应该尽量避免使用）。到底是异步还是同步请求，由<code>xhr.open（）</code>传入的<code>async</code>参数决定。</p>
+<blockquote>
+<pre><code>open(method, url [, async = true [, username = null [, password = null]]])
+</code></pre>
+</blockquote>
+<ul>
+<li><code>method</code>: 请求的方式，如<code>GET/POST/HEADER</code>等，这个参数不区分大小写</li>
+<li><code>url</code>: 请求的地址，可以是相对地址如<code>example.php</code>，这个<strong>相对</strong>是相对于当前网页的<code>url</code>路径；也可以是绝对地址如<code>http://www.example.com/example.php</code></li>
+<li><code>async</code>: 默认值为<code>true</code>，即为异步请求，若<code>async=false</code>，则为同步请求</li>
+</ul>
+<p>在我认真研读W3C 的 xhr 标准前，我总以为同步请求和异步请求只是阻塞和非阻塞的区别，其他什么事件触发、参数设置应该是一样的，事实证明我错了。</p>
+<p>W3C 的 xhr标准中关于<code>open()</code>方法有这样一段说明：</p>
+<blockquote>
+<p>Throws an &quot;InvalidAccessError&quot; exception if async is false, the JavaScript global environment is a document environment, and either the timeout attribute is not zero, the withCredentials attribute is true, or the responseType attribute is not the empty string.</p>
+</blockquote>
+<p>从上面一段说明可以知道，当<code>xhr</code>为同步请求时，有如下限制：</p>
+<ul>
+<li><code>xhr.timeout</code>必须为<code>0</code></li>
+<li><code>xhr.withCredentials</code>必须为 <code>false</code></li>
+<li><code>xhr.responseType</code>必须为<code>&quot;&quot;</code>（注意置为<code>&quot;text&quot;</code>也不允许）</li>
+</ul>
+<p>若上面任何一个限制不满足，都会抛错，而对于异步请求，则没有这些参数设置上的限制。</p>
+<p>之前说过页面中应该尽量避免使用<code>sync</code>同步请求，为什么呢？<br>
+因为我们无法设置请求超时时间（<code>xhr.timeout</code>为<code>0</code>，即不限时）。在不限制超时的情况下，有可能同步请求一直处于<code>pending</code>状态，服务端迟迟不返回响应，这样整个页面就会一直阻塞，无法响应用户的其他交互。</p>
+<p>另外，标准中并没有提及同步请求时事件触发的限制，但实际开发中我确实遇到过部分应该触发的事件并没有触发的现象。如在 chrome中，当<code>xhr</code>为同步请求时，在<code>xhr.readyState</code>由<code>2</code>变成<code>3</code>时，并不会触发 <code>onreadystatechange</code>事件，<code>xhr.upload.onprogress</code>和 <code>xhr.onprogress</code>事件也不会触发。</p>
+<h3 id="如何获取上传-下载的进度">如何获取上传、下载的进度</h3>
+<p>在上传或者下载比较大的文件时，实时显示当前的上传、下载进度是很普遍的产品需求。<br>
+我们可以通过<code>onprogress</code>事件来实时显示进度，默认情况下这个事件每50ms触发一次。需要注意的是，上传过程和下载过程触发的是不同对象的<code>onprogress</code>事件：</p>
+<ul>
+<li>上传触发的是<code>xhr.upload</code>对象的 <code>onprogress</code>事件</li>
+<li>下载触发的是<code>xhr</code>对象的<code>onprogress</code>事件</li>
+</ul>
+<pre><code class="language-js">xhr.onprogress = updateProgress;
+xhr.upload.onprogress = updateProgress;
+function updateProgress(event) {
+    if (event.lengthComputable) {
+      var completedPercent = event.loaded / event.total;
+    }
+ }
+</code></pre>
+<h3 id="可以发送什么类型的数据">可以发送什么类型的数据</h3>
+<blockquote>
+<p>void send(data);</p>
+</blockquote>
+<p><code>xhr.send(data)</code>的参数data可以是以下几种类型：</p>
+<ul>
+<li><code>ArrayBuffer</code></li>
+<li><code>Blob</code></li>
+<li><code>Document</code></li>
+<li><code>DOMString</code></li>
+<li><code>FormData</code></li>
+<li><code>null</code></li>
+</ul>
+<p>如果是 GET/HEAD请求，<code>send()</code>方法一般不传参或传 <code>null</code>。不过即使你真传入了参数，参数也最终被忽略，<code>xhr.send(data)</code>中的data会被置为 <code>null</code>.</p>
+<p><code>xhr.send(data)</code>中data参数的数据类型会影响请求头部<code>content-type</code>的默认值：</p>
+<ul>
+<li>如果<code>data</code>是 <code>Document</code> 类型，同时也是<code>HTML Document</code>类型，则<code>content-type</code>默认值为<code>text/html;charset=UTF-8</code>;否则为<code>application/xml;charset=UTF-8</code>；</li>
+<li>如果<code>data</code>是 <code>DOMString</code> 类型，<code>content-type</code>默认值为<code>text/plain;charset=UTF-8</code>；</li>
+<li>如果<code>data</code>是 <code>FormData</code> 类型，<code>content-type</code>默认值为<code>multipart/form-data; boundary=[xxx]</code></li>
+<li>如果<code>data</code>是其他类型，则不会设置<code>content-type</code>的默认值</li>
+</ul>
+<p>当然这些只是<code>content-type</code>的默认值，但如果用<code>xhr.setRequestHeader()</code>手动设置了中<code>content-type</code>的值，以上默认值就会被覆盖。</p>
+<p>另外需要注意的是，若在断网状态下调用<code>xhr.send(data)</code>方法，则会抛错：<code>Uncaught NetworkError: Failed to execute 'send' on 'XMLHttpRequest'</code>。一旦程序抛出错误，如果不 catch 就无法继续执行后面的代码，所以调用 <code>xhr.send(data)</code>方法时，应该用 <code>try-catch</code>捕捉错误。</p>
+<pre><code class="language-js">try{
+    xhr.send(data)
+  }catch(e) {
+    //doSomething...
+  };
+</code></pre>
+<h3 id="xhrwithcredentials与-cors-什么关系"><code>xhr.withCredentials</code>与 <code>CORS</code> 什么关系</h3>
+<blockquote>
+<p>我们都知道，在发同域请求时，浏览器会将<code>cookie</code>自动加在<code>request header</code>中。但大家是否遇到过这样的场景：在发送跨域请求时，<code>cookie</code>并没有自动加在<code>request header</code>中。</p>
+</blockquote>
+<p>造成这个问题的原因是：在<code>CORS</code>标准中做了规定，默认情况下，浏览器在发送跨域请求时，不能发送任何认证信息（<code>credentials</code>）如&quot;<code>cookies</code>&quot;和&quot;<code>HTTP authentication schemes</code>&quot;。除非<code>xhr.withCredentials</code>为<code>true</code>（<code>xhr</code>对象有一个属性叫<code>withCredentials</code>，默认值为<code>false</code>）。</p>
+<p>所以根本原因是<code>cookies</code>也是一种认证信息，在跨域请求中，<code>client</code>端必须手动设置<code>xhr.withCredentials=true</code>，且<code>server</code>端也必须允许<code>request</code>能携带认证信息（即<code>response header</code>中包含<code>Access-Control-Allow-Credentials:true</code>），这样浏览器才会自动将<code>cookie</code>加在<code>request header</code>中。</p>
+<p>另外，要特别注意一点，一旦跨域<code>request</code>能够携带认证信息，<code>server</code>端一定不能将<code>Access-Control-Allow-Origin</code>设置为<code>*</code>，而必须设置为请求页面的域名。</p>
+<h2 id="xhr相关事件"><code>xhr</code>相关事件</h2>
+<h3 id="事件分类">事件分类</h3>
+<p><code>xhr</code>相关事件有很多，有时记起来还挺容易混乱。但当我了解了具体代码实现后，就容易理清楚了。下面是<code>XMLHttpRequest</code>的部分实现代码：</p>
+<pre><code class="language-js">interface XMLHttpRequestEventTarget : EventTarget {
+  // event handlers
+  attribute EventHandler onloadstart;
+  attribute EventHandler onprogress;
+  attribute EventHandler onabort;
+  attribute EventHandler onerror;
+  attribute EventHandler onload;
+  attribute EventHandler ontimeout;
+  attribute EventHandler onloadend;
+};
+
+interface XMLHttpRequestUpload : XMLHttpRequestEventTarget {
+
+};
+
+interface XMLHttpRequest : XMLHttpRequestEventTarget {
+  // event handler
+  attribute EventHandler onreadystatechange;
+  readonly attribute XMLHttpRequestUpload upload;
+};
+</code></pre>
+<p>从代码中我们可以看出：</p>
+<ol>
+<li><code>XMLHttpRequestEventTarget</code>接口定义了7个事件：
+<ul>
+<li><code>onloadstart</code></li>
+<li><code>onprogress</code></li>
+<li><code>onabort</code></li>
+<li><code>ontimeout</code></li>
+<li><code>onerror</code></li>
+<li><code>onload</code></li>
+<li><code>onloadend</code></li>
+</ul>
+</li>
+<li>每一个<code>XMLHttpRequest</code>里面都有一个<code>upload</code>属性，而<code>upload</code>是一个<code>XMLHttpRequestUpload</code>对象</li>
+<li><code>XMLHttpRequest</code>和<code>XMLHttpRequestUpload</code>都继承了同一个<code>XMLHttpRequestEventTarget</code>接口，所以<code>xhr</code>和<code>xhr.upload</code>都有第一条列举的7个事件</li>
+<li><code>onreadystatechange</code>是<code>XMLHttpRequest</code>独有的事件</li>
+</ol>
+<p>所以这么一看就很清晰了：<br>
+<code>xhr</code>一共有8个相关事件：7个<code>XMLHttpRequestEventTarget</code>事件+1个独有的<code>onreadystatechange</code>事件；而<code>xhr.upload</code>只有7个<code>XMLHttpRequestEventTarget</code>事件。</p>
+<h3 id="事件触发条件">事件触发条件</h3>
+<p>下面是我自己整理的一张<code>xhr</code>相关事件触发条件表，其中最需要注意的是 <code>onerror</code> 事件的触发条件。</p>
+<table>
+<thead>
+<tr>
+<th>事件</th>
+<th>触发条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>onreadystatechange</code></td>
+<td>每当<code>xhr.readyState</code>改变时触发；但<code>xhr.readyState</code>由非<code>0</code>值变为<code>0</code>时不触发。</td>
+</tr>
+<tr>
+<td><code>onloadstart</code></td>
+<td>调用<code>xhr.send()</code>方法后立即触发，若<code>xhr.send()</code>未被调用则不会触发此事件。</td>
+</tr>
+<tr>
+<td><code>onprogress</code></td>
+<td><code>xhr.upload.onprogress</code>在上传阶段(即<code>xhr.send()</code>之后，<code>xhr.readystate=2</code>之前)触发，每50ms触发一次；<code>xhr.onprogress</code>在下载阶段（即<code>xhr.readystate=3</code>时）触发，每50ms触发一次。</td>
+</tr>
+<tr>
+<td><code>onload</code></td>
+<td>当请求成功完成时触发，此时<code>xhr.readystate=4</code></td>
+</tr>
+<tr>
+<td><code>onloadend</code></td>
+<td>当请求结束（包括请求成功和请求失败）时触发</td>
+</tr>
+<tr>
+<td><code>onabort</code></td>
+<td>当调用<code>xhr.abort()</code>后触发</td>
+</tr>
+<tr>
+<td><code>ontimeout</code></td>
+<td><code>xhr.timeout</code>不等于0，由请求开始即<code>onloadstart</code>开始算起，当到达<code>xhr.timeout</code>所设置时间请求还未结束即<code>onloadend</code>，则触发此事件。</td>
+</tr>
+<tr>
+<td><code>onerror</code></td>
+<td>在请求过程中，若发生<code>Network error</code>则会触发此事件（若发生<code>Network error</code>时，上传还没有结束，则会先触发<code>xhr.upload.onerror</code>，再触发<code>xhr.onerror</code>；若发生<code>Network error</code>时，上传已经结束，则只会触发<code>xhr.onerror</code>）。<strong>注意</strong>，只有发生了网络层级别的异常才会触发此事件，对于应用层级别的异常，如响应返回的<code>xhr.statusCode</code>是<code>4xx</code>时，并不属于<code>Network error</code>，所以不会触发<code>onerror</code>事件，而是会触发<code>onload</code>事件。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="事件触发顺序">事件触发顺序</h3>
+<p>当请求一切正常时，相关的事件触发顺序如下：</p>
+<ol>
+<li>触发<code>xhr.onreadystatechange</code>(之后每次<code>readyState</code>变化时，都会触发一次)</li>
+<li>触发<code>xhr.onloadstart</code><br>
+//上传阶段开始：</li>
+<li>触发<code>xhr.upload.onloadstart</code></li>
+<li>触发<code>xhr.upload.onprogress</code></li>
+<li>触发<code>xhr.upload.onload</code></li>
+<li>触发<code>xhr.upload.onloadend</code><br>
+//上传结束，下载阶段开始：</li>
+<li>触发<code>xhr.onprogress</code></li>
+<li>触发<code>xhr.onload</code></li>
+<li>触发<code>xhr.onloadend</code></li>
+</ol>
+<h4 id="发生aborttimeouterror异常的处理">发生<code>abort</code>/<code>timeout</code>/<code>error</code>异常的处理</h4>
+<p>在请求的过程中，有可能发生 <code>abort</code>/<code>timeout</code>/<code>error</code>这3种异常。那么一旦发生这些异常，<code>xhr</code>后续会进行哪些处理呢？后续处理如下：</p>
+<ol>
+<li>一旦发生<code>abort</code>或<code>timeout</code>或<code>error</code>异常，先立即中止当前请求</li>
+<li>将 <code>readystate</code> 置为<code>4</code>，并触发 <code>xhr.onreadystatechange</code>事件</li>
+<li>如果上传阶段还没有结束，则依次触发以下事件：
+<ul>
+<li><code>xhr.upload.onprogress</code></li>
+<li><code>xhr.upload.[onabort或ontimeout或onerror]</code></li>
+<li><code>xhr.upload.onloadend</code></li>
+</ul>
+</li>
+<li>触发 <code>xhr.onprogress</code>事件</li>
+<li>触发 <code>xhr.[onabort或ontimeout或onerror]</code>事件</li>
+<li>触发<code>xhr.onloadend</code> 事件</li>
+</ol>
+<h4 id="在哪个xhr事件中注册成功回调">在哪个<code>xhr</code>事件中注册成功回调？</h4>
+<p>从上面介绍的事件中，可以知道若<code>xhr</code>请求成功，就会触发<code>xhr.onreadystatechange</code>和<code>xhr.onload</code>两个事件。 那么我们到底要将成功回调注册在哪个事件中呢？我倾向于 <code>xhr.onload</code>事件，因为<code>xhr.onreadystatechange</code>是每次<code>xhr.readyState</code>变化时都会触发，而不是<code>xhr.readyState=4</code>时才触发。</p>
+<pre><code class="language-js">xhr.onload = function () {
+    //如果请求成功
+    if(xhr.status == 200){
+      //do successCallback
+    }
+  }
+</code></pre>
+<p>上面的示例代码是很常见的写法：先判断<code>http</code>状态码是否是<code>200</code>，如果是，则认为请求是成功的，接着执行成功回调。这样的判断是有坑儿的，比如当返回的<code>http</code>状态码不是<code>200</code>，而是<code>201</code>时，请求虽然也是成功的，但并没有执行成功回调逻辑。所以更靠谱的判断方法应该是：当<code>http</code>状态码为<code>2xx</code>或<code>304</code>时才认为成功。</p>
+<pre><code class="language-js">  xhr.onload = function () {
+    //如果请求成功
+    if((xhr.status &gt;= 200 &amp;&amp; xhr.status &lt; 300) || xhr.status == 304){
+      //do successCallback
+    }
+  }
+</code></pre>
+<h2 id="参考资料">参考资料</h2>
+<p><a href="https://www.w3.org/TR/XMLHttpRequest/">w3</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest">MDN</a></p>
+<h2 id="转载">转载</h2>
+<blockquote>
+<h3 id="ruoyiqing">ruoyiqing</h3>
+<p><a href="https://segmentfault.com/a/1190000004322487">https://segmentfault.com/a/1190000004322487</a></p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[github-连接错误Connection reset by 13.229.188.59 port 22 ssh]]></title>
+        <id>https://leecss.com/post/github-lian-jie-cuo-wu-connection-reset-by-1322918859-port-22-ssh/</id>
+        <link href="https://leecss.com/post/github-lian-jie-cuo-wu-connection-reset-by-1322918859-port-22-ssh/">
+        </link>
+        <updated>2021-07-15T00:41:06.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="github-连接错误connection-reset-by-1322918859-port-22-ssh">github-连接错误Connection reset by 13.229.188.59 port 22 ssh</h1>
+<h2 id="概述">概述</h2>
+<p>当你想连接GitHub提交时，发现无法提交，报错如下：</p>
+<pre><code>Connection reset by 13.229.188.59 port 22 ssh
+</code></pre>
+<h2 id="解决">解决</h2>
+<p>在Windows防火墙中设置22端口</p>
+<p>1、控制面板-系统和安全-Windows Defender防火墙-高级设置</p>
+<p>2、选择<strong>入站规则</strong>-<strong>新建规则</strong></p>
+<p>3、选择<strong>端口</strong></p>
+<p>4、特定本地端口：输入<strong>22</strong></p>
+<p>5、选择<strong>允许连接</strong></p>
+<p>6、输入<strong>名称</strong>和<strong>描述</strong>，自定义，也可如下</p>
+<p>名称：22in</p>
+<p>描述：Connection reset by 13.229.188.59 port 22 ssh</p>
+<h2 id="其他方法">其他方法</h2>
+<p>更改防火墙禁掉的22端口，ssh本来使用的22，可以在https端口使用ssh</p>
+<p>1、要测试通过 HTTPS 端口的 SSH 是否可行，请运行以下 SSH 命令：</p>
+<pre><code class="language-shell">$ ssh -T -p 443 git@ssh.github.com
+&gt; Hi username! You've successfully authenticated, but GitHub does not
+&gt; provide shell access.
+</code></pre>
+<p>如果这样有效，万事大吉！</p>
+<p>2、如果您能在端口 443 上通过 SSH 连接到 <code>git@ssh.github.com</code>，则可以覆盖您的 SSH 设置以强制与 GitHub 的任何连接均通过该服务器和端口运行。</p>
+<p>要在您的 ssh 配置中设置此项，编辑位于 <code>~/.ssh/config</code> 的文件，添加以下部分：</p>
+<pre><code>Host github.com
+  Hostname ssh.github.com
+  Port 443
+  User git
+</code></pre>
+<p>您可以通过再次连接到 GitHub 测试此项是否有效：</p>
+<pre><code class="language-shell">$ ssh -T git@github.com
+&gt; Hi username! You've successfully authenticated, but GitHub does not
+&gt; provide shell access.
+</code></pre>
+<h2 id="文档">文档</h2>
+<p><a href="https://docs.github.com/cn/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port">https://docs.github.com/cn/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[http-跨域CORS]]></title>
         <id>https://leecss.com/post/http-kua-yu-cors/</id>
@@ -199,6 +985,10 @@ Content-Type: text/html; charset=utf-8
 <p>阮一峰</p>
 <p><a href="https://www.ruanyifeng.com/blog/2016/04/cors.html">https://www.ruanyifeng.com/blog/2016/04/cors.html</a></p>
 </blockquote>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS">MDN-CORS</a></p>
+<p><a href="https://juejin.cn/post/6844904126246027278">10种跨域解决方案</a></p>
+<p><a href="https://segmentfault.com/a/1190000011145364">前端常见跨域解决方案</a></p>
 ]]></content>
     </entry>
     <entry>
@@ -993,211 +1783,6 @@ console.log('server listening on 8888')
 <pre><code>HTTP/1.1 200 OK
 </code></pre>
 <figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1625756742764.jpg" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-URL]]></title>
-        <id>https://leecss.com/post/http-url/</id>
-        <link href="https://leecss.com/post/http-url/">
-        </link>
-        <updated>2021-07-08T14:13:44.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>HTTP协议使用 URI 定位互联网上的资源。</p>
-<h2 id="定义">定义</h2>
-<h3 id="uri">URI</h3>
-<p>Uniform Resource Identifier：统一资源标识符</p>
-<p>用来唯一标识互联网上的信息资源</p>
-<p>URI包括URL和URN。</p>
-<h3 id="url">URL</h3>
-<p>Uniform Resource Locator：统一资源定位器</p>
-<p><code>http://user:pass@host.com:80/path?query=string#hash</code></p>
-<p>协议 用户名密码 域名或hostName 端口 路由 搜索参数 哈希(锚点定位)</p>
-<p>上述格式的都叫做URL，平常见到的URI 基本都是URL</p>
-<h3 id="urn">URN</h3>
-<p>Uniform Resource Name：统一资源名称(永久统一资源定位符)</p>
-<p>在资源移动之后还能被找到</p>
-<p>目前还没有非常成熟的使用方案</p>
-<hr>
-<p>假如互联网上的资源换了位置，我们访问之前的路径就会404，但是URL并不会告诉你资源搬到了哪里，URN就是为了解决这个问题，当URN指向一个资源，无论它换了多少位置，依然可以找到它。</p>
-<h2 id="关系">关系</h2>
-<p>URI是抽象的定义，不管用什么方法表示，只要能定位一个资源，就叫URI</p>
-<p>定位资源的两种方式：1，URL，用地址定位；2，URN，用名称定位。</p>
-<p>举个例子：</p>
-<p>找个具体的人（URI），</p>
-<p>如果用地址：住在中国北京昌平区某村多少号房子第几间屋子的人 就是URL，</p>
-<p>如果用身份证号+名字 去找就是URN。</p>
-<hr>
-<p>找个具体的学生(URI)</p>
-<p>如果用地址： 南开小学三年二班的第一排第几列的人 就是URL</p>
-<p>如果用学号+名字 去找就是URN</p>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web">标志互联网上的内容</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-TCP/IP三次握手]]></title>
-        <id>https://leecss.com/post/http-tcpip-san-ci-wo-shou/</id>
-        <link href="https://leecss.com/post/http-tcpip-san-ci-wo-shou/">
-        </link>
-        <updated>2021-07-07T14:33:24.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>目的是为了保证可靠的通信</p>
-<h2 id="三个版本的解释">三个版本的解释</h2>
-<h3 id="版本一">版本一</h3>
-<p>简单说，让双方都证实对方能发收。<br>
-知道对方能收是因为收到对方的因为收到而发的回应。<br>
-具体：<br>
-1：A发，B收， B知道A能发<br>
-2：B发，A收， A知道B能发收<br>
-3：A发，B收， B知道A能收</p>
-<hr>
-<p>tcp三次握手是tcp的建立连接的过程，所谓连接就是客户端知道服务端的发送和接收能力是否正常，服务端知道客户端的发送和接收能力是否正常。</p>
-<p>第一次握手，客户端向服务端发送报文，服务端接收到信息之后，知道了客户端的发送能力正常</p>
-<p>第二次握手，服务端向客户端发送报文，客户端接收到了信息之后，知道了服务端的发送和接收能力都正常</p>
-<p>第三次握手，客户端再向服务端发送报文，服务端接收到信息之后，知道了客户端的发送和接收能力都正常</p>
-<p>至此，三次握手完成，客户端和服务端都确定了双方的发送和接收能力，可以进行数据传输了</p>
-<h3 id="版本二图解http">版本二：图解HTTP</h3>
-<p>按层次分，TCP 位于传输层，提供可靠的字节流服务。</p>
-<p>所谓的字节流服务（Byte Stream Service）是指，为了方便传输，将大块数据分割成以报文段（segment）为单位的数据包进行管理。而可靠的传输服务是指，能够把数据准确可靠地传给对方。一言以蔽之，TCP 协议为了更容易传送大数据才把数据分割，而且 TCP 协议能够确认数据最终是否送达到对方。</p>
-<p><strong>确保数据能到达目标</strong></p>
-<p>为了准确无误地将数据送达目标处，TCP 协议采用了三次握手（three-way handshaking）策略。用 TCP 协议把数据包送出去后，TCP不会对传送后的情况置之不理，它一定会向对方确认是否成功送达。握手过程中使用了 TCP 的标志（flag） —— SYN（synchronize） 和ACK（acknowledgement）。</p>
-<p>发送端首先发送一个带 SYN 标志的数据包给对方。接收端收到后，回传一个带有 SYN/ACK 标志的数据包以示传达确认信息。最后，发送端再回传一个带 ACK 标志的数据包，代表“握手”结束。</p>
-<p>若在握手过程中某个阶段莫名中断，TCP 协议会再次以相同的顺序发送相同的数据包。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625668531620.jpg" alt="" loading="lazy"></figure>
-<p>除了上述三次握手，TCP 协议还有其他各种手段来保证通信的可靠性。</p>
-<h3 id="版本三车小胖">版本三：车小胖</h3>
-<p>TCP作为一种可靠传输控制协议，其<strong>核心思想</strong>：既要保证数据可靠传输，又要提高传输的效率，而用<strong>三次恰恰可以满足以上两方面的需求！</strong></p>
-<p><strong>TCP可靠传输的精髓</strong>：TCP连接的一方A，由操作系统动态随机选取一个<strong>32位长的序列号（Initial Sequence Number）</strong>，假设A的初始序列号为1000，以该序列号为原点，对自己将要发送的每个字节的数据进行编号，1001，1002，1003…，并把自己的初始序列号ISN告诉B，<strong>让B有一个思想准备</strong>，什么样编号的数据是合法的，什么编号是非法的，比如编号900就是非法的，同时B还可以对A每一个编号的字节数据进行确认。如果A收到B确认编号为2001，则意味着字节编号为1001-2000，共1000个字节已经安全到达。</p>
-<p>同理B也是类似的操作，假设B的初始序列号ISN为2000，以该序列号为原点，对自己将要发送的每个字节的数据进行编号，2001，2002，2003…，并把自己的初始序列号ISN告诉A，以便A可以确认B发送的每一个字节。如果B收到A确认编号为4001，则意味着字节编号为2001-4000，共2000个字节已经安全到达。</p>
-<p><strong>一句话概括，TCP连接握手，握的是啥？</strong></p>
-<p><strong>通信双方数据原点的序列号！</strong></p>
-<p>以此核心思想我们来分析二、三、四次握手的过程。</p>
-<p>A &lt;-------&gt; B</p>
-<p><strong>四次握手的过程：</strong></p>
-<p><strong>1.1</strong> A 发送同步信号<strong>SYN</strong> + <strong>A'sInitial sequence number</strong></p>
-<p><strong>1.2</strong> B 确认收到A的同步信号，并记录A's ISN 到本地，命名 <strong>B's ACK sequence number<br>
-**<br>
-<strong>1.3</strong> B发送同步信号</strong>SYN** + **B's Initial sequence number<br>
-**<br>
-<strong>1.4</strong> A确认收到B的同步信号，并记录B's ISN 到本地，命名 <strong>A's ACK sequence number</strong></p>
-<p>很显然1.2和1.3 这两个步骤可以合并，**只需要三次握手，**可以提高连接的速度与效率。</p>
-<p><strong>二次握手的过程：</strong></p>
-<p><strong>2.1</strong> A 发送同步信号<strong>SYN</strong> + <strong>A'sInitial sequence number</strong></p>
-<p><strong>2.2</strong> B发送同步信号<strong>SYN</strong> + <strong>B'sInitial sequence number</strong> + <strong>B's ACK sequence number</strong></p>
-<p>这里有一个问题，A与B就A的初始序列号达成了一致，这里是1000。<strong>但是</strong>B无法知道A是否已经接收到自己的同步信号，如果这个同步信号丢失了，<strong>A和B就B的初始序列号将无法达成一致。</strong></p>
-<p>于是TCP的设计者将<strong>SYN这个同步标志位SYN设计成占用一个字节的编号（FIN标志位也是）</strong>，既然是一个字节的数据，按照TCP对有数据的TCP segment 必须确认的原则，所以在这里A必须给B一个确认，以确认A已经接收到B的同步信号。</p>
-<p>有童鞋会说，如果A发给B的确认丢了，该如何？<br>
-A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK超时重传</strong>。</p>
-<p>那该如何是好？<strong>B如果没有收到A的ACK，会超时重传自己的SYN同步信号，一直到收到A的ACK为止。</strong></p>
-<p><strong>补充阅读</strong></p>
-<p><strong>第一个包，即A发给B的SYN 中途被丢，没有到达B</strong></p>
-<p>A会周期性超时重传，直到收到B的确认</p>
-<p><strong>第二个包，即B发给A的SYN +ACK 中途被丢，没有到达A</strong></p>
-<p>B会周期性超时重传，直到收到A的确认</p>
-<p><strong>第三个包，即A发给B的ACK 中途被丢，没有到达B</strong></p>
-<p>A发完ACK，单方面认为TCP为 Established状态，而B显然认为TCP为Active状态：</p>
-<p>a. 假定此时双方都没有数据发送，B会周期性超时重传，直到收到A的确认，收到之后B的TCP 连接也为 Established状态，双向可以发包。</p>
-<p>b. 假定此时A有数据发送，B收到A的 Data + ACK，自然会切换为established 状态，并接受A的Data。</p>
-<p>c. 假定B有数据发送，数据发送不了，会一直周期性超时重传SYN + ACK，直到收到A的确认才可以发送数据。</p>
-<hr>
-<p>记得第一次看TCP握手连接的时候，有同样的疑问，我的疑问是，为何不是两次呢？</p>
-<p>后来随着对网络的理解深入，明白TCP报文是交由IP网络来负责运输，IP网络并不能保证TCP报文到达目的地，既然IP网络是指望不上了，那TCP就自力更生吧，TCP必须依赖自身的努力来保证数据传输的可靠。</p>
-<p>TCP看似复杂，其实可以归纳为以下5种报文：</p>
-<p><strong>（1）</strong>   <strong>SYN</strong></p>
-<p><strong>（2）</strong>   <strong>Data</strong> <strong>（唯一携带用户数据）</strong></p>
-<p><strong>（3）</strong>   <strong>FIN</strong></p>
-<p><strong>（4）</strong>   <strong>Reset</strong></p>
-<p><strong>（5）</strong>   <strong>ACK</strong></p>
-<p>其中1、2、3分别为<strong>建立连接、数据传输、断开连接</strong>，这三种报文对方接收到一定要ACK确认，为何要确认，因为这就是可靠传输的依赖的机制。如果对方在超时时间内不确认，发送方会一直重传，直到对方确认为止、或到达重传上限次数而Reset连接。</p>
-<p>4、5 为<strong>重置连接报文、确认ACK报文</strong>，这两种报文对方接收到要ACK确认吧？不需要！自然发送方也不会重传这2种类型的报文。</p>
-<p><strong>为何Reset报文不需要ACK确认?</strong></p>
-<p>因为发送Reset报文的一端，在发送完这个报文之后，和该TCP Session有关的内存结构体瞬间全部释放，无论对方收到或没有收到，关系并不大。</p>
-<p>如果对方收到Reset报文，也会释放该TCP Session 的相关内存结构体。</p>
-<p>如果对方没有收到Reset 报文，可能会继续发送让接收方弹射出Reset报文的报文，到最后对方一样会收到Reset 报文，并最终释放内存。</p>
-<p><strong>为何ACK报文不需要ACK确认?</strong></p>
-<p>这里的ACK报文，是指没有携带任何数据的裸ACK报文，对方收到这样的ACK报文，自然也不需要ACK。否则，对方为了ACK己方的ACK，那己方收到对方的ACK，也要ACK对方的ACK，这就是一个死循环，永无止息。</p>
-<p>所以为了避免这个死循环，一律不允许ACK对方的裸ACK报文。</p>
-<p>有同学会说，按照这么说，TCP连接应该是四次消息交互啊。</p>
-<p><strong>1.A 发送SYN 报文给B，这是第一次报文交互。</strong></p>
-<p><strong>2. B发送ACK确认A的SYN报文，这是第二次报文交互</strong></p>
-<p><strong>3. B发送自己的SYN报文给A，这是第三次报文交互</strong></p>
-<p><strong>4. A需要ACK确认B的SYN报文，这是第四次报文交互</strong></p>
-<p>以上的演绎没有问题，但是报文2、3为何要分开发送呢？增加了延迟不说，同时还白白浪费了网络的带宽，完全可以将报文2、3合并起来，不就是在报文2的ACK状态位的位置置“1”就结了吗？</p>
-<p>这就是三次消息交互的由来！</p>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://mp.weixin.qq.com/s/NIjxgx4NPn7FC4PfkHBAAQ">车小胖谈网络</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-连接管理]]></title>
-        <id>https://leecss.com/post/http-lian-jie-guan-li/</id>
-        <link href="https://leecss.com/post/http-lian-jie-guan-li/">
-        </link>
-        <updated>2021-07-07T13:12:39.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="http-连接管理">http-连接管理</h1>
-<h2 id="概述">概述</h2>
-<p>http连接的几种方式：串行连接、并行连接、持久连接、管道化连接……</p>
-<h2 id="分类">分类</h2>
-<h3 id="串行连接">串行连接</h3>
-<p>也称为短连接、短轮询。</p>
-<p>HTTP事务需要按顺序进行传输，等待服务端完成处理并回传。</p>
-<p>缺点：</p>
-<p>每次HTTP通信后都要断开TCP连接，所以每个新的HTTP请求都需要建立一个新的tcp连接，极大的增加了通信开销。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1625668312340.png" alt="" loading="lazy"></figure>
-<h3 id="并行连接">并行连接</h3>
-<p>并发的执行多条HTTP请求，且每个请求都有自己的TCP连接。</p>
-<p>特点：</p>
-<p>并行连接的速度可能会更快，但不一定总是更快。</p>
-<p>实际上多条连接会产生一些额外的开销，使用并行连接装载整个页面所需的时间很可能比串行下载的时间更长。</p>
-<p>如果并行加载多个对象，每个对象都会去竞争这有限的带宽，每个对象都会以比较慢的速度按比例加载，这样带来的性能提升就很小，甚至没什么提升。</p>
-<p>而且打开大量连接会消耗很多内存资源，从而引发自身的性能问题。</p>
-<p>假如一百个用户同时发出申请，每个用户打开100个连接，服务器就要处理10 000个连接。这会造成服务器性能的严重下降。</p>
-<hr>
-<p>实际上，浏览器确实使用了并行连接，但它们并行连接的总数限制为一个较小的值(通常是4个)。</p>
-<p>服务器可以随意的关闭来自特定客户端的超量连接。</p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1625668321507.png" alt="" loading="lazy"></figure>
-<h3 id="持久连接">持久连接</h3>
-<p>也叫长连接、长轮询</p>
-<p>在事务处理结束之后仍然保持在打开状态的TCP连接称为持久连接。</p>
-<p><strong>方式</strong></p>
-<p>持久连接有两种方式，分别为HTTP/1.0+的“Keep-alive”连接，以及HTTP/1.1的“persistent”连接。</p>
-<p><strong>Keep-alive</strong>：该首部只是请求将连接保持在活跃状态，客户端和服务端可以随时关闭空闲的Keep-alive连接。</p>
-<p>限制和规则：</p>
-<p>1、必须客户端发送一个Connection：Keep-alive请求首部来激活Keep-alive连接，服务端不一定答应启用Keep-Alive会话；</p>
-<p>2、必须随每个希望保持持久连接的请求的头部一起发送，如果某个请求没有带Keep-Alive头部，则服务器会在这个请求后关闭该连接。</p>
-<hr>
-<p><strong>Persistent</strong>：该首部默认情况下是激活的，除非特别指明，否则HTTP/1.1假定所有连接都是持久的。</p>
-<p>限制和规则：</p>
-<p>1、发送了 Connection: close 请求首部之后，客户端就无法在那条连接上发送更多的请求了。</p>
-<p>如果客户端不想在连接上发送其他请求了，就应该在最后一条请求中发送一个Connection: close 请求首部。</p>
-<p>2、只有当连接上所有的报文都有正确的、自定义报文长度时——也就是说，实体主体部分的长度都和相应的Content-Length 一致，或者是用分块传输编码方式编码的——连接才能持久保持。</p>
-<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1625668334800.png" alt="" loading="lazy"></figure>
-<h3 id="管道化连接">管道化连接</h3>
-<p>在持久连接的基础上可选的使用请求管道。在响应到达之前，可以将多条请求放入队列。</p>
-<p>限制：</p>
-<p>1、如果HTTP客户端无法确认连接是持久的,就不应该使用管道。</p>
-<p>2、必须按照与请求相同的顺序回送HTTP响应。HTTP报文中没有序列号标签,因此如果收到的响应失序了,就没办法将其与请求匹配起来了。</p>
-<p>3、HTTP 客户端必须做好连接会在任意时刻关闭的准备,还要准备好重发所有未完成的管道化请求。如果客户端打开了一条持久连接,并立即发出了10条请求,服务器可能在只处理了,比方说,5条请求之后关闭连接。剩下的5 条请求会失败,客户端必须能够应对这些过早关闭连接的情况,重新发出这些请求。</p>
-<p>4、HTTP 客户端不应该用管道化的方式发送会产生副作用的请求(比如POST)。总之,出错的时候,管道化方式会阻碍客户端了解服务器执行的是一系列管道化请求中的哪一些。由于无法安全地重试POST这样的<strong>非幂等请求</strong>,所以出错时,就存在某些方法永远不会被执行的风险。</p>
-<figure data-type="image" tabindex="4"><img src="https://leecss.com/post-images/1625668345578.png" alt="" loading="lazy"></figure>
-<p><strong>幂等请求</strong></p>
-<p>所谓幂等就是 多次执行对资源的影响，和一次执行对资源的影响相同。不管进行多少次重复操作，都是实现相同的结果。</p>
-<p>幂等保证在pipeline中的所有请求可以不必关心发送次序和到达服务器后执行的次序，即使多次请求，返回的结果一直是一样的。</p>
-<p>反之，若其中包含了不幂等的请求，两个请求，第一个是更新用户张三信息，第二请求是获取更新后的张三最新信息。 他们是按照次序顺序在服务器端执行的：1先执行，2紧接着执行。 但是<strong>后一个请求不会等前一个请求完成才执行</strong>， 即可能 获取张三最新信息的2号请求先<strong>执行完成</strong>，这样返回的信息就不是期望的了。</p>
-<p>所有请求虽然是按次序到达执行，<strong>但是不能保证一定是按照次序依次执行</strong>，比如1，2两个请求顺序到达，1是更新用户信息，2是获取这个更新用户的最新信息，1先执行，2不等1执行完就开始执行，得到的用户信息是旧的。</p>
-<p>即，依次发了1，2，3这三个请求。如果1和2和3不是幂等的，即2可能要依赖1的返回，3可能要依赖1和2的返回，此种情况下就不能通过pipeline来进行发送。</p>
-<p><strong>REST请求按幂等区分</strong></p>
-<p>GET请求很好理解，对资源做查询多次，此实现的结果都是一样的。</p>
-<p>PUT请求的幂等性可以这样理解，将A修改为B，它第一次请求值变为了B，再进行多次此操作，最终的结果还是B，与一次执行的结果是一样的，所以PUT是幂等操作。</p>
-<p>DELETE请求，第一次将资源删除后，后面多次进行此删除请求，最终结果是一样的，将资源删除掉了。</p>
-<p>POST不是幂等操作，因为一次请求添加一份新资源，二次请求则添加了两份新资源，多次请求会产生不同的结果，因此POST不是幂等操作。</p>
-<hr>
-<p>比较容易混淆的是HTTP POST和PUT。POST和PUT的区别容易被简单地误认为“POST表示创建资源，PUT表示更新资源”；而实际上，二者均可用于创建资源，更为本质的差别是在幂等性方面。在HTTP规范中对POST和PUT是这样定义的：</p>
-<blockquote>
-<p>The POST method is used to request that the origin server accept the entity enclosed in the request as a new subordinate of the resource identified by the Request-URI in the Request-Line ...... If a resource has been created on the origin server, the response SHOULD be 201 (Created) and contain an entity which describes the status of the request and refers to the new resource, and a Location header.</p>
-<p>The PUT method requests that the enclosed entity be stored under the supplied Request-URI. If the Request-URI refers to an already existing resource, the enclosed entity SHOULD be considered as a modified version of the one residing on the origin server. If the Request-URI does not point to an existing resource, and that URI is capable of being defined as a new resource by the requesting user agent, the origin server can create the resource with that URI.</p>
-</blockquote>
-<p>POST所对应的URI并非创建的资源本身，而是资源的接收者。比如：POST <code>createArticles</code>的语义是在目标网站下创建一篇帖子，HTTP响应中应包含帖子的创建状态以及帖子的URI。两次相同的POST请求会在服务器端创建两份资源，它们具有不同的URI；所以，POST方法不具备幂等性。而PUT所对应的URI是要创建或更新的资源本身。比如：PUT <code>updateArticles/4231</code>的语义是创建或更新ID为4231的帖子。对同一URI进行多次PUT的副作用和一次PUT是相同的；因此，PUT方法具有幂等性。</p>
 ]]></content>
     </entry>
 </feed>

@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>http-使用node创建一个简单的web服务 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1626276814010">
+<link rel="shortcut icon" href="/favicon.ico?v=1626393337617">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,19 +176,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">59</span>
+        <span class="site-item-stat-count">62</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">5</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">5</span>
+        <span class="site-item-stat-count">6</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -1076,6 +1076,783 @@ console.log('server listening on 8888')
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-xmlhttprequest-level2/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/XMLHttpRequest&#34;&gt;XMLHttpRequest&lt;/a&gt;是一个浏览器接口，使得Javascript可以进行HTTP(S)通信。&lt;/p&gt;
+&lt;p&gt;最早，微软在IE 5引进了这个接口。因为它太有用，其他浏览器也模仿部署了，ajax操作因此得以诞生。&lt;/p&gt;
+&lt;p&gt;但是，这个接口一直没有标准化，每家浏览器的实现或多或少有点不同。HTML 5的概念形成后，W3C开始考虑标准化这个接口。2008年2月，就提出了&lt;a href=&#34;https://dev.w3.org/2006/webapi/XMLHttpRequest-2/&#34;&gt;XMLHttpRequest Level 2&lt;/a&gt; 草案。&lt;/p&gt;
+&lt;h2 id=&#34;一-老版本的xmlhttprequest对象&#34;&gt;&lt;strong&gt;一、老版本的XMLHttpRequest对象&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;在介绍新版本之前，我们先回顾一下老版本的用法。&lt;/p&gt;
+&lt;p&gt;首先，新建一个XMLHttpRequest的实例。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var xhr = new XMLHttpRequest();&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后，向远程主机发出一个HTTP请求。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.open(&#39;GET&#39;, &#39;example.php&#39;);&lt;/p&gt;
+&lt;p&gt;xhr.send();&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接着，就等待远程主机做出回应。这时需要监控XMLHttpRequest对象的状态变化，指定回调函数。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.onreadystatechange = function(){&lt;/p&gt;
+&lt;p&gt;if ( xhr.readyState == 4 &amp;amp;&amp;amp; xhr.status == 200 ) {&lt;/p&gt;
+&lt;p&gt;alert( xhr.responseText );&lt;/p&gt;
+&lt;p&gt;} else {&lt;/p&gt;
+&lt;p&gt;alert( xhr.statusText );&lt;/p&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;};&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面的代码包含了老版本XMLHttpRequest对象的主要属性：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;* xhr.readyState：XMLHttpRequest对象的状态，等于4表示数据已经接收完毕。&lt;/p&gt;
+&lt;p&gt;* xhr.status：服务器返回的状态码，等于200表示一切正常。&lt;/p&gt;
+&lt;p&gt;* xhr.responseText：服务器返回的文本数据&lt;/p&gt;
+&lt;p&gt;* xhr.responseXML：服务器返回的XML格式的数据&lt;/p&gt;
+&lt;p&gt;* xhr.statusText：服务器返回的状态文本。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;二-老版本的缺点&#34;&gt;&lt;strong&gt;二、老版本的缺点&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;老版本的XMLHttpRequest对象有以下几个缺点：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;* 只支持文本数据的传送，无法用来读取和上传二进制文件。&lt;/p&gt;
+&lt;p&gt;* 传送和接收数据时，没有进度信息，只能提示有没有完成。&lt;/p&gt;
+&lt;p&gt;* 受到&lt;a href=&#34;https://www.w3.org/Security/wiki/Same_Origin_Policy&#34;&gt;&amp;quot;同域限制&amp;quot;&lt;/a&gt;（Same Origin Policy），只能向同一域名的服务器请求数据。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;三-新版本的功能&#34;&gt;&lt;strong&gt;三、新版本的功能&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;新版本的XMLHttpRequest对象，针对老版本的缺点，做出了大幅改进。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;* 可以设置HTTP请求的时限。&lt;/p&gt;
+&lt;p&gt;* 可以使用FormData对象管理表单数据。&lt;/p&gt;
+&lt;p&gt;* 可以上传文件。&lt;/p&gt;
+&lt;p&gt;* 可以请求不同域名下的数据（跨域请求）。&lt;/p&gt;
+&lt;p&gt;* 可以获取服务器端的二进制数据。&lt;/p&gt;
+&lt;p&gt;* 可以获得数据传输的进度信息。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;下面，我就一一介绍这些新功能。&lt;/p&gt;
+&lt;h2 id=&#34;四-http请求的时限&#34;&gt;&lt;strong&gt;四、HTTP请求的时限&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;有时，ajax操作很耗时，而且无法预知要花多少时间。如果网速很慢，用户可能要等很久。&lt;/p&gt;
+&lt;p&gt;新版本的XMLHttpRequest对象，增加了timeout属性，可以设置HTTP请求的时限。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.timeout = 3000;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面的语句，将最长等待时间设为3000毫秒。过了这个时限，就自动停止HTTP请求。与之配套的还有一个timeout事件，用来指定回调函数。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.ontimeout = function(event){&lt;/p&gt;
+&lt;p&gt;alert(&#39;请求超时！&#39;);&lt;/p&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;目前，Opera、Firefox和IE 10支持该属性，IE 8和IE 9的这个属性属于XDomainRequest对象，而Chrome和Safari还不支持。&lt;/p&gt;
+&lt;h2 id=&#34;五-formdata对象&#34;&gt;&lt;strong&gt;五、FormData对象&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;ajax操作往往用来传递表单数据。为了方便表单处理，HTML 5新增了一个FormData对象，可以模拟表单。&lt;/p&gt;
+&lt;p&gt;首先，新建一个FormData对象。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var formData = new FormData();&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后，为它添加表单项。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;formData.append(&#39;username&#39;, &#39;张三&#39;);&lt;/p&gt;
+&lt;p&gt;formData.append(&#39;id&#39;, 123456);&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;最后，直接传送这个FormData对象。这与提交网页表单的效果，完全一样。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.send(formData);&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;FormData对象也可以用来获取网页表单的值。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var form = document.getElementById(&#39;myform&#39;);&lt;/p&gt;
+&lt;p&gt;var formData = new FormData(form);&lt;/p&gt;
+&lt;p&gt;formData.append(&#39;secret&#39;, &#39;123456&#39;); // 添加一个表单项&lt;/p&gt;
+&lt;p&gt;xhr.open(&#39;POST&#39;, form.action);&lt;/p&gt;
+&lt;p&gt;xhr.send(formData);&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;六-上传文件&#34;&gt;&lt;strong&gt;六、上传文件&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;新版XMLHttpRequest对象，不仅可以发送文本信息，还可以上传文件。&lt;/p&gt;
+&lt;p&gt;假定files是一个&amp;quot;选择文件&amp;quot;的表单元素（input[type=&amp;quot;file&amp;quot;]），我们将它装入FormData对象。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var formData = new FormData();&lt;/p&gt;
+&lt;p&gt;for (var i = 0; i &amp;lt; files.length;i++) {&lt;/p&gt;
+&lt;p&gt;formData.append(&#39;files[]&#39;, files[i]);&lt;/p&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后，发送这个FormData对象。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.send(formData);&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;七-跨域资源共享cors&#34;&gt;&lt;strong&gt;七、跨域资源共享（CORS）&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;新版本的XMLHttpRequest对象，可以向不同域名的服务器发出HTTP请求。这叫做&lt;a href=&#34;https://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing&#34;&gt;&amp;quot;跨域资源共享&amp;quot;&lt;/a&gt;（Cross-origin resource sharing，简称CORS）。&lt;/p&gt;
+&lt;p&gt;使用&amp;quot;跨域资源共享&amp;quot;的前提，是浏览器必须支持这个功能，而且服务器端必须同意这种&amp;quot;跨域&amp;quot;。如果能够满足上面的条件，则代码的写法与不跨域的请求完全一样。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.open(&#39;GET&#39;, &#39;http://other.server/and/path/to/script&#39;);&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;目前，除了IE 8和IE 9，主流浏览器都支持CORS，IE 10也将支持这个功能。服务器端的设置，请参考&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Server-Side_Access_Control&#34;&gt;《Server-Side Access Control》&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;八-接收二进制数据方法a改写mimetype&#34;&gt;&lt;strong&gt;八、接收二进制数据（方法A：改写MIMEType）&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;老版本的XMLHttpRequest对象，只能从服务器取回文本数据（否则它的名字就不用XML起首了），新版则可以取回二进制数据。&lt;/p&gt;
+&lt;p&gt;这里又分成两种做法。较老的做法是改写数据的MIMEType，将服务器返回的二进制数据伪装成文本数据，并且告诉浏览器这是用户自定义的字符集。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.overrideMimeType(&amp;quot;text/plain; charset=x-user-defined&amp;quot;);&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后，用responseText属性接收服务器返回的二进制数据。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var binStr = xhr.responseText;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;由于这时，浏览器把它当做文本数据，所以还必须再一个个字节地还原成二进制数据。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;for (var i = 0, len = binStr.length; i &amp;lt; len; ++i) {&lt;/p&gt;
+&lt;p&gt;var c = binStr.charCodeAt(i);&lt;/p&gt;
+&lt;p&gt;var byte = c &amp;amp; 0xff;&lt;/p&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;最后一行的位运算&amp;quot;c &amp;amp; 0xff&amp;quot;，表示在每个字符的两个字节之中，只保留后一个字节，将前一个字节扔掉。原因是浏览器解读字符的时候，会把字符自动&lt;a href=&#34;https://web.archive.org/web/20080821092906/http://mgran.blogspot.com/2006/08/downloading-binary-streams-with.html&#34;&gt;解读&lt;/a&gt;成Unicode的0xF700-0xF7ff区段。&lt;/p&gt;
+&lt;h2 id=&#34;八-接收二进制数据方法bresponsetype属性&#34;&gt;&lt;strong&gt;八、接收二进制数据（方法B：responseType属性）&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;从服务器取回二进制数据，较新的方法是使用新增的responseType属性。如果服务器返回文本数据，这个属性的值是&amp;quot;TEXT&amp;quot;，这是默认值。较新的浏览器还支持其他值，也就是说，可以接收其他格式的数据。&lt;/p&gt;
+&lt;p&gt;你可以把responseType设为blob，表示服务器传回的是二进制对象。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var xhr = new XMLHttpRequest();&lt;/p&gt;
+&lt;p&gt;xhr.open(&#39;GET&#39;, &#39;/path/to/image.png&#39;);&lt;/p&gt;
+&lt;p&gt;xhr.responseType = &#39;blob&#39;;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接收数据的时候，用浏览器自带的Blob对象即可。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var blob = new Blob([xhr.response], {type: &#39;image/png&#39;});&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;注意，是读取xhr.response，而不是xhr.responseText。&lt;/p&gt;
+&lt;p&gt;你还可以将responseType设为arraybuffer，把二进制数据装在一个数组里。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var xhr = new XMLHttpRequest();&lt;/p&gt;
+&lt;p&gt;xhr.open(&#39;GET&#39;, &#39;/path/to/image.png&#39;);&lt;/p&gt;
+&lt;p&gt;xhr.responseType = &amp;quot;arraybuffer&amp;quot;;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接收数据的时候，需要遍历这个数组。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;var arrayBuffer = xhr.response;&lt;/p&gt;
+&lt;p&gt;if (arrayBuffer) {&lt;/p&gt;
+&lt;p&gt;var byteArray = new Uint8Array(arrayBuffer);&lt;/p&gt;
+&lt;p&gt;for (var i = 0; i &amp;lt; byteArray.byteLength; i++) {&lt;/p&gt;
+&lt;p&gt;// do something&lt;/p&gt;
+&lt;p&gt;}&lt;br&gt;
+　　}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;更详细的讨论，请看&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Sending_and_Receiving_Binary_Data&#34;&gt;Sending and Receiving Binary Data&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;九-进度信息&#34;&gt;&lt;strong&gt;九、进度信息&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;新版本的XMLHttpRequest对象，传送数据的时候，有一个progress事件，用来返回进度信息。&lt;/p&gt;
+&lt;p&gt;它分成上传和下载两种情况。下载的progress事件属于XMLHttpRequest对象，上传的progress事件属于XMLHttpRequest.upload对象。&lt;/p&gt;
+&lt;p&gt;我们先定义progress事件的回调函数。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;xhr.onprogress = updateProgress;&lt;/p&gt;
+&lt;p&gt;xhr.upload.onprogress = updateProgress;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后，在回调函数里面，使用这个事件的一些属性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;function updateProgress(event) {&lt;/p&gt;
+&lt;p&gt;if (event.lengthComputable) {&lt;/p&gt;
+&lt;p&gt;var percentComplete = event.loaded / event.total;&lt;/p&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面的代码中，event.total是需要传输的总字节，event.loaded是已经传输的字节。如果event.lengthComputable不为真，则event.total等于0。&lt;/p&gt;
+&lt;p&gt;与progress事件相关的，还有其他五个事件，可以分别指定回调函数：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;* load事件：传输成功完成。&lt;/p&gt;
+&lt;p&gt;* abort事件：传输被用户取消。&lt;/p&gt;
+&lt;p&gt;* error事件：传输中出现错误。&lt;/p&gt;
+&lt;p&gt;* loadstart事件：传输开始。&lt;/p&gt;
+&lt;p&gt;* loadEnd事件：传输结束，但是不知道成功还是失败。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;十-阅读材料&#34;&gt;&lt;strong&gt;十、阅读材料&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;1. &lt;a href=&#34;https://dev.opera.com/articles/view/xhr2/&#34;&gt;Introduction to XMLHttpRequest Level 2&lt;/a&gt;： 新功能的综合介绍。&lt;/p&gt;
+&lt;p&gt;2. &lt;a href=&#34;https://www.html5rocks.com/en/tutorials/file/xhr2/&#34;&gt;New Tricks in XMLHttpRequest 2&lt;/a&gt;：一些用法的介绍。&lt;/p&gt;
+&lt;p&gt;3. &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Using_XMLHttpRequest&#34;&gt;Using XMLHttpRequest&lt;/a&gt;：一些高级用法，主要针对Firefox浏览器。&lt;/p&gt;
+&lt;p&gt;4. &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/HTTP_access_control&#34;&gt;HTTP Access Control&lt;/a&gt;：CORS综述。&lt;/p&gt;
+&lt;p&gt;5. &lt;a href=&#34;https://dev.opera.com/articles/view/dom-access-control-using-cross-origin-resource-sharing/&#34;&gt;DOM access control using cross-origin resource sharing&lt;/a&gt;：CORS的9种HTTP头信息&lt;/p&gt;
+&lt;p&gt;6. &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Server-Side_Access_Control&#34;&gt;Server-Side Access Control&lt;/a&gt;：服务器端CORS设置。&lt;/p&gt;
+&lt;p&gt;7. &lt;a href=&#34;http://enable-cors.org/&#34;&gt;Enable CORS&lt;/a&gt;：服务端CORS设置。&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;阮一峰&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html&#34;&gt;http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.html5rocks.com/zh/tutorials/file/xhr2/&#34;&gt;https://www.html5rocks.com/zh/tutorials/file/xhr2/&lt;/a&gt;&lt;/p&gt;
+">http-XMLHttpRequest Level2</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-xmlhttprequest/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;XMLHttpRequest详解&lt;/p&gt;
+&lt;h2 id=&#34;ajax和xmlhttprequest&#34;&gt;&lt;code&gt;Ajax&lt;/code&gt;和&lt;code&gt;XMLHttpRequest&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;我们通常将&lt;code&gt;Ajax&lt;/code&gt;等同于&lt;code&gt;XMLHttpRequest&lt;/code&gt;，但细究起来它们两个是属于不同维度的2个概念。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;以下是我认为对&lt;code&gt;Ajax&lt;/code&gt;较为准确的解释：（摘自&lt;a href=&#34;https://link.segmentfault.com/?url=http%3A%2F%2Fwww.tutorialspoint.com%2Fajax%2Fwhat_is_ajax.htm&#34;&gt;what is Ajax&lt;/a&gt;）&lt;br&gt;
+AJAX stands for Asynchronous JavaScript and XML. AJAX is a new technique for creating better, faster, and more interactive web applications with the help of XML, HTML, CSS, and Java Script.&lt;/p&gt;
+&lt;p&gt;AJAX is based on the following open standards:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Browser-based presentation using HTML and Cascading Style Sheets (CSS).&lt;/li&gt;
+&lt;li&gt;Data is stored in XML format and fetched from the server.&lt;/li&gt;
+&lt;li&gt;Behind-the-scenes data fetches using XMLHttpRequest objects in the browser.&lt;/li&gt;
+&lt;li&gt;JavaScript to make everything happen.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;从上面的解释中可以知道：&lt;code&gt;ajax&lt;/code&gt;是一种技术方案，但并不是一种&lt;strong&gt;新技术&lt;/strong&gt;。它依赖的是现有的&lt;code&gt;CSS&lt;/code&gt;/&lt;code&gt;HTML&lt;/code&gt;/&lt;code&gt;Javascript&lt;/code&gt;，而其中最核心的依赖是浏览器提供的&lt;code&gt;XMLHttpRequest&lt;/code&gt;对象，是这个对象使得浏览器可以发出&lt;code&gt;HTTP&lt;/code&gt;请求与接收&lt;code&gt;HTTP&lt;/code&gt;响应。&lt;/p&gt;
+&lt;p&gt;所以我用一句话来总结两者的关系：我们使用&lt;code&gt;XMLHttpRequest&lt;/code&gt;对象来发送一个&lt;code&gt;Ajax&lt;/code&gt;请求。&lt;/p&gt;
+&lt;h2 id=&#34;xmlhttprequest的发展历程&#34;&gt;&lt;code&gt;XMLHttpRequest&lt;/code&gt;的发展历程&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;XMLHttpRequest&lt;/code&gt;一开始只是微软浏览器提供的一个接口，后来各大浏览器纷纷效仿也提供了这个接口，再后来W3C对它进行了标准化，提出了&lt;a href=&#34;https://link.segmentfault.com/?url=https%3A%2F%2Fwww.w3.org%2FTR%2FXMLHttpRequest%2F&#34;&gt;&lt;code&gt;XMLHttpRequest&lt;/code&gt;标准&lt;/a&gt;。&lt;code&gt;XMLHttpRequest&lt;/code&gt;标准又分为&lt;code&gt;Level 1&lt;/code&gt;和&lt;code&gt;Level 2&lt;/code&gt;。&lt;br&gt;
+&lt;code&gt;XMLHttpRequest Level 1&lt;/code&gt;主要存在以下缺点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;受同源策略的限制，不能发送跨域请求；&lt;/li&gt;
+&lt;li&gt;不能发送二进制文件（如图片、视频、音频等），只能发送纯文本数据；&lt;/li&gt;
+&lt;li&gt;在发送和获取数据的过程中，无法实时获取进度信息，只能判断是否完成；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;那么&lt;code&gt;Level 2&lt;/code&gt;对&lt;code&gt;Level 1&lt;/code&gt; 进行了改进，&lt;code&gt;XMLHttpRequest Level 2&lt;/code&gt;中新增了以下功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可以发送跨域请求，在服务端允许的情况下；&lt;/li&gt;
+&lt;li&gt;支持发送和接收二进制数据；&lt;/li&gt;
+&lt;li&gt;新增formData对象，支持发送表单数据；&lt;/li&gt;
+&lt;li&gt;发送和获取数据时，可以获取进度信息；&lt;/li&gt;
+&lt;li&gt;可以设置请求的超时时间；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;xmlhttprequest兼容性&#34;&gt;&lt;code&gt;XMLHttpRequest&lt;/code&gt;兼容性&lt;/h2&gt;
+&lt;p&gt;关于&lt;code&gt;xhr&lt;/code&gt;的浏览器兼容性，大家可以直接查看“Can I use”这个网站提供的结果&lt;a href=&#34;https://link.segmentfault.com/?url=http%3A%2F%2Fcaniuse.com%2F%23search%3DXMLHttpRequest&#34;&gt;XMLHttpRequest兼容性&lt;/a&gt;，下面提供一个截图。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1626360606163.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;从图中可以看到：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;IE8/IE9、Opera Mini 完全不支持&lt;code&gt;xhr&lt;/code&gt;对象&lt;/li&gt;
+&lt;li&gt;IE10/IE11部分支持，不支持 &lt;code&gt;xhr.responseType&lt;/code&gt;为&lt;code&gt;json&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;部分浏览器不支持设置请求超时，即无法使用&lt;code&gt;xhr.timeout&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;部分浏览器不支持&lt;code&gt;xhr.responseType&lt;/code&gt;为&lt;code&gt;blob&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;细说xmlhttprequest如何使用&#34;&gt;细说&lt;code&gt;XMLHttpRequest&lt;/code&gt;如何使用&lt;/h2&gt;
+&lt;p&gt;先来看一段使用&lt;code&gt;XMLHttpRequest&lt;/code&gt;发送&lt;code&gt;Ajax&lt;/code&gt;请求的简单示例代码。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function sendAjax() {
+  //构造表单数据
+  var formData = new FormData();
+  formData.append(&#39;username&#39;, &#39;johndoe&#39;);
+  formData.append(&#39;id&#39;, 123456);
+  //创建xhr对象 
+  var xhr = new XMLHttpRequest();
+  //设置xhr请求的超时时间
+  xhr.timeout = 3000;
+  //设置响应返回的数据格式
+  xhr.responseType = &amp;quot;text&amp;quot;;
+  //创建一个 post 请求，采用异步
+  xhr.open(&#39;POST&#39;, &#39;/server&#39;, true);
+  //注册相关事件回调处理函数
+  xhr.onload = function(e) { 
+    if(this.status == 200||this.status == 304){
+        alert(this.responseText);
+    }
+  };
+  xhr.ontimeout = function(e) { ... };
+  xhr.onerror = function(e) { ... };
+  xhr.upload.onprogress = function(e) { ... };
+  
+  //发送数据
+  xhr.send(formData);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面是一个使用&lt;code&gt;xhr&lt;/code&gt;发送表单数据的示例，整个流程可以参考注释。&lt;/p&gt;
+&lt;p&gt;接下来我将站在使用者的角度，以问题的形式介绍&lt;code&gt;xhr&lt;/code&gt;的基本使用。&lt;br&gt;
+我对每一个问题涉及到的知识点都会进行比较细致地介绍，有些知识点可能是你平时忽略关注的。&lt;/p&gt;
+&lt;h3 id=&#34;如何设置request-header&#34;&gt;如何设置request header&lt;/h3&gt;
+&lt;p&gt;在发送&lt;code&gt;Ajax&lt;/code&gt;请求（实质是一个&lt;a href=&#34;https://link.segmentfault.com/?url=http%3A%2F%2Fwww.tutorialspoint.com%2Fhttp%2Fhttp_header_fields.htm&#34;&gt;HTTP&lt;/a&gt;请求）时，我们可能需要设置一些请求头部信息，比如&lt;code&gt;content-type&lt;/code&gt;、&lt;code&gt;connection&lt;/code&gt;、&lt;code&gt;cookie&lt;/code&gt;、&lt;code&gt;accept-xxx&lt;/code&gt;等。&lt;code&gt;xhr&lt;/code&gt;提供了&lt;code&gt;setRequestHeader&lt;/code&gt;来允许我们修改请求 header。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;void setRequestHeader(DOMString header, DOMString value);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;方法的第一个参数 header 大小写不敏感，即可以写成&lt;code&gt;content-type&lt;/code&gt;，也可以写成&lt;code&gt;Content-Type&lt;/code&gt;，甚至写成&lt;code&gt;content-Type&lt;/code&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Content-Type&lt;/code&gt;的默认值与具体发送的数据类型有关，请参考本文【可以发送什么类型的数据】一节；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;setRequestHeader&lt;/code&gt;必须在&lt;code&gt;open()&lt;/code&gt;方法之后，&lt;code&gt;send()&lt;/code&gt;方法之前调用，否则会抛错；&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;setRequestHeader&lt;/code&gt;可以调用多次，最终的值不会采用覆盖&lt;code&gt;override&lt;/code&gt;的方式，而是采用追加&lt;code&gt;append&lt;/code&gt;的方式。下面是一个示例代码：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var client = new XMLHttpRequest();
+client.open(&#39;GET&#39;, &#39;demo.cgi&#39;);
+client.setRequestHeader(&#39;X-Test&#39;, &#39;one&#39;);
+client.setRequestHeader(&#39;X-Test&#39;, &#39;two&#39;);
+// 最终request header中&amp;quot;X-Test&amp;quot;为: one, two
+client.send();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;如何获取response-header&#34;&gt;如何获取response header&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;xhr&lt;/code&gt;提供了2个用来获取响应头部的方法：&lt;code&gt;getAllResponseHeaders&lt;/code&gt;和&lt;code&gt;getResponseHeader&lt;/code&gt;。前者是获取 response 中的所有header 字段，后者只是获取某个指定 header 字段的值。另外，&lt;code&gt;getResponseHeader(header)&lt;/code&gt;的&lt;code&gt;header&lt;/code&gt;参数不区分大小写。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;DOMString getAllResponseHeaders();`
+`DOMString getResponseHeader(DOMString header);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;这2个方法看起来简单，但却处处是坑儿。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;你是否遇到过下面的坑儿?——反正我是遇到了。。。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用&lt;code&gt;getAllResponseHeaders()&lt;/code&gt;看到的所有&lt;code&gt;response header&lt;/code&gt;与实际在控制台 &lt;code&gt;Network&lt;/code&gt; 中看到的 &lt;code&gt;response header&lt;/code&gt; 不一样&lt;/li&gt;
+&lt;li&gt;使用&lt;code&gt;getResponseHeader()&lt;/code&gt;获取某个 &lt;code&gt;header&lt;/code&gt; 的值时，浏览器抛错&lt;code&gt;Refused to get unsafe header &amp;quot;XXX&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;经过一番寻找最终在 &lt;a href=&#34;https://link.segmentfault.com/?url=http%3A%2F%2Fstackoverflow.com%2Fquestions%2F7462968%2Frestrictions-of-xmlhttprequests-getresponseheader&#34;&gt;Stack Overflow找到了答案&lt;/a&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;原因1：&lt;a href=&#34;https://link.segmentfault.com/?url=https%3A%2F%2Fwww.w3.org%2FTR%2FXMLHttpRequest%2F&#34;&gt;W3C的 xhr 标准中做了限制&lt;/a&gt;，规定客户端无法获取 response 中的 &lt;code&gt;Set-Cookie&lt;/code&gt;、&lt;code&gt;Set-Cookie2&lt;/code&gt;这2个字段，无论是同域还是跨域请求；&lt;/li&gt;
+&lt;li&gt;原因2：&lt;a href=&#34;https://link.segmentfault.com/?url=https%3A%2F%2Fwww.w3.org%2FTR%2Fcors%2F%23access-control-allow-credentials-response-header&#34;&gt;W3C 的 cors 标准对于跨域请求也做了限制&lt;/a&gt;，规定对于跨域请求，客户端允许获取的response header字段只限于“&lt;code&gt;simple response header&lt;/code&gt;”和“&lt;code&gt;Access-Control-Expose-Headers&lt;/code&gt;” （两个名词的解释见下方）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;quot;&lt;code&gt;simple response header&lt;/code&gt;&amp;quot;包括的 header 字段有：&lt;code&gt;Cache-Control&lt;/code&gt;,&lt;code&gt;Content-Language&lt;/code&gt;,&lt;code&gt;Content-Type&lt;/code&gt;,&lt;code&gt;Expires&lt;/code&gt;,&lt;code&gt;Last-Modified&lt;/code&gt;,&lt;code&gt;Pragma&lt;/code&gt;;&lt;br&gt;
+&amp;quot;&lt;code&gt;Access-Control-Expose-Headers&lt;/code&gt;&amp;quot;：首先得注意是&amp;quot;&lt;code&gt;Access-Control-Expose-Headers&lt;/code&gt;&amp;quot;进行&lt;strong&gt;跨域请求&lt;/strong&gt;时响应头部中的一个字段，对于同域请求，响应头部是没有这个字段的。这个字段中列举的 header 字段就是服务器允许暴露给客户端访问的字段。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;所以&lt;code&gt;getAllResponseHeaders()&lt;/code&gt;只能拿到*&lt;strong&gt;限制以外*&lt;/strong&gt;（即被视为&lt;code&gt;safe&lt;/code&gt;）的header字段，而不是全部字段；而调用&lt;code&gt;getResponseHeader(header)&lt;/code&gt;方法时，&lt;code&gt;header&lt;/code&gt;参数必须是***限制以外***的header字段，否则调用就会报&lt;code&gt;Refused to get unsafe header&lt;/code&gt;的错误。&lt;/p&gt;
+&lt;h3 id=&#34;如何指定xhrresponse的数据类型&#34;&gt;如何指定&lt;code&gt;xhr.response&lt;/code&gt;的数据类型&lt;/h3&gt;
+&lt;p&gt;有些时候我们希望&lt;code&gt;xhr.response&lt;/code&gt;返回的就是我们想要的数据类型。比如：响应返回的数据是纯JSON字符串，但我们期望最终通过&lt;code&gt;xhr.response&lt;/code&gt;拿到的直接就是一个 js 对象，我们该怎么实现呢？&lt;br&gt;
+有2种方法可以实现，一个是&lt;code&gt;level 1&lt;/code&gt;就提供的&lt;code&gt;overrideMimeType()&lt;/code&gt;方法，另一个是&lt;code&gt;level 2&lt;/code&gt;才提供的&lt;code&gt;xhr.responseType&lt;/code&gt;属性。&lt;/p&gt;
+&lt;h4 id=&#34;xhroverridemimetype&#34;&gt;&lt;code&gt;xhr.overrideMimeType()&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;overrideMimeType&lt;/code&gt;是&lt;code&gt;xhr level 1&lt;/code&gt;就有的方法，所以浏览器兼容性良好。这个方法的作用就是用来重写&lt;code&gt;response&lt;/code&gt;的&lt;code&gt;content-type&lt;/code&gt;，这样做有什么意义呢？比如：server 端给客户端返回了一份&lt;code&gt;document&lt;/code&gt;或者是 &lt;code&gt;xml&lt;/code&gt;文档，我们希望最终通过&lt;code&gt;xhr.response&lt;/code&gt;拿到的就是一个&lt;code&gt;DOM&lt;/code&gt;对象，那么就可以用&lt;code&gt;xhr.overrideMimeType(&#39;text/xml; charset = utf-8&#39;)&lt;/code&gt;来实现。&lt;/p&gt;
+&lt;p&gt;再举一个使用场景，我们都知道&lt;code&gt;xhr level 1&lt;/code&gt;不支持直接传输blob二进制数据，那如果真要传输 blob 该怎么办呢？当时就是利用&lt;code&gt;overrideMimeType&lt;/code&gt;方法来解决这个问题的。&lt;/p&gt;
+&lt;p&gt;下面是一个获取图片文件的代码示例：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var xhr = new XMLHttpRequest();
+//向 server 端获取一张图片
+xhr.open(&#39;GET&#39;, &#39;/path/to/image.png&#39;, true);
+
+// 这行是关键！
+//将响应数据按照纯文本格式来解析，字符集替换为用户自己定义的字符集
+xhr.overrideMimeType(&#39;text/plain; charset=x-user-defined&#39;);
+
+xhr.onreadystatechange = function(e) {
+  if (this.readyState == 4 &amp;amp;&amp;amp; this.status == 200) {
+    //通过 responseText 来获取图片文件对应的二进制字符串
+    var binStr = this.responseText;
+    //然后自己再想方法将逐个字节还原为二进制数据
+    for (var i = 0, len = binStr.length; i &amp;lt; len; ++i) {
+      var c = binStr.charCodeAt(i);
+      //String.fromCharCode(c &amp;amp; 0xff);
+      var byte = c &amp;amp; 0xff; 
+    }
+  }
+};
+
+xhr.send();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;代码示例中&lt;code&gt;xhr&lt;/code&gt;请求的是一张图片，通过将 &lt;code&gt;response&lt;/code&gt; 的 &lt;code&gt;content-type&lt;/code&gt; 改为&#39;text/plain; charset=x-user-defined&#39;，使得 &lt;code&gt;xhr&lt;/code&gt; 以纯文本格式来解析接收到的blob 数据，最终用户通过&lt;code&gt;this.responseText&lt;/code&gt;拿到的就是图片文件对应的二进制字符串，最后再将其转换为 blob 数据。&lt;/p&gt;
+&lt;h4 id=&#34;xhrresponsetype&#34;&gt;&lt;code&gt;xhr.responseType&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;responseType&lt;/code&gt;是&lt;code&gt;xhr level 2&lt;/code&gt;新增的属性，用来指定&lt;code&gt;xhr.response&lt;/code&gt;的数据类型，目前还存在些兼容性问题，可以参考本文的【&lt;code&gt;XMLHttpRequest&lt;/code&gt;的兼容性】这一小节。那么&lt;code&gt;responseType&lt;/code&gt;可以设置为哪些格式呢，我简单做了一个表，如下：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;值&lt;/th&gt;
+&lt;th&gt;&lt;code&gt;xhr.response&lt;/code&gt; 数据类型&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;字符串&lt;/td&gt;
+&lt;td&gt;默认值(在不设置&lt;code&gt;responseType&lt;/code&gt;时)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;text&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;String&lt;/code&gt;字符串&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;document&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Document&lt;/code&gt;对象&lt;/td&gt;
+&lt;td&gt;希望返回 &lt;code&gt;XML&lt;/code&gt; 格式数据时使用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;json&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;javascript&lt;/code&gt; 对象&lt;/td&gt;
+&lt;td&gt;存在兼容性问题，IE10/IE11不支持&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;blob&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;Blob&lt;/code&gt;对象&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;&amp;quot;arrayBuffer&amp;quot;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;ArrayBuffer&lt;/code&gt;对象&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;下面是同样是获取一张图片的代码示例，相比&lt;code&gt;xhr.overrideMimeType&lt;/code&gt;,用&lt;code&gt;xhr.response&lt;/code&gt;来实现简单得多。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var xhr = new XMLHttpRequest();
+xhr.open(&#39;GET&#39;, &#39;/path/to/image.png&#39;, true);
+//可以将`xhr.responseType`设置为`&amp;quot;blob&amp;quot;`也可以设置为`&amp;quot; arrayBuffer&amp;quot;`
+//xhr.responseType = &#39;arrayBuffer&#39;;
+xhr.responseType = &#39;blob&#39;;
+
+xhr.onload = function(e) {
+  if (this.status == 200) {
+    var blob = this.response;
+    ...
+  }
+};
+
+xhr.send();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;小结&#34;&gt;小结&lt;/h4&gt;
+&lt;p&gt;虽然在&lt;code&gt;xhr level 2&lt;/code&gt;中，2者是共同存在的。但其实不难发现，&lt;code&gt;xhr.responseType&lt;/code&gt;就是用来取代&lt;code&gt;xhr.overrideMimeType()&lt;/code&gt;的，&lt;code&gt;xhr.responseType&lt;/code&gt;功能强大的多，&lt;code&gt;xhr.overrideMimeType()&lt;/code&gt;能做到的&lt;code&gt;xhr.responseType&lt;/code&gt;都能做到。所以我们现在完全可以摒弃使用&lt;code&gt;xhr.overrideMimeType()&lt;/code&gt;了。&lt;/p&gt;
+&lt;h3 id=&#34;如何获取response数据&#34;&gt;如何获取response数据&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;xhr`提供了3个属性来获取请求返回的数据，分别是：`xhr.response`、`xhr.responseText`、`xhr.responseXML
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;xhr.response&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;默认值：空字符串&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;当请求完成时，此属性才有正确的值&lt;/li&gt;
+&lt;li&gt;请求未完成时，此属性的值可能是&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;或者 &lt;code&gt;null&lt;/code&gt;，具体与 &lt;code&gt;xhr.responseType&lt;/code&gt;有关：当&lt;code&gt;responseType&lt;/code&gt;为&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;或&lt;code&gt;&amp;quot;text&amp;quot;&lt;/code&gt;时，值为&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;；&lt;code&gt;responseType&lt;/code&gt;为其他值时，值为 &lt;code&gt;null&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xhr.responseText&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;默认值为空字符串&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;只有当 &lt;code&gt;responseType&lt;/code&gt; 为&lt;code&gt;&amp;quot;text&amp;quot;&lt;/code&gt;、&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;时，&lt;code&gt;xhr&lt;/code&gt;对象上才有此属性，此时才能调用&lt;code&gt;xhr.responseText&lt;/code&gt;，否则抛错&lt;/li&gt;
+&lt;li&gt;只有当请求成功时，才能拿到正确值。以下2种情况下值都为空字符串&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;：请求未完成、请求失败&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xhr.responseXML&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;默认值为 &lt;code&gt;null&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;只有当 &lt;code&gt;responseType&lt;/code&gt; 为&lt;code&gt;&amp;quot;text&amp;quot;&lt;/code&gt;、&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;、&lt;code&gt;&amp;quot;document&amp;quot;&lt;/code&gt;时，&lt;code&gt;xhr&lt;/code&gt;对象上才有此属性，此时才能调用&lt;code&gt;xhr.responseXML&lt;/code&gt;，否则抛错&lt;/li&gt;
+&lt;li&gt;只有当请求成功且返回数据被正确解析时，才能拿到正确值。以下3种情况下值都为&lt;code&gt;null&lt;/code&gt;：请求未完成、请求失败、请求成功但返回数据无法被正确解析时&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;如何追踪ajax请求的当前状态&#34;&gt;如何追踪&lt;code&gt;ajax&lt;/code&gt;请求的当前状态&lt;/h3&gt;
+&lt;p&gt;在发一个&lt;code&gt;ajax&lt;/code&gt;请求后，如果想追踪请求当前处于哪种状态，该怎么做呢？&lt;/p&gt;
+&lt;p&gt;用&lt;code&gt;xhr.readyState&lt;/code&gt;这个属性即可追踪到。这个属性是只读属性，总共有5种可能值，分别对应&lt;code&gt;xhr&lt;/code&gt;不同的不同阶段。每次&lt;code&gt;xhr.readyState&lt;/code&gt;的值发生变化时，都会触发&lt;code&gt;xhr.onreadystatechange&lt;/code&gt;事件，我们可以在这个事件中进行相关状态判断。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;  xhr.onreadystatechange = function () {
+    switch(xhr.readyState){
+      case 1://OPENED
+        //do something
+            break;
+      case 2://HEADERS_RECEIVED
+        //do something
+        break;
+      case 3://LOADING
+        //do something
+        break;
+      case 4://DONE
+        //do something
+        break;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;值&lt;/th&gt;
+&lt;th&gt;状态&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;0&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;UNSENT&lt;/code&gt; (初始状态，未打开)&lt;/td&gt;
+&lt;td&gt;此时&lt;code&gt;xhr&lt;/code&gt;对象被成功构造，&lt;code&gt;open()&lt;/code&gt;方法还未被调用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;OPENED&lt;/code&gt; (已打开，未发送)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;open()&lt;/code&gt;方法已被成功调用，&lt;code&gt;send()&lt;/code&gt;方法还未被调用。注意：只有&lt;code&gt;xhr&lt;/code&gt;处于&lt;code&gt;OPENED&lt;/code&gt;状态，才能调用&lt;code&gt;xhr.setRequestHeader()&lt;/code&gt;和&lt;code&gt;xhr.send()&lt;/code&gt;,否则会报错&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;2&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;HEADERS_RECEIVED&lt;/code&gt; (已获取响应头)&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;send()&lt;/code&gt;方法已经被调用, 响应头和响应状态已经返回&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;3&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;LOADING&lt;/code&gt; (正在下载响应体)&lt;/td&gt;
+&lt;td&gt;响应体(&lt;code&gt;response entity body&lt;/code&gt;)正在下载中，此状态下通过&lt;code&gt;xhr.response&lt;/code&gt;可能已经有了响应数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;4&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;DONE&lt;/code&gt; (整个数据传输过程结束)&lt;/td&gt;
+&lt;td&gt;整个数据传输过程结束，不管本次请求是成功还是失败&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;如何设置请求的超时时间&#34;&gt;如何设置请求的超时时间&lt;/h3&gt;
+&lt;p&gt;如果请求过了很久还没有成功，为了不会白白占用的网络资源，我们一般会主动终止请求。&lt;code&gt;XMLHttpRequest&lt;/code&gt;提供了&lt;code&gt;timeout&lt;/code&gt;属性来允许设置请求的超时时间。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;xhr.timeout
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;单位：milliseconds 毫秒&lt;br&gt;
+默认值：&lt;code&gt;0&lt;/code&gt;，即不设置超时&lt;/p&gt;
+&lt;p&gt;很多同学都知道：从*&lt;strong&gt;请求开始*&lt;/strong&gt; 算起，若超过 &lt;code&gt;timeout&lt;/code&gt; 时间请求还没有结束（包括成功/失败），则会触发ontimeout事件，主动结束该请求。&lt;/p&gt;
+&lt;p&gt;【那么到底什么时候才算是*&lt;strong&gt;请求开始*&lt;/strong&gt; ？】&lt;br&gt;
+——&lt;code&gt;xhr.onloadstart&lt;/code&gt;事件触发的时候，也就是你调用&lt;code&gt;xhr.send()&lt;/code&gt;方法的时候。&lt;br&gt;
+因为&lt;code&gt;xhr.open()&lt;/code&gt;只是创建了一个连接，但并没有真正开始数据的传输，而&lt;code&gt;xhr.send()&lt;/code&gt;才是真正开始了数据的传输过程。只有调用了&lt;code&gt;xhr.send()&lt;/code&gt;，才会触发&lt;code&gt;xhr.onloadstart&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;【那么什么时候才算是*&lt;strong&gt;请求结束*&lt;/strong&gt; ？】&lt;br&gt;
+—— &lt;code&gt;xhr.loadend&lt;/code&gt;事件触发的时候。&lt;/p&gt;
+&lt;p&gt;另外，还有2个需要注意的坑儿：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可以在 &lt;code&gt;send()&lt;/code&gt;之后再设置此&lt;code&gt;xhr.timeout&lt;/code&gt;，但计时起始点仍为调用&lt;code&gt;xhr.send()&lt;/code&gt;方法的时刻。&lt;/li&gt;
+&lt;li&gt;当&lt;code&gt;xhr&lt;/code&gt;为一个&lt;code&gt;sync&lt;/code&gt;同步请求时，&lt;code&gt;xhr.timeout&lt;/code&gt;必须置为&lt;code&gt;0&lt;/code&gt;，否则会抛错。原因可以参考本文的【如何发一个同步请求】一节。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;如何发一个同步请求&#34;&gt;如何发一个同步请求&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;xhr&lt;/code&gt;默认发的是异步请求，但也支持发同步请求（当然实际开发中应该尽量避免使用）。到底是异步还是同步请求，由&lt;code&gt;xhr.open（）&lt;/code&gt;传入的&lt;code&gt;async&lt;/code&gt;参数决定。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;open(method, url [, async = true [, username = null [, password = null]]])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;method&lt;/code&gt;: 请求的方式，如&lt;code&gt;GET/POST/HEADER&lt;/code&gt;等，这个参数不区分大小写&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;url&lt;/code&gt;: 请求的地址，可以是相对地址如&lt;code&gt;example.php&lt;/code&gt;，这个&lt;strong&gt;相对&lt;/strong&gt;是相对于当前网页的&lt;code&gt;url&lt;/code&gt;路径；也可以是绝对地址如&lt;code&gt;http://www.example.com/example.php&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;async&lt;/code&gt;: 默认值为&lt;code&gt;true&lt;/code&gt;，即为异步请求，若&lt;code&gt;async=false&lt;/code&gt;，则为同步请求&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在我认真研读W3C 的 xhr 标准前，我总以为同步请求和异步请求只是阻塞和非阻塞的区别，其他什么事件触发、参数设置应该是一样的，事实证明我错了。&lt;/p&gt;
+&lt;p&gt;W3C 的 xhr标准中关于&lt;code&gt;open()&lt;/code&gt;方法有这样一段说明：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Throws an &amp;quot;InvalidAccessError&amp;quot; exception if async is false, the JavaScript global environment is a document environment, and either the timeout attribute is not zero, the withCredentials attribute is true, or the responseType attribute is not the empty string.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;从上面一段说明可以知道，当&lt;code&gt;xhr&lt;/code&gt;为同步请求时，有如下限制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;xhr.timeout&lt;/code&gt;必须为&lt;code&gt;0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xhr.withCredentials&lt;/code&gt;必须为 &lt;code&gt;false&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xhr.responseType&lt;/code&gt;必须为&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;（注意置为&lt;code&gt;&amp;quot;text&amp;quot;&lt;/code&gt;也不允许）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;若上面任何一个限制不满足，都会抛错，而对于异步请求，则没有这些参数设置上的限制。&lt;/p&gt;
+&lt;p&gt;之前说过页面中应该尽量避免使用&lt;code&gt;sync&lt;/code&gt;同步请求，为什么呢？&lt;br&gt;
+因为我们无法设置请求超时时间（&lt;code&gt;xhr.timeout&lt;/code&gt;为&lt;code&gt;0&lt;/code&gt;，即不限时）。在不限制超时的情况下，有可能同步请求一直处于&lt;code&gt;pending&lt;/code&gt;状态，服务端迟迟不返回响应，这样整个页面就会一直阻塞，无法响应用户的其他交互。&lt;/p&gt;
+&lt;p&gt;另外，标准中并没有提及同步请求时事件触发的限制，但实际开发中我确实遇到过部分应该触发的事件并没有触发的现象。如在 chrome中，当&lt;code&gt;xhr&lt;/code&gt;为同步请求时，在&lt;code&gt;xhr.readyState&lt;/code&gt;由&lt;code&gt;2&lt;/code&gt;变成&lt;code&gt;3&lt;/code&gt;时，并不会触发 &lt;code&gt;onreadystatechange&lt;/code&gt;事件，&lt;code&gt;xhr.upload.onprogress&lt;/code&gt;和 &lt;code&gt;xhr.onprogress&lt;/code&gt;事件也不会触发。&lt;/p&gt;
+&lt;h3 id=&#34;如何获取上传-下载的进度&#34;&gt;如何获取上传、下载的进度&lt;/h3&gt;
+&lt;p&gt;在上传或者下载比较大的文件时，实时显示当前的上传、下载进度是很普遍的产品需求。&lt;br&gt;
+我们可以通过&lt;code&gt;onprogress&lt;/code&gt;事件来实时显示进度，默认情况下这个事件每50ms触发一次。需要注意的是，上传过程和下载过程触发的是不同对象的&lt;code&gt;onprogress&lt;/code&gt;事件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;上传触发的是&lt;code&gt;xhr.upload&lt;/code&gt;对象的 &lt;code&gt;onprogress&lt;/code&gt;事件&lt;/li&gt;
+&lt;li&gt;下载触发的是&lt;code&gt;xhr&lt;/code&gt;对象的&lt;code&gt;onprogress&lt;/code&gt;事件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;xhr.onprogress = updateProgress;
+xhr.upload.onprogress = updateProgress;
+function updateProgress(event) {
+    if (event.lengthComputable) {
+      var completedPercent = event.loaded / event.total;
+    }
+ }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;可以发送什么类型的数据&#34;&gt;可以发送什么类型的数据&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;void send(data);&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;xhr.send(data)&lt;/code&gt;的参数data可以是以下几种类型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ArrayBuffer&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Blob&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Document&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;DOMString&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FormData&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;null&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果是 GET/HEAD请求，&lt;code&gt;send()&lt;/code&gt;方法一般不传参或传 &lt;code&gt;null&lt;/code&gt;。不过即使你真传入了参数，参数也最终被忽略，&lt;code&gt;xhr.send(data)&lt;/code&gt;中的data会被置为 &lt;code&gt;null&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;xhr.send(data)&lt;/code&gt;中data参数的数据类型会影响请求头部&lt;code&gt;content-type&lt;/code&gt;的默认值：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果&lt;code&gt;data&lt;/code&gt;是 &lt;code&gt;Document&lt;/code&gt; 类型，同时也是&lt;code&gt;HTML Document&lt;/code&gt;类型，则&lt;code&gt;content-type&lt;/code&gt;默认值为&lt;code&gt;text/html;charset=UTF-8&lt;/code&gt;;否则为&lt;code&gt;application/xml;charset=UTF-8&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;如果&lt;code&gt;data&lt;/code&gt;是 &lt;code&gt;DOMString&lt;/code&gt; 类型，&lt;code&gt;content-type&lt;/code&gt;默认值为&lt;code&gt;text/plain;charset=UTF-8&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;如果&lt;code&gt;data&lt;/code&gt;是 &lt;code&gt;FormData&lt;/code&gt; 类型，&lt;code&gt;content-type&lt;/code&gt;默认值为&lt;code&gt;multipart/form-data; boundary=[xxx]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;如果&lt;code&gt;data&lt;/code&gt;是其他类型，则不会设置&lt;code&gt;content-type&lt;/code&gt;的默认值&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当然这些只是&lt;code&gt;content-type&lt;/code&gt;的默认值，但如果用&lt;code&gt;xhr.setRequestHeader()&lt;/code&gt;手动设置了中&lt;code&gt;content-type&lt;/code&gt;的值，以上默认值就会被覆盖。&lt;/p&gt;
+&lt;p&gt;另外需要注意的是，若在断网状态下调用&lt;code&gt;xhr.send(data)&lt;/code&gt;方法，则会抛错：&lt;code&gt;Uncaught NetworkError: Failed to execute &#39;send&#39; on &#39;XMLHttpRequest&#39;&lt;/code&gt;。一旦程序抛出错误，如果不 catch 就无法继续执行后面的代码，所以调用 &lt;code&gt;xhr.send(data)&lt;/code&gt;方法时，应该用 &lt;code&gt;try-catch&lt;/code&gt;捕捉错误。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;try{
+    xhr.send(data)
+  }catch(e) {
+    //doSomething...
+  };
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;xhrwithcredentials与-cors-什么关系&#34;&gt;&lt;code&gt;xhr.withCredentials&lt;/code&gt;与 &lt;code&gt;CORS&lt;/code&gt; 什么关系&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我们都知道，在发同域请求时，浏览器会将&lt;code&gt;cookie&lt;/code&gt;自动加在&lt;code&gt;request header&lt;/code&gt;中。但大家是否遇到过这样的场景：在发送跨域请求时，&lt;code&gt;cookie&lt;/code&gt;并没有自动加在&lt;code&gt;request header&lt;/code&gt;中。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;造成这个问题的原因是：在&lt;code&gt;CORS&lt;/code&gt;标准中做了规定，默认情况下，浏览器在发送跨域请求时，不能发送任何认证信息（&lt;code&gt;credentials&lt;/code&gt;）如&amp;quot;&lt;code&gt;cookies&lt;/code&gt;&amp;quot;和&amp;quot;&lt;code&gt;HTTP authentication schemes&lt;/code&gt;&amp;quot;。除非&lt;code&gt;xhr.withCredentials&lt;/code&gt;为&lt;code&gt;true&lt;/code&gt;（&lt;code&gt;xhr&lt;/code&gt;对象有一个属性叫&lt;code&gt;withCredentials&lt;/code&gt;，默认值为&lt;code&gt;false&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;所以根本原因是&lt;code&gt;cookies&lt;/code&gt;也是一种认证信息，在跨域请求中，&lt;code&gt;client&lt;/code&gt;端必须手动设置&lt;code&gt;xhr.withCredentials=true&lt;/code&gt;，且&lt;code&gt;server&lt;/code&gt;端也必须允许&lt;code&gt;request&lt;/code&gt;能携带认证信息（即&lt;code&gt;response header&lt;/code&gt;中包含&lt;code&gt;Access-Control-Allow-Credentials:true&lt;/code&gt;），这样浏览器才会自动将&lt;code&gt;cookie&lt;/code&gt;加在&lt;code&gt;request header&lt;/code&gt;中。&lt;/p&gt;
+&lt;p&gt;另外，要特别注意一点，一旦跨域&lt;code&gt;request&lt;/code&gt;能够携带认证信息，&lt;code&gt;server&lt;/code&gt;端一定不能将&lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt;设置为&lt;code&gt;*&lt;/code&gt;，而必须设置为请求页面的域名。&lt;/p&gt;
+&lt;h2 id=&#34;xhr相关事件&#34;&gt;&lt;code&gt;xhr&lt;/code&gt;相关事件&lt;/h2&gt;
+&lt;h3 id=&#34;事件分类&#34;&gt;事件分类&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;xhr&lt;/code&gt;相关事件有很多，有时记起来还挺容易混乱。但当我了解了具体代码实现后，就容易理清楚了。下面是&lt;code&gt;XMLHttpRequest&lt;/code&gt;的部分实现代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;interface XMLHttpRequestEventTarget : EventTarget {
+  // event handlers
+  attribute EventHandler onloadstart;
+  attribute EventHandler onprogress;
+  attribute EventHandler onabort;
+  attribute EventHandler onerror;
+  attribute EventHandler onload;
+  attribute EventHandler ontimeout;
+  attribute EventHandler onloadend;
+};
+
+interface XMLHttpRequestUpload : XMLHttpRequestEventTarget {
+
+};
+
+interface XMLHttpRequest : XMLHttpRequestEventTarget {
+  // event handler
+  attribute EventHandler onreadystatechange;
+  readonly attribute XMLHttpRequestUpload upload;
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从代码中我们可以看出：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;XMLHttpRequestEventTarget&lt;/code&gt;接口定义了7个事件：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;onloadstart&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;onprogress&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;onabort&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ontimeout&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;onerror&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;onload&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;onloadend&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;每一个&lt;code&gt;XMLHttpRequest&lt;/code&gt;里面都有一个&lt;code&gt;upload&lt;/code&gt;属性，而&lt;code&gt;upload&lt;/code&gt;是一个&lt;code&gt;XMLHttpRequestUpload&lt;/code&gt;对象&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;XMLHttpRequest&lt;/code&gt;和&lt;code&gt;XMLHttpRequestUpload&lt;/code&gt;都继承了同一个&lt;code&gt;XMLHttpRequestEventTarget&lt;/code&gt;接口，所以&lt;code&gt;xhr&lt;/code&gt;和&lt;code&gt;xhr.upload&lt;/code&gt;都有第一条列举的7个事件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;onreadystatechange&lt;/code&gt;是&lt;code&gt;XMLHttpRequest&lt;/code&gt;独有的事件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;所以这么一看就很清晰了：&lt;br&gt;
+&lt;code&gt;xhr&lt;/code&gt;一共有8个相关事件：7个&lt;code&gt;XMLHttpRequestEventTarget&lt;/code&gt;事件+1个独有的&lt;code&gt;onreadystatechange&lt;/code&gt;事件；而&lt;code&gt;xhr.upload&lt;/code&gt;只有7个&lt;code&gt;XMLHttpRequestEventTarget&lt;/code&gt;事件。&lt;/p&gt;
+&lt;h3 id=&#34;事件触发条件&#34;&gt;事件触发条件&lt;/h3&gt;
+&lt;p&gt;下面是我自己整理的一张&lt;code&gt;xhr&lt;/code&gt;相关事件触发条件表，其中最需要注意的是 &lt;code&gt;onerror&lt;/code&gt; 事件的触发条件。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;事件&lt;/th&gt;
+&lt;th&gt;触发条件&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;onreadystatechange&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;每当&lt;code&gt;xhr.readyState&lt;/code&gt;改变时触发；但&lt;code&gt;xhr.readyState&lt;/code&gt;由非&lt;code&gt;0&lt;/code&gt;值变为&lt;code&gt;0&lt;/code&gt;时不触发。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;onloadstart&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;调用&lt;code&gt;xhr.send()&lt;/code&gt;方法后立即触发，若&lt;code&gt;xhr.send()&lt;/code&gt;未被调用则不会触发此事件。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;onprogress&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;xhr.upload.onprogress&lt;/code&gt;在上传阶段(即&lt;code&gt;xhr.send()&lt;/code&gt;之后，&lt;code&gt;xhr.readystate=2&lt;/code&gt;之前)触发，每50ms触发一次；&lt;code&gt;xhr.onprogress&lt;/code&gt;在下载阶段（即&lt;code&gt;xhr.readystate=3&lt;/code&gt;时）触发，每50ms触发一次。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;onload&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;当请求成功完成时触发，此时&lt;code&gt;xhr.readystate=4&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;onloadend&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;当请求结束（包括请求成功和请求失败）时触发&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;onabort&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;当调用&lt;code&gt;xhr.abort()&lt;/code&gt;后触发&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;ontimeout&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;&lt;code&gt;xhr.timeout&lt;/code&gt;不等于0，由请求开始即&lt;code&gt;onloadstart&lt;/code&gt;开始算起，当到达&lt;code&gt;xhr.timeout&lt;/code&gt;所设置时间请求还未结束即&lt;code&gt;onloadend&lt;/code&gt;，则触发此事件。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;onerror&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;在请求过程中，若发生&lt;code&gt;Network error&lt;/code&gt;则会触发此事件（若发生&lt;code&gt;Network error&lt;/code&gt;时，上传还没有结束，则会先触发&lt;code&gt;xhr.upload.onerror&lt;/code&gt;，再触发&lt;code&gt;xhr.onerror&lt;/code&gt;；若发生&lt;code&gt;Network error&lt;/code&gt;时，上传已经结束，则只会触发&lt;code&gt;xhr.onerror&lt;/code&gt;）。&lt;strong&gt;注意&lt;/strong&gt;，只有发生了网络层级别的异常才会触发此事件，对于应用层级别的异常，如响应返回的&lt;code&gt;xhr.statusCode&lt;/code&gt;是&lt;code&gt;4xx&lt;/code&gt;时，并不属于&lt;code&gt;Network error&lt;/code&gt;，所以不会触发&lt;code&gt;onerror&lt;/code&gt;事件，而是会触发&lt;code&gt;onload&lt;/code&gt;事件。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;事件触发顺序&#34;&gt;事件触发顺序&lt;/h3&gt;
+&lt;p&gt;当请求一切正常时，相关的事件触发顺序如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.onreadystatechange&lt;/code&gt;(之后每次&lt;code&gt;readyState&lt;/code&gt;变化时，都会触发一次)&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.onloadstart&lt;/code&gt;&lt;br&gt;
+//上传阶段开始：&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.upload.onloadstart&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.upload.onprogress&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.upload.onload&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.upload.onloadend&lt;/code&gt;&lt;br&gt;
+//上传结束，下载阶段开始：&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.onprogress&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.onload&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.onloadend&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;发生aborttimeouterror异常的处理&#34;&gt;发生&lt;code&gt;abort&lt;/code&gt;/&lt;code&gt;timeout&lt;/code&gt;/&lt;code&gt;error&lt;/code&gt;异常的处理&lt;/h4&gt;
+&lt;p&gt;在请求的过程中，有可能发生 &lt;code&gt;abort&lt;/code&gt;/&lt;code&gt;timeout&lt;/code&gt;/&lt;code&gt;error&lt;/code&gt;这3种异常。那么一旦发生这些异常，&lt;code&gt;xhr&lt;/code&gt;后续会进行哪些处理呢？后续处理如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;一旦发生&lt;code&gt;abort&lt;/code&gt;或&lt;code&gt;timeout&lt;/code&gt;或&lt;code&gt;error&lt;/code&gt;异常，先立即中止当前请求&lt;/li&gt;
+&lt;li&gt;将 &lt;code&gt;readystate&lt;/code&gt; 置为&lt;code&gt;4&lt;/code&gt;，并触发 &lt;code&gt;xhr.onreadystatechange&lt;/code&gt;事件&lt;/li&gt;
+&lt;li&gt;如果上传阶段还没有结束，则依次触发以下事件：
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;xhr.upload.onprogress&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xhr.upload.[onabort或ontimeout或onerror]&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;xhr.upload.onloadend&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;触发 &lt;code&gt;xhr.onprogress&lt;/code&gt;事件&lt;/li&gt;
+&lt;li&gt;触发 &lt;code&gt;xhr.[onabort或ontimeout或onerror]&lt;/code&gt;事件&lt;/li&gt;
+&lt;li&gt;触发&lt;code&gt;xhr.onloadend&lt;/code&gt; 事件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;在哪个xhr事件中注册成功回调&#34;&gt;在哪个&lt;code&gt;xhr&lt;/code&gt;事件中注册成功回调？&lt;/h4&gt;
+&lt;p&gt;从上面介绍的事件中，可以知道若&lt;code&gt;xhr&lt;/code&gt;请求成功，就会触发&lt;code&gt;xhr.onreadystatechange&lt;/code&gt;和&lt;code&gt;xhr.onload&lt;/code&gt;两个事件。 那么我们到底要将成功回调注册在哪个事件中呢？我倾向于 &lt;code&gt;xhr.onload&lt;/code&gt;事件，因为&lt;code&gt;xhr.onreadystatechange&lt;/code&gt;是每次&lt;code&gt;xhr.readyState&lt;/code&gt;变化时都会触发，而不是&lt;code&gt;xhr.readyState=4&lt;/code&gt;时才触发。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;xhr.onload = function () {
+    //如果请求成功
+    if(xhr.status == 200){
+      //do successCallback
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面的示例代码是很常见的写法：先判断&lt;code&gt;http&lt;/code&gt;状态码是否是&lt;code&gt;200&lt;/code&gt;，如果是，则认为请求是成功的，接着执行成功回调。这样的判断是有坑儿的，比如当返回的&lt;code&gt;http&lt;/code&gt;状态码不是&lt;code&gt;200&lt;/code&gt;，而是&lt;code&gt;201&lt;/code&gt;时，请求虽然也是成功的，但并没有执行成功回调逻辑。所以更靠谱的判断方法应该是：当&lt;code&gt;http&lt;/code&gt;状态码为&lt;code&gt;2xx&lt;/code&gt;或&lt;code&gt;304&lt;/code&gt;时才认为成功。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;  xhr.onload = function () {
+    //如果请求成功
+    if((xhr.status &amp;gt;= 200 &amp;amp;&amp;amp; xhr.status &amp;lt; 300) || xhr.status == 304){
+      //do successCallback
+    }
+  }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;参考资料&#34;&gt;参考资料&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.w3.org/TR/XMLHttpRequest/&#34;&gt;w3&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest&#34;&gt;MDN&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;h3 id=&#34;ruoyiqing&#34;&gt;ruoyiqing&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://segmentfault.com/a/1190000004322487&#34;&gt;https://segmentfault.com/a/1190000004322487&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+">http-XMLHttpRequest</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/github-lian-jie-cuo-wu-connection-reset-by-1322918859-port-22-ssh/"" data-c="
+          &lt;h1 id=&#34;github-连接错误connection-reset-by-1322918859-port-22-ssh&#34;&gt;github-连接错误Connection reset by 13.229.188.59 port 22 ssh&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;当你想连接GitHub提交时，发现无法提交，报错如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Connection reset by 13.229.188.59 port 22 ssh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解决&#34;&gt;解决&lt;/h2&gt;
+&lt;p&gt;在Windows防火墙中设置22端口&lt;/p&gt;
+&lt;p&gt;1、控制面板-系统和安全-Windows Defender防火墙-高级设置&lt;/p&gt;
+&lt;p&gt;2、选择&lt;strong&gt;入站规则&lt;/strong&gt;-&lt;strong&gt;新建规则&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;3、选择&lt;strong&gt;端口&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;4、特定本地端口：输入&lt;strong&gt;22&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;5、选择&lt;strong&gt;允许连接&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;6、输入&lt;strong&gt;名称&lt;/strong&gt;和&lt;strong&gt;描述&lt;/strong&gt;，自定义，也可如下&lt;/p&gt;
+&lt;p&gt;名称：22in&lt;/p&gt;
+&lt;p&gt;描述：Connection reset by 13.229.188.59 port 22 ssh&lt;/p&gt;
+&lt;h2 id=&#34;其他方法&#34;&gt;其他方法&lt;/h2&gt;
+&lt;p&gt;更改防火墙禁掉的22端口，ssh本来使用的22，可以在https端口使用ssh&lt;/p&gt;
+&lt;p&gt;1、要测试通过 HTTPS 端口的 SSH 是否可行，请运行以下 SSH 命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ ssh -T -p 443 git@ssh.github.com
+&amp;gt; Hi username! You&#39;ve successfully authenticated, but GitHub does not
+&amp;gt; provide shell access.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果这样有效，万事大吉！&lt;/p&gt;
+&lt;p&gt;2、如果您能在端口 443 上通过 SSH 连接到 &lt;code&gt;git@ssh.github.com&lt;/code&gt;，则可以覆盖您的 SSH 设置以强制与 GitHub 的任何连接均通过该服务器和端口运行。&lt;/p&gt;
+&lt;p&gt;要在您的 ssh 配置中设置此项，编辑位于 &lt;code&gt;~/.ssh/config&lt;/code&gt; 的文件，添加以下部分：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Host github.com
+  Hostname ssh.github.com
+  Port 443
+  User git
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;您可以通过再次连接到 GitHub 测试此项是否有效：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ ssh -T git@github.com
+&amp;gt; Hi username! You&#39;ve successfully authenticated, but GitHub does not
+&amp;gt; provide shell access.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;文档&#34;&gt;文档&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.github.com/cn/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port&#34;&gt;https://docs.github.com/cn/github/authenticating-to-github/troubleshooting-ssh/using-ssh-over-the-https-port&lt;/a&gt;&lt;/p&gt;
+">github-连接错误Connection reset by 13.229.188.59 port 22 ssh</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-kua-yu-cors/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;CORS是一个W3C标准，全称是&amp;quot;跨域资源共享&amp;quot;（Cross-origin resource sharing）。&lt;/p&gt;
@@ -1261,6 +2038,10 @@ Content-Type: text/html; charset=utf-8
 &lt;p&gt;阮一峰&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.ruanyifeng.com/blog/2016/04/cors.html&#34;&gt;https://www.ruanyifeng.com/blog/2016/04/cors.html&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS&#34;&gt;MDN-CORS&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844904126246027278&#34;&gt;10种跨域解决方案&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://segmentfault.com/a/1190000011145364&#34;&gt;前端常见跨域解决方案&lt;/a&gt;&lt;/p&gt;
 ">http-跨域CORS</a>
       </div>
       
@@ -4516,6 +5297,48 @@ git rebase c2
 &lt;p&gt;未跟踪(即新增的)文件不在此参数范围内&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add -p
 &lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;详解&#34;&gt;详解&lt;/h2&gt;
+&lt;p&gt;交互模式可以挑选一部分改动进行提交&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;交互地在索引和工作树之间选择补丁块并将它们添加到索引中。&lt;br&gt;
+这让用户有机会在将修改后的内容添加到索引之前查看差异。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;输入 &lt;code&gt;git add -p&lt;/code&gt; 进入 &lt;code&gt;patch mode&lt;/code&gt; , 此时 &lt;code&gt;git&lt;/code&gt; 会自动将改动切分成多个片段，并展示第一个片段，提示你进行选择。&lt;/p&gt;
+&lt;p&gt;提示语句是 &lt;code&gt;Stage this hunk [y,n,q,a,d,/,s,e,?]?&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;这些字母都是什么意思呢? 输入&lt;code&gt;?&lt;/code&gt;回车，可以查看详细的帮助信息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;y - stage this hunk&lt;br&gt;
+n - do not stage this hunk&lt;br&gt;
+q - quit; do not stage this hunk or any of the remaining ones&lt;br&gt;
+a - stage this hunk and all later hunks in the file&lt;br&gt;
+d - do not stage this hunk or any of the later hunks in the file&lt;br&gt;
+g - select a hunk to go to&lt;br&gt;
+/ - search for a hunk matching the given regex&lt;br&gt;
+j - leave this hunk undecided, see next undecided hunk&lt;br&gt;
+J - leave this hunk undecided, see next hunk&lt;br&gt;
+k - leave this hunk undecided, see previous undecided hunk&lt;br&gt;
+K - leave this hunk undecided, see previous hunk&lt;br&gt;
+s - split the current hunk into smaller hunks&lt;br&gt;
+e - manually edit the current hunk&lt;br&gt;
+? - print help&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;y - 暂存此区块&lt;br&gt;
+n - 不暂存此区块&lt;br&gt;
+q - 退出；不暂存包括此块在内的剩余的区块&lt;br&gt;
+a - 暂存此块与此文件后面所有的区块&lt;br&gt;
+d - 不暂存此块与此文件后面所有的 区块&lt;br&gt;
+g - 选择并跳转至一个区块&lt;br&gt;
+/ - 搜索与给定正则表达式匹配的区块&lt;br&gt;
+j - 暂不决定，转至下一个未决定的区块&lt;br&gt;
+J - 暂不决定，转至一个区块&lt;br&gt;
+k - 暂不决定，转至上一个未决定的区块&lt;br&gt;
+K - 暂不决定，转至上一个区块&lt;br&gt;
+s - 将当前的区块分割成多个较小的区块&lt;br&gt;
+e - 手动编辑当前的区块&lt;br&gt;
+? - 输出帮助&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如果你想分开提交的话，行 &lt;code&gt;s&lt;/code&gt; 分割，然后使用y或者n来选择是否提交，交替循环。&lt;/p&gt;
 ">git-add</a>
       </div>
       
@@ -4700,12 +5523,18 @@ git branch -u origin/main foo
 &lt;p&gt;6、&lt;a href=&#34;https://marklodato.github.io/visual-git-guide/index-zh-cn.html&#34;&gt;图解git&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;7、&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/896043488029600&#34;&gt;廖雪峰&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;8、&lt;a href=&#34;http://www.worldhello.net/gotgit/&#34;&gt;蒋鑫-git权威指南&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;http://www.worldhello.net/gotgithub/&#34;&gt;蒋鑫-gotgithub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​      &lt;a href=&#34;http://www.worldhello.net/gotgithub/&#34;&gt;蒋鑫-gotgithub&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;9、&lt;a href=&#34;https://www.jianshu.com/nb/49854893&#34;&gt;简书某作者&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;10、&lt;a href=&#34;https://git-scm.com/book/zh/v2&#34;&gt;git文档&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;11、&lt;a href=&#34;https://docs.github.com/en&#34;&gt;github文档&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;http&#34;&gt;HTTP&lt;/h2&gt;
 &lt;p&gt;1、&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/HTTP&#34;&gt;MDN-HTTP&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://juejin.cn/post/6844903844216832007&#34;&gt;图解HTTP整理-前端基础篇之HTTP协议&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3、&lt;a href=&#34;https://juejin.cn/post/6844903586703343624&#34;&gt;图解HTTP整理-来一场轰轰烈烈的HTTP协议扫盲革命&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4、&lt;a href=&#34;https://www.runoob.com/http/http-tutorial.html&#34;&gt;菜鸟教程-HTTP&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​      &lt;a href=&#34;https://www.runoob.com/ajax/ajax-tutorial.html&#34;&gt;菜鸟教程-AJAX&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5、&lt;a href=&#34;https://www.tutorialspoint.com/http/http_header_fields.htm&#34;&gt;http-tutorial&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​      &lt;a href=&#34;https://www.tutorialspoint.com/ajax/index.htm&#34;&gt;ajax-tutorial&lt;/a&gt;&lt;/p&gt;
 ">前端教程导航</a>
       </div>
       
