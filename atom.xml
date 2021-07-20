@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-16T11:59:25.231Z</updated>
+    <updated>2021-07-20T00:29:12.564Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
@@ -10,7 +10,565 @@
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
     <entry>
-        <title type="html"><![CDATA[electron增量更新]]></title>
+        <title type="html"><![CDATA[http-通用首部字段Cache-Control]]></title>
+        <id>https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/</id>
+        <link href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/">
+        </link>
+        <updated>2021-07-19T15:35:46.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="http-通用首部字段cache-control">http-通用首部字段Cache-Control</h1>
+<h2 id="概述">概述</h2>
+<p>通过指定首部字段 Cache-Control 的指令，就能操作缓存的工作机制。</p>
+<h2 id="书写格式">书写格式</h2>
+<p>指令的参数是可选的，多个指令之间通过“,”分隔。首部字段 CacheControl 的指令可用于请求及响应时。</p>
+<pre><code>Cache-Control: private, max-age=0, no-cache
+</code></pre>
+<h2 id="分类">分类</h2>
+<h3 id="缓存请求指令">缓存请求指令</h3>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>no-cache</td>
+<td>无</td>
+<td>不使用缓存，缓存服务器必须把客户端请求转发给源服务器，在与源服务器进行新鲜度再验证之前，不能提供给客户端使用。</td>
+</tr>
+<tr>
+<td>no-store</td>
+<td>无</td>
+<td>真正的不使用缓存，任何地方都不缓存请求或响应的任何内容。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>max-age=60</td>
+<td>必需</td>
+<td>资源可缓存最大时间(相对时间：秒)，即过期时间、保质期。</td>
+</tr>
+<tr>
+<td>max-stale=60</td>
+<td>可省略</td>
+<td>缓存资源，只要仍处于 max-stale指定的时间(秒)内，即使过期也照常接收。缓存总时长为max-age和max-stale叠加。</td>
+</tr>
+<tr>
+<td>min-fresh=60</td>
+<td>必需</td>
+<td>期望在指定时间内(未来60秒内)的响应保持新鲜</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>no-transform</td>
+<td>无</td>
+<td>代理不可更改媒体类型</td>
+</tr>
+<tr>
+<td>only-if-cached</td>
+<td>无</td>
+<td>只从缓存获取资源，若有则返回，若无则504</td>
+</tr>
+</tbody>
+</table>
+<h3 id="缓存响应指令">缓存响应指令</h3>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>no-cache</td>
+<td>无</td>
+<td>缓存前必须先确认其有效性</td>
+</tr>
+<tr>
+<td>no-store</td>
+<td>无</td>
+<td>不缓存请求或响应的任何内容</td>
+</tr>
+<tr>
+<td>public</td>
+<td>无</td>
+<td>客户端、代理服务器都可利用缓存</td>
+</tr>
+<tr>
+<td>private</td>
+<td>无</td>
+<td>仅发起请求的客户端可利用缓存</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>max-age=60</td>
+<td>必需</td>
+<td>针对源服务器，资源可缓存最大时间</td>
+</tr>
+<tr>
+<td>s-maxage=60</td>
+<td>必需</td>
+<td>针对代理缓存服务器，资源可缓存最大时间</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>must-revalidate</td>
+<td>无</td>
+<td>可缓存但必须再向源服务器进行确认</td>
+</tr>
+<tr>
+<td>proxy-revalidate</td>
+<td>无</td>
+<td>代理缓存服务器对缓存的响应有效性再进行确认</td>
+</tr>
+<tr>
+<td>no-transform</td>
+<td>无</td>
+<td>代理不可更改媒体类型</td>
+</tr>
+</tbody>
+</table>
+<h2 id="详解">详解</h2>
+<h3 id="no-cache">no-cache</h3>
+<p>使用 no-cache 指令的目的是为了防止从缓存中返回过期的资源。</p>
+<p><strong>客户端</strong>发送的请求中如果包含 no-cache 指令，则表示客户端将不会接收缓存过的响应。于是，“中间”的缓存服务器必须把客户端请求转发给源服务器。</p>
+<p>如果<strong>服务器</strong>返回的响应中包含 no-cache 指令，那么缓存服务器不能对资源进行缓存。源服务器以后也将不再对缓存服务器请求中提出的资源有效性进行确认，且禁止其对响应资源进行缓存操作。</p>
+<pre><code>Cache-Control: no-cache
+</code></pre>
+<p>如果可以使用缓存，则304；不可以使用，则200。</p>
+<h3 id="max-age">max-age</h3>
+<p>当<strong>客户端</strong>发送的请求中包含 max-age 指令时，如果判定缓存资源的缓存时间数值比指定时间的数值更小，那么客户端就接收缓存的资源。<br>
+另外，<u>当指定 max-age 值为 0，那么缓存服务器通常需要将请求转发给源服务器</u>。</p>
+<p>当<strong>服务器</strong>返回的响应中包含 max-age 指令时，缓存服务器将不对资源的有效性再作确认，而 max-age 数值代表资源保存为缓存的最长时间。</p>
+<pre><code>Cache-Control: max-age=604800（单位：秒）
+</code></pre>
+<h3 id="min-fresh">min-fresh</h3>
+<p>min-fresh 指令要求缓存服务器返回至少还未过指定时间的缓存资源。</p>
+<p>比如，当指定 min-fresh 为 60 秒后，过了 60 秒的资源都无法作为响应返回了。</p>
+<pre><code>Cache-Control: min-fresh=60（单位：秒）
+</code></pre>
+<h3 id="max-stale">max-stale</h3>
+<p>使用 max-stale 可指示缓存资源，即使过期也照常接收。</p>
+<p>如果指令中指定了具体数值，那么即使过期，只要仍处于 max-stale指定的时间内，仍旧会被客户端接收。</p>
+<p><u>如果指令未指定参数值，那么无论经过多久，客户端都会接收响应；</u></p>
+<pre><code>Cache-Control: max-stale=3600（单位：秒）
+</code></pre>
+<h3 id="only-if-cached">only-if-cached</h3>
+<p>使用 only-if-cached 指令表示客户端仅在缓存服务器本地缓存目标资源的情况下才会要求其返回。换言之，该指令要求缓存服务器不重新加载响应，也不会再次确认资源有效性。若发生请求缓存服务器的本地缓存无响应，则返回状态码 504 Gateway Timeout。</p>
+<pre><code>Cache-Control: only-if-cached
+</code></pre>
+<h3 id="must-revalidate">must-revalidate</h3>
+<p>使用 must-revalidate 指令，代理会向源服务器再次验证即将返回的响应缓存目前是否仍然有效。</p>
+<p>若代理无法连通源服务器再次获取有效资源的话，缓存必须给客户端一条 504（Gateway Timeout）状态码。</p>
+<p>另外，使用 must-revalidate 指令会忽略请求的 max-stale 指令（即使已经在首部使用了 max-stale，也不会再有效果）。</p>
+<pre><code>Cache-Control: must-revalidate
+</code></pre>
+<h3 id="proxy-revalidate">proxy-revalidate</h3>
+<p>proxy-revalidate 指令要求所有的缓存服务器在接收到客户端带有该指令的请求返回响应之前，必须再次验证缓存的有效性。</p>
+<pre><code>Cache-Control: proxy-revalidate
+</code></pre>
+<h3 id="no-transform">no-transform</h3>
+<p>有时为了提高性能，缓存或代理会有压缩图片等类似操作</p>
+<p>使用 no-transform 指令规定无论是在请求还是响应中，缓存都不能改变实体主体的媒体类型。<br>
+这样做可防止缓存或代理压缩图片等类似操作</p>
+<h2 id="浏览器缓存机制">浏览器缓存机制</h2>
+<p>以下总结自<a href="https://blog.csdn.net/kkdelta/article/details/100576096">网络</a>，以后确认具体过程。</p>
+<p>1、当前缓存是否过期？2、服务器中的文件是否可用？</p>
+<p><strong>第一步：判断当前缓存是否过期</strong></p>
+<p>浏览器请求server.js文件，</p>
+<p>假如文件还在缓存有效期内，则直接使用缓存，不会重新发起请求。</p>
+<p>假如文件缓存过期，则重新发起请求。</p>
+<p><strong>第二步：判断服务器中的文件是否可用</strong></p>
+<p>服务器判断请求的server.js文件是否在缓存有效期内，若有效，则返回响应头304，浏览器直接使用过期缓存；</p>
+<p>若文件已过期，服务器判断文件是否有改动，无改动，则返回响应头304，浏览器直接使用过期缓存；</p>
+<p>若文件有改动，则返回200，并返回新文件。</p>
+<h2 id="cache-control使用图解">cache-control使用图解</h2>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1626740943823.webp" alt="" loading="lazy"></figure>
+<h2 id="目前仍有的疑问">目前仍有的疑问</h2>
+<p>1、缓存总时长为max-age和max-stale叠加，取值为相加值，还是最大值？</p>
+<p>2、must-revalidate和proxy-revalidate区别？</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[http-通用首部字段]]></title>
+        <id>https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/</id>
+        <link href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/">
+        </link>
+        <updated>2021-07-18T23:08:49.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="http-通用首部字段">http-通用首部字段</h1>
+<h2 id="概述">概述</h2>
+<p>通用首部字段是指，请求报文和响应报文双方都会使用的首部。</p>
+<h2 id="列表">列表</h2>
+<table>
+<thead>
+<tr>
+<th>通用首部</th>
+<th>作用（请求报文和响应报文都可能使用）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache-Control</td>
+<td>控制缓存的行为</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>决定当前的事务完成后，是否会关闭网络连接</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>创建报文时间</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>只用于请求报文，客户端要求中间服务器不返回缓存的资源</td>
+</tr>
+<tr>
+<td>Via</td>
+<td>代理服务器相关信息，每经过一个代理服务器就会添加相关信息，用逗号分割</td>
+</tr>
+<tr>
+<td>Transfer-Encoding</td>
+<td>传输编码方式：<code>chunked</code>分块传输</td>
+</tr>
+<tr>
+<td>Upgrade</td>
+<td>要求客户端使用的升级协议，需配合<code>Connection: Upgrade</code>一起使用：<code>websocket</code></td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>缓存相关问题的警告</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cache-control">Cache-Control</h3>
+<p>可缓存性</p>
+<p><code>public</code>（客户端、代理服务器都可利用缓存）</p>
+<p><code>private</code>（发起请求的浏览器才可以缓存,代理服务器不可用缓存）</p>
+<p><code>no-cache</code>（本地可以用使用缓存，但需要服务器验证后才能使用）、</p>
+<p>到期</p>
+<p><code>max-age=200</code>（服务器缓存到期时间， 秒）</p>
+<p><code>s-maxage=200</code> (代理服务器缓存的到期时间)</p>
+<p>其他</p>
+<p><code>no-store</code>（不做任何缓存）</p>
+<h3 id="connection">Connection</h3>
+<p>决定当前的事务完成后，是否会关闭网络连接。Http协议1.1之后默认都是keep-alive（持久连接），1.0则是close（非持久连接）。</p>
+<pre><code>Connection: keep-alive
+Connection: close
+</code></pre>
+<h3 id="date">Date</h3>
+<p>标明HTTP报文的创建日期和时间。</p>
+<pre><code>Date: Wed, 21 Oct 2015 07:28:00 GMT
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[http-首部字段]]></title>
+        <id>https://leecss.com/post/http-shou-bu-zi-duan/</id>
+        <link href="https://leecss.com/post/http-shou-bu-zi-duan/">
+        </link>
+        <updated>2021-07-18T04:59:53.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="http-首部字段结构">HTTP 首部字段结构</h2>
+<p>HTTP 首部字段是由首部字段名和字段值构成的，中间用冒号“:” 分<br>
+隔。</p>
+<pre><code>首部字段名: 字段值
+</code></pre>
+<p>例如，在 HTTP 首部中以 Content-Type 这个字段来表示报文主体的 对<br>
+象类型。</p>
+<pre><code>Content-Type: text/html
+</code></pre>
+<p>就以上述示例来看，首部字段名为 Content-Type，字符串 text/html 是<br>
+字段值。<br>
+另外，字段值对应单个 HTTP 首部字段可以有多个值，如下所示。</p>
+<pre><code>Keep-Alive: timeout=15, max=100
+</code></pre>
+<h2 id="4-种-http-首部字段类型">4 种 HTTP 首部字段类型</h2>
+<p>HTTP 首部字段根据实际用途被分为以下 4 种类型。</p>
+<h3 id="1-通用首部字段general-header-fields">1、通用首部字段（General Header Fields）</h3>
+<p>请求报文和响应报文两方都会使用的首部。</p>
+<h3 id="2-请求首部字段request-header-fields">2、请求首部字段（Request Header Fields）</h3>
+<p>从客户端向服务器端发送请求报文时使用的首部。补充了请求的附加内容、客户端信息、响应内容相关优先级等信息。</p>
+<h3 id="3-响应首部字段response-header-fields">3、响应首部字段（Response Header Fields）</h3>
+<p>从服务器端向客户端返回响应报文时使用的首部。补充了响应的附加内容，也会要求客户端附加额外的内容信息。</p>
+<h3 id="4-实体首部字段entity-header-fields">4、实体首部字段（Entity Header Fields）</h3>
+<p>针对请求报文和响应报文的实体部分使用的首部。补充了资源内容更新时间等与实体有关的信息。</p>
+<h2 id="http11-首部字段一览">HTTP/1.1 首部字段一览</h2>
+<h3 id="通用首部字段">通用首部字段</h3>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache-Control</td>
+<td>控制缓存的行为</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>逐跳首部、连接的管理</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>创建报文的日期时间</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>报文指令</td>
+</tr>
+<tr>
+<td>Trailer</td>
+<td>报文末端的首部一览</td>
+</tr>
+<tr>
+<td>Transfer-Encoding</td>
+<td>指定报文主体的传输编码方式</td>
+</tr>
+<tr>
+<td>Upgrade</td>
+<td>升级为其他协议</td>
+</tr>
+<tr>
+<td>Via</td>
+<td>代理服务器的相关信息</td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>错误通知</td>
+</tr>
+</tbody>
+</table>
+<h3 id="请求首部字段">请求首部字段</h3>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accept</td>
+<td>用户代理可处理的媒体类型</td>
+</tr>
+<tr>
+<td>Accept-Charset</td>
+<td>优先的字符集</td>
+</tr>
+<tr>
+<td>Accept-Encoding</td>
+<td>优先的内容编码</td>
+</tr>
+<tr>
+<td>Accept-Language</td>
+<td>优先的语言（自然语言）</td>
+</tr>
+<tr>
+<td>Authorization Web</td>
+<td>认证信息</td>
+</tr>
+<tr>
+<td>Expect</td>
+<td>期待服务器的特定行为</td>
+</tr>
+<tr>
+<td>From</td>
+<td>用户的电子邮箱地址</td>
+</tr>
+<tr>
+<td>Host</td>
+<td>请求资源所在服务器</td>
+</tr>
+<tr>
+<td>If-Match</td>
+<td>比较实体标记（ETag）</td>
+</tr>
+<tr>
+<td>If-Modified-Since</td>
+<td>比较资源的更新时间</td>
+</tr>
+<tr>
+<td>If-None-Match</td>
+<td>比较实体标记（与 If-Match 相反）</td>
+</tr>
+<tr>
+<td>If-Range</td>
+<td>资源未更新时发送实体 Byte 的范围请求</td>
+</tr>
+<tr>
+<td>If-Unmodified-Since</td>
+<td>比较资源的更新时间（与If-Modified-Since相反）</td>
+</tr>
+<tr>
+<td>Max-Forwards</td>
+<td>最大传输逐跳数</td>
+</tr>
+<tr>
+<td>Proxy-Authorization</td>
+<td>代理服务器要求客户端的认证信息</td>
+</tr>
+<tr>
+<td>Range</td>
+<td>实体的字节范围请求</td>
+</tr>
+<tr>
+<td>Referer</td>
+<td>对请求中 URI 的原始获取方</td>
+</tr>
+<tr>
+<td>TE</td>
+<td>传输编码的优先级</td>
+</tr>
+<tr>
+<td>User-Agent HTTP</td>
+<td>客户端程序的信息</td>
+</tr>
+</tbody>
+</table>
+<h3 id="响应首部字段">响应首部字段</h3>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accept-Ranges</td>
+<td>是否接受字节范围请求</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>推算资源创建经过时间</td>
+</tr>
+<tr>
+<td>ETag</td>
+<td>资源的匹配信息</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>令客户端重定向至指定URI</td>
+</tr>
+<tr>
+<td>Proxy-Authenticate</td>
+<td>代理服务器对客户端的认证信息</td>
+</tr>
+<tr>
+<td>Retry-After</td>
+<td>对再次发起请求的时机要求</td>
+</tr>
+<tr>
+<td>Server HTTP</td>
+<td>服务器的安装信息</td>
+</tr>
+<tr>
+<td>Vary</td>
+<td>代理服务器缓存的管理信息</td>
+</tr>
+<tr>
+<td>WWW-Authenticate</td>
+<td>服务器对客户端的认证信息</td>
+</tr>
+</tbody>
+</table>
+<h3 id="实体首部字段">实体首部字段</h3>
+<table>
+<thead>
+<tr>
+<th>首部字段名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allow</td>
+<td>资源可支持的HTTP方法</td>
+</tr>
+<tr>
+<td>Content-Encoding</td>
+<td>实体主体适用的编码方式</td>
+</tr>
+<tr>
+<td>Content-Language</td>
+<td>实体主体的自然语言</td>
+</tr>
+<tr>
+<td>Content-Length</td>
+<td>实体主体的大小（单位：字节）</td>
+</tr>
+<tr>
+<td>Content-Location</td>
+<td>替代对应资源的URI</td>
+</tr>
+<tr>
+<td>Content-MD5</td>
+<td>实体主体的报文摘要</td>
+</tr>
+<tr>
+<td>Content-Range</td>
+<td>实体主体的位置范围</td>
+</tr>
+<tr>
+<td>Content-Type</td>
+<td>实体主体的媒体类型</td>
+</tr>
+<tr>
+<td>Expires</td>
+<td>实体主体过期的日期时间</td>
+</tr>
+<tr>
+<td>Last-Modified</td>
+<td>资源的最后修改日期时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="非-http11-首部字段">非 HTTP/1.1 首部字段</h2>
+<p>在 HTTP 协议通信交互中使用到的首部字段，不限于 RFC2616 中定义的 47 种首部字段。还有 Cookie、Set-Cookie 和 Content-Disposition等在其他 RFC 中定义的首部字段，它们的使用频率也很高。</p>
+<p>这些非正式的首部字段统一归纳在 RFC4229 HTTP Header Field Registrations 中。</p>
+<h2 id="end-to-end-首部和-hop-by-hop-首部">End-to-end 首部和 Hop-by-hop 首部</h2>
+<p>HTTP 首部字段将定义成缓存代理和非缓存代理的行为，分成 2 种类<br>
+型。</p>
+<h3 id="端到端首部end-to-end-header">端到端首部（End-to-end Header）</h3>
+<p>分在此类别中的首部会转发给请求 / 响应对应的最终接收目标，且必须保存在由缓存生成的响应中，另外规定它必须被转发。</p>
+<h3 id="逐跳首部hop-by-hop-header">逐跳首部（Hop-by-hop Header）</h3>
+<p>分在此类别中的首部只对单次转发有效，会因通过缓存或代理而不再转发。HTTP/1.1 和之后版本中，如果要使用 hop-by-hop 首部，需提供 Connection 首部字段。</p>
+<p>下面列举了 HTTP/1.1 中的逐跳首部字段。除这 8 个首部字段之外，其他所有字段都属于端到端首部。</p>
+<ul>
+<li>Connection</li>
+<li>Keep-Alive</li>
+<li>Proxy-Authenticate</li>
+<li>Proxy-Authorization</li>
+<li>Trailer</li>
+<li>TE</li>
+<li>Transfer-Encoding</li>
+<li>Upgrade</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[electron-增量更新]]></title>
         <id>https://leecss.com/post/electron-zeng-liang-geng-xin/</id>
         <link href="https://leecss.com/post/electron-zeng-liang-geng-xin/">
         </link>
@@ -1916,382 +2474,6 @@ Content-Type: text/html
 <blockquote>
 <p>阮一峰</p>
 <p><a href="http://www.ruanyifeng.com/blog/2019/09/curl-reference.html">http://www.ruanyifeng.com/blog/2019/09/curl-reference.html</a></p>
-</blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-使用node创建一个简单的web服务]]></title>
-        <id>https://leecss.com/post/http-shi-yong-node-chuang-jian-yi-ge-jian-dan-de-web-fu-wu/</id>
-        <link href="https://leecss.com/post/http-shi-yong-node-chuang-jian-yi-ge-jian-dan-de-web-fu-wu/">
-        </link>
-        <updated>2021-07-12T12:47:16.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>电脑上安装好node,新建server.js文件，使用<code>node server.js</code>运行该文件。</p>
-<h2 id="代码">代码</h2>
-<pre><code class="language-js">const http = require('http')
-
-http.createServer(function (request, response) {
-    console.log('request come', request.url)
-
-    response.end('123')
-}).listen(8888)
-
-console.log('server listening on 8888')
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-状态码]]></title>
-        <id>https://leecss.com/post/http-zhuang-tai-ma/</id>
-        <link href="https://leecss.com/post/http-zhuang-tai-ma/">
-        </link>
-        <updated>2021-07-09T00:05:15.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>当浏览者访问一个网页时，浏览者的浏览器会向网页所在服务器发出请求。当浏览器接收并显示网页前，此网页所在的服务器会返回一个包含HTTP状态码的信息头（server header）用以响应浏览器的请求。</p>
-<p>HTTP状态码的英文为HTTP Status Code。</p>
-<p>下面是常见的HTTP状态码：</p>
-<ul>
-<li>200 - 请求成功</li>
-<li>301 - 资源（网页等）被永久转移到其它URL</li>
-<li>404 - 请求的资源（网页等）不存在</li>
-<li>500 - 内部服务器错误</li>
-</ul>
-<h2 id="http状态码分类">HTTP状态码分类</h2>
-<p>HTTP状态码由三个十进制数字组成，第一个十进制数字定义了状态码的类型，后两个数字没有分类的作用。HTTP状态码共分为5种类型：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">分类</th>
-<th style="text-align:left">分类描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">1**</td>
-<td style="text-align:left">信息，服务器收到请求，需要请求者继续执行操作</td>
-</tr>
-<tr>
-<td style="text-align:left">2**</td>
-<td style="text-align:left">成功，操作被成功接收并处理</td>
-</tr>
-<tr>
-<td style="text-align:left">3**</td>
-<td style="text-align:left">重定向，需要进一步的操作以完成请求</td>
-</tr>
-<tr>
-<td style="text-align:left">4**</td>
-<td style="text-align:left">客户端错误，请求包含语法错误或无法完成请求</td>
-</tr>
-<tr>
-<td style="text-align:left">5**</td>
-<td style="text-align:left">服务器错误，服务器在处理请求的过程中发生了错误</td>
-</tr>
-</tbody>
-</table>
-<p>HTTP状态码列表:</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">状态码</th>
-<th style="text-align:left">状态码英文名称</th>
-<th style="text-align:left">中文描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">100</td>
-<td style="text-align:left">Continue</td>
-<td style="text-align:left">继续。客户端应继续其请求</td>
-</tr>
-<tr>
-<td style="text-align:left">101</td>
-<td style="text-align:left">Switching Protocols</td>
-<td style="text-align:left">切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">200</td>
-<td style="text-align:left">OK</td>
-<td style="text-align:left">请求成功。一般用于GET与POST请求</td>
-</tr>
-<tr>
-<td style="text-align:left">201</td>
-<td style="text-align:left">Created</td>
-<td style="text-align:left">已创建。成功请求并创建了新的资源</td>
-</tr>
-<tr>
-<td style="text-align:left">202</td>
-<td style="text-align:left">Accepted</td>
-<td style="text-align:left">已接受。已经接受请求，但未处理完成</td>
-</tr>
-<tr>
-<td style="text-align:left">203</td>
-<td style="text-align:left">Non-Authoritative Information</td>
-<td style="text-align:left">非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本</td>
-</tr>
-<tr>
-<td style="text-align:left">204</td>
-<td style="text-align:left">No Content</td>
-<td style="text-align:left">无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档</td>
-</tr>
-<tr>
-<td style="text-align:left">205</td>
-<td style="text-align:left">Reset Content</td>
-<td style="text-align:left">重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域</td>
-</tr>
-<tr>
-<td style="text-align:left">206</td>
-<td style="text-align:left">Partial Content</td>
-<td style="text-align:left">部分内容。服务器成功处理了部分GET请求</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">300</td>
-<td style="text-align:left">Multiple Choices</td>
-<td style="text-align:left">多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择</td>
-</tr>
-<tr>
-<td style="text-align:left">301</td>
-<td style="text-align:left">Moved Permanently</td>
-<td style="text-align:left">永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替</td>
-</tr>
-<tr>
-<td style="text-align:left">302</td>
-<td style="text-align:left">Found</td>
-<td style="text-align:left">临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI</td>
-</tr>
-<tr>
-<td style="text-align:left">303</td>
-<td style="text-align:left">See Other</td>
-<td style="text-align:left">查看其它地址。与301类似。使用GET和POST请求查看</td>
-</tr>
-<tr>
-<td style="text-align:left">304</td>
-<td style="text-align:left">Not Modified</td>
-<td style="text-align:left">未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源</td>
-</tr>
-<tr>
-<td style="text-align:left">305</td>
-<td style="text-align:left">Use Proxy</td>
-<td style="text-align:left">使用代理。所请求的资源必须通过代理访问</td>
-</tr>
-<tr>
-<td style="text-align:left">306</td>
-<td style="text-align:left">Unused</td>
-<td style="text-align:left">已经被废弃的HTTP状态码</td>
-</tr>
-<tr>
-<td style="text-align:left">307</td>
-<td style="text-align:left">Temporary Redirect</td>
-<td style="text-align:left">临时重定向。与302类似。使用GET请求重定向</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">400</td>
-<td style="text-align:left">Bad Request</td>
-<td style="text-align:left">客户端请求的语法错误，服务器无法理解</td>
-</tr>
-<tr>
-<td style="text-align:left">401</td>
-<td style="text-align:left">Unauthorized</td>
-<td style="text-align:left">请求要求用户的身份认证</td>
-</tr>
-<tr>
-<td style="text-align:left">402</td>
-<td style="text-align:left">Payment Required</td>
-<td style="text-align:left">保留，将来使用</td>
-</tr>
-<tr>
-<td style="text-align:left">403</td>
-<td style="text-align:left">Forbidden</td>
-<td style="text-align:left">服务器理解请求客户端的请求，但是拒绝执行此请求</td>
-</tr>
-<tr>
-<td style="text-align:left">404</td>
-<td style="text-align:left">Not Found</td>
-<td style="text-align:left">服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置&quot;您所请求的资源无法找到&quot;的个性页面</td>
-</tr>
-<tr>
-<td style="text-align:left">405</td>
-<td style="text-align:left">Method Not Allowed</td>
-<td style="text-align:left">客户端请求中的方法被禁止</td>
-</tr>
-<tr>
-<td style="text-align:left">406</td>
-<td style="text-align:left">Not Acceptable</td>
-<td style="text-align:left">服务器无法根据客户端请求的内容特性完成请求</td>
-</tr>
-<tr>
-<td style="text-align:left">407</td>
-<td style="text-align:left">Proxy Authentication Required</td>
-<td style="text-align:left">请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权</td>
-</tr>
-<tr>
-<td style="text-align:left">408</td>
-<td style="text-align:left">Request Time-out</td>
-<td style="text-align:left">服务器等待客户端发送的请求时间过长，超时</td>
-</tr>
-<tr>
-<td style="text-align:left">409</td>
-<td style="text-align:left">Conflict</td>
-<td style="text-align:left">服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突</td>
-</tr>
-<tr>
-<td style="text-align:left">410</td>
-<td style="text-align:left">Gone</td>
-<td style="text-align:left">客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置</td>
-</tr>
-<tr>
-<td style="text-align:left">411</td>
-<td style="text-align:left">Length Required</td>
-<td style="text-align:left">服务器无法处理客户端发送的不带Content-Length的请求信息</td>
-</tr>
-<tr>
-<td style="text-align:left">412</td>
-<td style="text-align:left">Precondition Failed</td>
-<td style="text-align:left">客户端请求信息的先决条件错误</td>
-</tr>
-<tr>
-<td style="text-align:left">413</td>
-<td style="text-align:left">Request Entity Too Large</td>
-<td style="text-align:left">由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息</td>
-</tr>
-<tr>
-<td style="text-align:left">414</td>
-<td style="text-align:left">Request-URI Too Large</td>
-<td style="text-align:left">请求的URI过长（URI通常为网址），服务器无法处理</td>
-</tr>
-<tr>
-<td style="text-align:left">415</td>
-<td style="text-align:left">Unsupported Media Type</td>
-<td style="text-align:left">服务器无法处理请求附带的媒体格式</td>
-</tr>
-<tr>
-<td style="text-align:left">416</td>
-<td style="text-align:left">Requested range not satisfiable</td>
-<td style="text-align:left">客户端请求的范围无效</td>
-</tr>
-<tr>
-<td style="text-align:left">417</td>
-<td style="text-align:left">Expectation Failed</td>
-<td style="text-align:left">服务器无法满足Expect的请求头信息</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left">500</td>
-<td style="text-align:left">Internal Server Error</td>
-<td style="text-align:left">服务器内部错误，无法完成请求</td>
-</tr>
-<tr>
-<td style="text-align:left">501</td>
-<td style="text-align:left">Not Implemented</td>
-<td style="text-align:left">服务器不支持请求的功能，无法完成请求</td>
-</tr>
-<tr>
-<td style="text-align:left">502</td>
-<td style="text-align:left">Bad Gateway</td>
-<td style="text-align:left">作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应</td>
-</tr>
-<tr>
-<td style="text-align:left">503</td>
-<td style="text-align:left">Service Unavailable</td>
-<td style="text-align:left">由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中</td>
-</tr>
-<tr>
-<td style="text-align:left">504</td>
-<td style="text-align:left">Gateway Time-out</td>
-<td style="text-align:left">充当网关或代理的服务器，未及时从远端服务器获取请求</td>
-</tr>
-<tr>
-<td style="text-align:left">505</td>
-<td style="text-align:left">HTTP Version not supported</td>
-<td style="text-align:left">服务器不支持请求的HTTP协议的版本，无法完成处理</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-请求方法]]></title>
-        <id>https://leecss.com/post/http-qing-qiu-fang-fa/</id>
-        <link href="https://leecss.com/post/http-qing-qiu-fang-fa/">
-        </link>
-        <updated>2021-07-09T00:02:01.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>根据 HTTP 标准，HTTP 请求可以使用多种请求方法。</p>
-<p>HTTP1.0 定义了三种请求方法： GET, POST 和 HEAD方法。</p>
-<p>HTTP1.1 新增了六种请求方法：OPTIONS、PUT、PATCH、DELETE、TRACE 和 CONNECT 方法。</p>
-<h2 id="方法">方法</h2>
-<p><strong>幂等</strong>是说这个请求可以重复发送多次相同请求求，会返回相同的响应消息</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>GET</td>
-<td>请求指定的页面信息，并返回实体主体</td>
-</tr>
-<tr>
-<td>HEAD</td>
-<td>类似于 GET请求，但只返回响应报头，不返回响应正文</td>
-</tr>
-<tr>
-<td>POST (非)</td>
-<td>向指定资源提交数据（例如提交表单或者上传文件） 数据被包含在请求体中 POST请求可能会导致新的资源的建立和/或已有资源的修改</td>
-</tr>
-<tr>
-<td>PUT</td>
-<td>从客户端向服务器传送的数据取代指定的文档的内容</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>请求服务器删除指定的页面</td>
-</tr>
-<tr>
-<td>CONNECT</td>
-<td>HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器</td>
-</tr>
-<tr>
-<td>OPTIONS</td>
-<td>允许客户端查看服务器的性能</td>
-</tr>
-<tr>
-<td>TRACE</td>
-<td>回显服务器收到的请求，主要用于测试或诊断</td>
-</tr>
-<tr>
-<td>PATCH(非)</td>
-<td>是对 PUT 方法的补充，用来对已知资源进行局部更新 。</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>GET：get方法一般用于获取服务器资源</p>
-<p>POST：post方法一般用于传输实体主体</p>
-<p>PUT：put方法一般用于传输文件</p>
-<p>DELETE：delete方法用于删除文件</p>
-<p>HEAD：head方法用于获取报文首部，不返回报文主体</p>
-<p>OPTIONS：options方法用于询问请求URI资源支持的方法</p>
 </blockquote>
 ]]></content>
     </entry>

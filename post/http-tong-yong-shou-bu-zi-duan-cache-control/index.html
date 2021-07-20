@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-branch | 当下</title>
+<title>http-通用首部字段Cache-Control | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1626740946879">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="git-branch" />
-  <meta name="keywords" content="git" />
+  <meta name="description" content="http-通用首部字段Cache-Control" />
+  <meta name="keywords" content="http" />
 </head>
 
 <body>
@@ -209,23 +209,31 @@
   <div class="toc-wrapper auto-number auto"
     id="toc_wrapper">
     <ul class="markdownIt-TOC">
-<li>
+<li><a href="#http-%E9%80%9A%E7%94%A8%E9%A6%96%E9%83%A8%E5%AD%97%E6%AE%B5cache-control">http-通用首部字段Cache-Control</a>
 <ul>
-<li><a href="#1-%E6%9F%A5%E7%9C%8B%E5%88%86%E6%94%AF">1、查看分支</a></li>
-<li><a href="#2-%E6%96%B0%E5%BB%BA%E5%88%86%E6%94%AF">2、新建分支</a>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E4%B9%A6%E5%86%99%E6%A0%BC%E5%BC%8F">书写格式</a></li>
+<li><a href="#%E5%88%86%E7%B1%BB">分类</a>
 <ul>
-<li><a href="#%E6%96%B0%E5%BB%BA%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF">新建本地分支</a></li>
-<li><a href="#%E6%96%B0%E5%BB%BA%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF">新建远程分支</a></li>
+<li><a href="#%E7%BC%93%E5%AD%98%E8%AF%B7%E6%B1%82%E6%8C%87%E4%BB%A4">缓存请求指令</a></li>
+<li><a href="#%E7%BC%93%E5%AD%98%E5%93%8D%E5%BA%94%E6%8C%87%E4%BB%A4">缓存响应指令</a></li>
 </ul>
 </li>
-<li><a href="#3-%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF">3、删除分支</a>
+<li><a href="#%E8%AF%A6%E8%A7%A3">详解</a>
 <ul>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF">删除本地分支</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF">删除远程分支</a></li>
+<li><a href="#no-cache">no-cache</a></li>
+<li><a href="#max-age">max-age</a></li>
+<li><a href="#min-fresh">min-fresh</a></li>
+<li><a href="#max-stale">max-stale</a></li>
+<li><a href="#only-if-cached">only-if-cached</a></li>
+<li><a href="#must-revalidate">must-revalidate</a></li>
+<li><a href="#proxy-revalidate">proxy-revalidate</a></li>
+<li><a href="#no-transform">no-transform</a></li>
 </ul>
 </li>
-<li><a href="#4-%E5%88%86%E6%94%AF%E6%94%B9%E5%90%8D">4、分支改名</a></li>
-<li><a href="#5-%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF">5、关联远程分支</a></li>
+<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6">浏览器缓存机制</a></li>
+<li><a href="#cache-control%E4%BD%BF%E7%94%A8%E5%9B%BE%E8%A7%A3">cache-control使用图解</a></li>
+<li><a href="#%E7%9B%AE%E5%89%8D%E4%BB%8D%E6%9C%89%E7%9A%84%E7%96%91%E9%97%AE">目前仍有的疑问</a></li>
 </ul>
 </li>
 </ul>
@@ -493,8 +501,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-branch/">
-      git-branch
+    <a class="post-title-link" href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/">
+      http-通用首部字段Cache-Control
     </a>
   </h1>
   <div class="post-meta">
@@ -502,7 +510,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-16 22:59:51">2021-06-16</span>
+      <span class="publish-time" data-t="2021-07-19 23:35:46">2021-07-19</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -511,8 +519,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/TDboywfcf/">
-        <span>git</span>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/">
+        <span>http</span>
       </a>
       
       
@@ -521,103 +529,208 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>3<span class="language" data-lan="minute">分钟</span></span>
+      <span>6<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>599<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>1603<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="1-查看分支">1、查看分支</h2>
-<p>*表示当前分支</p>
-<p>查看所有本地分支</p>
-<pre><code class="language-sh">git branch
+              <h1 id="http-通用首部字段cache-control">http-通用首部字段Cache-Control</h1>
+<h2 id="概述">概述</h2>
+<p>通过指定首部字段 Cache-Control 的指令，就能操作缓存的工作机制。</p>
+<h2 id="书写格式">书写格式</h2>
+<p>指令的参数是可选的，多个指令之间通过“,”分隔。首部字段 CacheControl 的指令可用于请求及响应时。</p>
+<pre><code>Cache-Control: private, max-age=0, no-cache
 </code></pre>
-<p>查看分支的详细信息（commitID及message）</p>
-<pre><code class="language-sh">git branch -v
+<h2 id="分类">分类</h2>
+<h3 id="缓存请求指令">缓存请求指令</h3>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>no-cache</td>
+<td>无</td>
+<td>不使用缓存，缓存服务器必须把客户端请求转发给源服务器，在与源服务器进行新鲜度再验证之前，不能提供给客户端使用。</td>
+</tr>
+<tr>
+<td>no-store</td>
+<td>无</td>
+<td>真正的不使用缓存，任何地方都不缓存请求或响应的任何内容。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>max-age=60</td>
+<td>必需</td>
+<td>资源可缓存最大时间(相对时间：秒)，即过期时间、保质期。</td>
+</tr>
+<tr>
+<td>max-stale=60</td>
+<td>可省略</td>
+<td>缓存资源，只要仍处于 max-stale指定的时间(秒)内，即使过期也照常接收。缓存总时长为max-age和max-stale叠加。</td>
+</tr>
+<tr>
+<td>min-fresh=60</td>
+<td>必需</td>
+<td>期望在指定时间内(未来60秒内)的响应保持新鲜</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>no-transform</td>
+<td>无</td>
+<td>代理不可更改媒体类型</td>
+</tr>
+<tr>
+<td>only-if-cached</td>
+<td>无</td>
+<td>只从缓存获取资源，若有则返回，若无则504</td>
+</tr>
+</tbody>
+</table>
+<h3 id="缓存响应指令">缓存响应指令</h3>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>no-cache</td>
+<td>无</td>
+<td>缓存前必须先确认其有效性</td>
+</tr>
+<tr>
+<td>no-store</td>
+<td>无</td>
+<td>不缓存请求或响应的任何内容</td>
+</tr>
+<tr>
+<td>public</td>
+<td>无</td>
+<td>客户端、代理服务器都可利用缓存</td>
+</tr>
+<tr>
+<td>private</td>
+<td>无</td>
+<td>仅发起请求的客户端可利用缓存</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>max-age=60</td>
+<td>必需</td>
+<td>针对源服务器，资源可缓存最大时间</td>
+</tr>
+<tr>
+<td>s-maxage=60</td>
+<td>必需</td>
+<td>针对代理缓存服务器，资源可缓存最大时间</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>must-revalidate</td>
+<td>无</td>
+<td>可缓存但必须再向源服务器进行确认</td>
+</tr>
+<tr>
+<td>proxy-revalidate</td>
+<td>无</td>
+<td>代理缓存服务器对缓存的响应有效性再进行确认</td>
+</tr>
+<tr>
+<td>no-transform</td>
+<td>无</td>
+<td>代理不可更改媒体类型</td>
+</tr>
+</tbody>
+</table>
+<h2 id="详解">详解</h2>
+<h3 id="no-cache">no-cache</h3>
+<p>使用 no-cache 指令的目的是为了防止从缓存中返回过期的资源。</p>
+<p><strong>客户端</strong>发送的请求中如果包含 no-cache 指令，则表示客户端将不会接收缓存过的响应。于是，“中间”的缓存服务器必须把客户端请求转发给源服务器。</p>
+<p>如果<strong>服务器</strong>返回的响应中包含 no-cache 指令，那么缓存服务器不能对资源进行缓存。源服务器以后也将不再对缓存服务器请求中提出的资源有效性进行确认，且禁止其对响应资源进行缓存操作。</p>
+<pre><code>Cache-Control: no-cache
 </code></pre>
-<p>查看本地分支与远程分支的关联</p>
-<pre><code class="language-sh">git branch -vv
+<p>如果可以使用缓存，则304；不可以使用，则200。</p>
+<h3 id="max-age">max-age</h3>
+<p>当<strong>客户端</strong>发送的请求中包含 max-age 指令时，如果判定缓存资源的缓存时间数值比指定时间的数值更小，那么客户端就接收缓存的资源。<br>
+另外，<u>当指定 max-age 值为 0，那么缓存服务器通常需要将请求转发给源服务器</u>。</p>
+<p>当<strong>服务器</strong>返回的响应中包含 max-age 指令时，缓存服务器将不对资源的有效性再作确认，而 max-age 数值代表资源保存为缓存的最长时间。</p>
+<pre><code>Cache-Control: max-age=604800（单位：秒）
 </code></pre>
-<p>查看所有远程分支</p>
-<pre><code class="language-shell">git branch -r
+<h3 id="min-fresh">min-fresh</h3>
+<p>min-fresh 指令要求缓存服务器返回至少还未过指定时间的缓存资源。</p>
+<p>比如，当指定 min-fresh 为 60 秒后，过了 60 秒的资源都无法作为响应返回了。</p>
+<pre><code>Cache-Control: min-fresh=60（单位：秒）
 </code></pre>
-<p>查看所有本地分支和远程分支</p>
-<pre><code class="language-sh">git branch -a
+<h3 id="max-stale">max-stale</h3>
+<p>使用 max-stale 可指示缓存资源，即使过期也照常接收。</p>
+<p>如果指令中指定了具体数值，那么即使过期，只要仍处于 max-stale指定的时间内，仍旧会被客户端接收。</p>
+<p><u>如果指令未指定参数值，那么无论经过多久，客户端都会接收响应；</u></p>
+<pre><code>Cache-Control: max-stale=3600（单位：秒）
 </code></pre>
-<h2 id="2-新建分支">2、新建分支</h2>
-<h3 id="新建本地分支">新建本地分支</h3>
-<p>直接在<code>git branch</code>后面跟上分支名，就表示新建该分支。</p>
-<pre><code class="language-sh">git branch [branch-name]
+<h3 id="only-if-cached">only-if-cached</h3>
+<p>使用 only-if-cached 指令表示客户端仅在缓存服务器本地缓存目标资源的情况下才会要求其返回。换言之，该指令要求缓存服务器不重新加载响应，也不会再次确认资源有效性。若发生请求缓存服务器的本地缓存无响应，则返回状态码 504 Gateway Timeout。</p>
+<pre><code>Cache-Control: only-if-cached
 </code></pre>
-<p>创建后，还是停留在原来分支，需要用<code>git checkout</code>切换到新建分支</p>
-<pre><code class="language-sh">git checkout [branch-name]
+<h3 id="must-revalidate">must-revalidate</h3>
+<p>使用 must-revalidate 指令，代理会向源服务器再次验证即将返回的响应缓存目前是否仍然有效。</p>
+<p>若代理无法连通源服务器再次获取有效资源的话，缓存必须给客户端一条 504（Gateway Timeout）状态码。</p>
+<p>另外，使用 must-revalidate 指令会忽略请求的 max-stale 指令（即使已经在首部使用了 max-stale，也不会再有效果）。</p>
+<pre><code>Cache-Control: must-revalidate
 </code></pre>
-<p>使用<code>-b</code>参数，可以新建的同时，切换到新分支。</p>
-<pre><code class="language-sh">git checkout -b [branch-name]
+<h3 id="proxy-revalidate">proxy-revalidate</h3>
+<p>proxy-revalidate 指令要求所有的缓存服务器在接收到客户端带有该指令的请求返回响应之前，必须再次验证缓存的有效性。</p>
+<pre><code>Cache-Control: proxy-revalidate
 </code></pre>
-<p>通过远程分支检出一个新的分支，执行:</p>
-<pre><code class="language-shell">git checkout -b [branch-name] [remote]/[remote-branch]
-git checkout -b newBranch origin/main
-</code></pre>
-<p>就可以创建一个名为 <code>newBranch</code> 的分支，它跟踪远程分支 <code>origin/main</code>。</p>
-<hr>
-<p>新建一个分支，与指定的远程分支建立追踪关系</p>
-<pre><code class="language-sh">git branch --track [branch] [remote]/[remote-branch]
-</code></pre>
-<h3 id="新建远程分支">新建远程分支</h3>
-<p>创建远程分支</p>
-<p>创建远程分支的前提是本地有这个分支，推送到远程后，因为远程没有此分支，所以会新建</p>
-<p>在远程主机<code>origin</code>上创建一个dev分支</p>
-<pre><code class="language-sh">git push [remote] [place-branch]
-git push origin dev
-</code></pre>
-<p>在远程主机<code>origin</code>上创建一个<code>dev</code>的分支，并与本地的同名分支建立追踪关系。</p>
-<pre><code class="language-sh">git push -u [remote] [place-branch]
-git push -u origin dev
-</code></pre>
-<h2 id="3-删除分支">3、删除分支</h2>
-<h3 id="删除本地分支">删除本地分支</h3>
-<p>需要当前不在被删除的分支上</p>
-<p><code>-d</code>参数用来删除一个分支，前提是该分支没有未合并的变动。</p>
-<pre><code class="language-sh">git branch -d [branch-name]
-</code></pre>
-<p>强制删除一个分支，不管有没有未合并变化。</p>
-<pre><code class="language-sh">git branch -D [branch-name]
-</code></pre>
-<h3 id="删除远程分支">删除远程分支</h3>
-<pre><code class="language-sh">git push [remote] --delete [branch-name]
-git push origin --delete dev
-</code></pre>
-<pre><code class="language-sh">git branch -dr [remote]/[remote-branch]
-git branch -dr origin/dev
-</code></pre>
-<h2 id="4-分支改名">4、分支改名</h2>
-<p>为当前分支改名</p>
-<pre><code class="language-sh">git branch -m [branch-name]
-</code></pre>
-<p>为指定分支改名</p>
-<pre><code class="language-sh">git branch -m [branch-name] [new-branch-name]
-git branch -m dev develop
-</code></pre>
-<h2 id="5-关联远程分支">5、关联远程分支</h2>
-<p>建立追踪关系，在现有分支与指定的远程分支之间</p>
-<p>方式一：</p>
-<pre><code class="language-sh">git branch --set-upstream-to=[remote]/[remote-branch] [branch]
-git branch --set-upstream-to=origin/dev dev
-</code></pre>
-<p>方式二：</p>
-<p><code>git branch -u</code> 命令，执行：</p>
-<pre><code class="language-sh">git branch -u [remote]/[remote-branch] [branch]
-git branch -u origin/main foo
-</code></pre>
-<p>这样 <code>foo</code> 就会跟踪 <code>origin/main</code> 了。如果当前就在 foo 分支上, 还可以省略 foo：</p>
-<pre><code class="language-sh">git branch -u o/main
-</code></pre>
+<h3 id="no-transform">no-transform</h3>
+<p>有时为了提高性能，缓存或代理会有压缩图片等类似操作</p>
+<p>使用 no-transform 指令规定无论是在请求还是响应中，缓存都不能改变实体主体的媒体类型。<br>
+这样做可防止缓存或代理压缩图片等类似操作</p>
+<h2 id="浏览器缓存机制">浏览器缓存机制</h2>
+<p>以下总结自<a href="https://blog.csdn.net/kkdelta/article/details/100576096">网络</a>，以后确认具体过程。</p>
+<p>1、当前缓存是否过期？2、服务器中的文件是否可用？</p>
+<p><strong>第一步：判断当前缓存是否过期</strong></p>
+<p>浏览器请求server.js文件，</p>
+<p>假如文件还在缓存有效期内，则直接使用缓存，不会重新发起请求。</p>
+<p>假如文件缓存过期，则重新发起请求。</p>
+<p><strong>第二步：判断服务器中的文件是否可用</strong></p>
+<p>服务器判断请求的server.js文件是否在缓存有效期内，若有效，则返回响应头304，浏览器直接使用过期缓存；</p>
+<p>若文件已过期，服务器判断文件是否有改动，无改动，则返回响应头304，浏览器直接使用过期缓存；</p>
+<p>若文件有改动，则返回200，并返回新文件。</p>
+<h2 id="cache-control使用图解">cache-control使用图解</h2>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1626740943823.webp" alt="" loading="lazy"></figure>
+<h2 id="目前仍有的疑问">目前仍有的疑问</h2>
+<p>1、缓存总时长为max-age和max-stale叠加，取值为相加值，还是最大值？</p>
+<p>2、must-revalidate和proxy-revalidate区别？</p>
 
             </div>
             
@@ -630,7 +743,7 @@ git branch -u origin/main foo
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-branch/" title="git-branch">https://leecss.com/post/git-branch/</a>
+      <a href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/" title="http-通用首部字段Cache-Control">https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -639,21 +752,17 @@ git branch -u origin/main foo
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/"># http</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-add" href="https://leecss.com/post/git-add/">git-add</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-add" href="https://leecss.com/post/git-add/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-简介" href="https://leecss.com/post/git-jian-jie/">git-简介</a>
-        <a class="nav-mobile-next" title="git-简介" href="https://leecss.com/post/git-jian-jie/">下一篇</a>
+        <a class="nav-pc-next" title="http-通用首部字段" href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/">http-通用首部字段</a>
+        <a class="nav-mobile-next" title="http-通用首部字段" href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

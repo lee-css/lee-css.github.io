@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-branch | 当下</title>
+<title>http-通用首部字段 | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1626740946879">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="git-branch" />
-  <meta name="keywords" content="git" />
+  <meta name="description" content="http-通用首部字段" />
+  <meta name="keywords" content="http" />
 </head>
 
 <body>
@@ -209,23 +209,16 @@
   <div class="toc-wrapper auto-number auto"
     id="toc_wrapper">
     <ul class="markdownIt-TOC">
-<li>
+<li><a href="#http-%E9%80%9A%E7%94%A8%E9%A6%96%E9%83%A8%E5%AD%97%E6%AE%B5">http-通用首部字段</a>
 <ul>
-<li><a href="#1-%E6%9F%A5%E7%9C%8B%E5%88%86%E6%94%AF">1、查看分支</a></li>
-<li><a href="#2-%E6%96%B0%E5%BB%BA%E5%88%86%E6%94%AF">2、新建分支</a>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E5%88%97%E8%A1%A8">列表</a>
 <ul>
-<li><a href="#%E6%96%B0%E5%BB%BA%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF">新建本地分支</a></li>
-<li><a href="#%E6%96%B0%E5%BB%BA%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF">新建远程分支</a></li>
+<li><a href="#cache-control">Cache-Control</a></li>
+<li><a href="#connection">Connection</a></li>
+<li><a href="#date">Date</a></li>
 </ul>
 </li>
-<li><a href="#3-%E5%88%A0%E9%99%A4%E5%88%86%E6%94%AF">3、删除分支</a>
-<ul>
-<li><a href="#%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E5%88%86%E6%94%AF">删除本地分支</a></li>
-<li><a href="#%E5%88%A0%E9%99%A4%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF">删除远程分支</a></li>
-</ul>
-</li>
-<li><a href="#4-%E5%88%86%E6%94%AF%E6%94%B9%E5%90%8D">4、分支改名</a></li>
-<li><a href="#5-%E5%85%B3%E8%81%94%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF">5、关联远程分支</a></li>
 </ul>
 </li>
 </ul>
@@ -493,8 +486,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-branch/">
-      git-branch
+    <a class="post-title-link" href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/">
+      http-通用首部字段
     </a>
   </h1>
   <div class="post-meta">
@@ -502,7 +495,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-06-16 22:59:51">2021-06-16</span>
+      <span class="publish-time" data-t="2021-07-19 07:08:49">2021-07-19</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -511,8 +504,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/TDboywfcf/">
-        <span>git</span>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/">
+        <span>http</span>
       </a>
       
       
@@ -521,102 +514,81 @@
     
     <span class="meta-item">
       <i class="fa fa-clock-o"></i>
-      <span>3<span class="language" data-lan="minute">分钟</span></span>
+      <span>2<span class="language" data-lan="minute">分钟</span></span>
     </span>
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>599<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>379<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="1-查看分支">1、查看分支</h2>
-<p>*表示当前分支</p>
-<p>查看所有本地分支</p>
-<pre><code class="language-sh">git branch
+              <h1 id="http-通用首部字段">http-通用首部字段</h1>
+<h2 id="概述">概述</h2>
+<p>通用首部字段是指，请求报文和响应报文双方都会使用的首部。</p>
+<h2 id="列表">列表</h2>
+<table>
+<thead>
+<tr>
+<th>通用首部</th>
+<th>作用（请求报文和响应报文都可能使用）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache-Control</td>
+<td>控制缓存的行为</td>
+</tr>
+<tr>
+<td>Connection</td>
+<td>决定当前的事务完成后，是否会关闭网络连接</td>
+</tr>
+<tr>
+<td>Date</td>
+<td>创建报文时间</td>
+</tr>
+<tr>
+<td>Pragma</td>
+<td>只用于请求报文，客户端要求中间服务器不返回缓存的资源</td>
+</tr>
+<tr>
+<td>Via</td>
+<td>代理服务器相关信息，每经过一个代理服务器就会添加相关信息，用逗号分割</td>
+</tr>
+<tr>
+<td>Transfer-Encoding</td>
+<td>传输编码方式：<code>chunked</code>分块传输</td>
+</tr>
+<tr>
+<td>Upgrade</td>
+<td>要求客户端使用的升级协议，需配合<code>Connection: Upgrade</code>一起使用：<code>websocket</code></td>
+</tr>
+<tr>
+<td>Warning</td>
+<td>缓存相关问题的警告</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cache-control">Cache-Control</h3>
+<p>可缓存性</p>
+<p><code>public</code>（客户端、代理服务器都可利用缓存）</p>
+<p><code>private</code>（发起请求的浏览器才可以缓存,代理服务器不可用缓存）</p>
+<p><code>no-cache</code>（本地可以用使用缓存，但需要服务器验证后才能使用）、</p>
+<p>到期</p>
+<p><code>max-age=200</code>（服务器缓存到期时间， 秒）</p>
+<p><code>s-maxage=200</code> (代理服务器缓存的到期时间)</p>
+<p>其他</p>
+<p><code>no-store</code>（不做任何缓存）</p>
+<h3 id="connection">Connection</h3>
+<p>决定当前的事务完成后，是否会关闭网络连接。Http协议1.1之后默认都是keep-alive（持久连接），1.0则是close（非持久连接）。</p>
+<pre><code>Connection: keep-alive
+Connection: close
 </code></pre>
-<p>查看分支的详细信息（commitID及message）</p>
-<pre><code class="language-sh">git branch -v
-</code></pre>
-<p>查看本地分支与远程分支的关联</p>
-<pre><code class="language-sh">git branch -vv
-</code></pre>
-<p>查看所有远程分支</p>
-<pre><code class="language-shell">git branch -r
-</code></pre>
-<p>查看所有本地分支和远程分支</p>
-<pre><code class="language-sh">git branch -a
-</code></pre>
-<h2 id="2-新建分支">2、新建分支</h2>
-<h3 id="新建本地分支">新建本地分支</h3>
-<p>直接在<code>git branch</code>后面跟上分支名，就表示新建该分支。</p>
-<pre><code class="language-sh">git branch [branch-name]
-</code></pre>
-<p>创建后，还是停留在原来分支，需要用<code>git checkout</code>切换到新建分支</p>
-<pre><code class="language-sh">git checkout [branch-name]
-</code></pre>
-<p>使用<code>-b</code>参数，可以新建的同时，切换到新分支。</p>
-<pre><code class="language-sh">git checkout -b [branch-name]
-</code></pre>
-<p>通过远程分支检出一个新的分支，执行:</p>
-<pre><code class="language-shell">git checkout -b [branch-name] [remote]/[remote-branch]
-git checkout -b newBranch origin/main
-</code></pre>
-<p>就可以创建一个名为 <code>newBranch</code> 的分支，它跟踪远程分支 <code>origin/main</code>。</p>
-<hr>
-<p>新建一个分支，与指定的远程分支建立追踪关系</p>
-<pre><code class="language-sh">git branch --track [branch] [remote]/[remote-branch]
-</code></pre>
-<h3 id="新建远程分支">新建远程分支</h3>
-<p>创建远程分支</p>
-<p>创建远程分支的前提是本地有这个分支，推送到远程后，因为远程没有此分支，所以会新建</p>
-<p>在远程主机<code>origin</code>上创建一个dev分支</p>
-<pre><code class="language-sh">git push [remote] [place-branch]
-git push origin dev
-</code></pre>
-<p>在远程主机<code>origin</code>上创建一个<code>dev</code>的分支，并与本地的同名分支建立追踪关系。</p>
-<pre><code class="language-sh">git push -u [remote] [place-branch]
-git push -u origin dev
-</code></pre>
-<h2 id="3-删除分支">3、删除分支</h2>
-<h3 id="删除本地分支">删除本地分支</h3>
-<p>需要当前不在被删除的分支上</p>
-<p><code>-d</code>参数用来删除一个分支，前提是该分支没有未合并的变动。</p>
-<pre><code class="language-sh">git branch -d [branch-name]
-</code></pre>
-<p>强制删除一个分支，不管有没有未合并变化。</p>
-<pre><code class="language-sh">git branch -D [branch-name]
-</code></pre>
-<h3 id="删除远程分支">删除远程分支</h3>
-<pre><code class="language-sh">git push [remote] --delete [branch-name]
-git push origin --delete dev
-</code></pre>
-<pre><code class="language-sh">git branch -dr [remote]/[remote-branch]
-git branch -dr origin/dev
-</code></pre>
-<h2 id="4-分支改名">4、分支改名</h2>
-<p>为当前分支改名</p>
-<pre><code class="language-sh">git branch -m [branch-name]
-</code></pre>
-<p>为指定分支改名</p>
-<pre><code class="language-sh">git branch -m [branch-name] [new-branch-name]
-git branch -m dev develop
-</code></pre>
-<h2 id="5-关联远程分支">5、关联远程分支</h2>
-<p>建立追踪关系，在现有分支与指定的远程分支之间</p>
-<p>方式一：</p>
-<pre><code class="language-sh">git branch --set-upstream-to=[remote]/[remote-branch] [branch]
-git branch --set-upstream-to=origin/dev dev
-</code></pre>
-<p>方式二：</p>
-<p><code>git branch -u</code> 命令，执行：</p>
-<pre><code class="language-sh">git branch -u [remote]/[remote-branch] [branch]
-git branch -u origin/main foo
-</code></pre>
-<p>这样 <code>foo</code> 就会跟踪 <code>origin/main</code> 了。如果当前就在 foo 分支上, 还可以省略 foo：</p>
-<pre><code class="language-sh">git branch -u o/main
+<h3 id="date">Date</h3>
+<p>标明HTTP报文的创建日期和时间。</p>
+<pre><code>Date: Wed, 21 Oct 2015 07:28:00 GMT
 </code></pre>
 
             </div>
@@ -630,7 +602,7 @@ git branch -u origin/main foo
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-branch/" title="git-branch">https://leecss.com/post/git-branch/</a>
+      <a href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/" title="http-通用首部字段">https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -639,21 +611,21 @@ git branch -u origin/main foo
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/"># http</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
         <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-add" href="https://leecss.com/post/git-add/">git-add</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-add" href="https://leecss.com/post/git-add/">上一篇</a>
+        <a class="nav-pc-next" title="http-通用首部字段Cache-Control" href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/">http-通用首部字段Cache-Control</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="http-通用首部字段Cache-Control" href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/">上一篇</a>
       
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-简介" href="https://leecss.com/post/git-jian-jie/">git-简介</a>
-        <a class="nav-mobile-next" title="git-简介" href="https://leecss.com/post/git-jian-jie/">下一篇</a>
+        <a class="nav-pc-next" title="http-首部字段" href="https://leecss.com/post/http-shou-bu-zi-duan/">http-首部字段</a>
+        <a class="nav-mobile-next" title="http-首部字段" href="https://leecss.com/post/http-shou-bu-zi-duan/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>
