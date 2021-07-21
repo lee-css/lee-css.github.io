@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>git-show | 当下</title>
+<title>http-响应首部字段 | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1626877356748">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,8 +41,8 @@
 
 
 
-  <meta name="description" content="git-show" />
-  <meta name="keywords" content="git" />
+  <meta name="description" content="http-响应首部字段" />
+  <meta name="keywords" content="http" />
 </head>
 
 <body>
@@ -209,10 +209,10 @@
   <div class="toc-wrapper auto-number auto"
     id="toc_wrapper">
     <ul class="markdownIt-TOC">
-<li>
+<li><a href="#http-%E5%93%8D%E5%BA%94%E9%A6%96%E9%83%A8%E5%AD%97%E6%AE%B5">http-响应首部字段</a>
 <ul>
 <li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
-<li><a href="#%E5%91%BD%E4%BB%A4">命令</a></li>
+<li><a href="#%E5%88%97%E8%A1%A8">列表</a></li>
 </ul>
 </li>
 </ul>
@@ -480,8 +480,8 @@
           <div class="section bg-color post post-page">
             <section class="post-header">
   <h1 class="post-title">
-    <a class="post-title-link" href="https://leecss.com/post/git-show/">
-      git-show
+    <a class="post-title-link" href="https://leecss.com/post/http-xiang-ying-shou-bu-zi-duan/">
+      http-响应首部字段
     </a>
   </h1>
   <div class="post-meta">
@@ -489,7 +489,7 @@
     <span class="meta-item pc-show">
       <i class="fa fa-calendar-o"></i>
       <span class="language" data-lan="publish">发布于</span>
-      <span class="publish-time" data-t="2021-07-04 10:54:11">2021-07-04</span>
+      <span class="publish-time" data-t="2021-07-21 22:22:10">2021-07-21</span>
       <span class="post-meta-divider pc-show">|</span>
     </span>
     
@@ -498,8 +498,8 @@
       <span class="pc-show language" data-lan="category-in">分类于</span>
       
       
-      <a href="https://leecss.com/tag/TDboywfcf/">
-        <span>git</span>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/">
+        <span>http</span>
       </a>
       
       
@@ -513,25 +513,58 @@
     <span class="meta-item">
       <span class="post-meta-divider">|</span>
       <i class="fa fa-file-word-o"></i>
-      <span>80<span class="pc-show language" data-lan="words">字数</span></span>
+      <span>207<span class="pc-show language" data-lan="words">字数</span></span>
     </span>
     
   </div>
 </section>
             <div class="post-body next-md-body" id="post_body">
-              <h2 id="概述">概述</h2>
-<p><code>git show</code>命令用于查看commit的内容</p>
-<h2 id="命令">命令</h2>
-<pre><code class="language-sh"># 输出某次提交的元数据和内容变化
-$ git show [commit]
-$ git show 12a86bc38 # By revision
-$ git show v1.0.1 # By tag
-$ git show feature132 # By branch name
-$ git show 12a86bc38^ # Parent of a commit
-$ git show 12a86bc38~2 # Grandparent of a commit
-$ git show feature132@{yesterday} # Time relative
-$ git show feature132@{2.hours.ago} # Time relative
-</code></pre>
+              <h1 id="http-响应首部字段">http-响应首部字段</h1>
+<h2 id="概述">概述</h2>
+<p>响应首部字段是由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息。</p>
+<h2 id="列表">列表</h2>
+<table>
+<thead>
+<tr>
+<th>响应首部</th>
+<th>作用（响应报文专用）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accept-Ranges</td>
+<td>告知客户端服务器是否可接受范围请求，是<code>bytes</code>，否<code>none</code></td>
+</tr>
+<tr>
+<td>Age</td>
+<td>资源在代理缓存中存在的时间</td>
+</tr>
+<tr>
+<td>ETag</td>
+<td>资源标识，资源发生变化时标识也会发生改变</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>客户端重定向到某个 URL</td>
+</tr>
+<tr>
+<td>Proxy-Authenticate</td>
+<td>向代理服务器发送验证信息</td>
+</tr>
+<tr>
+<td>Server</td>
+<td>服务器名字：<code>Apache Nginx</code></td>
+</tr>
+<tr>
+<td>WWW-Authenticate</td>
+<td>获取资源需要的认证方案</td>
+</tr>
+<tr>
+<td>Set-Cookie</td>
+<td>需要存在客户端的信息，一般用于识别用户身份</td>
+</tr>
+</tbody>
+</table>
 
             </div>
             
@@ -544,7 +577,7 @@ $ git show feature132@{2.hours.ago} # Time relative
     </li>
     <li class="post-copyright-link">
       <strong class="language" data-lan="link">本文链接：</strong>
-      <a href="https://leecss.com/post/git-show/" title="git-show">https://leecss.com/post/git-show/</a>
+      <a href="https://leecss.com/post/http-xiang-ying-shou-bu-zi-duan/" title="http-响应首部字段">https://leecss.com/post/http-xiang-ying-shou-bu-zi-duan/</a>
     </li>
     <li class="post-copyright-license">
       <strong class="language" data-lan="copyright">版权声明： </strong>
@@ -553,21 +586,17 @@ $ git show feature132@{2.hours.ago} # Time relative
   </ul>
   <div class="tags">
     
-      <a href="https://leecss.com/tag/TDboywfcf/"># git</a>
+      <a href="https://leecss.com/tag/Bf2vnlFnM/"># http</a>
     
   </div>
   <div class="nav">
     <div class="nav-prev">
       
-        <i class="fa fa-chevron-left"></i>
-        <a class="nav-pc-next" title="git-clean" href="https://leecss.com/post/git-clean/">git-clean</a class="nav-pc-next">
-        <a class="nav-mobile-prev" title="git-clean" href="https://leecss.com/post/git-clean/">上一篇</a>
-      
     </div>
     <div class="nav-next">
       
-        <a class="nav-pc-next" title="git-show-branch" href="https://leecss.com/post/git-show-branch/">git-show-branch</a>
-        <a class="nav-mobile-next" title="git-show-branch" href="https://leecss.com/post/git-show-branch/">下一篇</a>
+        <a class="nav-pc-next" title="http-请求首部字段" href="https://leecss.com/post/http-qing-qiu-shou-bu-zi-duan/">http-请求首部字段</a>
+        <a class="nav-mobile-next" title="http-请求首部字段" href="https://leecss.com/post/http-qing-qiu-shou-bu-zi-duan/">下一篇</a>
         <i class="fa fa-chevron-right"></i>
       
     </div>

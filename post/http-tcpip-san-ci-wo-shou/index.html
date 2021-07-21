@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>http-TCP/IP三次握手 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1626740946879">
+<link rel="shortcut icon" href="/favicon.ico?v=1626877356748">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">66</span>
+        <span class="site-item-stat-count">68</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1156,6 +1156,293 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-xiang-ying-shou-bu-zi-duan/"" data-c="
+          &lt;h1 id=&#34;http-响应首部字段&#34;&gt;http-响应首部字段&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;响应首部字段是由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息。&lt;/p&gt;
+&lt;h2 id=&#34;列表&#34;&gt;列表&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;响应首部&lt;/th&gt;
+&lt;th&gt;作用（响应报文专用）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Accept-Ranges&lt;/td&gt;
+&lt;td&gt;告知客户端服务器是否可接受范围请求，是&lt;code&gt;bytes&lt;/code&gt;，否&lt;code&gt;none&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Age&lt;/td&gt;
+&lt;td&gt;资源在代理缓存中存在的时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ETag&lt;/td&gt;
+&lt;td&gt;资源标识，资源发生变化时标识也会发生改变&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Location&lt;/td&gt;
+&lt;td&gt;客户端重定向到某个 URL&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Proxy-Authenticate&lt;/td&gt;
+&lt;td&gt;向代理服务器发送验证信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Server&lt;/td&gt;
+&lt;td&gt;服务器名字：&lt;code&gt;Apache Nginx&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;WWW-Authenticate&lt;/td&gt;
+&lt;td&gt;获取资源需要的认证方案&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Set-Cookie&lt;/td&gt;
+&lt;td&gt;需要存在客户端的信息，一般用于识别用户身份&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+">http-响应首部字段</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-qing-qiu-shou-bu-zi-duan/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;请求首部字段是从客户端往服务器端发送请求报文中所使用的字段，用于补充请求的附加信息、客户端信息、对响应内容相关的优先级等内容。&lt;/p&gt;
+&lt;h2 id=&#34;列表&#34;&gt;列表&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;请求首部&lt;/th&gt;
+&lt;th&gt;作用（请求报文专用）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Accept&lt;/td&gt;
+&lt;td&gt;能正确接收的媒体类型：&lt;code&gt;application/json&lt;/code&gt; &lt;code&gt;text/plain&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Accept-Charset&lt;/td&gt;
+&lt;td&gt;能正确接收的字符集: &lt;code&gt;unicode-1-1&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Accept-Encoding&lt;/td&gt;
+&lt;td&gt;能正确接收的内容编码格式列表：&lt;code&gt;gzip deflate&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Accept-Language&lt;/td&gt;
+&lt;td&gt;能正确接收的语言列表：&lt;code&gt;zh-cn,zh;1=0.9,en,1=0.8&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Authorization&lt;/td&gt;
+&lt;td&gt;客户端认证信息：&lt;code&gt;Bearer dSdSdFFlsfdjasd123&lt;/code&gt;，一般存token用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Expect&lt;/td&gt;
+&lt;td&gt;指定期望条件，并告知服务器只有在满足此期望条件的情况下才能妥善地处理请求。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;From&lt;/td&gt;
+&lt;td&gt;请求方邮箱地址&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Host&lt;/td&gt;
+&lt;td&gt;服务器的域名，用于区分单台服务器多个域名的虚拟主机，是HTTP/1.1唯一必须包含的字段。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;If-Match&lt;/td&gt;
+&lt;td&gt;服务器会比对 If-Match 的字段值和资源的 ETag 值，仅当两者一致时，才会执行请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;If-None-Match&lt;/td&gt;
+&lt;td&gt;服务器会比对 If-Match 的字段值和资源的 ETag 值，当两者不一致时，执行请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;If-Modified-Since&lt;/td&gt;
+&lt;td&gt;服务器只在所请求的资源在 If-Modified-Since 给定的日期时间之后对内容进行过修改的情况下才会将资源返回&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;If-Unmodified-Since&lt;/td&gt;
+&lt;td&gt;服务器只在所请求的资源在 If-Modified-Since 给定的日期时间之后对内容未进行过修改的情况下才会将资源返回&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;If-Range&lt;/td&gt;
+&lt;td&gt;该字段与Range字段配合使用，If-Range字段值中的条件得到满足时，Range 头字段才会起作用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Max-Forwards&lt;/td&gt;
+&lt;td&gt;限制可被代理及网关转发的次数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Proxy-Authorization&lt;/td&gt;
+&lt;td&gt;向代理服务器发送验证信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Range&lt;/td&gt;
+&lt;td&gt;请求某个内容的一部分，配合&lt;code&gt;If-Range&lt;/code&gt;使用&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Referer&lt;/td&gt;
+&lt;td&gt;请求发起页面的原始URI&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;TE&lt;/td&gt;
+&lt;td&gt;传输编码方式&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;User-Agent&lt;/td&gt;
+&lt;td&gt;客户端信息&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;accept&#34;&gt;Accept&lt;/h3&gt;
+&lt;p&gt;Accept 首部字段可通知服务器，用户代理能够处理的媒体类型及媒体类型的相对优先级。可使用 type/subtype 这种形式，一次指定多种媒体类型。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;文本文件
+text/html, text/plain, text/css ...
+application/xhtml+xml, application/xml ...
+
+图片文件
+image/jpeg, image/gif, image/png ...
+
+视频文件
+video/mpeg, video/quicktime ...
+
+应用程序使用的二进制文件
+application/octet-stream, application/zip ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;比如，如果浏览器不支持 PNG 图片的显示，那 Accept 就不指定image/png，而指定可处理的 image/gif 和 image/jpeg 等图片类型。&lt;br&gt;
+若想要给显示的媒体类型增加优先级，则使用 q= 来额外表示权重值，用分号（;）进行分隔。权重值 q 的范围是 0~1（可精确到小数点后 3 位），且 1 为最大值。不指定权重 q 值时，默认权重为 q=1.0。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/png,*/*;q=0.8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;accept-charset&#34;&gt;Accept-Charset&lt;/h3&gt;
+&lt;p&gt;Accept-Charset 首部字段可用来通知服务器用户代理支持的字符集及字符集的相对优先顺序。另外，可一次性指定多种字符集。与首部字段 Accept 相同的是可用权重 q 值来表示相对优先级。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Accept-Charset: iso-8859-5, unicode-1-1;q=0.8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;accept-encoding&#34;&gt;Accept-Encoding&lt;/h3&gt;
+&lt;p&gt;Accept-Encoding 首部字段用来告知服务器用户代理支持的内容编码及内容编码的优先级顺序。可一次性指定多种内容编码。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gzip
+由文件压缩程序 gzip（GNU zip）生成的编码格式（RFC1952），采用 Lempel-Ziv 算法（LZ77）及 32 位循环冗余校验（Cyclic Redundancy Check，通称 CRC）。
+
+compress
+由 UNIX 文件压缩程序 compress 生成的编码格式，采用 LempelZiv-Welch 算法（LZW）。
+
+deflate
+组合使用 zlib 格式（RFC1950）及由 deflate 压缩算法（RFC1951）生成的编码格式。
+
+identity
+不执行压缩或不会变化的默认编码格式
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;采用权重 q 值来表示相对优先级，这点与首部字段 Accept 相同。另外，也可使用星号（*）作为通配符，指定任意的编码格式。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Accept-Encoding: gzip, deflate
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;accept-language&#34;&gt;Accept-Language&lt;/h3&gt;
+&lt;p&gt;首部字段 Accept-Language 用来告知服务器用户代理能够处理的自然语言集（指中文或英文等），以及自然语言集的相对优先级。可一次指定多种自然语言集。&lt;br&gt;
+和 Accept 首部字段一样，按权重值 q 来表示相对优先级。客户端在服务器有中文版资源的情况下，会请求其返回中文版对应的响应，没有中文版时，则请求返回英文版响应。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Accept-Language: zh-cn,zh;q=0.7,en-us,en;q=0.3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;authorization&#34;&gt;Authorization&lt;/h3&gt;
+&lt;p&gt;首部字段 Authorization 是用来告知服务器，用户代理的认证信息（证书值）。通常，想要通过服务器认证的用户代理会在接收到返回的401 状态码响应后，把首部字段 Authorization 加入请求中。共用缓存在接收到含有 Authorization 首部字段的请求时的操作处理会略有差异。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Authorization: Basic dWVub3NlbjpwYXNzd29yZA==
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;expect&#34;&gt;Expect&lt;/h3&gt;
+&lt;p&gt;客户端使用首部字段 Expect 来告知服务器，期望出现的某种特定行为。&lt;/p&gt;
+&lt;p&gt;等待状态码 100 响应的客户端在发生请求时，需要指定 Expect:100-continue。&lt;/p&gt;
+&lt;p&gt;客户端可以利用该首部字段，写明所期望的扩展。虽然 HTTP/1.1 规范只定义了 100-continue（状态码 100 Continue 之意）。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Expect: 100-continue
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;返回100表示请求头中的期望条件可以得到满足&lt;/p&gt;
+&lt;p&gt;因服务器无法理解客户端的期望作出回应而发生错误时，会返回状态码 417 Expectation Failed。&lt;/p&gt;
+&lt;h3 id=&#34;from&#34;&gt;From&lt;/h3&gt;
+&lt;p&gt;首部字段 From 用来告知服务器使用用户代理的用户的电子邮件地址。通常，其使用目的就是为了显示搜索引擎等用户代理的负责人的电子邮件联系方式。使用代理时，应尽可能包含 From 首部字段（但可能会因代理不同，将电子邮件地址记录在 User-Agent 首部字段内）。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;From: webmaster@example.org
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;host&#34;&gt;Host&lt;/h3&gt;
+&lt;p&gt;首部字段 Host 会告知服务器，请求的资源所处的互联网主机名和端口号。&lt;u&gt;Host 首部字段在 HTTP/1.1 规范内是唯一一个必须被包含在请求内的首部字段。&lt;/u&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Host: www.hackr.jp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;首部字段 Host 和以单台服务器分配多个域名的虚拟主机的工作机制有很密切的关联，这是首部字段 Host 必须存在的意义。&lt;/p&gt;
+&lt;p&gt;请求被发送至服务器时，请求中的主机名会用 IP 地址直接替换解决。但如果这时，相同的 IP 地址下部署运行着多个域名，那么服务器就会无法理解究竟是哪个域名对应的请求。因此，就需要使用首部字段 Host 来明确指出请求的主机名。若服务器未设定主机名，那直接发送一个空值即可。如下所示。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Host:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;if-match&#34;&gt;If-Match&lt;/h3&gt;
+&lt;p&gt;形如 If-xxx 这种样式的请求首部字段，都可称为条件请求。服务器接收到附带条件的请求后，只有判断指定条件为真时，才会执行请求。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;If-Match: &amp;quot;123456&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;首部字段 If-Match，属附带条件之一，它会告知服务器匹配资源所用的实体标记（ETag）值。这时的服务器无法使用弱 ETag 值。&lt;/p&gt;
+&lt;p&gt;服务器会比对 If-Match 的字段值和资源的 ETag 值，仅当两者一致时，才会执行请求。反之，则返回状态码 412 Precondition Failed 的响应。&lt;/p&gt;
+&lt;p&gt;ETag 之间的比较使用的是强比较算法，即只有在每一个字节都相同的情况下，才可以认为两个文件是相同的。在 ETag 前面添加 W/ 前缀表示可以采用相对宽松的算法。&lt;/p&gt;
+&lt;p&gt;还可以使用星号（*）指定 If-Match 的字段值。针对这种情况，服务器将会忽略 ETag 的值，只要资源存在就处理请求。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;If-Match: &amp;quot;bfc13a64729c4290ef5b2c2730249c88ca92d82d&amp;quot;
+If-Match: W/&amp;quot;67ab43&amp;quot;, &amp;quot;54ed21&amp;quot;, &amp;quot;7892dd&amp;quot;
+If-Match: *
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;if-none-match&#34;&gt;If-None-Match&lt;/h3&gt;
+&lt;p&gt;首部字段 If-None-Match 属于附带条件之一。它和首部字段 If-Match作用相反。用于指定 If-None-Match 字段值的实体标记（ETag）值与请求资源的 ETag 不一致时，它就告知服务器处理该请求。&lt;/p&gt;
+&lt;p&gt;在 GET 或 HEAD 方法中使用首部字段 If-None-Match 可获取最新的资源。因此，这与使用首部字段 If-Modified-Since 时有些类似。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;If-None-Match: &amp;quot;bfc13a64729c4290ef5b2c2730249c88ca92d82d&amp;quot;
+If-None-Match: W/&amp;quot;67ab43&amp;quot;, &amp;quot;54ed21&amp;quot;, &amp;quot;7892dd&amp;quot;
+If-None-Match: *
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;if-modified-since&#34;&gt;If-Modified-Since&lt;/h3&gt;
+&lt;p&gt;首部字段 If-Modified-Since，属附带条件之一，它会告知服务器若 IfModified-Since 字段值早于资源的更新时间，则希望能处理该请求。而在指定 If-Modified-Since 字段值的日期时间之后，如果请求的资源都没有过更新，则返回状态码 304 Not Modified 的响应。&lt;/p&gt;
+&lt;p&gt;If-Modified-Since 用于确认代理或客户端拥有的本地资源的有效性。获取资源的更新日期时间，可通过确认首部字段 Last-Modified 来确定。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;If-Modified-Since: Thu, 15 Apr 2004 00:00:00 GMT
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;if-unmodified-since&#34;&gt;If-Unmodified-Since&lt;/h3&gt;
+&lt;p&gt;首部字段 If-Unmodified-Since 和首部字段 If-Modified-Since 的作用相反。它的作用的是告知服务器，指定的请求资源只有在字段值内指定的日期时间之后，未发生更新的情况下，才能处理请求。如果在指定日期时间后发生了更新，则以状态码 412 Precondition Failed 作为响应返回。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;If-Unmodified-Since: Thu, 03 Jul 2012 00:00:00 GMT
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;if-range&#34;&gt;If-Range&lt;/h3&gt;
+&lt;p&gt;该字段与Range字段配合使用，If-Range字段值中的条件得到满足时，Range 头字段才会起作用&lt;/p&gt;
+&lt;p&gt;首部字段 If-Range 属于附带条件之一。它告知服务器若指定的 If-Range 字段值（ETag 值或者时间）和请求资源的 ETag 值或时间相一致时，则作为范围请求处理。反之，则返回全体资源。&lt;/p&gt;
+&lt;p&gt;下面我们思考一下不使用首部字段 If-Range 发送请求的情况。服务器端的资源如果更新，那客户端持有资源中的一部分也会随之无效，当然，范围请求作为前提是无效的。这时，服务器会暂且以状态码 412Precondition Failed 作为响应返回，其目的是催促客户端再次发送请求。这样一来，与使用首部字段 If-Range 比起来，就需要花费两倍的功夫。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;GET /index.html
+If-Range: &amp;quot;123456&amp;quot;
+Range: bytes=5001-10000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;max-forwards&#34;&gt;Max-Forwards&lt;/h3&gt;
+&lt;p&gt;通过 TRACE 方法或 OPTIONS 方法，发送包含首部字段 MaxForwards 的请求时，该字段以十进制整数形式指定可经过的服务器最大数目。服务器在往下一个服务器转发请求之前，Max-Forwards 的值减 1 后重新赋值。当服务器接收到 Max-Forwards 值为 0 的请求时，则不再进行转发，而是直接返回响应。&lt;/p&gt;
+&lt;p&gt;使用 HTTP 协议通信时，请求可能会经过代理等多台服务器。途中，如果代理服务器由于某些原因导致请求转发失败，客户端也就等不到服务器返回的响应了。对此，我们无从可知。&lt;/p&gt;
+&lt;p&gt;可以灵活使用首部字段 Max-Forwards，针对以上问题产生的原因展开调查。由于当 Max-Forwards 字段值为 0 时，服务器就会立即返回响应，由此我们至少可以对以那台服务器为终点的传输路径的通信状况有所把握。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Max-Forwards: 10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;proxy-authorization&#34;&gt;Proxy-Authorization&lt;/h3&gt;
+&lt;p&gt;接收到从代理服务器发来的认证质询时，客户端会发送包含首部字段Proxy-Authorization 的请求，以告知服务器认证所需要的信息。&lt;/p&gt;
+&lt;p&gt;这个行为是与客户端和服务器之间的 HTTP 访问认证相类似的，不同之处在于，认证行为发生在客户端与代理之间。客户端与服务器之间的认证，使用首部字段 Authorization 可起到相同作用。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Proxy-Authorization: Basic dGlwOjkpNLAGfFY5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;range&#34;&gt;Range&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Range: bytes=5001-10000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于只需获取部分资源的范围请求，包含首部字段 Range 即可告知服务器资源的指定范围。上面的示例表示请求获取从第 5001 字节至第10000 字节的资源。&lt;/p&gt;
+&lt;p&gt;接收到附带 Range 首部字段请求的服务器，会在处理请求之后返回状态码为 206 Partial Content 的响应。无法处理该范围请求时，则会返回状态码 200 OK 的响应及全部资源。&lt;/p&gt;
+&lt;h3 id=&#34;referer&#34;&gt;Referer&lt;/h3&gt;
+&lt;p&gt;首部字段 Referer 会告知服务器请求的原始资源的 URI。&lt;/p&gt;
+&lt;p&gt;客户端一般都会发送 Referer 首部字段给服务器。但当直接在浏览器的地址栏输入 URI，或出于安全性的考虑时，也可以不发送该首部字段。&lt;/p&gt;
+&lt;p&gt;因为原始资源的 URI 中的查询字符串可能含有 ID 和密码等保密信息，要是写进 Referer 转发给其他服务器，则有可能导致保密信息的泄露。&lt;/p&gt;
+&lt;p&gt;另外，Referer 的正确的拼写应该是 Referrer，但不知为何，大家一直沿用这个错误的拼写。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Referer: http://www.hackr.jp/index.htm
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;te&#34;&gt;TE&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;TE: gzip, deflate;q=0.5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;首部字段 TE 会告知服务器客户端能够处理响应的传输编码方式及相对优先级。它和首部字段 Accept-Encoding 的功能很相像，但是用于传输编码。&lt;/p&gt;
+&lt;p&gt;&lt;u&gt;TE是用于传输编码，而Accept-Encoding用于内容编码。&lt;/u&gt;&lt;/p&gt;
+&lt;p&gt;首部字段 TE 除指定传输编码之外，还可以指定伴随 trailer 字段的分块传输编码的方式。应用后者时，只需把 trailers 赋值给该字段值。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;TE: trailers
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;user-agent&#34;&gt;User-Agent&lt;/h3&gt;
+&lt;p&gt;User-Agent 用于传达浏览器的种类&lt;/p&gt;
+&lt;p&gt;首部字段 User-Agent 会将创建请求的浏览器和用户代理名称等信息传达给服务器。&lt;/p&gt;
+&lt;p&gt;由网络爬虫发起请求时，有可能会在字段内添加爬虫作者的电子邮件地址。此外，如果请求经过代理，那么中间也很可能被添加上代理服务器的名称。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36 Name
+&lt;/code&gt;&lt;/pre&gt;
+">http-请求首部字段</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/"" data-c="
           &lt;h1 id=&#34;http-通用首部字段cache-control&#34;&gt;http-通用首部字段Cache-Control&lt;/h1&gt;
 &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
@@ -1353,8 +1640,7 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/"" data-c="
-          &lt;h1 id=&#34;http-通用首部字段&#34;&gt;http-通用首部字段&lt;/h1&gt;
-&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;通用首部字段是指，请求报文和响应报文双方都会使用的首部。&lt;/p&gt;
 &lt;h2 id=&#34;列表&#34;&gt;列表&lt;/h2&gt;
 &lt;table&gt;
@@ -1371,7 +1657,7 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Connection&lt;/td&gt;
-&lt;td&gt;决定当前的事务完成后，是否会关闭网络连接&lt;/td&gt;
+&lt;td&gt;管理持久连接：决定当前的事务完成后，是否会关闭网络连接&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Date&lt;/td&gt;
@@ -1379,19 +1665,23 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Pragma&lt;/td&gt;
-&lt;td&gt;只用于请求报文，客户端要求中间服务器不返回缓存的资源&lt;/td&gt;
+&lt;td&gt;兼容HTTP/1.0字段：只用于请求报文，客户端要求中间服务器不返回缓存的资源&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Via&lt;/td&gt;
-&lt;td&gt;代理服务器相关信息，每经过一个代理服务器就会添加相关信息，用逗号分割&lt;/td&gt;
+&lt;td&gt;Trailer&lt;/td&gt;
+&lt;td&gt;允许发送方在分块发送的消息后面添加额外的元信息，常用于分块传输编码中。&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Transfer-Encoding&lt;/td&gt;
-&lt;td&gt;传输编码方式：&lt;code&gt;chunked&lt;/code&gt;分块传输&lt;/td&gt;
+&lt;td&gt;规定了传输报文主体时采用的编码方式：&lt;code&gt;chunked&lt;/code&gt;分块传输&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Upgrade&lt;/td&gt;
 &lt;td&gt;要求客户端使用的升级协议，需配合&lt;code&gt;Connection: Upgrade&lt;/code&gt;一起使用：&lt;code&gt;websocket&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Via&lt;/td&gt;
+&lt;td&gt;代理服务器相关信息，每经过一个代理服务器就会添加相关信息，用逗号分割&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Warning&lt;/td&gt;
@@ -1403,21 +1693,148 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
 &lt;p&gt;可缓存性&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;public&lt;/code&gt;（客户端、代理服务器都可利用缓存）&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;private&lt;/code&gt;（发起请求的浏览器才可以缓存,代理服务器不可用缓存）&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;no-cache&lt;/code&gt;（本地可以用使用缓存，但需要服务器验证后才能使用）、&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;no-cache&lt;/code&gt;（本地可以用使用缓存，但需要服务器验证后才能使用）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;no-store&lt;/code&gt;（不做任何缓存）&lt;/p&gt;
 &lt;p&gt;到期&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;max-age=200&lt;/code&gt;（服务器缓存到期时间， 秒）&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;s-maxage=200&lt;/code&gt; (代理服务器缓存的到期时间)&lt;/p&gt;
-&lt;p&gt;其他&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;no-store&lt;/code&gt;（不做任何缓存）&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;s-maxage=200&lt;/code&gt; (代理服务器缓存的到期时间， 秒)&lt;/p&gt;
 &lt;h3 id=&#34;connection&#34;&gt;Connection&lt;/h3&gt;
-&lt;p&gt;决定当前的事务完成后，是否会关闭网络连接。Http协议1.1之后默认都是keep-alive（持久连接），1.0则是close（非持久连接）。&lt;/p&gt;
+&lt;p&gt;管理持久连接：决定当前的事务完成后，是否会关闭网络连接。&lt;/p&gt;
+&lt;p&gt;Http协议1.1之后默认都是keep-alive（持久连接），1.0则是close（非持久连接）。&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Connection: keep-alive
 Connection: close
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3 id=&#34;date&#34;&gt;Date&lt;/h3&gt;
-&lt;p&gt;标明HTTP报文的创建日期和时间。&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;Date: Wed, 21 Oct 2015 07:28:00 GMT
+&lt;p&gt;表明创建 HTTP 报文的日期和时间。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Date: Tue, 03 Jul 2012 04:40:59 GMT
 &lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;pragma&#34;&gt;Pragma&lt;/h3&gt;
+&lt;p&gt;Pragma 是 HTTP/1.1 之前版本的历史遗留字段，仅作为与 HTTP/1.0的向后兼容而定义。&lt;/p&gt;
+&lt;p&gt;规范定义的形式唯一，如下所示。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Pragma: no-cache
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;该首部字段属于通用首部字段，但只用在客户端发送的请求中。客户端会要求所有的中间服务器不返回缓存的资源。&lt;/p&gt;
+&lt;p&gt;所有的中间服务器如果都能以 HTTP/1.1 为基准，那直接采用 CacheControl: no-cache 指定缓存的处理方式是最为理想的。但要整体掌握全部中间服务器使用的 HTTP 协议版本却是不现实的。因此，发送的请求会同时含有下面两个首部字段。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Cache-Control: no-cache
+Pragma: no-cache
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;trailer&#34;&gt;Trailer&lt;/h3&gt;
+&lt;p&gt;首部字段 Trailer 会事先说明在报文主体后记录了哪些首部字段。该首部字段可应用在 HTTP/1.1 版本分块传输编码时。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 200 OK
+Date: Tue, 03 Jul 2012 04:40:56 GMT
+Content-Type: text/html
+...
+Transfer-Encoding: chunked
+Trailer: Expires
+...(报文主体)...
+0
+Expires: Tue, 28 Sep 2004 23:59:59 GMT
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上用例中，指定首部字段 Trailer 的值为 Expires，在报文主体之后（分块长度 0 之后）出现了首部字段 Expires。&lt;/p&gt;
+&lt;h3 id=&#34;transfer-encoding&#34;&gt;Transfer-Encoding&lt;/h3&gt;
+&lt;p&gt;规定了传输报文主体时采用的编码方式。&lt;/p&gt;
+&lt;p&gt;HTTP/1.1 的传输编码方式仅对分块传输编码有效。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;HTTP/1.1 200 OK
+Date: Tue, 03 Jul 2012 04:40:56 GMT
+Cache-Control: public, max-age=604800
+Content-Type: text/javascript; charset=utf-8
+Expires: Tue, 10 Jul 2012 04:40:56 GMT
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+Content-Encoding: gzip
+Transfer-Encoding: chunked
+Connection: keep-alive
+cf0 ←16进制(10进制为3312)
+...3312字节分块数据...
+392 ←16进制(10进制为914)
+...914字节分块数据...
+0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;upgrade&#34;&gt;Upgrade&lt;/h3&gt;
+&lt;p&gt;首部字段 Upgrade 用于检测 HTTP 协议及其他协议是否可使用更高的版本进行通信，其参数值可以用来指定一个完全不同的通信协议。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;GET /index.htm HTTP/1.1
+Upgrade: TLS/1.0
+Connection: Upgrade
+------------------&amp;gt;
+&amp;lt;------------------
+HTTP/1.1 101 Switching Protocols
+Upgrade: TLS/1.0, HTTP/1.1
+Connection: Upgrade
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上图用例中，首部字段 Upgrade 指定的值为 TLS/1.0。请注意此处两个字段首部字段的对应关系，Connection 的值被指定为 Upgrade。Upgrade 首部字段产生作用的 Upgrade 对象仅限于客户端和邻接服务器之间。因此，使用首部字段 Upgrade 时，还需要额外指定Connection:Upgrade。&lt;/p&gt;
+&lt;p&gt;对于附有首部字段 Upgrade 的请求，服务器可用 101 Switching Protocols 状态码作为响应返回。&lt;/p&gt;
+&lt;h3 id=&#34;via&#34;&gt;Via&lt;/h3&gt;
+&lt;p&gt;使用首部字段 Via 是为了追踪客户端与服务器之间的请求和响应报文的传输路径。&lt;/p&gt;
+&lt;p&gt;报文经过代理或网关时，会先在首部字段 Via 中附加该服务器的信息，然后再进行转发。&lt;/p&gt;
+&lt;p&gt;首部字段 Via 不仅用于追踪报文的转发，还可避免请求回环的发生。所以必须在经过代理时附加该首部字段内容。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;客户端: 
+GET / HTTP/1.1
+
+代理服务器A: 
+GET / HTTP/1.1
+Via: 1.0 gw.hackr.jp (Squid/3.1)
+
+代理服务器B:
+GET / HTTP/1.1
+Via: 1.0 gw.hackr.jp (Squid/3.1), 1.1 a1.example.net(Squid/2.7)
+
+源服务器
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上图用例中，在经过代理服务器 A 时，Via 首部附加了“1.0 gw.hackr.jp (Squid/3.1)”这样的字符串值。行头的 1.0 是指接收请求的97服务器上应用的 HTTP 协议版本。接下来经过代理服务器 B 时亦是如此，在 Via 首部附加服务器信息，也可增加 1 个新的 Via 首部写入服务器信息。&lt;/p&gt;
+&lt;p&gt;Via 首部是为了追踪传输路径，所以经常会和 TRACE 方法一起使用。比如，代理服务器接收到由 TRACE 方法发送过来的请求（其中Max-Forwards: 0）时，代理服务器就不能再转发该请求了。这种情况下，代理服务器会将自身的信息附加到 Via 首部后，返回该请求的响应。&lt;/p&gt;
+&lt;h3 id=&#34;warning&#34;&gt;Warning&lt;/h3&gt;
+&lt;p&gt;用于告知用户一些与缓存相关的问题的警告。&lt;/p&gt;
+&lt;p&gt;Warning 首部的格式如下。最后的日期时间部分可省略。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Warning: [警告码][警告的主机:端口号]“[警告内容]”([日期时间])
+Warning: 112 gw.hacker.jp:8080  &amp;quot;cache down&amp;quot; &amp;quot; Wed, 21 Oct 2015 07:28:00 GMT&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;警告码表&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;警告码&lt;/th&gt;
+&lt;th&gt;警告内容&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;110&lt;/td&gt;
+&lt;td&gt;Response is stale&lt;/td&gt;
+&lt;td&gt;响应已过期：由缓存服务器提供的响应已过期（设置的失效时间已过）。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;111&lt;/td&gt;
+&lt;td&gt;Revalidation failed&lt;/td&gt;
+&lt;td&gt;再验证失败：由于无法访问服务器，响应验证失败。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;112&lt;/td&gt;
+&lt;td&gt;Disconnection operation&lt;/td&gt;
+&lt;td&gt;断开连接操作：缓存服务器断开连接。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;113&lt;/td&gt;
+&lt;td&gt;Heuristic expiration&lt;/td&gt;
+&lt;td&gt;试探性过期：响应的使用期超过24小时（有效缓存的设定时间大于24小时的情况下）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;199&lt;/td&gt;
+&lt;td&gt;Miscellaneous warning&lt;/td&gt;
+&lt;td&gt;杂项警告：任意的警告内容&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;214&lt;/td&gt;
+&lt;td&gt;Transformation applied&lt;/td&gt;
+&lt;td&gt;使用了转换：由代理服务器添加，如果它对返回的展现内容进行了任何转换，比如改变了内容编码、媒体类型等。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;299&lt;/td&gt;
+&lt;td&gt;Miscellaneous persistent warning&lt;/td&gt;
+&lt;td&gt;持久杂项警告：任意的警告内容&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ">http-通用首部字段</a>
       </div>
       
