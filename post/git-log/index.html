@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-log | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1626877356748">
+<link rel="shortcut icon" href="/favicon.ico?v=1626912814915">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">68</span>
+        <span class="site-item-stat-count">71</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1179,9 +1179,248 @@ a.txt =&gt; a.txt b.txt =&gt; b.txt =&gt; a.txt
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-qi-ta-shou-bu-zi-duan/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;HTTP 首部字段是可以自行扩展的。所以在 Web 服务器和浏览器的应用上，会出现各种非标准的首部字段。&lt;/p&gt;
+&lt;h2 id=&#34;常用的首部字段&#34;&gt;常用的首部字段&lt;/h2&gt;
+&lt;h3 id=&#34;x-frame-options&#34;&gt;X-Frame-Options&lt;/h3&gt;
+&lt;p&gt;首部字段 X-Frame-Options 属于 HTTP 响应首部，用于控制网站内容在其他 Web 网站的 Frame 标签内的显示问题。其主要目的是为了防止点击劫持（clickjacking）攻击。&lt;/p&gt;
+&lt;p&gt;取值：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;DENY&lt;/strong&gt;：表示该页面不允许在 frame 中展示，即便是在相同域名的页面中嵌套也不允许。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SAMEORIGIN&lt;/strong&gt;：表示该页面可以在相同域名页面的 frame 中展示。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ALLOW-FROM uri&lt;/strong&gt;：表示该页面可以在指定来源的 frame 中展示。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;X-Frame-Options: DENY
+X-Frame-Options: SAMEORIGIN
+X-Frame-Options: ALLOW-FROM http://hackr.jp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;x-xss-protection&#34;&gt;X-XSS-Protection&lt;/h3&gt;
+&lt;p&gt;首部字段 X-XSS-Protection 属于 HTTP 响应首部，它是针对跨站脚本攻击（XSS）的一种对策，用于控制浏览器 XSS 防护机制的开关。&lt;/p&gt;
+&lt;p&gt;当检测到跨站脚本攻击 (XSS)时，浏览器将停止加载页面。针对现代浏览器，会选择更强大的Content-Security-Policy。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;X-XSS-Protection: 0  //禁止XSS过滤。
+X-XSS-Protection: 1  //启用XSS过滤（通常浏览器是默认的）。如果检测到跨站脚本攻击，浏览器将清除页面（删除不安全的部分）。
+X-XSS-Protection: 1; mode=block //启用XSS过滤。 如果检测到攻击，浏览器将不会清除页面，而是阻止页面加载。
+X-XSS-Protection: 1; report=&amp;lt;reporting-uri&amp;gt; //启用XSS过滤。 如果检测到跨站脚本攻击，浏览器将清除页面并使用CSP report-uri指令的功能发送违规报告。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;dnt&#34;&gt;DNT&lt;/h3&gt;
+&lt;p&gt;首部字段 DNT 属于 HTTP 请求首部，其中 DNT 是 Do Not Track 的简称，意为拒绝个人信息被收集，是表示拒绝被精准广告追踪的一种方法。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;DNT:0 //同意被追踪
+DNT:1 //拒绝被追踪
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;由于首部字段 DNT 的功能具备有效性，所以 Web 服务器需要对 DNT做对应的支持。&lt;/p&gt;
+">http-其他首部字段</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-cookie-xiang-guan-shou-bu-zi-duan/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;管理服务器与客户端之间状态的 Cookie，虽然没有被编入标准化HTTP/1.1 的 RFC2616 中，但在 Web 网站方面得到了广泛的应用。&lt;/p&gt;
+&lt;p&gt;Cookie 的工作机制是用户识别及状态管理。Web 网站为了管理用户的状态会通过 Web 浏览器，把一些数据临时写入用户的计算机内。接着当用户访问该Web网站时，可通过通信方式取回之前发放的Cookie。&lt;/p&gt;
+&lt;p&gt;调用 Cookie 时，由于可校验 Cookie 的有效期，以及发送方的域、路径、协议等信息，所以正规发布的 Cookie 内的数据不会因来自其他Web 站点和攻击者的攻击而泄露。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;首部字段名&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;th&gt;首部类型&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Set-Cookie&lt;/td&gt;
+&lt;td&gt;开始状态管理所使用的Cookie信息&lt;/td&gt;
+&lt;td&gt;响应首部字段&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cookie&lt;/td&gt;
+&lt;td&gt;服务器接收到的Cookie信息&lt;/td&gt;
+&lt;td&gt;请求首部字段&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;服务器&#34;&gt;服务器&lt;/h2&gt;
+&lt;p&gt;当服务器准备开始管理客户端的状态时，会事先告知各种信息。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;属性&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;NAME=VALUE&lt;/td&gt;
+&lt;td&gt;赋予 Cookie 的名称和其值（必需项）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;expires=DATE&lt;/td&gt;
+&lt;td&gt;Cookie的有效期（若不明确指定则默认为浏览器关闭前为止）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;path=PATH&lt;/td&gt;
+&lt;td&gt;将服务器上的文件目录作为Cookie的适用对象（若不指定则默认为文档所在的文件目录）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;domain=域名&lt;/td&gt;
+&lt;td&gt;作为 Cookie 适用对象的域名 （若不指定则默认为创建 Cookie的服务器的域名）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Secure&lt;/td&gt;
+&lt;td&gt;仅在 HTTPS 安全通信时才会发送 Cookie&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;HttpOnly&lt;/td&gt;
+&lt;td&gt;加以限制，使 Cookie 不能被 JavaScript 脚本访问&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;expires&#34;&gt;expires&lt;/h3&gt;
+&lt;p&gt;Cookie 的 expires 属性指定浏览器可发送 Cookie 的有效期。&lt;/p&gt;
+&lt;p&gt;当省略 expires 属性时，其有效期仅限于维持浏览器会话（Session）时间段内。这通常限于浏览器应用程序被关闭之前。&lt;/p&gt;
+&lt;p&gt;另外，一旦 Cookie 从服务器端发送至客户端，服务器端就不存在可以显式删除 Cookie 的方法。但可通过覆盖已过期的 Cookie，实现对客户端 Cookie 的实质性删除操作。&lt;/p&gt;
+&lt;h3 id=&#34;path&#34;&gt;path&lt;/h3&gt;
+&lt;p&gt;限定可以发送Cookie的路径&lt;/p&gt;
+&lt;p&gt;Cookie 的 path 属性可用于限制指定 Cookie 的发送范围的文件目录。&lt;/p&gt;
+&lt;h3 id=&#34;domain&#34;&gt;domain&lt;/h3&gt;
+&lt;p&gt;通过 Cookie 的 domain 属性指定的域名可做到与结尾匹配一致。比如，当指定 &lt;code&gt;example.com&lt;/code&gt; 后，除&lt;code&gt;example.com&lt;/code&gt; 以外，&lt;code&gt;www.example.com&lt;/code&gt;或 &lt;code&gt;www2.example.com&lt;/code&gt; 等都可以发送 Cookie。&lt;/p&gt;
+&lt;p&gt;因此，除了针对具体指定的多个域名发送 Cookie 之 外，不指定domain 属性显得更安全。&lt;/p&gt;
+&lt;h3 id=&#34;secure&#34;&gt;secure&lt;/h3&gt;
+&lt;p&gt;Cookie 的 secure 属性用于限制 Web 页面仅在 HTTPS 安全连接时，才可以发送 Cookie。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Set-Cookie: name=value; secure
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以上例子仅当在 &lt;code&gt;https://www.example.com/&lt;/code&gt;（HTTPS）安全连接的情况下才会进行 Cookie 的回收。也就是说，即使域名相同，&lt;code&gt;http://www.example.com/&lt;/code&gt;（HTTP）也不会发生 Cookie 回收行为。&lt;/p&gt;
+&lt;p&gt;当省略 secure 属性时，不论 HTTP 还是 HTTPS，都会对 Cookie 进行回收。&lt;/p&gt;
+&lt;h3 id=&#34;httponly&#34;&gt;HttpOnly&lt;/h3&gt;
+&lt;p&gt;Cookie 的 HttpOnly 属性是 Cookie 的扩展功能，它使 JavaScript 脚本无法获得 Cookie。其主要目的为防止跨站脚本攻击（Cross-site scripting，XSS）对 Cookie 的信息窃取。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Set-Cookie: name=value; HttpOnly
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;通过上述设置，通常从 Web 页面内还可以对 Cookie 进行读取操作。但使用 JavaScript 的 document.cookie 就无法读取附加 HttpOnly 属性后的 Cookie 的内容了。因此，也就无法在 XSS 中利用 JavaScript 劫持Cookie 了。&lt;/p&gt;
+&lt;h2 id=&#34;客户端&#34;&gt;客户端&lt;/h2&gt;
+&lt;p&gt;首部字段 Cookie 会告知服务器，当客户端想获得 HTTP 状态管理支持时，就会在请求中包含从服务器接收到的 Cookie。接收到多个Cookie 时，同样可以以多个 Cookie 形式发送。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Cookie: status=enable
+&lt;/code&gt;&lt;/pre&gt;
+">http-cookie相关首部字段</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-shi-ti-shou-bu-zi-duan/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;实体首部字段是包含在请求报文和响应报文中的实体部分所使用的首部，用于补充内容的更新时间等与实体相关的信息。&lt;/p&gt;
+&lt;h2 id=&#34;列表&#34;&gt;列表&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;实体首部&lt;/th&gt;
+&lt;th&gt;作用（补充请求报文或响应报文相关信息）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Allow&lt;/td&gt;
+&lt;td&gt;告诉客户端资源所支持的HTTP方法：&lt;code&gt;GET HEAD POST&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content-Encoding&lt;/td&gt;
+&lt;td&gt;告知客户端，服务器对实体主体部分选用的内容编码方式：&lt;code&gt;gzip deflate&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content-Language&lt;/td&gt;
+&lt;td&gt;告知客户端，实体主体使用的自然语言。：&lt;code&gt;zh-CN&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content-Length&lt;/td&gt;
+&lt;td&gt;表明实体主体部分的大小，单位是字节。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content-Location&lt;/td&gt;
+&lt;td&gt;表示返回的数据对应的URI&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content-MD5&lt;/td&gt;
+&lt;td&gt;Base64加密格式的内容 MD5检验值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content-Range&lt;/td&gt;
+&lt;td&gt;主要用于范围请求，告知客户端当前发送部分的内容范围以及整个实体大小。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Content-Type&lt;/td&gt;
+&lt;td&gt;表明实体主体内对象的媒体类型。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Expires&lt;/td&gt;
+&lt;td&gt;内容的过期时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Last_modified&lt;/td&gt;
+&lt;td&gt;内容的最后修改时间&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;allow&#34;&gt;Allow&lt;/h3&gt;
+&lt;p&gt;首部字段 Allow 用于通知客户端能够支持 Request-URI 指定资源的所有 HTTP 方法。当服务器接收到不支持的 HTTP 方法时，会以状态码405 Method Not Allowed 作为响应返回。与此同时，还会把所有能支持的 HTTP 方法写入首部字段 Allow 后返回。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Allow: GET, HEAD
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;content-encoding&#34;&gt;Content-Encoding&lt;/h3&gt;
+&lt;p&gt;首部字段 Content-Encoding 会告知客户端服务器对实体的主体部分选用的内容编码方式。内容编码是指在不丢失实体信息的前提下所进行的压缩。&lt;/p&gt;
+&lt;p&gt;告知客户端以同样的方式解压。&lt;/p&gt;
+&lt;p&gt;主要采用以下 4 种内容编码的方式。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;gzip
+compress
+deflate
+identity
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Content-Encoding: gzip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;content-language&#34;&gt;Content-Language&lt;/h3&gt;
+&lt;p&gt;首部字段 Content-Language 会告知客户端，实体主体使用的自然语言（指中文或英文等语言）。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Content-Language: zh-CN
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;content-length&#34;&gt;Content-Length&lt;/h3&gt;
+&lt;p&gt;首部字段 Content-Length 表明了实体主体部分的大小（单位是字节）。对实体主体进行内容编码传输时，不能再使用 Content-Length首部字段。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Content-Length: 15000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;该资源的大小为15000字节&lt;/p&gt;
+&lt;h3 id=&#34;content-location&#34;&gt;Content-Location&lt;/h3&gt;
+&lt;p&gt;首部字段 Content-Location 给出与报文主体部分相对应的 URI。和首部字段 Location 不同，Content-Location 表示的是报文主体返回资源对应的 URI。&lt;/p&gt;
+&lt;p&gt;比如，对于使用首部字段 Accept-Language 的服务器驱动型请求，当返回的页面内容与实际请求的对象不同时，首部字段 Content-Location内会写明 URI。（访问 &lt;code&gt;http://www.hackr.jp/&lt;/code&gt; 返回的对象却是&lt;code&gt;http://www.hackr.jp/index-ja.html&lt;/code&gt; 等类似情况）&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Content-Location: http://www.hackr.jp/index-ja.html
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;content-md5&#34;&gt;Content-MD5&lt;/h3&gt;
+&lt;p&gt;首部字段 Content-MD5 是一串由 MD5 算法生成的值，其目的在于检查报文主体在传输过程中是否保持完整，以及确认传输到达。&lt;/p&gt;
+&lt;p&gt;对报文主体执行 MD5 算法获得的 128 位二进制数，再通过 Base64 编码后将结果写入 Content-MD5 字段值。由于 HTTP 首部无法记录二进制值，所以要通过 Base64 编码处理。为确保报文的有效性，作为接收方的客户端会对报文主体再执行一次相同的 MD5 算法。计算出的值与字段值作比较后，即可判断出报文主体的准确性。&lt;/p&gt;
+&lt;p&gt;采用这种方法，对内容上的偶发性改变是无从查证的，也无法检测出恶意篡改。其中一个原因在于，内容如果能够被篡改，那么同时意味着 Content-MD5 也可重新计算然后被篡改。所以处在接收阶段的客户端是无法意识到报文主体以及首部字段 Content-MD5 是已经被篡改过的。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Content-MD5: OGFkZDUwNGVhNGY3N2MxMDIwZmQ4NTBmY2IyTY==
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;报文主体 -&amp;gt; MD5算法 -&amp;gt; Base64编码
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;content-range&#34;&gt;Content-Range&lt;/h3&gt;
+&lt;p&gt;针对范围请求，返回响应时使用的首部字段 Content-Range，能告知客户端作为响应返回的实体的哪个部分符合范围请求。字段值以字节为单位，表示当前发送部分及整个实体大小。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Content-Range: bytes 5001-10000/10000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;content-type&#34;&gt;Content-Type&lt;/h3&gt;
+&lt;p&gt;首部字段 Content-Type 说明了实体主体内对象的媒体类型。和首部字段 Accept 一样，字段值用 type/subtype 形式赋值。&lt;br&gt;
+参数 charset 使用 iso-8859-1 或 euc-jp 等字符集进行赋值。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Content-Type: text/html; charset=UTF-8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;expires&#34;&gt;Expires&lt;/h3&gt;
+&lt;p&gt;首部字段 Expires 会将资源失效的日期告知客户端。缓存服务器在接收到含有首部字段 Expires 的响应后，会以缓存来应答请求，在Expires 字段值指定的时间之前，响应的副本会一直被保存。当超过指定的时间后，缓存服务器在请求发送过来时，会转向源服务器请求资源。&lt;/p&gt;
+&lt;p&gt;源服务器不希望缓存服务器对资源缓存时，最好在 Expires 字段内写入与首部字段 Date 相同的时间值。&lt;/p&gt;
+&lt;p&gt;但是，当首部字段 Cache-Control 有指定 max-age 指令时，比起首部字段 Expires，会优先处理 max-age 指令。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Expires: Wed, 04 Jul 2012 08:26:05 GMT
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;源服务器告知缓存服务器此缓存可使用到2012年7月4日&lt;/p&gt;
+&lt;h3 id=&#34;last-modified&#34;&gt;Last-Modified&lt;/h3&gt;
+&lt;p&gt;首部字段 Last-Modified 指明资源最终修改的时间。一般来说，这个值就是 Request-URI 指定资源被修改的时间。但类似使用 CGI 脚本进行动态数据处理时，该值有可能会变成数据最终修改时的时间。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Last-Modified: Wed, 23 May 2012 09:59:55 GMT
+&lt;/code&gt;&lt;/pre&gt;
+">http-实体首部字段</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-xiang-ying-shou-bu-zi-duan/"" data-c="
-          &lt;h1 id=&#34;http-响应首部字段&#34;&gt;http-响应首部字段&lt;/h1&gt;
-&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;响应首部字段是由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息。&lt;/p&gt;
 &lt;h2 id=&#34;列表&#34;&gt;列表&lt;/h2&gt;
 &lt;table&gt;
@@ -1213,19 +1452,83 @@ a.txt =&gt; a.txt b.txt =&gt; b.txt =&gt; a.txt
 &lt;td&gt;向代理服务器发送验证信息&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
+&lt;td&gt;Retry-After&lt;/td&gt;
+&lt;td&gt;告知客户端应该在多久之后再次发送请求&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
 &lt;td&gt;Server&lt;/td&gt;
 &lt;td&gt;服务器名字：&lt;code&gt;Apache Nginx&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;WWW-Authenticate&lt;/td&gt;
-&lt;td&gt;获取资源需要的认证方案&lt;/td&gt;
+&lt;td&gt;Vary&lt;/td&gt;
+&lt;td&gt;对缓存进行控制 &lt;code&gt;Vary: Accept-Language&lt;/code&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td&gt;Set-Cookie&lt;/td&gt;
-&lt;td&gt;需要存在客户端的信息，一般用于识别用户身份&lt;/td&gt;
+&lt;td&gt;WWW-Authenticate&lt;/td&gt;
+&lt;td&gt;定义了使用何种验证方式去获取对资源的连接。&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;h3 id=&#34;accept-ranges&#34;&gt;Accept-Ranges&lt;/h3&gt;
+&lt;p&gt;首部字段 Accept-Ranges 是用来告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源。&lt;/p&gt;
+&lt;p&gt;可指定的字段值有两种，可处理范围请求时指定其为 bytes，反之则指定其为 none。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Accept-Ranges: bytes
+Accept-Ranges: none    //不支持范围请求
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;age&#34;&gt;Age&lt;/h3&gt;
+&lt;p&gt;首部字段 Age 能告知客户端，源服务器在多久前创建了响应。字段值的单位为秒。&lt;/p&gt;
+&lt;p&gt;若创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再次发起认证到认证完成的时间值。代理创建响应时必须加上首部字段Age。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Age: 600
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;etag&#34;&gt;ETag&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;ETag: &amp;quot;82e22293907ce725faf67773957acd12&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;首部字段 ETag 能告知客户端实体标识。它是一种可将资源以字符串形式做唯一性标识的方式。服务器会为每份资源分配对应的 ETag值。&lt;/p&gt;
+&lt;p&gt;另外，当资源更新时，ETag 值也需要更新。生成 ETag 值时，并没有统一的算法规则，而仅仅是由服务器来分配。&lt;/p&gt;
+&lt;p&gt;资源被缓存时，就会被分配唯一性标识。例如，当使用中文版的浏览器访问 &lt;code&gt;http://www.google.com/&lt;/code&gt; 时，就会返回中文版对应的资源，而使用英文版的浏览器访问时，则会返回英文版对应的资源。两者的URI 是相同的，所以仅凭 URI 指定缓存的资源是相当困难的。若在下载过程中出现连接中断、再连接的情况，都会依照 ETag 值来指定资源。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;强 ETag 值和弱 Tag 值&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;ETag 中有强 ETag 值和弱 ETag 值之分。&lt;br&gt;
+1、强 ETag 值&lt;br&gt;
+强 ETag 值，不论实体发生多么细微的变化都会改变其值&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;ETag: &amp;quot;usagi-1234&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;弱 ETag 值&lt;br&gt;
+弱 ETag 值只用于提示资源是否相同。只有资源发生了根本改变，产生差异时才会改变 ETag 值。这时，会在字段值最开始处附加 W/。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;ETag: W/&amp;quot;usagi-1234&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;location&#34;&gt;Location&lt;/h3&gt;
+&lt;p&gt;使用首部字段 Location 可以将响应接收方引导至某个与请求 URI 位置不同的资源。&lt;/p&gt;
+&lt;p&gt;基本上，该字段会配合 3xx ：Redirection 的响应，提供重定向的URI。&lt;/p&gt;
+&lt;p&gt;几乎所有的浏览器在接收到包含首部字段 Location 的响应后，都会强制性地尝试对已提示的重定向资源的访问。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Location: http://www.usagidesign.jp/sample.html
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;proxy-authenticate&#34;&gt;Proxy-Authenticate&lt;/h3&gt;
+&lt;p&gt;首部字段 Proxy-Authenticate 会把由代理服务器所要求的认证信息发送给客户端。&lt;/p&gt;
+&lt;p&gt;它与客户端和服务器之间的 HTTP 访问认证的行为相似，不同之处在于其认证行为是在客户端与代理之间进行的。而客户端与服务器之间进行认证时，首部字段 WWW-Authorization 有着相同的作用。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Proxy-Authenticate: Basic realm=&amp;quot;Usagidesign Auth&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;retry-after&#34;&gt;Retry-After&lt;/h3&gt;
+&lt;p&gt;首部字段 Retry-After 告知客户端应该在多久之后再次发送请求。主要配合状态码 503 Service Unavailable 响应，或 3xx Redirect 响应一起使用。&lt;/p&gt;
+&lt;p&gt;字段值可以指定为具体的日期时间（Wed, 04 Jul 2012 06：34：24GMT 等格式），也可以是创建响应后的秒数。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Retry-After: Wed, 21 Oct 2015 07:28:00 GMT
+Retry-After: 120
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;server&#34;&gt;Server&lt;/h3&gt;
+&lt;p&gt;首部字段 Server 告知客户端当前服务器上安装的 HTTP 服务器应用程序的信息。不单单会标出服务器上的软件应用名称，还有可能包括版本号和安装时启用的可选项。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Server: Apache/2.2.17 (Unix)
+Server: Apache/2.2.6 (Unix) PHP/5.2.5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;vary&#34;&gt;Vary&lt;/h3&gt;
+&lt;p&gt;首部字段 Vary 可对缓存进行控制。源服务器会向代理服务器传达关于本地缓存使用方法的命令。&lt;/p&gt;
+&lt;p&gt;从代理服务器接收到源服务器返回包含 Vary 指定项的响应之后，若再要进行缓存，仅对请求中含有相同 Vary 指定首部字段的请求返回缓存。即使对相同资源发起请求，但由于 Vary 指定的首部字段不相同，因此必须要从源服务器重新获取资源。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;Vary: Accept-Language
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当代理服务器接收到带有 Vary 首部字段指定获取资源的请求时，如果使用的 Accept-Language 字段的值相同，那么就直接从缓存返回响应。反之，则需要先从源服务器端获取资源后才能作为响应返回&lt;/p&gt;
+&lt;h3 id=&#34;www-authenticate&#34;&gt;WWW-Authenticate&lt;/h3&gt;
+&lt;p&gt;首部字段 WWW-Authenticate 用于 HTTP 访问认证。它会告知客户端适用于访问请求 URI 所指定资源的认证方案（Basic 或是 Digest）和带参数提示的质询（challenge）。状态码 401 Unauthorized 响应中，肯定带有首部字段 WWW-Authenticate。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-http&#34;&gt;WWW-Authenticate: Basic realm=&amp;quot;Usagidesign Auth&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上述示例中，realm 字段的字符串是为了辨别请求 URI 指定资源所受到的保护策略。&lt;/p&gt;
 ">http-响应首部字段</a>
       </div>
       
@@ -6818,7 +7121,7 @@ git rebase c2
 &lt;h3 id=&#34;解决冲突&#34;&gt;解决冲突&lt;/h3&gt;
 &lt;p&gt;git会使用如下结构，将冲突的内容标注起来&lt;/p&gt;
 &lt;p&gt;git会将当前分支中的内容放在 “&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD” 与 “=======” 之间。&lt;/p&gt;
-&lt;p&gt;git会将合并分支中的内容放在 “=======”  与 “&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; new” 之间。&lt;/p&gt;
+&lt;p&gt;git会将合并分支中的内容放在 “=======”  与 “&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; new” 之间。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; HEAD
 
 =======
