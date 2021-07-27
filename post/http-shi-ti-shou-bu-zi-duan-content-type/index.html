@@ -8,7 +8,7 @@
 <meta name="keywords" content="css">
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
-<title>当下</title>
+<title>http-实体首部字段Content-Type | 当下</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1627427454311">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -41,6 +41,8 @@
 
 
 
+  <meta name="description" content="http-实体首部字段Content-Type" />
+  <meta name="keywords" content="http" />
 </head>
 
 <body>
@@ -96,7 +98,7 @@
           
             
             
-            <li class="nav-item nav-item-active">
+            <li class="nav-item ">
               
               
                 <a href="/tags/" target="_self">
@@ -144,10 +146,26 @@
   <div class="main-continer">
     
     <div
-      class="section-layout  gemini">
+      class="section-layout gemini ">
       <div class="section-layout-wrapper">
-        <div id="sidebarMeta" class="sidebar">
-    
+        
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+        <div class="post-list-sidebar">
+          <div class="sidebar-title">
+            <span id="tocSideBar" class="sidebar-title-item sidebar-title-active language" data-lan="index">文章目录</span>
+            <span id="metaSideBar" class="sidebar-title-item language" data-lan="preview">站点概览</span>
+          </div>
+        </div>
+      
+      <div class="sidebar-body gemini" id="sidebar_body">
+        
+          
+            <div class="post-side-meta" id="post_side_meta">
+              
 <div class="sidebar-wrapper box-shadow-wrapper bg-color">
   <div class="sidebar-item">
     <img class="site-author-image right-motion" src="/images/avatar.png"/>
@@ -185,2184 +203,1492 @@
 
 
 </div>
+            </div>
+            <div class="post-toc sidebar-body-active" id="post_toc" style="opacity: 1;">
+              <div class="toc-box right-motion">
+  <div class="toc-wrapper auto-number auto"
+    id="toc_wrapper">
+    <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a></li>
+<li><a href="#%E5%B8%B8%E8%A7%81%E5%AA%92%E4%BD%93%E7%B1%BB%E5%9E%8B">常见媒体类型</a></li>
+<li><a href="#http-content-type-%E5%AF%B9%E7%85%A7%E8%A1%A8">HTTP content-type 对照表</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
 </div>
+
 <script>
-  let sidebarMeta = document.querySelector('#sidebarMeta');
-  let scheme = 'gemini';
-  let sidebarWrapper = document.querySelector('.sidebar-wrapper');
-  if (sidebarMeta && (scheme === 'pisces' || scheme === 'gemini')) {
-    document.addEventListener('scroll', function(e) {
-      if (document.scrollingElement.scrollTop > parseInt(sidebarMeta.style.marginTop) + 10) {
-        sidebarWrapper.classList.add('home-sidebar-fixed')
-      } else {
-        sidebarWrapper.classList.remove('home-sidebar-fixed')
+
+  let lastTop = 0, lList = [], hList = [], postBody, lastIndex = -1;
+  let active = 'active-show', activeClass = 'active-current';
+  let tocWrapper = document.querySelector('#toc_wrapper');
+  let tocContent = tocWrapper.children[0];
+  let autoNumber = tocWrapper && tocWrapper.classList.contains('auto-number');
+
+  function addTocNumber(elem, deep) {
+    if (!elem) {
+      return;
+    }
+    let prop = elem.__proto__;
+
+    if (prop === HTMLUListElement.prototype) {
+      for (let i = 0; i < elem.children.length; i++) {
+        addTocNumber(elem.children[i], deep + (i + 1) + '.');
       }
+    } else if (prop === HTMLLIElement.prototype) {
+      // 保存li元素
+      if (elem.children[0] && elem.children[0].__proto__ === HTMLAnchorElement.prototype) {
+        lList.push(elem);
+      }
+      for (let i = 0; i < elem.children.length; i++) {
+        let cur = elem.children[i];
+        if (cur.__proto__ === HTMLAnchorElement.prototype) {
+          if (autoNumber) {
+            cur.text = deep + ' ' + cur.text;
+          }
+        } else if (cur.__proto__ === HTMLUListElement.prototype) {
+          addTocNumber(cur, deep);
+        }
+      }
+    }
+  }
+
+  function removeParentActiveClass() {
+    let parents = tocContent.querySelectorAll('.' + active)
+    parents.forEach(function (elem) {
+      elem.classList.remove(active);
     });
   }
-  </script>
-        <div class="section-box box-shadow-wrapper">
-          <section class="section tags-section bg-color posts-expand">
-            <div class="tags-box">
-  <div class="tag-cloud-title language" data-lan="cloud-tags" data-count="7">
-    目前共计 7 个标签
-  </div>
-  <div class="tag-cloud-list" id="tags">
-    
-      
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-      <a class="cloud-tag" href="https://leecss.com/tag/Bf2vnlFnM/" rel="24">http</a>
-    
-      
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-            
-      
-      <a class="cloud-tag" href="https://leecss.com/tag/T_iKFsS-v/" rel="2">google</a>
-    
-      
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-      <a class="cloud-tag" href="https://leecss.com/tag/kctJsJ_A6/" rel="1">electron</a>
-    
-      
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-      <a class="cloud-tag" href="https://leecss.com/tag/iZuPmJJT2/" rel="1">github</a>
-    
-      
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-        
-      
-      <a class="cloud-tag" href="https://leecss.com/tag/TDboywfcf/" rel="42">git</a>
-    
-      
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-      <a class="cloud-tag" href="https://leecss.com/tag/TrAzM-208/" rel="1">生活</a>
-    
-      
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-            
-      
-        
-          
-        
-      
-        
-          
-        
-      
-      <a class="cloud-tag" href="https://leecss.com/tag/Z9Yn8Qt7f/" rel="3">汇总</a>
-    
-  </div>
-</div>
-<script>
 
-  let fontStart = 12, fontEnd = 30, colorStart = '#666', colorEnd = '#000';
-  let tags = document.querySelector('#tags').children;
-  let counts = [];
-  for(let i = 0; i < tags.length; i++) {
-    counts.push(tags[i].rel);
-  }
-  let lowest = Math.min.apply(null,counts), highest = Math.max.apply(null,counts);;
-  let range = highest - lowest;
-  if (range === 0) {
-    range = 1;
-  }
-  let fontIncr, colorIncr;
-  fontIncr = (fontEnd - fontStart) / range;
-  
-  let sColorArr = toRGB(colorStart), eColorArr = toRGB(colorEnd);
-
-  for(let i = 0; i < tags.length; i++) {
-    let disCount = tags[i].rel - lowest;
-    let fontSize = fontStart + disCount * fontIncr;
-    let style = 'font-size: ' + fontSize + 'px;';
-    let arr = [];
-    for(let c = 0; c < sColorArr.length; c++) {
-      if (disCount === 0) {
-        disCount = 1;
-      }
-      let val = (sColorArr[c] - eColorArr[c]) / range * disCount;
-      if (val >= 100) {
-        val = eColorArr[c];
-      } else if (val <= 0) {
-        val = sColorArr[c];
-      }
-      arr[c] = Math.floor(val);
+  function addActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.add(activeClass);
     }
-    style += 'color: ' + toHex(arr);
-    tags[i].style = style;
   }
 
-  function toRGB(code) {
-    if (code.length === 4) {
-      code = code.replace(/(\w)(\w)(\w)/gi, "\$1\$1\$2\$2\$3\$3");
+  function removeActiveClass(index) {
+    if (index >= 0 && index < hList.length) {
+      lList[index].classList.remove(activeClass);
     }
-    var hex = /(\w{2})(\w{2})(\w{2})/.exec(code);
-    return [parseInt(hex[1], 16), parseInt(hex[2], 16), parseInt(hex[3], 16)];
   }
 
-  function toHex(ary) {
-    return "#" + ((1 << 24) + (ary[0] << 16) + (ary[1] << 8) + ary[2]).toString(16).slice(1);
+  function addActiveLiElemment(elem, parent) {
+    if (!elem || elem === parent) {
+      return;
+    } else {
+      if (elem.__proto__ === HTMLLIElement.prototype) {
+        elem.classList.add(active);
+      }
+      addActiveLiElemment(elem.parentElement, parent);
+    }
   }
+
+  function showToc() {
+    if (tocWrapper) {
+      postBody = document.querySelector('#post_body');
+      for (let i = 0; i < postBody.children.length; i++) {
+        if (postBody.children[i].__proto__ === HTMLHeadingElement.prototype) {
+          hList.push(postBody.children[i]);
+        }
+      }
+      if (tocWrapper.classList.contains('compress')) {
+        tocContent.classList.add('closed');
+      } else if (tocWrapper.classList.contains('no_compress')) {
+        tocContent.classList.add('expanded');
+      } else {
+        if (hList.length > 10) {
+          active = 'active-hidden'
+          tocContent.classList.add('closed');
+        } else {
+          tocContent.classList.add('expanded');
+        }
+      }
+    }
+  }
+
+  (function () {
+    // 处理不是从#一级标题开始目录
+    if (tocContent.children.length === 1 && tocContent.children[0].__proto__ === HTMLLIElement.prototype) {
+      let con = tocContent.children[0].children[0];
+      tocContent.innerHTML = con.innerHTML;
+    }
+    let markdownItTOC = document.querySelector('.markdownIt-TOC');
+    let innerHeight = window.innerHeight;
+    markdownItTOC.style = `max-height: ${innerHeight - 80 > 0 ? innerHeight - 80 : innerHeight}px`
+    addTocNumber(tocContent, '');
+  })();
+
+  document.addEventListener('scroll', function (e) {
+    if (lList.length <= 0) {
+      return;
+    }
+    let scrollTop = document.scrollingElement.scrollTop + 10;
+    let dir;
+
+    if (lastTop - scrollTop > 0) {
+      dir = 'up';
+    } else {
+      dir = 'down';
+    }
+
+    lastTop = scrollTop;
+    if (scrollTop <= 0) {
+      if (lastIndex >= 0 && lastIndex < hList.length) {
+        lList[lastIndex].classList.remove(activeClass);
+      }
+      return;
+    }
+
+    let current = 0, hasFind = false;
+    for (let i = 0; i < hList.length; i++) {
+      if (hList[i].offsetTop > scrollTop) {
+        current = i;
+        hasFind = true;
+        break;
+      }
+    }
+    if (!hasFind && scrollTop > lList[lList.length - 1].offsetTop) {
+      current = hList.length - 1;
+    } else {
+      current--;
+    }
+    if (dir === 'down') {
+      if (current > lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex)
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    } else {
+      if (current < lastIndex) {
+        addActiveClass(current);
+        removeActiveClass(lastIndex);
+        lastIndex = current;
+        removeParentActiveClass();
+        lList[current] && addActiveLiElemment(lList[current].parentElement, tocContent);
+      }
+    }
+  });
+
+
+  window.addEventListener('load', function () {
+    showToc();
+    document.querySelector('#sidebar').style = 'display: block;';
+    tocWrapper.classList.add('toc-active');
+    setTimeout(function () {
+      if ("createEvent" in document) {
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("scroll", false, true);
+        document.dispatchEvent(evt);
+      }
+      else {
+        document.fireEvent("scroll");
+      }
+    }, 500)
+  })
 
 </script>
-          </section>
+            </div>
+          
+        
+      </div>
+    </div>
+  
+</div>
+<script>
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    jQuery.Velocity(hideElement, 'stop');
+    jQuery.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        jQuery.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
+      }
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
+  }
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
+  <h1 class="post-title">
+    <a class="post-title-link" href="https://leecss.com/post/http-shi-ti-shou-bu-zi-duan-content-type/">
+      http-实体首部字段Content-Type
+    </a>
+  </h1>
+  <div class="post-meta">
+    
+    <span class="meta-item pc-show">
+      <i class="fa fa-calendar-o"></i>
+      <span class="language" data-lan="publish">发布于</span>
+      <span class="publish-time" data-t="2021-07-23 06:07:15">2021-07-23</span>
+      <span class="post-meta-divider pc-show">|</span>
+    </span>
+    
+    <span class="meta-item">
+      <i class="fa fa-folder-o"></i>
+      <span class="pc-show language" data-lan="category-in">分类于</span>
+      
+      
+      <a href="https://leecss.com/tag/Bf2vnlFnM/">
+        <span>http</span>
+      </a>
+      
+      
+    </span>
+    <span class="post-meta-divider">|</span>
+    
+    <span class="meta-item">
+      <i class="fa fa-clock-o"></i>
+      <span>11<span class="language" data-lan="minute">分钟</span></span>
+    </span>
+    <span class="meta-item">
+      <span class="post-meta-divider">|</span>
+      <i class="fa fa-file-word-o"></i>
+      <span>1734<span class="pc-show language" data-lan="words">字数</span></span>
+    </span>
+    
+  </div>
+</section>
+            <div class="post-body next-md-body" id="post_body">
+              <h2 id="概述">概述</h2>
+<p>Content-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件，这就是经常看到一些 PHP 网页点击的结果却是下载一个文件或一张图片的原因。</p>
+<p>Content-Type 标头告诉客户端实际返回的内容的内容类型。</p>
+<p>语法格式：</p>
+<pre><code class="language-http">Content-Type: text/html; charset=utf-8
+Content-Type: multipart/form-data; boundary=something
+</code></pre>
+<h2 id="常见媒体类型">常见媒体类型</h2>
+<ul>
+<li>text/html ： HTML格式</li>
+<li>text/plain ：纯文本格式</li>
+<li>text/xml ： XML格式</li>
+<li>image/gif ：gif图片格式</li>
+<li>image/jpeg ：jpg图片格式</li>
+<li>image/png：png图片格式</li>
+</ul>
+<p>以application开头的媒体格式类型：</p>
+<ul>
+<li>application/xhtml+xml ：XHTML格式</li>
+<li>application/xml： XML数据格式</li>
+<li>application/atom+xml ：Atom XML聚合格式</li>
+<li>application/json： JSON数据格式</li>
+<li>application/pdf：pdf格式</li>
+<li>application/msword ： Word文档格式</li>
+<li>application/octet-stream ： 二进制流数据（如常见的文件下载）</li>
+<li>application/x-www-form-urlencoded ： <code>&lt;form encType=&quot;&quot;&gt;</code>中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）</li>
+</ul>
+<p>另外一种常见的媒体格式是上传文件之时使用的：</p>
+<ul>
+<li>multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式</li>
+</ul>
+<h2 id="http-content-type-对照表">HTTP content-type 对照表</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">文件扩展名</th>
+<th style="text-align:left">Content-Type(Mime-Type)</th>
+<th style="text-align:left">文件扩展名</th>
+<th style="text-align:left">Content-Type(Mime-Type)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">.*（ 二进制流，不知道下载文件类型）</td>
+<td style="text-align:left">application/octet-stream</td>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">image/tiff</td>
+</tr>
+<tr>
+<td style="text-align:left">.001</td>
+<td style="text-align:left">application/x-001</td>
+<td style="text-align:left">.301</td>
+<td style="text-align:left">application/x-301</td>
+</tr>
+<tr>
+<td style="text-align:left">.323</td>
+<td style="text-align:left">text/h323</td>
+<td style="text-align:left">.906</td>
+<td style="text-align:left">application/x-906</td>
+</tr>
+<tr>
+<td style="text-align:left">.907</td>
+<td style="text-align:left">drawing/907</td>
+<td style="text-align:left">.a11</td>
+<td style="text-align:left">application/x-a11</td>
+</tr>
+<tr>
+<td style="text-align:left">.acp</td>
+<td style="text-align:left">audio/x-mei-aac</td>
+<td style="text-align:left">.ai</td>
+<td style="text-align:left">application/postscript</td>
+</tr>
+<tr>
+<td style="text-align:left">.aif</td>
+<td style="text-align:left">audio/aiff</td>
+<td style="text-align:left">.aifc</td>
+<td style="text-align:left">audio/aiff</td>
+</tr>
+<tr>
+<td style="text-align:left">.aiff</td>
+<td style="text-align:left">audio/aiff</td>
+<td style="text-align:left">.anv</td>
+<td style="text-align:left">application/x-anv</td>
+</tr>
+<tr>
+<td style="text-align:left">.asa</td>
+<td style="text-align:left">text/asa</td>
+<td style="text-align:left">.asf</td>
+<td style="text-align:left">video/x-ms-asf</td>
+</tr>
+<tr>
+<td style="text-align:left">.asp</td>
+<td style="text-align:left">text/asp</td>
+<td style="text-align:left">.asx</td>
+<td style="text-align:left">video/x-ms-asf</td>
+</tr>
+<tr>
+<td style="text-align:left">.au</td>
+<td style="text-align:left">audio/basic</td>
+<td style="text-align:left">.avi</td>
+<td style="text-align:left">video/avi</td>
+</tr>
+<tr>
+<td style="text-align:left">.awf</td>
+<td style="text-align:left">application/vnd.adobe.workflow</td>
+<td style="text-align:left">.biz</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.bmp</td>
+<td style="text-align:left">application/x-bmp</td>
+<td style="text-align:left">.bot</td>
+<td style="text-align:left">application/x-bot</td>
+</tr>
+<tr>
+<td style="text-align:left">.c4t</td>
+<td style="text-align:left">application/x-c4t</td>
+<td style="text-align:left">.c90</td>
+<td style="text-align:left">application/x-c90</td>
+</tr>
+<tr>
+<td style="text-align:left">.cal</td>
+<td style="text-align:left">application/x-cals</td>
+<td style="text-align:left">.cat</td>
+<td style="text-align:left">application/vnd.ms-pki.seccat</td>
+</tr>
+<tr>
+<td style="text-align:left">.cdf</td>
+<td style="text-align:left">application/x-netcdf</td>
+<td style="text-align:left">.cdr</td>
+<td style="text-align:left">application/x-cdr</td>
+</tr>
+<tr>
+<td style="text-align:left">.cel</td>
+<td style="text-align:left">application/x-cel</td>
+<td style="text-align:left">.cer</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+</tr>
+<tr>
+<td style="text-align:left">.cg4</td>
+<td style="text-align:left">application/x-g4</td>
+<td style="text-align:left">.cgm</td>
+<td style="text-align:left">application/x-cgm</td>
+</tr>
+<tr>
+<td style="text-align:left">.cit</td>
+<td style="text-align:left">application/x-cit</td>
+<td style="text-align:left">.class</td>
+<td style="text-align:left">java/*</td>
+</tr>
+<tr>
+<td style="text-align:left">.cml</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.cmp</td>
+<td style="text-align:left">application/x-cmp</td>
+</tr>
+<tr>
+<td style="text-align:left">.cmx</td>
+<td style="text-align:left">application/x-cmx</td>
+<td style="text-align:left">.cot</td>
+<td style="text-align:left">application/x-cot</td>
+</tr>
+<tr>
+<td style="text-align:left">.crl</td>
+<td style="text-align:left">application/pkix-crl</td>
+<td style="text-align:left">.crt</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+</tr>
+<tr>
+<td style="text-align:left">.csi</td>
+<td style="text-align:left">application/x-csi</td>
+<td style="text-align:left">.css</td>
+<td style="text-align:left">text/css</td>
+</tr>
+<tr>
+<td style="text-align:left">.cut</td>
+<td style="text-align:left">application/x-cut</td>
+<td style="text-align:left">.dbf</td>
+<td style="text-align:left">application/x-dbf</td>
+</tr>
+<tr>
+<td style="text-align:left">.dbm</td>
+<td style="text-align:left">application/x-dbm</td>
+<td style="text-align:left">.dbx</td>
+<td style="text-align:left">application/x-dbx</td>
+</tr>
+<tr>
+<td style="text-align:left">.dcd</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.dcx</td>
+<td style="text-align:left">application/x-dcx</td>
+</tr>
+<tr>
+<td style="text-align:left">.der</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+<td style="text-align:left">.dgn</td>
+<td style="text-align:left">application/x-dgn</td>
+</tr>
+<tr>
+<td style="text-align:left">.dib</td>
+<td style="text-align:left">application/x-dib</td>
+<td style="text-align:left">.dll</td>
+<td style="text-align:left">application/x-msdownload</td>
+</tr>
+<tr>
+<td style="text-align:left">.doc</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.dot</td>
+<td style="text-align:left">application/msword</td>
+</tr>
+<tr>
+<td style="text-align:left">.drw</td>
+<td style="text-align:left">application/x-drw</td>
+<td style="text-align:left">.dtd</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.dwf</td>
+<td style="text-align:left">Model/vnd.dwf</td>
+<td style="text-align:left">.dwf</td>
+<td style="text-align:left">application/x-dwf</td>
+</tr>
+<tr>
+<td style="text-align:left">.dwg</td>
+<td style="text-align:left">application/x-dwg</td>
+<td style="text-align:left">.dxb</td>
+<td style="text-align:left">application/x-dxb</td>
+</tr>
+<tr>
+<td style="text-align:left">.dxf</td>
+<td style="text-align:left">application/x-dxf</td>
+<td style="text-align:left">.edn</td>
+<td style="text-align:left">application/vnd.adobe.edn</td>
+</tr>
+<tr>
+<td style="text-align:left">.emf</td>
+<td style="text-align:left">application/x-emf</td>
+<td style="text-align:left">.eml</td>
+<td style="text-align:left">message/rfc822</td>
+</tr>
+<tr>
+<td style="text-align:left">.ent</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.epi</td>
+<td style="text-align:left">application/x-epi</td>
+</tr>
+<tr>
+<td style="text-align:left">.eps</td>
+<td style="text-align:left">application/x-ps</td>
+<td style="text-align:left">.eps</td>
+<td style="text-align:left">application/postscript</td>
+</tr>
+<tr>
+<td style="text-align:left">.etd</td>
+<td style="text-align:left">application/x-ebx</td>
+<td style="text-align:left">.exe</td>
+<td style="text-align:left">application/x-msdownload</td>
+</tr>
+<tr>
+<td style="text-align:left">.fax</td>
+<td style="text-align:left">image/fax</td>
+<td style="text-align:left">.fdf</td>
+<td style="text-align:left">application/vnd.fdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.fif</td>
+<td style="text-align:left">application/fractals</td>
+<td style="text-align:left">.fo</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.frm</td>
+<td style="text-align:left">application/x-frm</td>
+<td style="text-align:left">.g4</td>
+<td style="text-align:left">application/x-g4</td>
+</tr>
+<tr>
+<td style="text-align:left">.gbr</td>
+<td style="text-align:left">application/x-gbr</td>
+<td style="text-align:left">.</td>
+<td style="text-align:left">application/x-</td>
+</tr>
+<tr>
+<td style="text-align:left">.gif</td>
+<td style="text-align:left">image/gif</td>
+<td style="text-align:left">.gl2</td>
+<td style="text-align:left">application/x-gl2</td>
+</tr>
+<tr>
+<td style="text-align:left">.gp4</td>
+<td style="text-align:left">application/x-gp4</td>
+<td style="text-align:left">.hgl</td>
+<td style="text-align:left">application/x-hgl</td>
+</tr>
+<tr>
+<td style="text-align:left">.hmr</td>
+<td style="text-align:left">application/x-hmr</td>
+<td style="text-align:left">.hpg</td>
+<td style="text-align:left">application/x-hpgl</td>
+</tr>
+<tr>
+<td style="text-align:left">.hpl</td>
+<td style="text-align:left">application/x-hpl</td>
+<td style="text-align:left">.hqx</td>
+<td style="text-align:left">application/mac-binhex40</td>
+</tr>
+<tr>
+<td style="text-align:left">.hrf</td>
+<td style="text-align:left">application/x-hrf</td>
+<td style="text-align:left">.hta</td>
+<td style="text-align:left">application/hta</td>
+</tr>
+<tr>
+<td style="text-align:left">.htc</td>
+<td style="text-align:left">text/x-component</td>
+<td style="text-align:left">.htm</td>
+<td style="text-align:left">text/html</td>
+</tr>
+<tr>
+<td style="text-align:left">.html</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.htt</td>
+<td style="text-align:left">text/webviewhtml</td>
+</tr>
+<tr>
+<td style="text-align:left">.htx</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.icb</td>
+<td style="text-align:left">application/x-icb</td>
+</tr>
+<tr>
+<td style="text-align:left">.ico</td>
+<td style="text-align:left">image/x-icon</td>
+<td style="text-align:left">.ico</td>
+<td style="text-align:left">application/x-ico</td>
+</tr>
+<tr>
+<td style="text-align:left">.iff</td>
+<td style="text-align:left">application/x-iff</td>
+<td style="text-align:left">.ig4</td>
+<td style="text-align:left">application/x-g4</td>
+</tr>
+<tr>
+<td style="text-align:left">.igs</td>
+<td style="text-align:left">application/x-igs</td>
+<td style="text-align:left">.iii</td>
+<td style="text-align:left">application/x-iphone</td>
+</tr>
+<tr>
+<td style="text-align:left">.img</td>
+<td style="text-align:left">application/x-img</td>
+<td style="text-align:left">.ins</td>
+<td style="text-align:left">application/x-internet-signup</td>
+</tr>
+<tr>
+<td style="text-align:left">.isp</td>
+<td style="text-align:left">application/x-internet-signup</td>
+<td style="text-align:left">.IVF</td>
+<td style="text-align:left">video/x-ivf</td>
+</tr>
+<tr>
+<td style="text-align:left">.java</td>
+<td style="text-align:left">java/*</td>
+<td style="text-align:left">.jfif</td>
+<td style="text-align:left">image/jpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpe</td>
+<td style="text-align:left">image/jpeg</td>
+<td style="text-align:left">.jpe</td>
+<td style="text-align:left">application/x-jpe</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpeg</td>
+<td style="text-align:left">image/jpeg</td>
+<td style="text-align:left">.jpg</td>
+<td style="text-align:left">image/jpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpg</td>
+<td style="text-align:left">application/x-jpg</td>
+<td style="text-align:left">.js</td>
+<td style="text-align:left">application/x-javascript</td>
+</tr>
+<tr>
+<td style="text-align:left">.jsp</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.la1</td>
+<td style="text-align:left">audio/x-liquid-file</td>
+</tr>
+<tr>
+<td style="text-align:left">.lar</td>
+<td style="text-align:left">application/x-laplayer-reg</td>
+<td style="text-align:left">.latex</td>
+<td style="text-align:left">application/x-latex</td>
+</tr>
+<tr>
+<td style="text-align:left">.lavs</td>
+<td style="text-align:left">audio/x-liquid-secure</td>
+<td style="text-align:left">.lbm</td>
+<td style="text-align:left">application/x-lbm</td>
+</tr>
+<tr>
+<td style="text-align:left">.lmsff</td>
+<td style="text-align:left">audio/x-la-lms</td>
+<td style="text-align:left">.ls</td>
+<td style="text-align:left">application/x-javascript</td>
+</tr>
+<tr>
+<td style="text-align:left">.ltr</td>
+<td style="text-align:left">application/x-ltr</td>
+<td style="text-align:left">.m1v</td>
+<td style="text-align:left">video/x-mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.m2v</td>
+<td style="text-align:left">video/x-mpeg</td>
+<td style="text-align:left">.m3u</td>
+<td style="text-align:left">audio/mpegurl</td>
+</tr>
+<tr>
+<td style="text-align:left">.m4e</td>
+<td style="text-align:left">video/mpeg4</td>
+<td style="text-align:left">.mac</td>
+<td style="text-align:left">application/x-mac</td>
+</tr>
+<tr>
+<td style="text-align:left">.man</td>
+<td style="text-align:left">application/x-troff-man</td>
+<td style="text-align:left">.math</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.mdb</td>
+<td style="text-align:left">application/msaccess</td>
+<td style="text-align:left">.mdb</td>
+<td style="text-align:left">application/x-mdb</td>
+</tr>
+<tr>
+<td style="text-align:left">.mfp</td>
+<td style="text-align:left">application/x-shockwave-flash</td>
+<td style="text-align:left">.mht</td>
+<td style="text-align:left">message/rfc822</td>
+</tr>
+<tr>
+<td style="text-align:left">.mhtml</td>
+<td style="text-align:left">message/rfc822</td>
+<td style="text-align:left">.mi</td>
+<td style="text-align:left">application/x-mi</td>
+</tr>
+<tr>
+<td style="text-align:left">.mid</td>
+<td style="text-align:left">audio/mid</td>
+<td style="text-align:left">.midi</td>
+<td style="text-align:left">audio/mid</td>
+</tr>
+<tr>
+<td style="text-align:left">.mil</td>
+<td style="text-align:left">application/x-mil</td>
+<td style="text-align:left">.mml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.mnd</td>
+<td style="text-align:left">audio/x-musicnet-download</td>
+<td style="text-align:left">.mns</td>
+<td style="text-align:left">audio/x-musicnet-stream</td>
+</tr>
+<tr>
+<td style="text-align:left">.mocha</td>
+<td style="text-align:left">application/x-javascript</td>
+<td style="text-align:left">.movie</td>
+<td style="text-align:left">video/x-sgi-movie</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp1</td>
+<td style="text-align:left">audio/mp1</td>
+<td style="text-align:left">.mp2</td>
+<td style="text-align:left">audio/mp2</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp2v</td>
+<td style="text-align:left">video/mpeg</td>
+<td style="text-align:left">.mp3</td>
+<td style="text-align:left">audio/mp3</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp4</td>
+<td style="text-align:left">video/mpeg4</td>
+<td style="text-align:left">.mpa</td>
+<td style="text-align:left">video/x-mpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpd</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+<td style="text-align:left">.mpe</td>
+<td style="text-align:left">video/x-mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpeg</td>
+<td style="text-align:left">video/mpg</td>
+<td style="text-align:left">.mpg</td>
+<td style="text-align:left">video/mpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpga</td>
+<td style="text-align:left">audio/rn-mpeg</td>
+<td style="text-align:left">.mpp</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mps</td>
+<td style="text-align:left">video/x-mpeg</td>
+<td style="text-align:left">.mpt</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpv</td>
+<td style="text-align:left">video/mpg</td>
+<td style="text-align:left">.mpv2</td>
+<td style="text-align:left">video/mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpw</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+<td style="text-align:left">.mpx</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mtx</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.mxp</td>
+<td style="text-align:left">application/x-mmxp</td>
+</tr>
+<tr>
+<td style="text-align:left">.net</td>
+<td style="text-align:left">image/pnetvue</td>
+<td style="text-align:left">.nrf</td>
+<td style="text-align:left">application/x-nrf</td>
+</tr>
+<tr>
+<td style="text-align:left">.nws</td>
+<td style="text-align:left">message/rfc822</td>
+<td style="text-align:left">.odc</td>
+<td style="text-align:left">text/x-ms-odc</td>
+</tr>
+<tr>
+<td style="text-align:left">.out</td>
+<td style="text-align:left">application/x-out</td>
+<td style="text-align:left">.p10</td>
+<td style="text-align:left">application/pkcs10</td>
+</tr>
+<tr>
+<td style="text-align:left">.p12</td>
+<td style="text-align:left">application/x-pkcs12</td>
+<td style="text-align:left">.p7b</td>
+<td style="text-align:left">application/x-pkcs7-certificates</td>
+</tr>
+<tr>
+<td style="text-align:left">.p7c</td>
+<td style="text-align:left">application/pkcs7-mime</td>
+<td style="text-align:left">.p7m</td>
+<td style="text-align:left">application/pkcs7-mime</td>
+</tr>
+<tr>
+<td style="text-align:left">.p7r</td>
+<td style="text-align:left">application/x-pkcs7-certreqresp</td>
+<td style="text-align:left">.p7s</td>
+<td style="text-align:left">application/pkcs7-signature</td>
+</tr>
+<tr>
+<td style="text-align:left">.pc5</td>
+<td style="text-align:left">application/x-pc5</td>
+<td style="text-align:left">.pci</td>
+<td style="text-align:left">application/x-pci</td>
+</tr>
+<tr>
+<td style="text-align:left">.pcl</td>
+<td style="text-align:left">application/x-pcl</td>
+<td style="text-align:left">.pcx</td>
+<td style="text-align:left">application/x-pcx</td>
+</tr>
+<tr>
+<td style="text-align:left">.pdf</td>
+<td style="text-align:left">application/pdf</td>
+<td style="text-align:left">.pdf</td>
+<td style="text-align:left">application/pdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.pdx</td>
+<td style="text-align:left">application/vnd.adobe.pdx</td>
+<td style="text-align:left">.pfx</td>
+<td style="text-align:left">application/x-pkcs12</td>
+</tr>
+<tr>
+<td style="text-align:left">.pgl</td>
+<td style="text-align:left">application/x-pgl</td>
+<td style="text-align:left">.pic</td>
+<td style="text-align:left">application/x-pic</td>
+</tr>
+<tr>
+<td style="text-align:left">.pko</td>
+<td style="text-align:left">application/vnd.ms-pki.pko</td>
+<td style="text-align:left">.pl</td>
+<td style="text-align:left">application/x-perl</td>
+</tr>
+<tr>
+<td style="text-align:left">.plg</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.pls</td>
+<td style="text-align:left">audio/scpls</td>
+</tr>
+<tr>
+<td style="text-align:left">.plt</td>
+<td style="text-align:left">application/x-plt</td>
+<td style="text-align:left">.png</td>
+<td style="text-align:left">image/png</td>
+</tr>
+<tr>
+<td style="text-align:left">.png</td>
+<td style="text-align:left">application/x-png</td>
+<td style="text-align:left">.pot</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+</tr>
+<tr>
+<td style="text-align:left">.ppa</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.ppm</td>
+<td style="text-align:left">application/x-ppm</td>
+</tr>
+<tr>
+<td style="text-align:left">.pps</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.ppt</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+</tr>
+<tr>
+<td style="text-align:left">.ppt</td>
+<td style="text-align:left">application/x-ppt</td>
+<td style="text-align:left">.pr</td>
+<td style="text-align:left">application/x-pr</td>
+</tr>
+<tr>
+<td style="text-align:left">.prf</td>
+<td style="text-align:left">application/pics-rules</td>
+<td style="text-align:left">.prn</td>
+<td style="text-align:left">application/x-prn</td>
+</tr>
+<tr>
+<td style="text-align:left">.prt</td>
+<td style="text-align:left">application/x-prt</td>
+<td style="text-align:left">.ps</td>
+<td style="text-align:left">application/x-ps</td>
+</tr>
+<tr>
+<td style="text-align:left">.ps</td>
+<td style="text-align:left">application/postscript</td>
+<td style="text-align:left">.ptn</td>
+<td style="text-align:left">application/x-ptn</td>
+</tr>
+<tr>
+<td style="text-align:left">.pwz</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.r3t</td>
+<td style="text-align:left">text/vnd.rn-realtext3d</td>
+</tr>
+<tr>
+<td style="text-align:left">.ra</td>
+<td style="text-align:left">audio/vnd.rn-realaudio</td>
+<td style="text-align:left">.ram</td>
+<td style="text-align:left">audio/x-pn-realaudio</td>
+</tr>
+<tr>
+<td style="text-align:left">.ras</td>
+<td style="text-align:left">application/x-ras</td>
+<td style="text-align:left">.rat</td>
+<td style="text-align:left">application/rat-file</td>
+</tr>
+<tr>
+<td style="text-align:left">.rdf</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.rec</td>
+<td style="text-align:left">application/vnd.rn-recording</td>
+</tr>
+<tr>
+<td style="text-align:left">.red</td>
+<td style="text-align:left">application/x-red</td>
+<td style="text-align:left">.rgb</td>
+<td style="text-align:left">application/x-rgb</td>
+</tr>
+<tr>
+<td style="text-align:left">.rjs</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rjs</td>
+<td style="text-align:left">.rjt</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rjt</td>
+</tr>
+<tr>
+<td style="text-align:left">.rlc</td>
+<td style="text-align:left">application/x-rlc</td>
+<td style="text-align:left">.rle</td>
+<td style="text-align:left">application/x-rle</td>
+</tr>
+<tr>
+<td style="text-align:left">.rm</td>
+<td style="text-align:left">application/vnd.rn-realmedia</td>
+<td style="text-align:left">.rmf</td>
+<td style="text-align:left">application/vnd.adobe.rmf</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmi</td>
+<td style="text-align:left">audio/mid</td>
+<td style="text-align:left">.rmj</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rmj</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmm</td>
+<td style="text-align:left">audio/x-pn-realaudio</td>
+<td style="text-align:left">.rmp</td>
+<td style="text-align:left">application/vnd.rn-rn_music_package</td>
+</tr>
+<tr>
+<td style="text-align:left">.rms</td>
+<td style="text-align:left">application/vnd.rn-realmedia-secure</td>
+<td style="text-align:left">.rmvb</td>
+<td style="text-align:left">application/vnd.rn-realmedia-vbr</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmx</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rmx</td>
+<td style="text-align:left">.rnx</td>
+<td style="text-align:left">application/vnd.rn-realplayer</td>
+</tr>
+<tr>
+<td style="text-align:left">.rp</td>
+<td style="text-align:left">image/vnd.rn-realpix</td>
+<td style="text-align:left">.rpm</td>
+<td style="text-align:left">audio/x-pn-realaudio-plugin</td>
+</tr>
+<tr>
+<td style="text-align:left">.rsml</td>
+<td style="text-align:left">application/vnd.rn-rsml</td>
+<td style="text-align:left">.rt</td>
+<td style="text-align:left">text/vnd.rn-realtext</td>
+</tr>
+<tr>
+<td style="text-align:left">.rtf</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.rtf</td>
+<td style="text-align:left">application/x-rtf</td>
+</tr>
+<tr>
+<td style="text-align:left">.rv</td>
+<td style="text-align:left">video/vnd.rn-realvideo</td>
+<td style="text-align:left">.sam</td>
+<td style="text-align:left">application/x-sam</td>
+</tr>
+<tr>
+<td style="text-align:left">.sat</td>
+<td style="text-align:left">application/x-sat</td>
+<td style="text-align:left">.sdp</td>
+<td style="text-align:left">application/sdp</td>
+</tr>
+<tr>
+<td style="text-align:left">.sdw</td>
+<td style="text-align:left">application/x-sdw</td>
+<td style="text-align:left">.sit</td>
+<td style="text-align:left">application/x-stuffit</td>
+</tr>
+<tr>
+<td style="text-align:left">.slb</td>
+<td style="text-align:left">application/x-slb</td>
+<td style="text-align:left">.sld</td>
+<td style="text-align:left">application/x-sld</td>
+</tr>
+<tr>
+<td style="text-align:left">.slk</td>
+<td style="text-align:left">drawing/x-slk</td>
+<td style="text-align:left">.smi</td>
+<td style="text-align:left">application/smil</td>
+</tr>
+<tr>
+<td style="text-align:left">.smil</td>
+<td style="text-align:left">application/smil</td>
+<td style="text-align:left">.smk</td>
+<td style="text-align:left">application/x-smk</td>
+</tr>
+<tr>
+<td style="text-align:left">.snd</td>
+<td style="text-align:left">audio/basic</td>
+<td style="text-align:left">.sol</td>
+<td style="text-align:left">text/plain</td>
+</tr>
+<tr>
+<td style="text-align:left">.sor</td>
+<td style="text-align:left">text/plain</td>
+<td style="text-align:left">.spc</td>
+<td style="text-align:left">application/x-pkcs7-certificates</td>
+</tr>
+<tr>
+<td style="text-align:left">.spl</td>
+<td style="text-align:left">application/futuresplash</td>
+<td style="text-align:left">.spp</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.ssm</td>
+<td style="text-align:left">application/streamingmedia</td>
+<td style="text-align:left">.sst</td>
+<td style="text-align:left">application/vnd.ms-pki.certstore</td>
+</tr>
+<tr>
+<td style="text-align:left">.stl</td>
+<td style="text-align:left">application/vnd.ms-pki.stl</td>
+<td style="text-align:left">.stm</td>
+<td style="text-align:left">text/html</td>
+</tr>
+<tr>
+<td style="text-align:left">.sty</td>
+<td style="text-align:left">application/x-sty</td>
+<td style="text-align:left">.svg</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.swf</td>
+<td style="text-align:left">application/x-shockwave-flash</td>
+<td style="text-align:left">.tdf</td>
+<td style="text-align:left">application/x-tdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.tg4</td>
+<td style="text-align:left">application/x-tg4</td>
+<td style="text-align:left">.tga</td>
+<td style="text-align:left">application/x-tga</td>
+</tr>
+<tr>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">image/tiff</td>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">application/x-tif</td>
+</tr>
+<tr>
+<td style="text-align:left">.tiff</td>
+<td style="text-align:left">image/tiff</td>
+<td style="text-align:left">.tld</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.top</td>
+<td style="text-align:left">drawing/x-top</td>
+<td style="text-align:left">.torrent</td>
+<td style="text-align:left">application/x-bittorrent</td>
+</tr>
+<tr>
+<td style="text-align:left">.tsd</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.txt</td>
+<td style="text-align:left">text/plain</td>
+</tr>
+<tr>
+<td style="text-align:left">.uin</td>
+<td style="text-align:left">application/x-icq</td>
+<td style="text-align:left">.uls</td>
+<td style="text-align:left">text/iuls</td>
+</tr>
+<tr>
+<td style="text-align:left">.vcf</td>
+<td style="text-align:left">text/x-vcard</td>
+<td style="text-align:left">.vda</td>
+<td style="text-align:left">application/x-vda</td>
+</tr>
+<tr>
+<td style="text-align:left">.vdx</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.vpg</td>
+<td style="text-align:left">application/x-vpeg005</td>
+<td style="text-align:left">.vsd</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vsd</td>
+<td style="text-align:left">application/x-vsd</td>
+<td style="text-align:left">.vss</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vst</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vst</td>
+<td style="text-align:left">application/x-vst</td>
+</tr>
+<tr>
+<td style="text-align:left">.vsw</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vsx</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vtx</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vxml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.wav</td>
+<td style="text-align:left">audio/wav</td>
+<td style="text-align:left">.wax</td>
+<td style="text-align:left">audio/x-ms-wax</td>
+</tr>
+<tr>
+<td style="text-align:left">.wb1</td>
+<td style="text-align:left">application/x-wb1</td>
+<td style="text-align:left">.wb2</td>
+<td style="text-align:left">application/x-wb2</td>
+</tr>
+<tr>
+<td style="text-align:left">.wb3</td>
+<td style="text-align:left">application/x-wb3</td>
+<td style="text-align:left">.wbmp</td>
+<td style="text-align:left">image/vnd.wap.wbmp</td>
+</tr>
+<tr>
+<td style="text-align:left">.wiz</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.wk3</td>
+<td style="text-align:left">application/x-wk3</td>
+</tr>
+<tr>
+<td style="text-align:left">.wk4</td>
+<td style="text-align:left">application/x-wk4</td>
+<td style="text-align:left">.wkq</td>
+<td style="text-align:left">application/x-wkq</td>
+</tr>
+<tr>
+<td style="text-align:left">.wks</td>
+<td style="text-align:left">application/x-wks</td>
+<td style="text-align:left">.wm</td>
+<td style="text-align:left">video/x-ms-wm</td>
+</tr>
+<tr>
+<td style="text-align:left">.wma</td>
+<td style="text-align:left">audio/x-ms-wma</td>
+<td style="text-align:left">.wmd</td>
+<td style="text-align:left">application/x-ms-wmd</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmf</td>
+<td style="text-align:left">application/x-wmf</td>
+<td style="text-align:left">.wml</td>
+<td style="text-align:left">text/vnd.wap.wml</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmv</td>
+<td style="text-align:left">video/x-ms-wmv</td>
+<td style="text-align:left">.wmx</td>
+<td style="text-align:left">video/x-ms-wmx</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmz</td>
+<td style="text-align:left">application/x-ms-wmz</td>
+<td style="text-align:left">.wp6</td>
+<td style="text-align:left">application/x-wp6</td>
+</tr>
+<tr>
+<td style="text-align:left">.wpd</td>
+<td style="text-align:left">application/x-wpd</td>
+<td style="text-align:left">.wpg</td>
+<td style="text-align:left">application/x-wpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.wpl</td>
+<td style="text-align:left">application/vnd.ms-wpl</td>
+<td style="text-align:left">.wq1</td>
+<td style="text-align:left">application/x-wq1</td>
+</tr>
+<tr>
+<td style="text-align:left">.wr1</td>
+<td style="text-align:left">application/x-wr1</td>
+<td style="text-align:left">.wri</td>
+<td style="text-align:left">application/x-wri</td>
+</tr>
+<tr>
+<td style="text-align:left">.wrk</td>
+<td style="text-align:left">application/x-wrk</td>
+<td style="text-align:left">.ws</td>
+<td style="text-align:left">application/x-ws</td>
+</tr>
+<tr>
+<td style="text-align:left">.ws2</td>
+<td style="text-align:left">application/x-ws</td>
+<td style="text-align:left">.wsc</td>
+<td style="text-align:left">text/scriptlet</td>
+</tr>
+<tr>
+<td style="text-align:left">.wsdl</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.wvx</td>
+<td style="text-align:left">video/x-ms-wvx</td>
+</tr>
+<tr>
+<td style="text-align:left">.xdp</td>
+<td style="text-align:left">application/vnd.adobe.xdp</td>
+<td style="text-align:left">.xdr</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xfd</td>
+<td style="text-align:left">application/vnd.adobe.xfd</td>
+<td style="text-align:left">.xfdf</td>
+<td style="text-align:left">application/vnd.adobe.xfdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.xhtml</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.xls</td>
+<td style="text-align:left">application/vnd.ms-excel</td>
+</tr>
+<tr>
+<td style="text-align:left">.xls</td>
+<td style="text-align:left">application/x-xls</td>
+<td style="text-align:left">.xlw</td>
+<td style="text-align:left">application/x-xlw</td>
+</tr>
+<tr>
+<td style="text-align:left">.xml</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xpl</td>
+<td style="text-align:left">audio/scpls</td>
+</tr>
+<tr>
+<td style="text-align:left">.xq</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xql</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xquery</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xsd</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xsl</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xslt</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xwd</td>
+<td style="text-align:left">application/x-xwd</td>
+<td style="text-align:left">.x_b</td>
+<td style="text-align:left">application/x-x_b</td>
+</tr>
+<tr>
+<td style="text-align:left">.sis</td>
+<td style="text-align:left">application/vnd.symbian.install</td>
+<td style="text-align:left">.sisx</td>
+<td style="text-align:left">application/vnd.symbian.install</td>
+</tr>
+<tr>
+<td style="text-align:left">.x_t</td>
+<td style="text-align:left">application/x-x_t</td>
+<td style="text-align:left">.ipa</td>
+<td style="text-align:left">application/vnd.iphone</td>
+</tr>
+<tr>
+<td style="text-align:left">.apk</td>
+<td style="text-align:left">application/vnd.android.package-archive</td>
+<td style="text-align:left">.xap</td>
+<td style="text-align:left">application/x-silverlight-app</td>
+</tr>
+</tbody>
+</table>
+
+            </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
+      lee
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://leecss.com/post/http-shi-ti-shou-bu-zi-duan-content-type/" title="http-实体首部字段Content-Type">https://leecss.com/post/http-shi-ti-shou-bu-zi-duan-content-type/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+      <a href="https://leecss.com/tag/Bf2vnlFnM/"># http</a>
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
+      
+        <i class="fa fa-chevron-left"></i>
+        <a class="nav-pc-next" title="chrome-开发者工具" href="https://leecss.com/post/chrome-kai-fa-zhe-gong-ju/">chrome-开发者工具</a class="nav-pc-next">
+        <a class="nav-mobile-prev" title="chrome-开发者工具" href="https://leecss.com/post/chrome-kai-fa-zhe-gong-ju/">上一篇</a>
+      
+    </div>
+    <div class="nav-next">
+      
+        <a class="nav-pc-next" title="http-其他首部字段" href="https://leecss.com/post/http-qi-ta-shou-bu-zi-duan/">http-其他首部字段</a>
+        <a class="nav-mobile-next" title="http-其他首部字段" href="https://leecss.com/post/http-qi-ta-shou-bu-zi-duan/">下一篇</a>
+        <i class="fa fa-chevron-right"></i>
+      
+    </div>
+  </div>
+</div>
+            
+            
+  <script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script>
+<div id="vcomments" style="padding: 10px 0px 0px 0px"></div>
+
+<style>
+  .v .veditor {
+    min-height: 10rem;
+    background-image: url('');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: right;
+    background-color: rgba(255, 255, 255, 0);
+    resize: none;
+  }
+
+  .v .vwrap {
+    border: 1px solid #000 !important;
+  }
+
+  .v .vbtn {
+    padding: .4rem 1.2rem !important;
+    border-color: #fff !important;
+    background-color: #49b1f5 !important;
+    color: #fff !important;
+    font-size: .7rem !important;
+  }
+
+  .v .vcards .vcard .vh .vmeta .vat {
+    padding: 0 .8rem !important;
+    border: 1px solid #00c4b6 !important;
+    border-radius: 5px !important;
+    color: #00c4b6 !important;
+  }
+</style>
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: 'EtGAaWMPMfBv4R8mHt4OVOK0-gzGzoHsz',
+    appKey: 'JYHcCIGVcuAO36RXVrdt0DYM',
+    avatar: '',
+    placeholder: '',
+    pageSize: '',
+    lang: 'zh-cn',
+    enableQQ: 'true' === 'false',
+    visitor: 'true' === 'false',
+    highlight: 'true' === 'true',
+    avatarForce: 'true' === 'false',
+  });
+</script>
+
+          </div>
         </div>
       </div>
     </div>
@@ -2576,6 +1902,223 @@
     aelem.appendChild(image);
     parent.insertBefore(aelem, next);
   })
+</script>
+
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word">扫码打赏，你说多少就多少</p>
+      <p class="reward-tip">打开微信扫一扫，即可进行扫码打赏哦</p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        jQuery.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        jQuery.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        jQuery.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        jQuery.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      jQuery.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      jQuery.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
 </script>
 
   </div>
@@ -10572,7 +10115,6 @@ git branch -u origin/main foo
 
 
 <script src="/media/js/mouse/peace.js"></script>
-
 
 
 

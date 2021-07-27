@@ -2,13 +2,1191 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-22T00:13:39.985Z</updated>
+    <updated>2021-07-27T23:11:23.265Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[http-缓存验证]]></title>
+        <id>https://leecss.com/post/http-huan-cun-yan-zheng/</id>
+        <link href="https://leecss.com/post/http-huan-cun-yan-zheng/">
+        </link>
+        <updated>2021-07-23T00:31:09.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>当我们给Catch-Control 设置了 no-catch 后，每次浏览器对这个资源的请求时，都会到服务器端进行资源验证，验证完之后，如果确定这个资源可以使用缓存，浏览器才会读取本地的缓存。</p>
+<h2 id="缓存验证流程">缓存验证流程</h2>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1627000310327.jpg" alt="" loading="lazy"></figure>
+<h2 id="方式">方式</h2>
+<p>验证资源是否需要更新有两种方式： Last-Modified 与 Etag</p>
+<h3 id="last-modified">Last-Modified</h3>
+<p>上次修改时间。主要配合If-Modified-Since 或者 If-Unmodified-Since 这两个Header 使用。</p>
+<p>通过对比请求首部字段If-Modified-Since和实体首部字段 Last-Modified，来判断是否使用缓存。</p>
+<p>如果我们请求的一个资源，它返回的Header 中有Last-Modified 并指定了一个时间。那么下次浏览器再发送这个请求的时候就会带上这个时间，并把它放在 If-Modified-Since中；服务器就可以根据If-Modified-Since值对比资源上次修改的时间，如果两个时间一致，说明请求的资源都没有过更新，那么就可以使用缓存</p>
+<h3 id="etag">Etag</h3>
+<p>是一个更为严格的验证，通过数据签名的方式验证。主要配合 If-Match 或者 If-None-Match 使用。</p>
+<p>它根据数据内容产生一个唯一的编码（数据不同，编码结果不同）。最典型的做法，是我们对数据内容做一个哈希计算。</p>
+<p>当服务端加上<code>Last-Modified</code>,<code>Etag</code>，浏览器下次请求就会带上<code>If-Modified-Since</code>和<code>If-None-Match</code>,来进行缓存验证。</p>
+<p><strong>使用缓存实例</strong></p>
+<p>test.html</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    
+&lt;/body&gt;
+&lt;script src=&quot;/script.js&quot;&gt;&lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<p>server.js</p>
+<pre><code class="language-js">const http = require('http')
+const fs = require('fs')
+
+http.createServer(function (request, response) {
+  console.log('request come', request.url)
+
+  if (request.url === '/') {
+    const html = fs.readFileSync('test.html', 'utf8')
+    response.writeHead(200, {
+      'Content-Type': 'text/html'
+    })
+    response.end(html)
+  }
+
+  if (request.url === '/script.js') {
+    
+    const etag = request.headers['if-none-match']
+    if (etag === '777') {
+      response.writeHead(304, {
+        'Content-Type': 'text/javascript',
+        'Cache-Control': 'max-age=2000000, no-cache',
+        'Last-Modified': '123',
+        'Etag': '777'
+      })
+      response.end()
+    } else {
+      response.writeHead(200, {
+        'Content-Type': 'text/javascript',
+        'Cache-Control': 'max-age=2000000, no-cache',
+        'Last-Modified': '123',
+        'Etag': '777'
+      })
+      response.end('console.log(&quot;script loaded twice&quot;)')
+    }
+  }
+}).listen(8888)
+
+console.log('server listening on 8888')
+</code></pre>
+<p>使用<code>node server.js</code>启动，在<code>http://localhost:8888/</code>上查看server.js的网络请求。</p>
+<p>可以发现，状态码第一次是200，第二次及以后缓存范围期限内，都是304</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[chrome-开发者工具]]></title>
+        <id>https://leecss.com/post/chrome-kai-fa-zhe-gong-ju/</id>
+        <link href="https://leecss.com/post/chrome-kai-fa-zhe-gong-ju/">
+        </link>
+        <updated>2021-07-22T23:46:53.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>开发调试工具</p>
+<h2 id="功能">功能</h2>
+<h3 id="network">Network</h3>
+<p>1、Disable cache</p>
+<p>当勾选了Disable cache，浏览器发送http请求就不会再发送缓存相关的请求头，比如If-Modified-Since、If-None-Match等，即不再使用缓存。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[http-实体首部字段Content-Type]]></title>
+        <id>https://leecss.com/post/http-shi-ti-shou-bu-zi-duan-content-type/</id>
+        <link href="https://leecss.com/post/http-shi-ti-shou-bu-zi-duan-content-type/">
+        </link>
+        <updated>2021-07-22T22:07:15.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>Content-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件，这就是经常看到一些 PHP 网页点击的结果却是下载一个文件或一张图片的原因。</p>
+<p>Content-Type 标头告诉客户端实际返回的内容的内容类型。</p>
+<p>语法格式：</p>
+<pre><code class="language-http">Content-Type: text/html; charset=utf-8
+Content-Type: multipart/form-data; boundary=something
+</code></pre>
+<h2 id="常见媒体类型">常见媒体类型</h2>
+<ul>
+<li>text/html ： HTML格式</li>
+<li>text/plain ：纯文本格式</li>
+<li>text/xml ： XML格式</li>
+<li>image/gif ：gif图片格式</li>
+<li>image/jpeg ：jpg图片格式</li>
+<li>image/png：png图片格式</li>
+</ul>
+<p>以application开头的媒体格式类型：</p>
+<ul>
+<li>application/xhtml+xml ：XHTML格式</li>
+<li>application/xml： XML数据格式</li>
+<li>application/atom+xml ：Atom XML聚合格式</li>
+<li>application/json： JSON数据格式</li>
+<li>application/pdf：pdf格式</li>
+<li>application/msword ： Word文档格式</li>
+<li>application/octet-stream ： 二进制流数据（如常见的文件下载）</li>
+<li>application/x-www-form-urlencoded ： <code>&lt;form encType=&quot;&quot;&gt;</code>中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）</li>
+</ul>
+<p>另外一种常见的媒体格式是上传文件之时使用的：</p>
+<ul>
+<li>multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式</li>
+</ul>
+<h2 id="http-content-type-对照表">HTTP content-type 对照表</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">文件扩展名</th>
+<th style="text-align:left">Content-Type(Mime-Type)</th>
+<th style="text-align:left">文件扩展名</th>
+<th style="text-align:left">Content-Type(Mime-Type)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">.*（ 二进制流，不知道下载文件类型）</td>
+<td style="text-align:left">application/octet-stream</td>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">image/tiff</td>
+</tr>
+<tr>
+<td style="text-align:left">.001</td>
+<td style="text-align:left">application/x-001</td>
+<td style="text-align:left">.301</td>
+<td style="text-align:left">application/x-301</td>
+</tr>
+<tr>
+<td style="text-align:left">.323</td>
+<td style="text-align:left">text/h323</td>
+<td style="text-align:left">.906</td>
+<td style="text-align:left">application/x-906</td>
+</tr>
+<tr>
+<td style="text-align:left">.907</td>
+<td style="text-align:left">drawing/907</td>
+<td style="text-align:left">.a11</td>
+<td style="text-align:left">application/x-a11</td>
+</tr>
+<tr>
+<td style="text-align:left">.acp</td>
+<td style="text-align:left">audio/x-mei-aac</td>
+<td style="text-align:left">.ai</td>
+<td style="text-align:left">application/postscript</td>
+</tr>
+<tr>
+<td style="text-align:left">.aif</td>
+<td style="text-align:left">audio/aiff</td>
+<td style="text-align:left">.aifc</td>
+<td style="text-align:left">audio/aiff</td>
+</tr>
+<tr>
+<td style="text-align:left">.aiff</td>
+<td style="text-align:left">audio/aiff</td>
+<td style="text-align:left">.anv</td>
+<td style="text-align:left">application/x-anv</td>
+</tr>
+<tr>
+<td style="text-align:left">.asa</td>
+<td style="text-align:left">text/asa</td>
+<td style="text-align:left">.asf</td>
+<td style="text-align:left">video/x-ms-asf</td>
+</tr>
+<tr>
+<td style="text-align:left">.asp</td>
+<td style="text-align:left">text/asp</td>
+<td style="text-align:left">.asx</td>
+<td style="text-align:left">video/x-ms-asf</td>
+</tr>
+<tr>
+<td style="text-align:left">.au</td>
+<td style="text-align:left">audio/basic</td>
+<td style="text-align:left">.avi</td>
+<td style="text-align:left">video/avi</td>
+</tr>
+<tr>
+<td style="text-align:left">.awf</td>
+<td style="text-align:left">application/vnd.adobe.workflow</td>
+<td style="text-align:left">.biz</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.bmp</td>
+<td style="text-align:left">application/x-bmp</td>
+<td style="text-align:left">.bot</td>
+<td style="text-align:left">application/x-bot</td>
+</tr>
+<tr>
+<td style="text-align:left">.c4t</td>
+<td style="text-align:left">application/x-c4t</td>
+<td style="text-align:left">.c90</td>
+<td style="text-align:left">application/x-c90</td>
+</tr>
+<tr>
+<td style="text-align:left">.cal</td>
+<td style="text-align:left">application/x-cals</td>
+<td style="text-align:left">.cat</td>
+<td style="text-align:left">application/vnd.ms-pki.seccat</td>
+</tr>
+<tr>
+<td style="text-align:left">.cdf</td>
+<td style="text-align:left">application/x-netcdf</td>
+<td style="text-align:left">.cdr</td>
+<td style="text-align:left">application/x-cdr</td>
+</tr>
+<tr>
+<td style="text-align:left">.cel</td>
+<td style="text-align:left">application/x-cel</td>
+<td style="text-align:left">.cer</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+</tr>
+<tr>
+<td style="text-align:left">.cg4</td>
+<td style="text-align:left">application/x-g4</td>
+<td style="text-align:left">.cgm</td>
+<td style="text-align:left">application/x-cgm</td>
+</tr>
+<tr>
+<td style="text-align:left">.cit</td>
+<td style="text-align:left">application/x-cit</td>
+<td style="text-align:left">.class</td>
+<td style="text-align:left">java/*</td>
+</tr>
+<tr>
+<td style="text-align:left">.cml</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.cmp</td>
+<td style="text-align:left">application/x-cmp</td>
+</tr>
+<tr>
+<td style="text-align:left">.cmx</td>
+<td style="text-align:left">application/x-cmx</td>
+<td style="text-align:left">.cot</td>
+<td style="text-align:left">application/x-cot</td>
+</tr>
+<tr>
+<td style="text-align:left">.crl</td>
+<td style="text-align:left">application/pkix-crl</td>
+<td style="text-align:left">.crt</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+</tr>
+<tr>
+<td style="text-align:left">.csi</td>
+<td style="text-align:left">application/x-csi</td>
+<td style="text-align:left">.css</td>
+<td style="text-align:left">text/css</td>
+</tr>
+<tr>
+<td style="text-align:left">.cut</td>
+<td style="text-align:left">application/x-cut</td>
+<td style="text-align:left">.dbf</td>
+<td style="text-align:left">application/x-dbf</td>
+</tr>
+<tr>
+<td style="text-align:left">.dbm</td>
+<td style="text-align:left">application/x-dbm</td>
+<td style="text-align:left">.dbx</td>
+<td style="text-align:left">application/x-dbx</td>
+</tr>
+<tr>
+<td style="text-align:left">.dcd</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.dcx</td>
+<td style="text-align:left">application/x-dcx</td>
+</tr>
+<tr>
+<td style="text-align:left">.der</td>
+<td style="text-align:left">application/x-x509-ca-cert</td>
+<td style="text-align:left">.dgn</td>
+<td style="text-align:left">application/x-dgn</td>
+</tr>
+<tr>
+<td style="text-align:left">.dib</td>
+<td style="text-align:left">application/x-dib</td>
+<td style="text-align:left">.dll</td>
+<td style="text-align:left">application/x-msdownload</td>
+</tr>
+<tr>
+<td style="text-align:left">.doc</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.dot</td>
+<td style="text-align:left">application/msword</td>
+</tr>
+<tr>
+<td style="text-align:left">.drw</td>
+<td style="text-align:left">application/x-drw</td>
+<td style="text-align:left">.dtd</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.dwf</td>
+<td style="text-align:left">Model/vnd.dwf</td>
+<td style="text-align:left">.dwf</td>
+<td style="text-align:left">application/x-dwf</td>
+</tr>
+<tr>
+<td style="text-align:left">.dwg</td>
+<td style="text-align:left">application/x-dwg</td>
+<td style="text-align:left">.dxb</td>
+<td style="text-align:left">application/x-dxb</td>
+</tr>
+<tr>
+<td style="text-align:left">.dxf</td>
+<td style="text-align:left">application/x-dxf</td>
+<td style="text-align:left">.edn</td>
+<td style="text-align:left">application/vnd.adobe.edn</td>
+</tr>
+<tr>
+<td style="text-align:left">.emf</td>
+<td style="text-align:left">application/x-emf</td>
+<td style="text-align:left">.eml</td>
+<td style="text-align:left">message/rfc822</td>
+</tr>
+<tr>
+<td style="text-align:left">.ent</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.epi</td>
+<td style="text-align:left">application/x-epi</td>
+</tr>
+<tr>
+<td style="text-align:left">.eps</td>
+<td style="text-align:left">application/x-ps</td>
+<td style="text-align:left">.eps</td>
+<td style="text-align:left">application/postscript</td>
+</tr>
+<tr>
+<td style="text-align:left">.etd</td>
+<td style="text-align:left">application/x-ebx</td>
+<td style="text-align:left">.exe</td>
+<td style="text-align:left">application/x-msdownload</td>
+</tr>
+<tr>
+<td style="text-align:left">.fax</td>
+<td style="text-align:left">image/fax</td>
+<td style="text-align:left">.fdf</td>
+<td style="text-align:left">application/vnd.fdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.fif</td>
+<td style="text-align:left">application/fractals</td>
+<td style="text-align:left">.fo</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.frm</td>
+<td style="text-align:left">application/x-frm</td>
+<td style="text-align:left">.g4</td>
+<td style="text-align:left">application/x-g4</td>
+</tr>
+<tr>
+<td style="text-align:left">.gbr</td>
+<td style="text-align:left">application/x-gbr</td>
+<td style="text-align:left">.</td>
+<td style="text-align:left">application/x-</td>
+</tr>
+<tr>
+<td style="text-align:left">.gif</td>
+<td style="text-align:left">image/gif</td>
+<td style="text-align:left">.gl2</td>
+<td style="text-align:left">application/x-gl2</td>
+</tr>
+<tr>
+<td style="text-align:left">.gp4</td>
+<td style="text-align:left">application/x-gp4</td>
+<td style="text-align:left">.hgl</td>
+<td style="text-align:left">application/x-hgl</td>
+</tr>
+<tr>
+<td style="text-align:left">.hmr</td>
+<td style="text-align:left">application/x-hmr</td>
+<td style="text-align:left">.hpg</td>
+<td style="text-align:left">application/x-hpgl</td>
+</tr>
+<tr>
+<td style="text-align:left">.hpl</td>
+<td style="text-align:left">application/x-hpl</td>
+<td style="text-align:left">.hqx</td>
+<td style="text-align:left">application/mac-binhex40</td>
+</tr>
+<tr>
+<td style="text-align:left">.hrf</td>
+<td style="text-align:left">application/x-hrf</td>
+<td style="text-align:left">.hta</td>
+<td style="text-align:left">application/hta</td>
+</tr>
+<tr>
+<td style="text-align:left">.htc</td>
+<td style="text-align:left">text/x-component</td>
+<td style="text-align:left">.htm</td>
+<td style="text-align:left">text/html</td>
+</tr>
+<tr>
+<td style="text-align:left">.html</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.htt</td>
+<td style="text-align:left">text/webviewhtml</td>
+</tr>
+<tr>
+<td style="text-align:left">.htx</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.icb</td>
+<td style="text-align:left">application/x-icb</td>
+</tr>
+<tr>
+<td style="text-align:left">.ico</td>
+<td style="text-align:left">image/x-icon</td>
+<td style="text-align:left">.ico</td>
+<td style="text-align:left">application/x-ico</td>
+</tr>
+<tr>
+<td style="text-align:left">.iff</td>
+<td style="text-align:left">application/x-iff</td>
+<td style="text-align:left">.ig4</td>
+<td style="text-align:left">application/x-g4</td>
+</tr>
+<tr>
+<td style="text-align:left">.igs</td>
+<td style="text-align:left">application/x-igs</td>
+<td style="text-align:left">.iii</td>
+<td style="text-align:left">application/x-iphone</td>
+</tr>
+<tr>
+<td style="text-align:left">.img</td>
+<td style="text-align:left">application/x-img</td>
+<td style="text-align:left">.ins</td>
+<td style="text-align:left">application/x-internet-signup</td>
+</tr>
+<tr>
+<td style="text-align:left">.isp</td>
+<td style="text-align:left">application/x-internet-signup</td>
+<td style="text-align:left">.IVF</td>
+<td style="text-align:left">video/x-ivf</td>
+</tr>
+<tr>
+<td style="text-align:left">.java</td>
+<td style="text-align:left">java/*</td>
+<td style="text-align:left">.jfif</td>
+<td style="text-align:left">image/jpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpe</td>
+<td style="text-align:left">image/jpeg</td>
+<td style="text-align:left">.jpe</td>
+<td style="text-align:left">application/x-jpe</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpeg</td>
+<td style="text-align:left">image/jpeg</td>
+<td style="text-align:left">.jpg</td>
+<td style="text-align:left">image/jpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.jpg</td>
+<td style="text-align:left">application/x-jpg</td>
+<td style="text-align:left">.js</td>
+<td style="text-align:left">application/x-javascript</td>
+</tr>
+<tr>
+<td style="text-align:left">.jsp</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.la1</td>
+<td style="text-align:left">audio/x-liquid-file</td>
+</tr>
+<tr>
+<td style="text-align:left">.lar</td>
+<td style="text-align:left">application/x-laplayer-reg</td>
+<td style="text-align:left">.latex</td>
+<td style="text-align:left">application/x-latex</td>
+</tr>
+<tr>
+<td style="text-align:left">.lavs</td>
+<td style="text-align:left">audio/x-liquid-secure</td>
+<td style="text-align:left">.lbm</td>
+<td style="text-align:left">application/x-lbm</td>
+</tr>
+<tr>
+<td style="text-align:left">.lmsff</td>
+<td style="text-align:left">audio/x-la-lms</td>
+<td style="text-align:left">.ls</td>
+<td style="text-align:left">application/x-javascript</td>
+</tr>
+<tr>
+<td style="text-align:left">.ltr</td>
+<td style="text-align:left">application/x-ltr</td>
+<td style="text-align:left">.m1v</td>
+<td style="text-align:left">video/x-mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.m2v</td>
+<td style="text-align:left">video/x-mpeg</td>
+<td style="text-align:left">.m3u</td>
+<td style="text-align:left">audio/mpegurl</td>
+</tr>
+<tr>
+<td style="text-align:left">.m4e</td>
+<td style="text-align:left">video/mpeg4</td>
+<td style="text-align:left">.mac</td>
+<td style="text-align:left">application/x-mac</td>
+</tr>
+<tr>
+<td style="text-align:left">.man</td>
+<td style="text-align:left">application/x-troff-man</td>
+<td style="text-align:left">.math</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.mdb</td>
+<td style="text-align:left">application/msaccess</td>
+<td style="text-align:left">.mdb</td>
+<td style="text-align:left">application/x-mdb</td>
+</tr>
+<tr>
+<td style="text-align:left">.mfp</td>
+<td style="text-align:left">application/x-shockwave-flash</td>
+<td style="text-align:left">.mht</td>
+<td style="text-align:left">message/rfc822</td>
+</tr>
+<tr>
+<td style="text-align:left">.mhtml</td>
+<td style="text-align:left">message/rfc822</td>
+<td style="text-align:left">.mi</td>
+<td style="text-align:left">application/x-mi</td>
+</tr>
+<tr>
+<td style="text-align:left">.mid</td>
+<td style="text-align:left">audio/mid</td>
+<td style="text-align:left">.midi</td>
+<td style="text-align:left">audio/mid</td>
+</tr>
+<tr>
+<td style="text-align:left">.mil</td>
+<td style="text-align:left">application/x-mil</td>
+<td style="text-align:left">.mml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.mnd</td>
+<td style="text-align:left">audio/x-musicnet-download</td>
+<td style="text-align:left">.mns</td>
+<td style="text-align:left">audio/x-musicnet-stream</td>
+</tr>
+<tr>
+<td style="text-align:left">.mocha</td>
+<td style="text-align:left">application/x-javascript</td>
+<td style="text-align:left">.movie</td>
+<td style="text-align:left">video/x-sgi-movie</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp1</td>
+<td style="text-align:left">audio/mp1</td>
+<td style="text-align:left">.mp2</td>
+<td style="text-align:left">audio/mp2</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp2v</td>
+<td style="text-align:left">video/mpeg</td>
+<td style="text-align:left">.mp3</td>
+<td style="text-align:left">audio/mp3</td>
+</tr>
+<tr>
+<td style="text-align:left">.mp4</td>
+<td style="text-align:left">video/mpeg4</td>
+<td style="text-align:left">.mpa</td>
+<td style="text-align:left">video/x-mpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpd</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+<td style="text-align:left">.mpe</td>
+<td style="text-align:left">video/x-mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpeg</td>
+<td style="text-align:left">video/mpg</td>
+<td style="text-align:left">.mpg</td>
+<td style="text-align:left">video/mpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpga</td>
+<td style="text-align:left">audio/rn-mpeg</td>
+<td style="text-align:left">.mpp</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mps</td>
+<td style="text-align:left">video/x-mpeg</td>
+<td style="text-align:left">.mpt</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpv</td>
+<td style="text-align:left">video/mpg</td>
+<td style="text-align:left">.mpv2</td>
+<td style="text-align:left">video/mpeg</td>
+</tr>
+<tr>
+<td style="text-align:left">.mpw</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+<td style="text-align:left">.mpx</td>
+<td style="text-align:left">application/vnd.ms-project</td>
+</tr>
+<tr>
+<td style="text-align:left">.mtx</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.mxp</td>
+<td style="text-align:left">application/x-mmxp</td>
+</tr>
+<tr>
+<td style="text-align:left">.net</td>
+<td style="text-align:left">image/pnetvue</td>
+<td style="text-align:left">.nrf</td>
+<td style="text-align:left">application/x-nrf</td>
+</tr>
+<tr>
+<td style="text-align:left">.nws</td>
+<td style="text-align:left">message/rfc822</td>
+<td style="text-align:left">.odc</td>
+<td style="text-align:left">text/x-ms-odc</td>
+</tr>
+<tr>
+<td style="text-align:left">.out</td>
+<td style="text-align:left">application/x-out</td>
+<td style="text-align:left">.p10</td>
+<td style="text-align:left">application/pkcs10</td>
+</tr>
+<tr>
+<td style="text-align:left">.p12</td>
+<td style="text-align:left">application/x-pkcs12</td>
+<td style="text-align:left">.p7b</td>
+<td style="text-align:left">application/x-pkcs7-certificates</td>
+</tr>
+<tr>
+<td style="text-align:left">.p7c</td>
+<td style="text-align:left">application/pkcs7-mime</td>
+<td style="text-align:left">.p7m</td>
+<td style="text-align:left">application/pkcs7-mime</td>
+</tr>
+<tr>
+<td style="text-align:left">.p7r</td>
+<td style="text-align:left">application/x-pkcs7-certreqresp</td>
+<td style="text-align:left">.p7s</td>
+<td style="text-align:left">application/pkcs7-signature</td>
+</tr>
+<tr>
+<td style="text-align:left">.pc5</td>
+<td style="text-align:left">application/x-pc5</td>
+<td style="text-align:left">.pci</td>
+<td style="text-align:left">application/x-pci</td>
+</tr>
+<tr>
+<td style="text-align:left">.pcl</td>
+<td style="text-align:left">application/x-pcl</td>
+<td style="text-align:left">.pcx</td>
+<td style="text-align:left">application/x-pcx</td>
+</tr>
+<tr>
+<td style="text-align:left">.pdf</td>
+<td style="text-align:left">application/pdf</td>
+<td style="text-align:left">.pdf</td>
+<td style="text-align:left">application/pdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.pdx</td>
+<td style="text-align:left">application/vnd.adobe.pdx</td>
+<td style="text-align:left">.pfx</td>
+<td style="text-align:left">application/x-pkcs12</td>
+</tr>
+<tr>
+<td style="text-align:left">.pgl</td>
+<td style="text-align:left">application/x-pgl</td>
+<td style="text-align:left">.pic</td>
+<td style="text-align:left">application/x-pic</td>
+</tr>
+<tr>
+<td style="text-align:left">.pko</td>
+<td style="text-align:left">application/vnd.ms-pki.pko</td>
+<td style="text-align:left">.pl</td>
+<td style="text-align:left">application/x-perl</td>
+</tr>
+<tr>
+<td style="text-align:left">.plg</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.pls</td>
+<td style="text-align:left">audio/scpls</td>
+</tr>
+<tr>
+<td style="text-align:left">.plt</td>
+<td style="text-align:left">application/x-plt</td>
+<td style="text-align:left">.png</td>
+<td style="text-align:left">image/png</td>
+</tr>
+<tr>
+<td style="text-align:left">.png</td>
+<td style="text-align:left">application/x-png</td>
+<td style="text-align:left">.pot</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+</tr>
+<tr>
+<td style="text-align:left">.ppa</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.ppm</td>
+<td style="text-align:left">application/x-ppm</td>
+</tr>
+<tr>
+<td style="text-align:left">.pps</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.ppt</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+</tr>
+<tr>
+<td style="text-align:left">.ppt</td>
+<td style="text-align:left">application/x-ppt</td>
+<td style="text-align:left">.pr</td>
+<td style="text-align:left">application/x-pr</td>
+</tr>
+<tr>
+<td style="text-align:left">.prf</td>
+<td style="text-align:left">application/pics-rules</td>
+<td style="text-align:left">.prn</td>
+<td style="text-align:left">application/x-prn</td>
+</tr>
+<tr>
+<td style="text-align:left">.prt</td>
+<td style="text-align:left">application/x-prt</td>
+<td style="text-align:left">.ps</td>
+<td style="text-align:left">application/x-ps</td>
+</tr>
+<tr>
+<td style="text-align:left">.ps</td>
+<td style="text-align:left">application/postscript</td>
+<td style="text-align:left">.ptn</td>
+<td style="text-align:left">application/x-ptn</td>
+</tr>
+<tr>
+<td style="text-align:left">.pwz</td>
+<td style="text-align:left">application/vnd.ms-powerpoint</td>
+<td style="text-align:left">.r3t</td>
+<td style="text-align:left">text/vnd.rn-realtext3d</td>
+</tr>
+<tr>
+<td style="text-align:left">.ra</td>
+<td style="text-align:left">audio/vnd.rn-realaudio</td>
+<td style="text-align:left">.ram</td>
+<td style="text-align:left">audio/x-pn-realaudio</td>
+</tr>
+<tr>
+<td style="text-align:left">.ras</td>
+<td style="text-align:left">application/x-ras</td>
+<td style="text-align:left">.rat</td>
+<td style="text-align:left">application/rat-file</td>
+</tr>
+<tr>
+<td style="text-align:left">.rdf</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.rec</td>
+<td style="text-align:left">application/vnd.rn-recording</td>
+</tr>
+<tr>
+<td style="text-align:left">.red</td>
+<td style="text-align:left">application/x-red</td>
+<td style="text-align:left">.rgb</td>
+<td style="text-align:left">application/x-rgb</td>
+</tr>
+<tr>
+<td style="text-align:left">.rjs</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rjs</td>
+<td style="text-align:left">.rjt</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rjt</td>
+</tr>
+<tr>
+<td style="text-align:left">.rlc</td>
+<td style="text-align:left">application/x-rlc</td>
+<td style="text-align:left">.rle</td>
+<td style="text-align:left">application/x-rle</td>
+</tr>
+<tr>
+<td style="text-align:left">.rm</td>
+<td style="text-align:left">application/vnd.rn-realmedia</td>
+<td style="text-align:left">.rmf</td>
+<td style="text-align:left">application/vnd.adobe.rmf</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmi</td>
+<td style="text-align:left">audio/mid</td>
+<td style="text-align:left">.rmj</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rmj</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmm</td>
+<td style="text-align:left">audio/x-pn-realaudio</td>
+<td style="text-align:left">.rmp</td>
+<td style="text-align:left">application/vnd.rn-rn_music_package</td>
+</tr>
+<tr>
+<td style="text-align:left">.rms</td>
+<td style="text-align:left">application/vnd.rn-realmedia-secure</td>
+<td style="text-align:left">.rmvb</td>
+<td style="text-align:left">application/vnd.rn-realmedia-vbr</td>
+</tr>
+<tr>
+<td style="text-align:left">.rmx</td>
+<td style="text-align:left">application/vnd.rn-realsystem-rmx</td>
+<td style="text-align:left">.rnx</td>
+<td style="text-align:left">application/vnd.rn-realplayer</td>
+</tr>
+<tr>
+<td style="text-align:left">.rp</td>
+<td style="text-align:left">image/vnd.rn-realpix</td>
+<td style="text-align:left">.rpm</td>
+<td style="text-align:left">audio/x-pn-realaudio-plugin</td>
+</tr>
+<tr>
+<td style="text-align:left">.rsml</td>
+<td style="text-align:left">application/vnd.rn-rsml</td>
+<td style="text-align:left">.rt</td>
+<td style="text-align:left">text/vnd.rn-realtext</td>
+</tr>
+<tr>
+<td style="text-align:left">.rtf</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.rtf</td>
+<td style="text-align:left">application/x-rtf</td>
+</tr>
+<tr>
+<td style="text-align:left">.rv</td>
+<td style="text-align:left">video/vnd.rn-realvideo</td>
+<td style="text-align:left">.sam</td>
+<td style="text-align:left">application/x-sam</td>
+</tr>
+<tr>
+<td style="text-align:left">.sat</td>
+<td style="text-align:left">application/x-sat</td>
+<td style="text-align:left">.sdp</td>
+<td style="text-align:left">application/sdp</td>
+</tr>
+<tr>
+<td style="text-align:left">.sdw</td>
+<td style="text-align:left">application/x-sdw</td>
+<td style="text-align:left">.sit</td>
+<td style="text-align:left">application/x-stuffit</td>
+</tr>
+<tr>
+<td style="text-align:left">.slb</td>
+<td style="text-align:left">application/x-slb</td>
+<td style="text-align:left">.sld</td>
+<td style="text-align:left">application/x-sld</td>
+</tr>
+<tr>
+<td style="text-align:left">.slk</td>
+<td style="text-align:left">drawing/x-slk</td>
+<td style="text-align:left">.smi</td>
+<td style="text-align:left">application/smil</td>
+</tr>
+<tr>
+<td style="text-align:left">.smil</td>
+<td style="text-align:left">application/smil</td>
+<td style="text-align:left">.smk</td>
+<td style="text-align:left">application/x-smk</td>
+</tr>
+<tr>
+<td style="text-align:left">.snd</td>
+<td style="text-align:left">audio/basic</td>
+<td style="text-align:left">.sol</td>
+<td style="text-align:left">text/plain</td>
+</tr>
+<tr>
+<td style="text-align:left">.sor</td>
+<td style="text-align:left">text/plain</td>
+<td style="text-align:left">.spc</td>
+<td style="text-align:left">application/x-pkcs7-certificates</td>
+</tr>
+<tr>
+<td style="text-align:left">.spl</td>
+<td style="text-align:left">application/futuresplash</td>
+<td style="text-align:left">.spp</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.ssm</td>
+<td style="text-align:left">application/streamingmedia</td>
+<td style="text-align:left">.sst</td>
+<td style="text-align:left">application/vnd.ms-pki.certstore</td>
+</tr>
+<tr>
+<td style="text-align:left">.stl</td>
+<td style="text-align:left">application/vnd.ms-pki.stl</td>
+<td style="text-align:left">.stm</td>
+<td style="text-align:left">text/html</td>
+</tr>
+<tr>
+<td style="text-align:left">.sty</td>
+<td style="text-align:left">application/x-sty</td>
+<td style="text-align:left">.svg</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.swf</td>
+<td style="text-align:left">application/x-shockwave-flash</td>
+<td style="text-align:left">.tdf</td>
+<td style="text-align:left">application/x-tdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.tg4</td>
+<td style="text-align:left">application/x-tg4</td>
+<td style="text-align:left">.tga</td>
+<td style="text-align:left">application/x-tga</td>
+</tr>
+<tr>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">image/tiff</td>
+<td style="text-align:left">.tif</td>
+<td style="text-align:left">application/x-tif</td>
+</tr>
+<tr>
+<td style="text-align:left">.tiff</td>
+<td style="text-align:left">image/tiff</td>
+<td style="text-align:left">.tld</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.top</td>
+<td style="text-align:left">drawing/x-top</td>
+<td style="text-align:left">.torrent</td>
+<td style="text-align:left">application/x-bittorrent</td>
+</tr>
+<tr>
+<td style="text-align:left">.tsd</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.txt</td>
+<td style="text-align:left">text/plain</td>
+</tr>
+<tr>
+<td style="text-align:left">.uin</td>
+<td style="text-align:left">application/x-icq</td>
+<td style="text-align:left">.uls</td>
+<td style="text-align:left">text/iuls</td>
+</tr>
+<tr>
+<td style="text-align:left">.vcf</td>
+<td style="text-align:left">text/x-vcard</td>
+<td style="text-align:left">.vda</td>
+<td style="text-align:left">application/x-vda</td>
+</tr>
+<tr>
+<td style="text-align:left">.vdx</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.vpg</td>
+<td style="text-align:left">application/x-vpeg005</td>
+<td style="text-align:left">.vsd</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vsd</td>
+<td style="text-align:left">application/x-vsd</td>
+<td style="text-align:left">.vss</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vst</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vst</td>
+<td style="text-align:left">application/x-vst</td>
+</tr>
+<tr>
+<td style="text-align:left">.vsw</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vsx</td>
+<td style="text-align:left">application/vnd.visio</td>
+</tr>
+<tr>
+<td style="text-align:left">.vtx</td>
+<td style="text-align:left">application/vnd.visio</td>
+<td style="text-align:left">.vxml</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.wav</td>
+<td style="text-align:left">audio/wav</td>
+<td style="text-align:left">.wax</td>
+<td style="text-align:left">audio/x-ms-wax</td>
+</tr>
+<tr>
+<td style="text-align:left">.wb1</td>
+<td style="text-align:left">application/x-wb1</td>
+<td style="text-align:left">.wb2</td>
+<td style="text-align:left">application/x-wb2</td>
+</tr>
+<tr>
+<td style="text-align:left">.wb3</td>
+<td style="text-align:left">application/x-wb3</td>
+<td style="text-align:left">.wbmp</td>
+<td style="text-align:left">image/vnd.wap.wbmp</td>
+</tr>
+<tr>
+<td style="text-align:left">.wiz</td>
+<td style="text-align:left">application/msword</td>
+<td style="text-align:left">.wk3</td>
+<td style="text-align:left">application/x-wk3</td>
+</tr>
+<tr>
+<td style="text-align:left">.wk4</td>
+<td style="text-align:left">application/x-wk4</td>
+<td style="text-align:left">.wkq</td>
+<td style="text-align:left">application/x-wkq</td>
+</tr>
+<tr>
+<td style="text-align:left">.wks</td>
+<td style="text-align:left">application/x-wks</td>
+<td style="text-align:left">.wm</td>
+<td style="text-align:left">video/x-ms-wm</td>
+</tr>
+<tr>
+<td style="text-align:left">.wma</td>
+<td style="text-align:left">audio/x-ms-wma</td>
+<td style="text-align:left">.wmd</td>
+<td style="text-align:left">application/x-ms-wmd</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmf</td>
+<td style="text-align:left">application/x-wmf</td>
+<td style="text-align:left">.wml</td>
+<td style="text-align:left">text/vnd.wap.wml</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmv</td>
+<td style="text-align:left">video/x-ms-wmv</td>
+<td style="text-align:left">.wmx</td>
+<td style="text-align:left">video/x-ms-wmx</td>
+</tr>
+<tr>
+<td style="text-align:left">.wmz</td>
+<td style="text-align:left">application/x-ms-wmz</td>
+<td style="text-align:left">.wp6</td>
+<td style="text-align:left">application/x-wp6</td>
+</tr>
+<tr>
+<td style="text-align:left">.wpd</td>
+<td style="text-align:left">application/x-wpd</td>
+<td style="text-align:left">.wpg</td>
+<td style="text-align:left">application/x-wpg</td>
+</tr>
+<tr>
+<td style="text-align:left">.wpl</td>
+<td style="text-align:left">application/vnd.ms-wpl</td>
+<td style="text-align:left">.wq1</td>
+<td style="text-align:left">application/x-wq1</td>
+</tr>
+<tr>
+<td style="text-align:left">.wr1</td>
+<td style="text-align:left">application/x-wr1</td>
+<td style="text-align:left">.wri</td>
+<td style="text-align:left">application/x-wri</td>
+</tr>
+<tr>
+<td style="text-align:left">.wrk</td>
+<td style="text-align:left">application/x-wrk</td>
+<td style="text-align:left">.ws</td>
+<td style="text-align:left">application/x-ws</td>
+</tr>
+<tr>
+<td style="text-align:left">.ws2</td>
+<td style="text-align:left">application/x-ws</td>
+<td style="text-align:left">.wsc</td>
+<td style="text-align:left">text/scriptlet</td>
+</tr>
+<tr>
+<td style="text-align:left">.wsdl</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.wvx</td>
+<td style="text-align:left">video/x-ms-wvx</td>
+</tr>
+<tr>
+<td style="text-align:left">.xdp</td>
+<td style="text-align:left">application/vnd.adobe.xdp</td>
+<td style="text-align:left">.xdr</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xfd</td>
+<td style="text-align:left">application/vnd.adobe.xfd</td>
+<td style="text-align:left">.xfdf</td>
+<td style="text-align:left">application/vnd.adobe.xfdf</td>
+</tr>
+<tr>
+<td style="text-align:left">.xhtml</td>
+<td style="text-align:left">text/html</td>
+<td style="text-align:left">.xls</td>
+<td style="text-align:left">application/vnd.ms-excel</td>
+</tr>
+<tr>
+<td style="text-align:left">.xls</td>
+<td style="text-align:left">application/x-xls</td>
+<td style="text-align:left">.xlw</td>
+<td style="text-align:left">application/x-xlw</td>
+</tr>
+<tr>
+<td style="text-align:left">.xml</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xpl</td>
+<td style="text-align:left">audio/scpls</td>
+</tr>
+<tr>
+<td style="text-align:left">.xq</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xql</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xquery</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xsd</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xsl</td>
+<td style="text-align:left">text/xml</td>
+<td style="text-align:left">.xslt</td>
+<td style="text-align:left">text/xml</td>
+</tr>
+<tr>
+<td style="text-align:left">.xwd</td>
+<td style="text-align:left">application/x-xwd</td>
+<td style="text-align:left">.x_b</td>
+<td style="text-align:left">application/x-x_b</td>
+</tr>
+<tr>
+<td style="text-align:left">.sis</td>
+<td style="text-align:left">application/vnd.symbian.install</td>
+<td style="text-align:left">.sisx</td>
+<td style="text-align:left">application/vnd.symbian.install</td>
+</tr>
+<tr>
+<td style="text-align:left">.x_t</td>
+<td style="text-align:left">application/x-x_t</td>
+<td style="text-align:left">.ipa</td>
+<td style="text-align:left">application/vnd.iphone</td>
+</tr>
+<tr>
+<td style="text-align:left">.apk</td>
+<td style="text-align:left">application/vnd.android.package-archive</td>
+<td style="text-align:left">.xap</td>
+<td style="text-align:left">application/x-silverlight-app</td>
+</tr>
+</tbody>
+</table>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[http-其他首部字段]]></title>
         <id>https://leecss.com/post/http-qi-ta-shou-bu-zi-duan/</id>
@@ -766,6 +1944,9 @@ Range: bytes=5001-10000
 <p>当<strong>服务器</strong>返回的响应中包含 max-age 指令时，缓存服务器将不对资源的有效性再作确认，而 max-age 数值代表资源保存为缓存的最长时间。</p>
 <pre><code>Cache-Control: max-age=604800（单位：秒）
 </code></pre>
+<p><strong>问题</strong></p>
+<p>有一个问题 catch-control 是客户端缓存，当max-age 之内，服务端更新了数据，客户端是不能知道的。</p>
+<p>这个问题，前端的一种常用的解决方案是，将打包的js文件名加入一段哈希码，当打包内容不变时，哈希码就不变。这样子，当内容不变时，请求的url 也就不变，当内容变了请求的url 也变了。这样就达到了更新缓存的目的。</p>
 <h3 id="min-fresh">min-fresh</h3>
 <p>min-fresh 指令要求缓存服务器返回至少还未过指定时间的缓存资源。</p>
 <p>比如，当指定 min-fresh 为 60 秒后，过了 60 秒的资源都无法作为响应返回了。</p>
@@ -1014,1024 +2195,6 @@ Warning: 112 gw.hacker.jp:8080  &quot;cache down&quot; &quot; Wed, 21 Oct 2015 0
 </tr>
 </tbody>
 </table>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-首部字段]]></title>
-        <id>https://leecss.com/post/http-shou-bu-zi-duan/</id>
-        <link href="https://leecss.com/post/http-shou-bu-zi-duan/">
-        </link>
-        <updated>2021-07-18T04:59:53.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="http-首部字段结构">HTTP 首部字段结构</h2>
-<p>HTTP 首部字段是由首部字段名和字段值构成的，中间用冒号“:” 分<br>
-隔。</p>
-<pre><code>首部字段名: 字段值
-</code></pre>
-<p>例如，在 HTTP 首部中以 Content-Type 这个字段来表示报文主体的 对<br>
-象类型。</p>
-<pre><code>Content-Type: text/html
-</code></pre>
-<p>就以上述示例来看，首部字段名为 Content-Type，字符串 text/html 是<br>
-字段值。<br>
-另外，字段值对应单个 HTTP 首部字段可以有多个值，如下所示。</p>
-<pre><code>Keep-Alive: timeout=15, max=100
-</code></pre>
-<h2 id="4-种-http-首部字段类型">4 种 HTTP 首部字段类型</h2>
-<p>HTTP 首部字段根据实际用途被分为以下 4 种类型。</p>
-<h3 id="1-通用首部字段general-header-fields">1、通用首部字段（General Header Fields）</h3>
-<p>请求报文和响应报文两方都会使用的首部。</p>
-<h3 id="2-请求首部字段request-header-fields">2、请求首部字段（Request Header Fields）</h3>
-<p>从客户端向服务器端发送请求报文时使用的首部。补充了请求的附加内容、客户端信息、响应内容相关优先级等信息。</p>
-<h3 id="3-响应首部字段response-header-fields">3、响应首部字段（Response Header Fields）</h3>
-<p>从服务器端向客户端返回响应报文时使用的首部。补充了响应的附加内容，也会要求客户端附加额外的内容信息。</p>
-<h3 id="4-实体首部字段entity-header-fields">4、实体首部字段（Entity Header Fields）</h3>
-<p>针对请求报文和响应报文的实体部分使用的首部。补充了资源内容更新时间等与实体有关的信息。</p>
-<h2 id="http11-首部字段一览">HTTP/1.1 首部字段一览</h2>
-<h3 id="通用首部字段">通用首部字段</h3>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cache-Control</td>
-<td>控制缓存的行为</td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>逐跳首部、连接的管理</td>
-</tr>
-<tr>
-<td>Date</td>
-<td>创建报文的日期时间</td>
-</tr>
-<tr>
-<td>Pragma</td>
-<td>报文指令</td>
-</tr>
-<tr>
-<td>Trailer</td>
-<td>报文末端的首部一览</td>
-</tr>
-<tr>
-<td>Transfer-Encoding</td>
-<td>指定报文主体的传输编码方式</td>
-</tr>
-<tr>
-<td>Upgrade</td>
-<td>升级为其他协议</td>
-</tr>
-<tr>
-<td>Via</td>
-<td>代理服务器的相关信息</td>
-</tr>
-<tr>
-<td>Warning</td>
-<td>错误通知</td>
-</tr>
-</tbody>
-</table>
-<h3 id="请求首部字段">请求首部字段</h3>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Accept</td>
-<td>用户代理可处理的媒体类型</td>
-</tr>
-<tr>
-<td>Accept-Charset</td>
-<td>优先的字符集</td>
-</tr>
-<tr>
-<td>Accept-Encoding</td>
-<td>优先的内容编码</td>
-</tr>
-<tr>
-<td>Accept-Language</td>
-<td>优先的语言（自然语言）</td>
-</tr>
-<tr>
-<td>Authorization Web</td>
-<td>认证信息</td>
-</tr>
-<tr>
-<td>Expect</td>
-<td>期待服务器的特定行为</td>
-</tr>
-<tr>
-<td>From</td>
-<td>用户的电子邮箱地址</td>
-</tr>
-<tr>
-<td>Host</td>
-<td>请求资源所在服务器</td>
-</tr>
-<tr>
-<td>If-Match</td>
-<td>比较实体标记（ETag）</td>
-</tr>
-<tr>
-<td>If-Modified-Since</td>
-<td>比较资源的更新时间</td>
-</tr>
-<tr>
-<td>If-None-Match</td>
-<td>比较实体标记（与 If-Match 相反）</td>
-</tr>
-<tr>
-<td>If-Range</td>
-<td>资源未更新时发送实体 Byte 的范围请求</td>
-</tr>
-<tr>
-<td>If-Unmodified-Since</td>
-<td>比较资源的更新时间（与If-Modified-Since相反）</td>
-</tr>
-<tr>
-<td>Max-Forwards</td>
-<td>最大传输逐跳数</td>
-</tr>
-<tr>
-<td>Proxy-Authorization</td>
-<td>代理服务器要求客户端的认证信息</td>
-</tr>
-<tr>
-<td>Range</td>
-<td>实体的字节范围请求</td>
-</tr>
-<tr>
-<td>Referer</td>
-<td>对请求中 URI 的原始获取方</td>
-</tr>
-<tr>
-<td>TE</td>
-<td>传输编码的优先级</td>
-</tr>
-<tr>
-<td>User-Agent HTTP</td>
-<td>客户端程序的信息</td>
-</tr>
-</tbody>
-</table>
-<h3 id="响应首部字段">响应首部字段</h3>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Accept-Ranges</td>
-<td>是否接受字节范围请求</td>
-</tr>
-<tr>
-<td>Age</td>
-<td>推算资源创建经过时间</td>
-</tr>
-<tr>
-<td>ETag</td>
-<td>资源的匹配信息</td>
-</tr>
-<tr>
-<td>Location</td>
-<td>令客户端重定向至指定URI</td>
-</tr>
-<tr>
-<td>Proxy-Authenticate</td>
-<td>代理服务器对客户端的认证信息</td>
-</tr>
-<tr>
-<td>Retry-After</td>
-<td>对再次发起请求的时机要求</td>
-</tr>
-<tr>
-<td>Server HTTP</td>
-<td>服务器的安装信息</td>
-</tr>
-<tr>
-<td>Vary</td>
-<td>代理服务器缓存的管理信息</td>
-</tr>
-<tr>
-<td>WWW-Authenticate</td>
-<td>服务器对客户端的认证信息</td>
-</tr>
-</tbody>
-</table>
-<h3 id="实体首部字段">实体首部字段</h3>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Allow</td>
-<td>资源可支持的HTTP方法</td>
-</tr>
-<tr>
-<td>Content-Encoding</td>
-<td>实体主体适用的编码方式</td>
-</tr>
-<tr>
-<td>Content-Language</td>
-<td>实体主体的自然语言</td>
-</tr>
-<tr>
-<td>Content-Length</td>
-<td>实体主体的大小（单位：字节）</td>
-</tr>
-<tr>
-<td>Content-Location</td>
-<td>替代对应资源的URI</td>
-</tr>
-<tr>
-<td>Content-MD5</td>
-<td>实体主体的报文摘要</td>
-</tr>
-<tr>
-<td>Content-Range</td>
-<td>实体主体的位置范围</td>
-</tr>
-<tr>
-<td>Content-Type</td>
-<td>实体主体的媒体类型</td>
-</tr>
-<tr>
-<td>Expires</td>
-<td>实体主体过期的日期时间</td>
-</tr>
-<tr>
-<td>Last-Modified</td>
-<td>资源的最后修改日期时间</td>
-</tr>
-</tbody>
-</table>
-<h2 id="非-http11-首部字段">非 HTTP/1.1 首部字段</h2>
-<p>在 HTTP 协议通信交互中使用到的首部字段，不限于 RFC2616 中定义的 47 种首部字段。还有 Cookie、Set-Cookie 和 Content-Disposition等在其他 RFC 中定义的首部字段，它们的使用频率也很高。</p>
-<p>这些非正式的首部字段统一归纳在 RFC4229 HTTP Header Field Registrations 中。</p>
-<h2 id="end-to-end-首部和-hop-by-hop-首部">End-to-end 首部和 Hop-by-hop 首部</h2>
-<p>HTTP 首部字段将定义成缓存代理和非缓存代理的行为，分成 2 种类<br>
-型。</p>
-<h3 id="端到端首部end-to-end-header">端到端首部（End-to-end Header）</h3>
-<p>分在此类别中的首部会转发给请求 / 响应对应的最终接收目标，且必须保存在由缓存生成的响应中，另外规定它必须被转发。</p>
-<h3 id="逐跳首部hop-by-hop-header">逐跳首部（Hop-by-hop Header）</h3>
-<p>分在此类别中的首部只对单次转发有效，会因通过缓存或代理而不再转发。HTTP/1.1 和之后版本中，如果要使用 hop-by-hop 首部，需提供 Connection 首部字段。</p>
-<p>下面列举了 HTTP/1.1 中的逐跳首部字段。除这 8 个首部字段之外，其他所有字段都属于端到端首部。</p>
-<ul>
-<li>Connection</li>
-<li>Keep-Alive</li>
-<li>Proxy-Authenticate</li>
-<li>Proxy-Authorization</li>
-<li>Trailer</li>
-<li>TE</li>
-<li>Transfer-Encoding</li>
-<li>Upgrade</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[electron-增量更新]]></title>
-        <id>https://leecss.com/post/electron-zeng-liang-geng-xin/</id>
-        <link href="https://leecss.com/post/electron-zeng-liang-geng-xin/">
-        </link>
-        <updated>2021-07-16T11:49:28.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>先介绍一下技术构成，项目是完整的vue项目，在现有项目上完成electron打包及更新。</p>
-<p>打包使用的vue-cli-plugin-electron-builder插件，增量更新为具体的代码实现，并没有用到electron-updater。</p>
-<h2 id="思路">思路</h2>
-<p>1、比较本地和远程的版本</p>
-<p>本地的版本可以放在一个app.txt文件中，或者通过变量获取。</p>
-<p>远程的版本通过服务端文件（yml或者json）获取</p>
-<p>比较版本，若相同则不更新，返回。</p>
-<p>若不同，则提示更新，或直接进入更新流程</p>
-<p>2、更新流程：通过线上增量包文件地址，进行下载</p>
-<p>3、将zip压缩包解压缩</p>
-<p>4、重新加载</p>
-<h2 id="详解">详解</h2>
-<h3 id="一-vue-cli-plugin-electron-builder">一、vue-cli-plugin-electron-builder</h3>
-<p>安装vue-cli-plugin-electron-builder</p>
-<pre><code>vue add electron-builder@2.0.0-rc.6
-</code></pre>
-<p>版本选择9.0.0</p>
-<h2 id="二-新建vueconfigjs">二、新建vue.config.js</h2>
-<p>1、重点是：<strong>&quot;asar&quot;: false,</strong></p>
-<p>这句话的意思是，打包的时候<code>resources</code>下就不产生<code>app.asar</code>，而是一个app文件夹，而这个文件夹呢是可以直接进行替换的，里面的内容就是我们的前端整个项目的打包，就是渲染进程。所以，我们每次只需要替换前端的打包就可以了，而不需要每次都安装替换整个app</p>
-<p>2、将app图标放到public文件夹下</p>
-<pre><code class="language-js">module.exports = {
-  pluginOptions: {
-    electronBuilder: {
-      builderOptions: {
-        //productName: &quot;ebopo&quot;, // 项目名,这也是生成的exe文件的前缀名
-        copyright: 'Copyright © Ambow',  // 应用程序版权行
-        publish: [{
-          &quot;provider&quot;: &quot;generic&quot;,
-          &quot;channel&quot;: &quot;latest&quot;,
-          &quot;url&quot;: &quot;http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron/&quot;,
-        }],
-        &quot;win&quot;: {//win相关配置
-          &quot;icon&quot;: &quot;./public/app.ico&quot;,//图标，当前图标在根目录下，注意这里有两个坑
-          &quot;target&quot;: [
-              {
-                  &quot;target&quot;: &quot;nsis&quot;,//利用nsis制作安装程序
-                  &quot;arch&quot;: [
-                      &quot;x64&quot;,//64位
-                      &quot;ia32&quot;//32位
-                  ]
-              }
-          ]
-        },
-        &quot;asar&quot;: false,
-        &quot;nsis&quot;: {
-          &quot;oneClick&quot;: false, // 是否一键安装
-          &quot;allowElevation&quot;: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。          
-          &quot;allowToChangeInstallationDirectory&quot;: true, // 允许修改安装目录
-          &quot;installerIcon&quot;: &quot;./public/app.ico&quot;,// 安装图标
-          &quot;uninstallerIcon&quot;: &quot;./public/app.ico&quot;,//卸载图标
-          &quot;installerHeaderIcon&quot;: &quot;./public/app.ico&quot;, // 安装时头部图标
-          &quot;createDesktopShortcut&quot;: true, // 创建桌面图标
-          &quot;createStartMenuShortcut&quot;: true,// 创建开始菜单图标
-          &quot;shortcutName&quot;: &quot;ebopo&quot;, // 图标名称
-        },
-      }
-    }
-  }
-}
-</code></pre>
-<h2 id="三-配置信息">三、配置信息</h2>
-<p>background.js</p>
-<pre><code class="language-js">
-let win
-
-function createWindow() {
-  win = new BrowserWindow({
-    width: 800,
-    height: 600,     
-    icon: `${__static}/app.ico`, // app内左上角图标
-    webPreferences: {
-      webSecurity: false, //取消跨域限制
-      nodeIntegration:true, //开启node
-    }
-  })
-}
-</code></pre>
-<p>package.json</p>
-<pre><code class="language-js">// 打包exe前缀名称,及项目内左上角显示名称
-&quot;name&quot;: &quot;ebopo&quot;,
-// 版本号
-&quot;version&quot;: &quot;1.0.0&quot;,
-&quot;author&quot;: &quot;leecss&quot;,
-&quot;description&quot;: &quot;electronApp&quot;,
-</code></pre>
-<h2 id="四-新增electron目录及设置菜单">四、新增electron目录及设置菜单</h2>
-<p>在src文件夹下新建electron目录，在目录中新建menu.js</p>
-<pre><code class="language-js">import { BrowserWindow, Menu, app} from 'electron'
-
-let template = [{
-  label: '查看',
-  submenu: [{
-    label: '重载',
-    accelerator: 'CmdOrCtrl+R',
-    click: (item, focusedWindow) =&gt; {
-      if (focusedWindow) {
-        // 重载之后, 刷新并关闭所有之前打开的次要窗体
-        if (focusedWindow.id === 1) {
-          BrowserWindow.getAllWindows().forEach(win =&gt; {
-            if (win.id &gt; 1) win.close()
-          })
-        }
-        focusedWindow.reload()
-      }
-    }
-  }, {
-    label: '切换全屏',
-    accelerator: (() =&gt; {
-      if (process.platform === 'darwin') {
-        return 'Ctrl+Command+F'
-      } else {
-        return 'F11'
-      }
-    })(),
-    click: (item, focusedWindow) =&gt; {
-      if (focusedWindow) {
-        focusedWindow.setFullScreen(!focusedWindow.isFullScreen())
-      }
-    }
-  }]
-}, {
-  label: '窗口',
-  role: 'window',
-  submenu: [{
-    label: '最小化',
-    accelerator: 'CmdOrCtrl+M',
-    role: 'minimize'
-  }, {
-    label: '关闭',
-    accelerator: 'CmdOrCtrl+W',
-    role: 'close'
-  }]
-}, {
-  label: '帮助',
-  role: 'help',
-  submenu: [     
-    {
-      label: `版本` + app.getVersion(),
-      enabled: false      
-    },
-    {
-      label: '切换开发者工具',
-      accelerator: (() =&gt; {
-        if (process.platform === 'darwin') {
-          return 'Alt+Command+I'
-        } else {
-          return 'Ctrl+Shift+I'
-        }
-      })(),
-      click: (item, focusedWindow) =&gt; {
-        if (focusedWindow) {
-          focusedWindow.toggleDevTools()
-        }
-      }
-    }
-  ]
-}]
-
-var list = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(list)
-</code></pre>
-<p>修改background.js ，在主进程中引入菜单</p>
-<pre><code class="language-js">async function createWindow() {
-+	require('./electron/menu.js')
-}
-</code></pre>
-<h2 id="五-添加调试及日志文件输出">五、添加调试及日志文件输出</h2>
-<pre><code>npm i  electron-log
-</code></pre>
-<p>在electron目录下新建log.js</p>
-<pre><code class="language-js">import log from 'electron-log'
-
-log.transports.file.level = 'silly'
-log.transports.console.level = false // 禁用console输出
-
-export default log
-</code></pre>
-<p>在background.js 中使用</p>
-<pre><code class="language-js">import log from './electron/log'
-
-log.warn('hello')
-</code></pre>
-<p>日志文件查看：文件main.log存储位置</p>
-<pre><code>C:\Users\{用户}\AppData\Roaming\{appName}\logs
-</code></pre>
-<h2 id="六-更新流程比较版本">六、更新流程：比较版本</h2>
-<p>安装并引入axios</p>
-<pre><code>npm i axios
-</code></pre>
-<p>background.js</p>
-<pre><code>import axios from 'axios'
-</code></pre>
-<p>比较版本，若相同则返回，不相同则更新</p>
-<pre><code>async function createWindow() {
-  require('./electron/menu.js')
-  // Create the browser window.
-  win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    icon: `${__static}/app.ico`, // app内左上角图标
-    webPreferences: {      
-      webSecurity: false, //取消跨域限制
-      nodeIntegration:true, //开启node
-    }
-  })
-
-  if (process.env.WEBPACK_DEV_SERVER_URL) {
-    // Load the url of the dev server if in development mode
-    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
-  } else {
-    createProtocol('app')
-    // Load the index.html when not in development
-    win.loadURL('app://./index.html')
-    
-    
-    
-    log.warn('hello')
-    // 判断是否热更新，版本对比
-    const updateUrl = 'http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron'
-    const currentVersion = app.getVersion()
-    log.warn('currentVersion',currentVersion)    
-    axios({
-      url: updateUrl + '/latest.yml',
-      method: 'GET'
-    }).then(res =&gt; {      
-      const remoteVersion = JSON.stringify(res.data).split('\\n')[0].split(' ')[1]
-      log.warn('remoteVersion',remoteVersion)      
-      if (currentVersion === remoteVersion) {
-        log.warn('版本相同，无需更新')
-        return;
-      }
-      // 热更新
-      const updateZipUrl = updateUrl + '/app.zip'
-      increment(updateZipUrl)      
-    })
-    
-    
-    
-  }
-}
-</code></pre>
-<h2 id="七-更新流程下载远程更新包appzip">七、更新流程：下载远程更新包app.zip</h2>
-<p>在electron目录中新建downloadFile.js</p>
-<p>下载文件需要两个参数：下载路径，保存路径</p>
-<p>下载文件返回一个参数：保存路径</p>
-<p>安装fs-extra</p>
-<pre><code>npm i fs-extra
-</code></pre>
-<pre><code class="language-js">const request = require('request')
-const fs = require('fs')
-const fse = require('fs-extra')
-const path = require('path')
-import log from './log'
-
-function download(url, targetPath, cb = () =&gt; { }) {
-  let status
-  const req = request({
-    method: 'GET',
-    uri: encodeURI(url)
-  })
-  try {
-    const stream = fs.createWriteStream(targetPath)
-    let len = 0
-    let cur = 0
-    req.pipe(stream)
-    req.on('response', (data) =&gt; {
-      len = parseInt(data.headers['content-length'])
-    })
-    req.on('data', (chunk) =&gt; {
-      cur += chunk.length
-      const progress = (100 * cur / len).toFixed(2)
-      status = 'progressing'
-      cb(status, progress)
-    })
-    req.on('end', function () {
-      if (req.response.statusCode === 200) {
-        if (len === cur) {
-          console.log(targetPath + ' Download complete ')
-          status = 'completed'
-          cb(status, 100)
-        } else {
-          stream.end()
-          removeFile(targetPath)
-          status = 'error'
-          cb(status, '网络波动，下载文件不全')
-        }
-      } else {
-        stream.end()
-        removeFile(targetPath)
-        status = 'error'
-        cb(status, req.response.statusMessage)
-      }
-    })
-    req.on('error', (e) =&gt; {
-      stream.end()
-      removeFile(targetPath)
-      if (len !== cur) {
-        status = 'error'
-        cb(status, '网络波动，下载失败')
-      } else {
-        status = 'error'
-        cb(status, e)
-      }
-    })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-function removeFile(targetPath) {
-  try {
-    fse.removeSync(targetPath)
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export default async function downloadFile({ url, targetPath, folder = './' }, cb = () =&gt; { }) {  
-  log.warn('download-url',url)
-  log.warn('download-saveurl',targetPath)
-  if (!targetPath || !url) {
-    throw new Error('targetPath or url is nofind')
-  }
-  try {
-    await fse.ensureDirSync(path.join(targetPath, folder))
-  } catch (error) {
-    throw new Error(error)
-  }
-  return new Promise((resolve, reject) =&gt; {
-    const name = url.split('/').pop()
-    const filePath = path.join(targetPath, folder, name)
-    download(url, filePath, (status, result) =&gt; {
-      if (status === 'completed') {
-        resolve(filePath)
-      }
-      if (status === 'error') {
-        reject(result)
-      }
-      if (status === 'progressing') {
-        cb &amp;&amp; cb(result)
-      }
-    })
-  })
-}
-</code></pre>
-<h2 id="八-更新流程将下载的appzip解压缩并删除">八、更新流程：将下载的app.zip解压缩并删除</h2>
-<p>在electron目录中新建increment.js</p>
-<p>解压缩需要一个参数：加压压缩包的路径</p>
-<p>在文件下载完成后执行</p>
-<p>安装adm-zip</p>
-<pre><code>npm i adm-zip
-</code></pre>
-<pre><code class="language-js">import downloadFile from './downloadFile'
-import { app } from 'electron'
-const fse = require('fs-extra')
-const AdmZip = require('adm-zip')
-import log from './log'
-
-export default async (updateZipUrl) =&gt; {  
-  const resourcesPath = process.resourcesPath
-  downloadFile({ url: updateZipUrl, targetPath: resourcesPath }).then(async (filePath) =&gt; {
-    log.warn('unzip-filePath',filePath)
-    const zip = new AdmZip(filePath)
-    zip.extractAllToAsync(resourcesPath, true, (err) =&gt; {
-      if (err) {
-        console.error(err)
-        return
-      }      
-      fse.removeSync(filePath)      
-      setTimeout(() =&gt; {
-        log.warn('relaunch')
-        app.relaunch()
-        app.exit(0)                
-      }, 2000);
-    })
-  }).catch(err =&gt; {
-    console.log(err)
-  })
-}
-</code></pre>
-<p>在background.js引入并调用</p>
-<pre><code class="language-js">import increment from './electron/increment'
-</code></pre>
-<pre><code class="language-js">// 热更新
-const updateZipUrl = updateUrl + '/app.zip'
-increment(updateZipUrl)
-</code></pre>
-<h2 id="九-更新流程将更新重启替换为重新加载">九、更新流程：将更新重启替换为重新加载</h2>
-<p>在electron目录下新建global.js</p>
-<pre><code class="language-js">global.sharedObject = {
-  win: ''
-}
-
-export default global
-</code></pre>
-<p>在background.js引入并调用</p>
-<pre><code>import global from './electron/global'
-</code></pre>
-<pre><code class="language-js">async function createWindow() {
-  require('./electron/menu.js')
-  // Create the browser window.
-  win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    icon: `${__static}/app.ico`, // app内左上角图标
-    webPreferences: {      
-      webSecurity: false, //取消跨域限制
-      nodeIntegration:true, //开启node
-    }
-  })
-
-  if (process.env.WEBPACK_DEV_SERVER_URL) {
-    // Load the url of the dev server if in development mode
-    await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
-    if (!process.env.IS_TEST) win.webContents.openDevTools()
-  } else {
-    createProtocol('app')
-    // Load the index.html when not in development
-    win.loadURL('app://./index.html')
-
-    log.warn('hello')
-    // 判断是否热更新，版本对比
-    const updateUrl = 'http://ambow-ebopo.oss-cn-beijing.aliyuncs.com/common/electron'
-    const currentVersion = app.getVersion()
-    log.warn('currentVersion',currentVersion)    
-    axios({
-      url: updateUrl + '/latest.yml',
-      method: 'GET'
-    }).then(res =&gt; {      
-      const remoteVersion = JSON.stringify(res.data).split('\\n')[0].split(' ')[1]
-      log.warn('remoteVersion',remoteVersion)      
-      if (currentVersion === remoteVersion) {
-        log.warn('版本相同，无需更新')
-        return;
-      }
-      // 热更新
-      const updateZipUrl = updateUrl + '/app.zip'
-      increment(updateZipUrl)      
-    })
-
-  }
-
-
-
-  global.sharedObject.win = win
-  win.on('closed', () =&gt; {
-    win = null
-    global.sharedObject.win = null
-  })
-
-
-  
-}
-</code></pre>
-<p>在increment.js中引入并调用</p>
-<pre><code class="language-js">import downloadFile from './downloadFile'
-import global from './global'
-const fse = require('fs-extra')
-const AdmZip = require('adm-zip')
-import log from './log'
-
-export default async (updateZipUrl) =&gt; {  
-  const resourcesPath = process.resourcesPath
-  downloadFile({ url: updateZipUrl, targetPath: resourcesPath }).then(async (filePath) =&gt; {
-    log.warn('unzip-filePath',filePath)
-    const zip = new AdmZip(filePath)
-    zip.extractAllToAsync(resourcesPath, true, (err) =&gt; {
-      if (err) {
-        console.error(err)
-        return
-      }      
-      fse.removeSync(filePath)      
-      setTimeout(() =&gt; {        
-        log.warn('relaunch')
-        global.sharedObject.win.webContents.reloadIgnoringCache()          
-      }, 2000);
-    })
-  }).catch(err =&gt; {
-    console.log(err)
-  })
-}
-</code></pre>
-<p>setTimeout是为了演示效果，最后去掉。</p>
-<h2 id="十-遇到的问题">十、遇到的问题</h2>
-<p>更新时报错，如下：</p>
-<pre><code>Error: EPERM: operation not permitted
-</code></pre>
-<p>原因是没有管理员权限，且安装时选择的为所有用户安装。</p>
-<p>方案一：运行时选择：以管理员身份运行</p>
-<p>方案二：下载时，仅为当前用户安装</p>
-<p>解决方案：</p>
-<p>在设置上，不给用户选择为所有用户安装的机会，默认一键安装，设置如下</p>
-<pre><code class="language-json">&quot;nsis&quot;: {
-    &quot;oneClick&quot;: true, // 是否一键安装          
-    &quot;installerIcon&quot;: &quot;./public/app.ico&quot;,// 安装图标
-    &quot;uninstallerIcon&quot;: &quot;./public/app.ico&quot;,//卸载图标
-    &quot;installerHeaderIcon&quot;: &quot;./public/app.ico&quot;, // 安装时头部图标
-    &quot;createDesktopShortcut&quot;: true, // 创建桌面图标
-    &quot;createStartMenuShortcut&quot;: true,// 创建开始菜单图标
-    &quot;shortcutName&quot;: &quot;ebopo&quot;, // 图标名称
-},
-</code></pre>
-<h2 id="十一-在ts项目中使用">十一、在ts项目中使用</h2>
-<p>electron-log的使用要用ts文件，并且用any声明，其他相似问题同理。</p>
-<p>log.ts</p>
-<pre><code class="language-typescript">const log:any = require('electron-log');
-
-log.transports.file.level = 'silly'
-log.transports.console.level = false // 禁用console输出
-
-export default log
-</code></pre>
-<h2 id="github地址">GitHub地址</h2>
-<p><a href="https://github.com/lee-css/vue-cli-electron-update-part">vue-cli-electron-update-part</a></p>
-<h2 id="参考">参考</h2>
-<p><a href="https://xuxin123.com/electron/increment-update1/">https://xuxin123.com/electron/increment-update1/</a></p>
-<h2 id="文档">文档</h2>
-<p><a href="https://nklayman.github.io/vue-cli-plugin-electron-builder/">https://nklayman.github.io/vue-cli-plugin-electron-builder/</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-XMLHttpRequest Level2]]></title>
-        <id>https://leecss.com/post/http-xmlhttprequest-level2/</id>
-        <link href="https://leecss.com/post/http-xmlhttprequest-level2/">
-        </link>
-        <updated>2021-07-15T22:49:03.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><a href="https://en.wikipedia.org/wiki/XMLHttpRequest">XMLHttpRequest</a>是一个浏览器接口，使得Javascript可以进行HTTP(S)通信。</p>
-<p>最早，微软在IE 5引进了这个接口。因为它太有用，其他浏览器也模仿部署了，ajax操作因此得以诞生。</p>
-<p>但是，这个接口一直没有标准化，每家浏览器的实现或多或少有点不同。HTML 5的概念形成后，W3C开始考虑标准化这个接口。2008年2月，就提出了<a href="https://dev.w3.org/2006/webapi/XMLHttpRequest-2/">XMLHttpRequest Level 2</a> 草案。</p>
-<h2 id="一-老版本的xmlhttprequest对象"><strong>一、老版本的XMLHttpRequest对象</strong></h2>
-<p>在介绍新版本之前，我们先回顾一下老版本的用法。</p>
-<p>首先，新建一个XMLHttpRequest的实例。</p>
-<blockquote>
-<p>var xhr = new XMLHttpRequest();</p>
-</blockquote>
-<p>然后，向远程主机发出一个HTTP请求。</p>
-<blockquote>
-<p>xhr.open('GET', 'example.php');</p>
-<p>xhr.send();</p>
-</blockquote>
-<p>接着，就等待远程主机做出回应。这时需要监控XMLHttpRequest对象的状态变化，指定回调函数。</p>
-<blockquote>
-<p>xhr.onreadystatechange = function(){</p>
-<p>if ( xhr.readyState == 4 &amp;&amp; xhr.status == 200 ) {</p>
-<p>alert( xhr.responseText );</p>
-<p>} else {</p>
-<p>alert( xhr.statusText );</p>
-<p>}</p>
-<p>};</p>
-</blockquote>
-<p>上面的代码包含了老版本XMLHttpRequest对象的主要属性：</p>
-<blockquote>
-<p>* xhr.readyState：XMLHttpRequest对象的状态，等于4表示数据已经接收完毕。</p>
-<p>* xhr.status：服务器返回的状态码，等于200表示一切正常。</p>
-<p>* xhr.responseText：服务器返回的文本数据</p>
-<p>* xhr.responseXML：服务器返回的XML格式的数据</p>
-<p>* xhr.statusText：服务器返回的状态文本。</p>
-</blockquote>
-<h2 id="二-老版本的缺点"><strong>二、老版本的缺点</strong></h2>
-<p>老版本的XMLHttpRequest对象有以下几个缺点：</p>
-<blockquote>
-<p>* 只支持文本数据的传送，无法用来读取和上传二进制文件。</p>
-<p>* 传送和接收数据时，没有进度信息，只能提示有没有完成。</p>
-<p>* 受到<a href="https://www.w3.org/Security/wiki/Same_Origin_Policy">&quot;同域限制&quot;</a>（Same Origin Policy），只能向同一域名的服务器请求数据。</p>
-</blockquote>
-<h2 id="三-新版本的功能"><strong>三、新版本的功能</strong></h2>
-<p>新版本的XMLHttpRequest对象，针对老版本的缺点，做出了大幅改进。</p>
-<blockquote>
-<p>* 可以设置HTTP请求的时限。</p>
-<p>* 可以使用FormData对象管理表单数据。</p>
-<p>* 可以上传文件。</p>
-<p>* 可以请求不同域名下的数据（跨域请求）。</p>
-<p>* 可以获取服务器端的二进制数据。</p>
-<p>* 可以获得数据传输的进度信息。</p>
-</blockquote>
-<p>下面，我就一一介绍这些新功能。</p>
-<h2 id="四-http请求的时限"><strong>四、HTTP请求的时限</strong></h2>
-<p>有时，ajax操作很耗时，而且无法预知要花多少时间。如果网速很慢，用户可能要等很久。</p>
-<p>新版本的XMLHttpRequest对象，增加了timeout属性，可以设置HTTP请求的时限。</p>
-<blockquote>
-<p>xhr.timeout = 3000;</p>
-</blockquote>
-<p>上面的语句，将最长等待时间设为3000毫秒。过了这个时限，就自动停止HTTP请求。与之配套的还有一个timeout事件，用来指定回调函数。</p>
-<blockquote>
-<p>xhr.ontimeout = function(event){</p>
-<p>alert('请求超时！');</p>
-<p>}</p>
-</blockquote>
-<p>目前，Opera、Firefox和IE 10支持该属性，IE 8和IE 9的这个属性属于XDomainRequest对象，而Chrome和Safari还不支持。</p>
-<h2 id="五-formdata对象"><strong>五、FormData对象</strong></h2>
-<p>ajax操作往往用来传递表单数据。为了方便表单处理，HTML 5新增了一个FormData对象，可以模拟表单。</p>
-<p>首先，新建一个FormData对象。</p>
-<blockquote>
-<p>var formData = new FormData();</p>
-</blockquote>
-<p>然后，为它添加表单项。</p>
-<blockquote>
-<p>formData.append('username', '张三');</p>
-<p>formData.append('id', 123456);</p>
-</blockquote>
-<p>最后，直接传送这个FormData对象。这与提交网页表单的效果，完全一样。</p>
-<blockquote>
-<p>xhr.send(formData);</p>
-</blockquote>
-<p>FormData对象也可以用来获取网页表单的值。</p>
-<blockquote>
-<p>var form = document.getElementById('myform');</p>
-<p>var formData = new FormData(form);</p>
-<p>formData.append('secret', '123456'); // 添加一个表单项</p>
-<p>xhr.open('POST', form.action);</p>
-<p>xhr.send(formData);</p>
-</blockquote>
-<h2 id="六-上传文件"><strong>六、上传文件</strong></h2>
-<p>新版XMLHttpRequest对象，不仅可以发送文本信息，还可以上传文件。</p>
-<p>假定files是一个&quot;选择文件&quot;的表单元素（input[type=&quot;file&quot;]），我们将它装入FormData对象。</p>
-<blockquote>
-<p>var formData = new FormData();</p>
-<p>for (var i = 0; i &lt; files.length;i++) {</p>
-<p>formData.append('files[]', files[i]);</p>
-<p>}</p>
-</blockquote>
-<p>然后，发送这个FormData对象。</p>
-<blockquote>
-<p>xhr.send(formData);</p>
-</blockquote>
-<h2 id="七-跨域资源共享cors"><strong>七、跨域资源共享（CORS）</strong></h2>
-<p>新版本的XMLHttpRequest对象，可以向不同域名的服务器发出HTTP请求。这叫做<a href="https://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing">&quot;跨域资源共享&quot;</a>（Cross-origin resource sharing，简称CORS）。</p>
-<p>使用&quot;跨域资源共享&quot;的前提，是浏览器必须支持这个功能，而且服务器端必须同意这种&quot;跨域&quot;。如果能够满足上面的条件，则代码的写法与不跨域的请求完全一样。</p>
-<blockquote>
-<p>xhr.open('GET', 'http://other.server/and/path/to/script');</p>
-</blockquote>
-<p>目前，除了IE 8和IE 9，主流浏览器都支持CORS，IE 10也将支持这个功能。服务器端的设置，请参考<a href="https://developer.mozilla.org/en-US/docs/Server-Side_Access_Control">《Server-Side Access Control》</a>。</p>
-<h2 id="八-接收二进制数据方法a改写mimetype"><strong>八、接收二进制数据（方法A：改写MIMEType）</strong></h2>
-<p>老版本的XMLHttpRequest对象，只能从服务器取回文本数据（否则它的名字就不用XML起首了），新版则可以取回二进制数据。</p>
-<p>这里又分成两种做法。较老的做法是改写数据的MIMEType，将服务器返回的二进制数据伪装成文本数据，并且告诉浏览器这是用户自定义的字符集。</p>
-<blockquote>
-<p>xhr.overrideMimeType(&quot;text/plain; charset=x-user-defined&quot;);</p>
-</blockquote>
-<p>然后，用responseText属性接收服务器返回的二进制数据。</p>
-<blockquote>
-<p>var binStr = xhr.responseText;</p>
-</blockquote>
-<p>由于这时，浏览器把它当做文本数据，所以还必须再一个个字节地还原成二进制数据。</p>
-<blockquote>
-<p>for (var i = 0, len = binStr.length; i &lt; len; ++i) {</p>
-<p>var c = binStr.charCodeAt(i);</p>
-<p>var byte = c &amp; 0xff;</p>
-<p>}</p>
-</blockquote>
-<p>最后一行的位运算&quot;c &amp; 0xff&quot;，表示在每个字符的两个字节之中，只保留后一个字节，将前一个字节扔掉。原因是浏览器解读字符的时候，会把字符自动<a href="https://web.archive.org/web/20080821092906/http://mgran.blogspot.com/2006/08/downloading-binary-streams-with.html">解读</a>成Unicode的0xF700-0xF7ff区段。</p>
-<h2 id="八-接收二进制数据方法bresponsetype属性"><strong>八、接收二进制数据（方法B：responseType属性）</strong></h2>
-<p>从服务器取回二进制数据，较新的方法是使用新增的responseType属性。如果服务器返回文本数据，这个属性的值是&quot;TEXT&quot;，这是默认值。较新的浏览器还支持其他值，也就是说，可以接收其他格式的数据。</p>
-<p>你可以把responseType设为blob，表示服务器传回的是二进制对象。</p>
-<blockquote>
-<p>var xhr = new XMLHttpRequest();</p>
-<p>xhr.open('GET', '/path/to/image.png');</p>
-<p>xhr.responseType = 'blob';</p>
-</blockquote>
-<p>接收数据的时候，用浏览器自带的Blob对象即可。</p>
-<blockquote>
-<p>var blob = new Blob([xhr.response], {type: 'image/png'});</p>
-</blockquote>
-<p>注意，是读取xhr.response，而不是xhr.responseText。</p>
-<p>你还可以将responseType设为arraybuffer，把二进制数据装在一个数组里。</p>
-<blockquote>
-<p>var xhr = new XMLHttpRequest();</p>
-<p>xhr.open('GET', '/path/to/image.png');</p>
-<p>xhr.responseType = &quot;arraybuffer&quot;;</p>
-</blockquote>
-<p>接收数据的时候，需要遍历这个数组。</p>
-<blockquote>
-<p>var arrayBuffer = xhr.response;</p>
-<p>if (arrayBuffer) {</p>
-<p>var byteArray = new Uint8Array(arrayBuffer);</p>
-<p>for (var i = 0; i &lt; byteArray.byteLength; i++) {</p>
-<p>// do something</p>
-<p>}<br>
-　　}</p>
-</blockquote>
-<p>更详细的讨论，请看<a href="https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Sending_and_Receiving_Binary_Data">Sending and Receiving Binary Data</a>。</p>
-<h2 id="九-进度信息"><strong>九、进度信息</strong></h2>
-<p>新版本的XMLHttpRequest对象，传送数据的时候，有一个progress事件，用来返回进度信息。</p>
-<p>它分成上传和下载两种情况。下载的progress事件属于XMLHttpRequest对象，上传的progress事件属于XMLHttpRequest.upload对象。</p>
-<p>我们先定义progress事件的回调函数。</p>
-<blockquote>
-<p>xhr.onprogress = updateProgress;</p>
-<p>xhr.upload.onprogress = updateProgress;</p>
-</blockquote>
-<p>然后，在回调函数里面，使用这个事件的一些属性。</p>
-<blockquote>
-<p>function updateProgress(event) {</p>
-<p>if (event.lengthComputable) {</p>
-<p>var percentComplete = event.loaded / event.total;</p>
-<p>}</p>
-<p>}</p>
-</blockquote>
-<p>上面的代码中，event.total是需要传输的总字节，event.loaded是已经传输的字节。如果event.lengthComputable不为真，则event.total等于0。</p>
-<p>与progress事件相关的，还有其他五个事件，可以分别指定回调函数：</p>
-<blockquote>
-<p>* load事件：传输成功完成。</p>
-<p>* abort事件：传输被用户取消。</p>
-<p>* error事件：传输中出现错误。</p>
-<p>* loadstart事件：传输开始。</p>
-<p>* loadEnd事件：传输结束，但是不知道成功还是失败。</p>
-</blockquote>
-<h2 id="十-阅读材料"><strong>十、阅读材料</strong></h2>
-<p>1. <a href="https://dev.opera.com/articles/view/xhr2/">Introduction to XMLHttpRequest Level 2</a>： 新功能的综合介绍。</p>
-<p>2. <a href="https://www.html5rocks.com/en/tutorials/file/xhr2/">New Tricks in XMLHttpRequest 2</a>：一些用法的介绍。</p>
-<p>3. <a href="https://developer.mozilla.org/en-US/docs/DOM/XMLHttpRequest/Using_XMLHttpRequest">Using XMLHttpRequest</a>：一些高级用法，主要针对Firefox浏览器。</p>
-<p>4. <a href="https://developer.mozilla.org/en-US/docs/HTTP_access_control">HTTP Access Control</a>：CORS综述。</p>
-<p>5. <a href="https://dev.opera.com/articles/view/dom-access-control-using-cross-origin-resource-sharing/">DOM access control using cross-origin resource sharing</a>：CORS的9种HTTP头信息</p>
-<p>6. <a href="https://developer.mozilla.org/en-US/docs/Server-Side_Access_Control">Server-Side Access Control</a>：服务器端CORS设置。</p>
-<p>7. <a href="http://enable-cors.org/">Enable CORS</a>：服务端CORS设置。</p>
-<h2 id="转载">转载</h2>
-<blockquote>
-<p>阮一峰</p>
-<p><a href="http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html">http://www.ruanyifeng.com/blog/2012/09/xmlhttprequest_level_2.html</a></p>
-</blockquote>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://www.html5rocks.com/zh/tutorials/file/xhr2/">https://www.html5rocks.com/zh/tutorials/file/xhr2/</a></p>
 ]]></content>
     </entry>
 </feed>
