@@ -2,13 +2,206 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-08-07T14:57:28.684Z</updated>
+    <updated>2021-08-09T00:40:26.641Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[nginx-安装和基础代理配置]]></title>
+        <id>https://leecss.com/post/nginx-an-zhuang-he-ji-chu-dai-li-pei-zhi/</id>
+        <link href="https://leecss.com/post/nginx-an-zhuang-he-ji-chu-dai-li-pei-zhi/">
+        </link>
+        <updated>2021-08-09T00:08:50.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="安装和启动">安装和启动</h2>
+<h3 id="安装">安装</h3>
+<p>windows</p>
+<p><a href="http://nginx.org/en/download.html">nginx下载地址</a></p>
+<p>选择nginx/Windows-[x.x.x]，点击下载即可，下载完成后解压到电脑中。</p>
+<h3 id="启动">启动</h3>
+<p>进入nginx解压目录，在命令行输入<code>.\nginx.exe</code>即可启动，打开浏览器输入<code>localhost</code>,看到下述内容说明启动成功。</p>
+<pre><code>Welcome to nginx!
+If you see this page, the nginx web server is successfully installed and working. Further configuration is required.
+
+For online documentation and support please refer to nginx.org.
+Commercial support is available at nginx.com.
+
+Thank you for using nginx.
+</code></pre>
+<h3 id="关闭">关闭</h3>
+<p>在任务管理器中结束nginx进程</p>
+<h3 id="命令">命令</h3>
+<p>启动；停止；退出。</p>
+<pre><code class="language-shell">start nginx
+nginx -s stop
+nginx -s quit
+</code></pre>
+<h2 id="配置">配置</h2>
+<h3 id="配置文件">配置文件</h3>
+<p>conf\nginx.conf为配置文件</p>
+<p>可以在conf中新建servers文件夹，将配置提取出来，然后在nginx.conf中引入，使目录结构更清晰</p>
+<pre><code class="language-nginx">    #gzip  on;
+
+    include  servers/*.conf;
+</code></pre>
+<p>注意<code>include servers/*.conf;</code>结尾要加分号</p>
+<h3 id="新建配置文件">新建配置文件</h3>
+<p>在servers目录下新建test.conf文件，并启动nginx</p>
+<pre><code class="language-nginx">server {
+   listen       80;
+   server_name  test.com;
+
+   location / {
+       proxy_pass   http://127.0.0.1:8888;
+   }
+}
+</code></pre>
+<blockquote>
+<p>listen: 监听的端口</p>
+<p>server_name: 浏览器访问的Host域名，根据访问的Host域名判断代理到什么地方</p>
+<p>proxy_pass: 实际代理的地方</p>
+</blockquote>
+<h3 id="在本地启动一个服务">在本地启动一个服务</h3>
+<p>新建server.js，<code>node server.js</code>启动服务</p>
+<pre><code class="language-js">const http = require('http')
+
+http.createServer(function (request, response) {
+    console.log('request come', request.url)
+
+    response.end('123')
+}).listen(8888)
+
+console.log('server listening on 8888')
+</code></pre>
+<h3 id="462错误">462错误</h3>
+<p>在浏览器访问<code>test.com</code>,页面出现462错误。</p>
+<p>1、先了解两个东西</p>
+<p>DNS：把域名解析为IP地址，保存的就是域名和ip的映射关系。一个域名和一个ip地址绑定，一个ip地址可以被多个域名绑定。</p>
+<p>本地hosts：修改hosts文件实现域名本地解析–相当于本地DNS服务器，正常是先走本地（hosts），本地失败再走网络的DNS服务器</p>
+<p>另外，hosts文件里边只能配置ip和域名的映射关系，不能配端口号</p>
+<p>2、分析一下访问过程：</p>
+<p>当我们在浏览器访问test.com时，先去走DNS解析，在本地我们没有修改hosts文件，所以会走网络的DNS解析服务器，而网络上并没有这个域名，所以没有解析到ip地址，也就无法访问服务器，没有内容返回。</p>
+<p>假如我们配置了hosts文件，<code>127.0.0.1 test.com</code>,即将test.com解析到本地，于是就能访问到我们本地启动的web服务器<code>http://127.0.0.1:8888</code>，然后由于我们启动了nginx,并且匹配到<code>test.com</code>Host请求头，所以拦截了请求并转发到<code>http://127.0.0.1:8888</code>,于是我们就可以通过配置的代理，使用域名来访问本地的服务。</p>
+<p>由上述过程可知，我并没有配置hosts，所以我配置了之后重新访问，发现依然不能正常访问。</p>
+<p><strong>配置hosts: 修改C:\Windows\System32\drivers\etc\hosts文件</strong></p>
+<p>3、谷歌浏览器启用了hsts的安全策略，当你输入网址时，默认访问https协议，且当你第一次访问https协议后，下一次都会自动转为https协议。</p>
+<p>禁止谷歌自动将http自动转为https</p>
+<ol>
+<li>地址栏中输入 <code>chrome://net-internals/#hsts</code></li>
+<li>在 <code>Delete domain security policies</code> 中输入项目的域名，并 <code>Delete</code> 删除</li>
+<li>可以在 <code>Query domain</code> 测试是否删除成功</li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628468089288.png" alt="" loading="lazy"></figure>
+<p>当上述操作仍然不奏效后，清除浏览器缓存，再次尝试，成功。</p>
+<h3 id="配置获取浏览器实际访问的域名">配置获取浏览器实际访问的域名</h3>
+<p>nginx-test.conf</p>
+<p><code>proxy_set_header Host $host;</code></p>
+<pre><code class="language-nginx">server {
+   listen       80;
+   server_name  test.com;
+
+   location / {
+       proxy_pass   http://127.0.0.1:8888;
+       proxy_set_header Host $host;
+   }
+}
+</code></pre>
+<p>server.js</p>
+<pre><code class="language-js">const http = require('http')
+
+http.createServer(function (request, response) {
+    console.log('request come', request.headers.host)
+
+    response.end(request.headers.host)
+}).listen(8888)
+
+console.log('server listening on 8888')
+</code></pre>
+<p>目前发现没有起作用，以后查一下原因</p>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://www.cnblogs.com/thewindkee/p/12873181.html">如何禁止chrome浏览器http自动转成https</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[软件汇总]]></title>
+        <id>https://leecss.com/post/ruan-jian-hui-zong/</id>
+        <link href="https://leecss.com/post/ruan-jian-hui-zong/">
+        </link>
+        <updated>2021-08-08T09:16:21.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="web服务器">web服务器</h2>
+<p><a href="http://nginx.org/en/download.html">nginx</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[http-https协议]]></title>
+        <id>https://leecss.com/post/http-https-xie-yi/</id>
+        <link href="https://leecss.com/post/http-https-xie-yi/">
+        </link>
+        <updated>2021-08-08T02:58:58.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<h3 id="为什么会有https">为什么会有https?</h3>
+<p>一个简单的回答可能会是 <code>HTTP</code> 它不安全。由于 HTTP 天生明文传输的特性，在 HTTP 的传输过程中，任何人都有可能从中截获、修改或者伪造请求发送，所以可以认为 HTTP 是不安全的；在 HTTP 的传输过程中不会验证通信方的身份，因此 HTTP 信息交换的双方可能会遭到伪装，也就是<code>没有用户验证</code>；在 HTTP 的传输过程中，接收方和发送方并<code>不会验证报文的完整性</code>，综上，为了结局上述问题，HTTPS 应用而生。</p>
+<h3 id="什么是-https">什么是 HTTPS</h3>
+<p>你还记得 HTTP 是怎么定义的吗？HTTP 是一种 <code>超文本传输协议(Hypertext Transfer Protocol)</code> 协议，它 是一个在计算机世界里专门在两点之间传输文字、图片、音频、视频等超文本数据的约定和规范，那么我们看一下 HTTPS 是如何定义的</p>
+<p><code>HTTPS</code> 的全称是 <code>Hypertext Transfer Protocol Secure</code>，它用来在计算机网络上的两个端系统之间进行<code>安全的交换信息(secure communication)</code>，它相当于在 HTTP 的基础上加了一个 <code>Secure 安全</code>的词眼，那么我们可以给出一个 HTTPS 的定义：HTTPS 是一个在计算机世界里专门在两点之间安全的传输文字、图片、音频、视频等超文本数据的约定和规范。 HTTPS 是 HTTP 协议的一种扩展，它本身并不保传输的证安全性，那么谁来保证安全性呢？在 HTTPS 中，使用<code>传输层安全性(TLS)</code>或<code>安全套接字层(SSL)</code>对通信协议进行加密。也就是</p>
+<p><strong>HTTP + SSL(TLS) = HTTPS</strong></p>
+<h3 id="https-做了什么">HTTPS 做了什么</h3>
+<p>HTTPS 协议提供了三个关键的指标</p>
+<ul>
+<li><code>加密(Encryption)</code>， HTTPS 通过对数据加密来使其免受窃听者对数据的监听，这就意味着当用户在浏览网站时，没有人能够监听他和网站之间的信息交换，或者跟踪用户的活动，访问记录等，从而窃取用户信息。</li>
+<li><code>数据一致性(Data integrity)</code>，数据在传输的过程中不会被窃听者所修改，用户发送的数据会<code>完整</code>的传输到服务端，保证用户发的是什么，服务器接收的就是什么。</li>
+<li><code>身份认证(Authentication)</code>，是指确认对方的真实身份，也就是<code>证明你是你</code>（可以比作人脸识别），它可以防止中间人攻击并建立用户信任。</li>
+</ul>
+<p>HTTPS 协议其实非常简单，RFC 文档很小，只有短短的 7 页，里面规定了新的协议名，默认<code>端口号443</code>，至于其他的<strong>应答模式、报文结构、请求方法、URI、头字段、连接管理</strong>等等都完全沿用 HTTP，没有任何新的东西。</p>
+<p>也就是说，除了协议名称和默认端口号外（HTTP 默认端口 80），HTTPS 协议在语法、语义上和 HTTP 一样，HTTP 有的，HTTPS 也照单全收。那么，HTTPS 如何做到 HTTP 所不能做到的<code>安全性呢</code>？关键在于这个 <code>S</code> 也就是 <code>SSL/TLS</code> 。</p>
+<h2 id="ssl">ssl</h2>
+<h3 id="认识-ssltls">认识 SSL/TLS</h3>
+<p><code>TLS(Transport Layer Security)</code> 是 <code>SSL(Secure Socket Layer)</code> 的后续版本，它们是用于在互联网两台计算机之间用于<code>身份验证</code>和<code>加密</code>的一种协议。</p>
+<blockquote>
+<p>注意：在互联网中，很多名称都可以进行互换。</p>
+</blockquote>
+<p>我们都知道一些在线业务（比如在线支付）最重要的一个步骤是创建一个值得信赖的交易环境，能够让客户安心的进行交易，SSL/TLS 就保证了这一点，SSL/TLS 通过将称为 <code>X.509</code> 证书的数字文档将网站和公司的实体信息绑定到<code>加密密钥</code>来进行工作。每一个<code>密钥对(key pairs)</code> 都有一个 <code>私有密钥(private key)</code> 和 <code>公有密钥(public key)</code>，私有密钥是独有的，一般位于服务器上，用于解密由公共密钥加密过的信息；公有密钥是公有的，与服务器进行交互的每个人都可以持有公有密钥，用公钥加密的信息只能由私有密钥来解密。</p>
+<blockquote>
+<p>什么是 <code>X.509</code>：X.509 是<code>公开密钥</code>证书的标准格式，这个文档将加密密钥与（个人或组织）进行安全的关联。</p>
+<p>X.509 主要应用如下</p>
+<ul>
+<li>
+<p>SSL/TLS 和 HTTPS 用于经过身份验证和加密的 Web 浏览</p>
+</li>
+<li>
+<p>通过 <a href="https://www.ssl.com/article/sending-secure-email-with-s-mime/">S/MIME</a> 协议签名和加密的电子邮件</p>
+</li>
+<li>
+<p>代码签名：它指的是使用数字证书对软件应用程序进行签名以安全分发和安装的过程。</p>
+</li>
+</ul>
+<p>通过使用由知名公共证书颁发机构（例如SSL.com）颁发的证书对软件进行数字签名，开发人员可以向最终用户保证他们希望安装的软件是由已知且受信任的开发人员发布；并且签名后未被篡改或损害。</p>
+<ul>
+<li>
+<p>还可用于文档签名</p>
+</li>
+<li>
+<p>还可用于客户端认证</p>
+</li>
+<li>
+<p>政府签发的电子身份证</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="https-的内核是-http">HTTPS 的内核是 HTTP</h3>
+<p>HTTPS 并不是一项新的应用层协议，只是 HTTP 通信接口部分由 SSL 和 TLS 替代而已。通常情况下，HTTP 会先直接和 TCP 进行通信。在使用 SSL 的 HTTPS 后，则会先演变为和 SSL 进行通信，然后再由 SSL 和 TCP 进行通信。也就是说，<strong>HTTPS 就是身披了一层 SSL 的 HTTP</strong>。</p>
+<p>SSL 是一个独立的协议，不只有 HTTP 可以使用，其他应用层协议也可以使用，比如 <code>SMTP(电子邮件协议)</code>、<code>Telnet(远程登录协议)</code> 等都可以使用。</p>
+<h2 id="转载">转载</h2>
+<p><a href="https://juejin.cn/post/6844904089495535624">看完这篇 HTTPS，和面试官扯皮就没问题了</a></p>
+<h2 id="推荐阅读">推荐阅读</h2>
+<blockquote>
+<p>码农翻身</p>
+<p><a href="https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA">一个故事讲完https</a></p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[http-正向代理和反向代理]]></title>
         <id>https://leecss.com/post/http-zheng-xiang-dai-li-he-fan-xiang-dai-li/</id>
@@ -113,12 +306,13 @@
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[http-Content Security Policy]]></title>
+        <title type="html"><![CDATA[http-Content-Security-Policy]]></title>
         <id>https://leecss.com/post/http-content-security-policy/</id>
         <link href="https://leecss.com/post/http-content-security-policy/">
         </link>
         <updated>2021-08-07T08:12:18.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="一-简介">一、简介</h2>
+        <content type="html"><![CDATA[<h1 id="http-content-security-policy">http-Content-Security-Policy</h1>
+<h2 id="一-简介">一、简介</h2>
 <p>CSP 的实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行，等同于提供白名单。它的实现和执行全部由浏览器完成，开发者只需提供配置。</p>
 <p>CSP 大大增强了网页的安全性。攻击者即使发现了漏洞，也没法注入脚本，除非还控制了一台列入了白名单的可信主机。</p>
 <p>两种方法可以启用 CSP。一种是通过 HTTP 头信息的<code>Content-Security-Policy</code>的字段。</p>
@@ -149,7 +343,7 @@ style-src cdn.example.org third-party.org; child-src https:
 <li><code>font-src</code>：字体文件</li>
 <li><code>object-src</code>：插件（比如 Flash）</li>
 <li><code>child-src</code>：框架</li>
-<li><code>frame-ancestors</code>：嵌入的外部资源（比如<frame>、<iframe>、<embed>和<applet>）</li>
+<li><code>frame-ancestors</code>：嵌入的外部资源（比如<code>&lt;frame&gt;</code>、<code>&lt;iframe&gt;</code>、<code>&lt;embed&gt;</code>和<code>&lt;applet&gt;</code>）</li>
 <li><code>connect-src</code>：HTTP 连接（通过 XHR、WebSockets、EventSource等）</li>
 <li><code>worker-src</code>：<code>worker</code>脚本</li>
 <li><code>manifest-src</code>：manifest 文件</li>
@@ -182,13 +376,13 @@ style-src cdn.example.org third-party.org; child-src https:
 <p>上面代码指定，将注入行为报告给<code>/my_amazing_csp_report_parser</code>这个 URL。</p>
 <p>浏览器会使用<code>POST</code>方法，发送一个JSON对象，下面是一个例子。</p>
 <pre><code class="language-json">{
-  &quot;csp-report&quot;: {
-    &quot;document-uri&quot;: &quot;http://example.org/page.html&quot;,
-    &quot;referrer&quot;: &quot;http://evil.example.com/&quot;,
-    &quot;blocked-uri&quot;: &quot;http://evil.example.com/evil.js&quot;,
-    &quot;violated-directive&quot;: &quot;script-src 'self' https://apis.google.com&quot;,
-    &quot;original-policy&quot;: &quot;script-src 'self' https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser&quot;
-  }
+    &quot;csp-report&quot;: {
+     &quot;document-uri&quot;: &quot;http://example.org/page.html&quot;,
+     &quot;referrer&quot;: &quot;http://evil.example.com/&quot;,
+     &quot;blocked-uri&quot;: &quot;http://evil.example.com/evil.js&quot;,
+     &quot;violated-directive&quot;: &quot;script-src 'self' https://apis.google.com&quot;,
+     &quot;original-policy&quot;: &quot;script-src 'self' https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser&quot;
+    }
 }
 </code></pre>
 <h2 id="三-content-security-policy-report-only">三、Content-Security-Policy-Report-Only</h2>
@@ -230,7 +424,7 @@ script-src https://host1.com https://host2.com
 </code></pre>
 <p>页面内嵌脚本，必须有这个token才能执行。</p>
 <pre><code class="language-html">&lt;script nonce=EDNnf03nceIOfn39fn3e9h3sdfa&gt;
-  // some code
+// some code
 &lt;/script&gt;
 </code></pre>
 <p>hash值的例子如下，服务器给出一个允许执行的代码的hash值。</p>
@@ -239,7 +433,7 @@ script-src https://host1.com https://host2.com
 <p>下面的代码就会允许执行，因为hash值相符。</p>
 <pre><code class="language-html">&lt;script&gt;alert('Hello, world.');&lt;/script&gt;
 </code></pre>
-<p>注意，计算hash值的时候，<script>标签不算在内。</p>
+<p>注意，计算hash值的时候，<code>&lt;script&gt;</code>标签不算在内。</p>
 <p>除了<code>script-src</code>选项，nonce值和hash值还可以用在<code>style-src</code>选项，控制页面内嵌的样式表。</p>
 <h2 id="六-注意点">六、注意点</h2>
 <p>（1）<code>script-src</code>和<code>object-src</code>是必设的，除非设置了<code>default-src</code>。</p>
@@ -1716,335 +1910,6 @@ X-XSS-Protection: 1; report=&lt;reporting-uri&gt; //启用XSS过滤。 如果检
 DNT:1 //拒绝被追踪
 </code></pre>
 <p>由于首部字段 DNT 的功能具备有效性，所以 Web 服务器需要对 DNT做对应的支持。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-cookie相关首部字段]]></title>
-        <id>https://leecss.com/post/http-cookie-xiang-guan-shou-bu-zi-duan/</id>
-        <link href="https://leecss.com/post/http-cookie-xiang-guan-shou-bu-zi-duan/">
-        </link>
-        <updated>2021-07-21T23:58:55.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>管理服务器与客户端之间状态的 Cookie，虽然没有被编入标准化HTTP/1.1 的 RFC2616 中，但在 Web 网站方面得到了广泛的应用。</p>
-<p>Cookie 的工作机制是用户识别及状态管理。Web 网站为了管理用户的状态会通过 Web 浏览器，把一些数据临时写入用户的计算机内。接着当用户访问该Web网站时，可通过通信方式取回之前发放的Cookie。</p>
-<p>调用 Cookie 时，由于可校验 Cookie 的有效期，以及发送方的域、路径、协议等信息，所以正规发布的 Cookie 内的数据不会因来自其他Web 站点和攻击者的攻击而泄露。</p>
-<table>
-<thead>
-<tr>
-<th>首部字段名</th>
-<th>说明</th>
-<th>首部类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Set-Cookie</td>
-<td>开始状态管理所使用的Cookie信息</td>
-<td>响应首部字段</td>
-</tr>
-<tr>
-<td>Cookie</td>
-<td>服务器接收到的Cookie信息</td>
-<td>请求首部字段</td>
-</tr>
-</tbody>
-</table>
-<h2 id="服务器">服务器</h2>
-<p>当服务器准备开始管理客户端的状态时，会事先告知各种信息。</p>
-<table>
-<thead>
-<tr>
-<th>属性</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>NAME=VALUE</td>
-<td>赋予 Cookie 的名称和其值（必需项）</td>
-</tr>
-<tr>
-<td>expires=DATE</td>
-<td>Cookie的有效期（若不明确指定则默认为浏览器关闭前为止）</td>
-</tr>
-<tr>
-<td>path=PATH</td>
-<td>将服务器上的文件目录作为Cookie的适用对象（若不指定则默认为文档所在的文件目录）</td>
-</tr>
-<tr>
-<td>domain=域名</td>
-<td>作为 Cookie 适用对象的域名 （若不指定则默认为创建 Cookie的服务器的域名）</td>
-</tr>
-<tr>
-<td>Secure</td>
-<td>仅在 HTTPS 安全通信时才会发送 Cookie</td>
-</tr>
-<tr>
-<td>HttpOnly</td>
-<td>加以限制，使 Cookie 不能被 JavaScript 脚本访问</td>
-</tr>
-</tbody>
-</table>
-<h3 id="expires">expires</h3>
-<p>Cookie 的 expires 属性指定浏览器可发送 Cookie 的有效期。</p>
-<p>当省略 expires 属性时，其有效期仅限于维持浏览器会话（Session）时间段内。这通常限于浏览器应用程序被关闭之前。</p>
-<p>另外，一旦 Cookie 从服务器端发送至客户端，服务器端就不存在可以显式删除 Cookie 的方法。但可通过覆盖已过期的 Cookie，实现对客户端 Cookie 的实质性删除操作。</p>
-<h3 id="path">path</h3>
-<p>限定可以发送Cookie的路径</p>
-<p>Cookie 的 path 属性可用于限制指定 Cookie 的发送范围的文件目录。</p>
-<h3 id="domain">domain</h3>
-<p>通过 Cookie 的 domain 属性指定的域名可做到与结尾匹配一致。比如，当指定 <code>example.com</code> 后，除<code>example.com</code> 以外，<code>www.example.com</code>或 <code>www2.example.com</code> 等都可以发送 Cookie。</p>
-<p>因此，除了针对具体指定的多个域名发送 Cookie 之 外，不指定domain 属性显得更安全。</p>
-<h3 id="secure">secure</h3>
-<p>Cookie 的 secure 属性用于限制 Web 页面仅在 HTTPS 安全连接时，才可以发送 Cookie。</p>
-<pre><code class="language-http">Set-Cookie: name=value; secure
-</code></pre>
-<p>以上例子仅当在 <code>https://www.example.com/</code>（HTTPS）安全连接的情况下才会进行 Cookie 的回收。也就是说，即使域名相同，<code>http://www.example.com/</code>（HTTP）也不会发生 Cookie 回收行为。</p>
-<p>当省略 secure 属性时，不论 HTTP 还是 HTTPS，都会对 Cookie 进行回收。</p>
-<h3 id="httponly">HttpOnly</h3>
-<p>Cookie 的 HttpOnly 属性是 Cookie 的扩展功能，它使 JavaScript 脚本无法获得 Cookie。其主要目的为防止跨站脚本攻击（Cross-site scripting，XSS）对 Cookie 的信息窃取。</p>
-<pre><code class="language-http">Set-Cookie: name=value; HttpOnly
-</code></pre>
-<p>通过上述设置，通常从 Web 页面内还可以对 Cookie 进行读取操作。但使用 JavaScript 的 document.cookie 就无法读取附加 HttpOnly 属性后的 Cookie 的内容了。因此，也就无法在 XSS 中利用 JavaScript 劫持Cookie 了。</p>
-<h2 id="客户端">客户端</h2>
-<p>首部字段 Cookie 会告知服务器，当客户端想获得 HTTP 状态管理支持时，就会在请求中包含从服务器接收到的 Cookie。接收到多个Cookie 时，同样可以以多个 Cookie 形式发送。</p>
-<pre><code class="language-http">Cookie: status=enable
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-实体首部字段]]></title>
-        <id>https://leecss.com/post/http-shi-ti-shou-bu-zi-duan/</id>
-        <link href="https://leecss.com/post/http-shi-ti-shou-bu-zi-duan/">
-        </link>
-        <updated>2021-07-21T23:33:49.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>实体首部字段是包含在请求报文和响应报文中的实体部分所使用的首部，用于补充内容的更新时间等与实体相关的信息。</p>
-<h2 id="列表">列表</h2>
-<table>
-<thead>
-<tr>
-<th>实体首部</th>
-<th>作用（补充请求报文或响应报文相关信息）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Allow</td>
-<td>告诉客户端资源所支持的HTTP方法：<code>GET HEAD POST</code></td>
-</tr>
-<tr>
-<td>Content-Encoding</td>
-<td>告知客户端，服务器对实体主体部分选用的内容编码方式：<code>gzip deflate</code></td>
-</tr>
-<tr>
-<td>Content-Language</td>
-<td>告知客户端，实体主体使用的自然语言。：<code>zh-CN</code></td>
-</tr>
-<tr>
-<td>Content-Length</td>
-<td>表明实体主体部分的大小，单位是字节。</td>
-</tr>
-<tr>
-<td>Content-Location</td>
-<td>表示返回的数据对应的URI</td>
-</tr>
-<tr>
-<td>Content-MD5</td>
-<td>Base64加密格式的内容 MD5检验值</td>
-</tr>
-<tr>
-<td>Content-Range</td>
-<td>主要用于范围请求，告知客户端当前发送部分的内容范围以及整个实体大小。</td>
-</tr>
-<tr>
-<td>Content-Type</td>
-<td>表明实体主体内对象的媒体类型。</td>
-</tr>
-<tr>
-<td>Expires</td>
-<td>内容的过期时间</td>
-</tr>
-<tr>
-<td>Last_modified</td>
-<td>内容的最后修改时间</td>
-</tr>
-</tbody>
-</table>
-<h3 id="allow">Allow</h3>
-<p>首部字段 Allow 用于通知客户端能够支持 Request-URI 指定资源的所有 HTTP 方法。当服务器接收到不支持的 HTTP 方法时，会以状态码405 Method Not Allowed 作为响应返回。与此同时，还会把所有能支持的 HTTP 方法写入首部字段 Allow 后返回。</p>
-<pre><code class="language-http">Allow: GET, HEAD
-</code></pre>
-<h3 id="content-encoding">Content-Encoding</h3>
-<p>首部字段 Content-Encoding 会告知客户端服务器对实体的主体部分选用的内容编码方式。内容编码是指在不丢失实体信息的前提下所进行的压缩。</p>
-<p>告知客户端以同样的方式解压。</p>
-<p>主要采用以下 4 种内容编码的方式。</p>
-<pre><code>gzip
-compress
-deflate
-identity
-</code></pre>
-<pre><code class="language-http">Content-Encoding: gzip
-</code></pre>
-<h3 id="content-language">Content-Language</h3>
-<p>首部字段 Content-Language 会告知客户端，实体主体使用的自然语言（指中文或英文等语言）。</p>
-<pre><code class="language-http">Content-Language: zh-CN
-</code></pre>
-<h3 id="content-length">Content-Length</h3>
-<p>首部字段 Content-Length 表明了实体主体部分的大小（单位是字节）。对实体主体进行内容编码传输时，不能再使用 Content-Length首部字段。</p>
-<pre><code class="language-http">Content-Length: 15000
-</code></pre>
-<p>该资源的大小为15000字节</p>
-<h3 id="content-location">Content-Location</h3>
-<p>首部字段 Content-Location 给出与报文主体部分相对应的 URI。和首部字段 Location 不同，Content-Location 表示的是报文主体返回资源对应的 URI。</p>
-<p>比如，对于使用首部字段 Accept-Language 的服务器驱动型请求，当返回的页面内容与实际请求的对象不同时，首部字段 Content-Location内会写明 URI。（访问 <code>http://www.hackr.jp/</code> 返回的对象却是<code>http://www.hackr.jp/index-ja.html</code> 等类似情况）</p>
-<pre><code class="language-http">Content-Location: http://www.hackr.jp/index-ja.html
-</code></pre>
-<h3 id="content-md5">Content-MD5</h3>
-<p>首部字段 Content-MD5 是一串由 MD5 算法生成的值，其目的在于检查报文主体在传输过程中是否保持完整，以及确认传输到达。</p>
-<p>对报文主体执行 MD5 算法获得的 128 位二进制数，再通过 Base64 编码后将结果写入 Content-MD5 字段值。由于 HTTP 首部无法记录二进制值，所以要通过 Base64 编码处理。为确保报文的有效性，作为接收方的客户端会对报文主体再执行一次相同的 MD5 算法。计算出的值与字段值作比较后，即可判断出报文主体的准确性。</p>
-<p>采用这种方法，对内容上的偶发性改变是无从查证的，也无法检测出恶意篡改。其中一个原因在于，内容如果能够被篡改，那么同时意味着 Content-MD5 也可重新计算然后被篡改。所以处在接收阶段的客户端是无法意识到报文主体以及首部字段 Content-MD5 是已经被篡改过的。</p>
-<pre><code class="language-http">Content-MD5: OGFkZDUwNGVhNGY3N2MxMDIwZmQ4NTBmY2IyTY==
-</code></pre>
-<pre><code>报文主体 -&gt; MD5算法 -&gt; Base64编码
-</code></pre>
-<h3 id="content-range">Content-Range</h3>
-<p>针对范围请求，返回响应时使用的首部字段 Content-Range，能告知客户端作为响应返回的实体的哪个部分符合范围请求。字段值以字节为单位，表示当前发送部分及整个实体大小。</p>
-<pre><code class="language-http">Content-Range: bytes 5001-10000/10000
-</code></pre>
-<h3 id="content-type">Content-Type</h3>
-<p>首部字段 Content-Type 说明了实体主体内对象的媒体类型。和首部字段 Accept 一样，字段值用 type/subtype 形式赋值。<br>
-参数 charset 使用 iso-8859-1 或 euc-jp 等字符集进行赋值。</p>
-<pre><code class="language-http">Content-Type: text/html; charset=UTF-8
-</code></pre>
-<h3 id="expires">Expires</h3>
-<p>首部字段 Expires 会将资源失效的日期告知客户端。缓存服务器在接收到含有首部字段 Expires 的响应后，会以缓存来应答请求，在Expires 字段值指定的时间之前，响应的副本会一直被保存。当超过指定的时间后，缓存服务器在请求发送过来时，会转向源服务器请求资源。</p>
-<p>源服务器不希望缓存服务器对资源缓存时，最好在 Expires 字段内写入与首部字段 Date 相同的时间值。</p>
-<p>但是，当首部字段 Cache-Control 有指定 max-age 指令时，比起首部字段 Expires，会优先处理 max-age 指令。</p>
-<pre><code class="language-http">Expires: Wed, 04 Jul 2012 08:26:05 GMT
-</code></pre>
-<p>源服务器告知缓存服务器此缓存可使用到2012年7月4日</p>
-<h3 id="last-modified">Last-Modified</h3>
-<p>首部字段 Last-Modified 指明资源最终修改的时间。一般来说，这个值就是 Request-URI 指定资源被修改的时间。但类似使用 CGI 脚本进行动态数据处理时，该值有可能会变成数据最终修改时的时间。</p>
-<pre><code class="language-http">Last-Modified: Wed, 23 May 2012 09:59:55 GMT
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-响应首部字段]]></title>
-        <id>https://leecss.com/post/http-xiang-ying-shou-bu-zi-duan/</id>
-        <link href="https://leecss.com/post/http-xiang-ying-shou-bu-zi-duan/">
-        </link>
-        <updated>2021-07-21T14:22:10.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>响应首部字段是由服务器端向客户端返回响应报文中所使用的字段，用于补充响应的附加信息、服务器信息，以及对客户端的附加要求等信息。</p>
-<h2 id="列表">列表</h2>
-<table>
-<thead>
-<tr>
-<th>响应首部</th>
-<th>作用（响应报文专用）</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Accept-Ranges</td>
-<td>告知客户端服务器是否可接受范围请求，是<code>bytes</code>，否<code>none</code></td>
-</tr>
-<tr>
-<td>Age</td>
-<td>资源在代理缓存中存在的时间</td>
-</tr>
-<tr>
-<td>ETag</td>
-<td>资源标识，资源发生变化时标识也会发生改变</td>
-</tr>
-<tr>
-<td>Location</td>
-<td>客户端重定向到某个 URL</td>
-</tr>
-<tr>
-<td>Proxy-Authenticate</td>
-<td>向代理服务器发送验证信息</td>
-</tr>
-<tr>
-<td>Retry-After</td>
-<td>告知客户端应该在多久之后再次发送请求</td>
-</tr>
-<tr>
-<td>Server</td>
-<td>服务器名字：<code>Apache Nginx</code></td>
-</tr>
-<tr>
-<td>Vary</td>
-<td>对缓存进行控制 <code>Vary: Accept-Language</code></td>
-</tr>
-<tr>
-<td>WWW-Authenticate</td>
-<td>定义了使用何种验证方式去获取对资源的连接。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="accept-ranges">Accept-Ranges</h3>
-<p>首部字段 Accept-Ranges 是用来告知客户端服务器是否能处理范围请求，以指定获取服务器端某个部分的资源。</p>
-<p>可指定的字段值有两种，可处理范围请求时指定其为 bytes，反之则指定其为 none。</p>
-<pre><code class="language-http">Accept-Ranges: bytes
-Accept-Ranges: none    //不支持范围请求
-</code></pre>
-<h3 id="age">Age</h3>
-<p>首部字段 Age 能告知客户端，源服务器在多久前创建了响应。字段值的单位为秒。</p>
-<p>若创建该响应的服务器是缓存服务器，Age 值是指缓存后的响应再次发起认证到认证完成的时间值。代理创建响应时必须加上首部字段Age。</p>
-<pre><code class="language-http">Age: 600
-</code></pre>
-<h3 id="etag">ETag</h3>
-<pre><code class="language-http">ETag: &quot;82e22293907ce725faf67773957acd12&quot;
-</code></pre>
-<p>首部字段 ETag 能告知客户端实体标识。它是一种可将资源以字符串形式做唯一性标识的方式。服务器会为每份资源分配对应的 ETag值。</p>
-<p>另外，当资源更新时，ETag 值也需要更新。生成 ETag 值时，并没有统一的算法规则，而仅仅是由服务器来分配。</p>
-<p>资源被缓存时，就会被分配唯一性标识。例如，当使用中文版的浏览器访问 <code>http://www.google.com/</code> 时，就会返回中文版对应的资源，而使用英文版的浏览器访问时，则会返回英文版对应的资源。两者的URI 是相同的，所以仅凭 URI 指定缓存的资源是相当困难的。若在下载过程中出现连接中断、再连接的情况，都会依照 ETag 值来指定资源。</p>
-<p><strong>强 ETag 值和弱 Tag 值</strong></p>
-<p>ETag 中有强 ETag 值和弱 ETag 值之分。<br>
-1、强 ETag 值<br>
-强 ETag 值，不论实体发生多么细微的变化都会改变其值</p>
-<pre><code class="language-sh">ETag: &quot;usagi-1234&quot;
-</code></pre>
-<p>弱 ETag 值<br>
-弱 ETag 值只用于提示资源是否相同。只有资源发生了根本改变，产生差异时才会改变 ETag 值。这时，会在字段值最开始处附加 W/。</p>
-<pre><code class="language-http">ETag: W/&quot;usagi-1234&quot;
-</code></pre>
-<h3 id="location">Location</h3>
-<p>使用首部字段 Location 可以将响应接收方引导至某个与请求 URI 位置不同的资源。</p>
-<p>基本上，该字段会配合 3xx ：Redirection 的响应，提供重定向的URI。</p>
-<p>几乎所有的浏览器在接收到包含首部字段 Location 的响应后，都会强制性地尝试对已提示的重定向资源的访问。</p>
-<pre><code class="language-http">Location: http://www.usagidesign.jp/sample.html
-</code></pre>
-<h3 id="proxy-authenticate">Proxy-Authenticate</h3>
-<p>首部字段 Proxy-Authenticate 会把由代理服务器所要求的认证信息发送给客户端。</p>
-<p>它与客户端和服务器之间的 HTTP 访问认证的行为相似，不同之处在于其认证行为是在客户端与代理之间进行的。而客户端与服务器之间进行认证时，首部字段 WWW-Authorization 有着相同的作用。</p>
-<pre><code class="language-http">Proxy-Authenticate: Basic realm=&quot;Usagidesign Auth&quot;
-</code></pre>
-<h3 id="retry-after">Retry-After</h3>
-<p>首部字段 Retry-After 告知客户端应该在多久之后再次发送请求。主要配合状态码 503 Service Unavailable 响应，或 3xx Redirect 响应一起使用。</p>
-<p>字段值可以指定为具体的日期时间（Wed, 04 Jul 2012 06：34：24GMT 等格式），也可以是创建响应后的秒数。</p>
-<pre><code class="language-http">Retry-After: Wed, 21 Oct 2015 07:28:00 GMT
-Retry-After: 120
-</code></pre>
-<h3 id="server">Server</h3>
-<p>首部字段 Server 告知客户端当前服务器上安装的 HTTP 服务器应用程序的信息。不单单会标出服务器上的软件应用名称，还有可能包括版本号和安装时启用的可选项。</p>
-<pre><code class="language-http">Server: Apache/2.2.17 (Unix)
-Server: Apache/2.2.6 (Unix) PHP/5.2.5
-</code></pre>
-<h3 id="vary">Vary</h3>
-<p>首部字段 Vary 可对缓存进行控制。源服务器会向代理服务器传达关于本地缓存使用方法的命令。</p>
-<p>从代理服务器接收到源服务器返回包含 Vary 指定项的响应之后，若再要进行缓存，仅对请求中含有相同 Vary 指定首部字段的请求返回缓存。即使对相同资源发起请求，但由于 Vary 指定的首部字段不相同，因此必须要从源服务器重新获取资源。</p>
-<pre><code class="language-http">Vary: Accept-Language
-</code></pre>
-<p>当代理服务器接收到带有 Vary 首部字段指定获取资源的请求时，如果使用的 Accept-Language 字段的值相同，那么就直接从缓存返回响应。反之，则需要先从源服务器端获取资源后才能作为响应返回</p>
-<h3 id="www-authenticate">WWW-Authenticate</h3>
-<p>首部字段 WWW-Authenticate 用于 HTTP 访问认证。它会告知客户端适用于访问请求 URI 所指定资源的认证方案（Basic 或是 Digest）和带参数提示的质询（challenge）。状态码 401 Unauthorized 响应中，肯定带有首部字段 WWW-Authenticate。</p>
-<pre><code class="language-http">WWW-Authenticate: Basic realm=&quot;Usagidesign Auth&quot;
-</code></pre>
-<p>上述示例中，realm 字段的字符串是为了辨别请求 URI 指定资源所受到的保护策略。</p>
 ]]></content>
     </entry>
 </feed>

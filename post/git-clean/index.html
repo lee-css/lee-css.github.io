@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-clean | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1628348243870">
+<link rel="shortcut icon" href="/favicon.ico?v=1628468133639">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,19 +176,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">77</span>
+        <span class="site-item-stat-count">80</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">7</span>
+        <span class="site-item-stat-count">8</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">7</span>
+        <span class="site-item-stat-count">8</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -1088,6 +1088,190 @@
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/nginx-an-zhuang-he-ji-chu-dai-li-pei-zhi/"" data-c="
+          &lt;h2 id=&#34;安装和启动&#34;&gt;安装和启动&lt;/h2&gt;
+&lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
+&lt;p&gt;windows&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://nginx.org/en/download.html&#34;&gt;nginx下载地址&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;选择nginx/Windows-[x.x.x]，点击下载即可，下载完成后解压到电脑中。&lt;/p&gt;
+&lt;h3 id=&#34;启动&#34;&gt;启动&lt;/h3&gt;
+&lt;p&gt;进入nginx解压目录，在命令行输入&lt;code&gt;.\nginx.exe&lt;/code&gt;即可启动，打开浏览器输入&lt;code&gt;localhost&lt;/code&gt;,看到下述内容说明启动成功。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Welcome to nginx!
+If you see this page, the nginx web server is successfully installed and working. Further configuration is required.
+
+For online documentation and support please refer to nginx.org.
+Commercial support is available at nginx.com.
+
+Thank you for using nginx.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;关闭&#34;&gt;关闭&lt;/h3&gt;
+&lt;p&gt;在任务管理器中结束nginx进程&lt;/p&gt;
+&lt;h3 id=&#34;命令&#34;&gt;命令&lt;/h3&gt;
+&lt;p&gt;启动；停止；退出。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;start nginx
+nginx -s stop
+nginx -s quit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;配置&#34;&gt;配置&lt;/h2&gt;
+&lt;h3 id=&#34;配置文件&#34;&gt;配置文件&lt;/h3&gt;
+&lt;p&gt;conf\nginx.conf为配置文件&lt;/p&gt;
+&lt;p&gt;可以在conf中新建servers文件夹，将配置提取出来，然后在nginx.conf中引入，使目录结构更清晰&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nginx&#34;&gt;    #gzip  on;
+
+    include  servers/*.conf;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;注意&lt;code&gt;include servers/*.conf;&lt;/code&gt;结尾要加分号&lt;/p&gt;
+&lt;h3 id=&#34;新建配置文件&#34;&gt;新建配置文件&lt;/h3&gt;
+&lt;p&gt;在servers目录下新建test.conf文件，并启动nginx&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nginx&#34;&gt;server {
+   listen       80;
+   server_name  test.com;
+
+   location / {
+       proxy_pass   http://127.0.0.1:8888;
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;listen: 监听的端口&lt;/p&gt;
+&lt;p&gt;server_name: 浏览器访问的Host域名，根据访问的Host域名判断代理到什么地方&lt;/p&gt;
+&lt;p&gt;proxy_pass: 实际代理的地方&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;在本地启动一个服务&#34;&gt;在本地启动一个服务&lt;/h3&gt;
+&lt;p&gt;新建server.js，&lt;code&gt;node server.js&lt;/code&gt;启动服务&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const http = require(&#39;http&#39;)
+
+http.createServer(function (request, response) {
+    console.log(&#39;request come&#39;, request.url)
+
+    response.end(&#39;123&#39;)
+}).listen(8888)
+
+console.log(&#39;server listening on 8888&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;462错误&#34;&gt;462错误&lt;/h3&gt;
+&lt;p&gt;在浏览器访问&lt;code&gt;test.com&lt;/code&gt;,页面出现462错误。&lt;/p&gt;
+&lt;p&gt;1、先了解两个东西&lt;/p&gt;
+&lt;p&gt;DNS：把域名解析为IP地址，保存的就是域名和ip的映射关系。一个域名和一个ip地址绑定，一个ip地址可以被多个域名绑定。&lt;/p&gt;
+&lt;p&gt;本地hosts：修改hosts文件实现域名本地解析–相当于本地DNS服务器，正常是先走本地（hosts），本地失败再走网络的DNS服务器&lt;/p&gt;
+&lt;p&gt;另外，hosts文件里边只能配置ip和域名的映射关系，不能配端口号&lt;/p&gt;
+&lt;p&gt;2、分析一下访问过程：&lt;/p&gt;
+&lt;p&gt;当我们在浏览器访问test.com时，先去走DNS解析，在本地我们没有修改hosts文件，所以会走网络的DNS解析服务器，而网络上并没有这个域名，所以没有解析到ip地址，也就无法访问服务器，没有内容返回。&lt;/p&gt;
+&lt;p&gt;假如我们配置了hosts文件，&lt;code&gt;127.0.0.1 test.com&lt;/code&gt;,即将test.com解析到本地，于是就能访问到我们本地启动的web服务器&lt;code&gt;http://127.0.0.1:8888&lt;/code&gt;，然后由于我们启动了nginx,并且匹配到&lt;code&gt;test.com&lt;/code&gt;Host请求头，所以拦截了请求并转发到&lt;code&gt;http://127.0.0.1:8888&lt;/code&gt;,于是我们就可以通过配置的代理，使用域名来访问本地的服务。&lt;/p&gt;
+&lt;p&gt;由上述过程可知，我并没有配置hosts，所以我配置了之后重新访问，发现依然不能正常访问。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;配置hosts: 修改C:\Windows\System32\drivers\etc\hosts文件&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;3、谷歌浏览器启用了hsts的安全策略，当你输入网址时，默认访问https协议，且当你第一次访问https协议后，下一次都会自动转为https协议。&lt;/p&gt;
+&lt;p&gt;禁止谷歌自动将http自动转为https&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;地址栏中输入 &lt;code&gt;chrome://net-internals/#hsts&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;Delete domain security policies&lt;/code&gt; 中输入项目的域名，并 &lt;code&gt;Delete&lt;/code&gt; 删除&lt;/li&gt;
+&lt;li&gt;可以在 &lt;code&gt;Query domain&lt;/code&gt; 测试是否删除成功&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628468089288.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;当上述操作仍然不奏效后，清除浏览器缓存，再次尝试，成功。&lt;/p&gt;
+&lt;h3 id=&#34;配置获取浏览器实际访问的域名&#34;&gt;配置获取浏览器实际访问的域名&lt;/h3&gt;
+&lt;p&gt;nginx-test.conf&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;proxy_set_header Host $host;&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nginx&#34;&gt;server {
+   listen       80;
+   server_name  test.com;
+
+   location / {
+       proxy_pass   http://127.0.0.1:8888;
+       proxy_set_header Host $host;
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;server.js&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const http = require(&#39;http&#39;)
+
+http.createServer(function (request, response) {
+    console.log(&#39;request come&#39;, request.headers.host)
+
+    response.end(request.headers.host)
+}).listen(8888)
+
+console.log(&#39;server listening on 8888&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;目前发现没有起作用，以后查一下原因&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.cnblogs.com/thewindkee/p/12873181.html&#34;&gt;如何禁止chrome浏览器http自动转成https&lt;/a&gt;&lt;/p&gt;
+">nginx-安装和基础代理配置</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/ruan-jian-hui-zong/"" data-c="
+          &lt;h2 id=&#34;web服务器&#34;&gt;web服务器&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://nginx.org/en/download.html&#34;&gt;nginx&lt;/a&gt;&lt;/p&gt;
+">软件汇总</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-https-xie-yi/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;h3 id=&#34;为什么会有https&#34;&gt;为什么会有https?&lt;/h3&gt;
+&lt;p&gt;一个简单的回答可能会是 &lt;code&gt;HTTP&lt;/code&gt; 它不安全。由于 HTTP 天生明文传输的特性，在 HTTP 的传输过程中，任何人都有可能从中截获、修改或者伪造请求发送，所以可以认为 HTTP 是不安全的；在 HTTP 的传输过程中不会验证通信方的身份，因此 HTTP 信息交换的双方可能会遭到伪装，也就是&lt;code&gt;没有用户验证&lt;/code&gt;；在 HTTP 的传输过程中，接收方和发送方并&lt;code&gt;不会验证报文的完整性&lt;/code&gt;，综上，为了结局上述问题，HTTPS 应用而生。&lt;/p&gt;
+&lt;h3 id=&#34;什么是-https&#34;&gt;什么是 HTTPS&lt;/h3&gt;
+&lt;p&gt;你还记得 HTTP 是怎么定义的吗？HTTP 是一种 &lt;code&gt;超文本传输协议(Hypertext Transfer Protocol)&lt;/code&gt; 协议，它 是一个在计算机世界里专门在两点之间传输文字、图片、音频、视频等超文本数据的约定和规范，那么我们看一下 HTTPS 是如何定义的&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;HTTPS&lt;/code&gt; 的全称是 &lt;code&gt;Hypertext Transfer Protocol Secure&lt;/code&gt;，它用来在计算机网络上的两个端系统之间进行&lt;code&gt;安全的交换信息(secure communication)&lt;/code&gt;，它相当于在 HTTP 的基础上加了一个 &lt;code&gt;Secure 安全&lt;/code&gt;的词眼，那么我们可以给出一个 HTTPS 的定义：HTTPS 是一个在计算机世界里专门在两点之间安全的传输文字、图片、音频、视频等超文本数据的约定和规范。 HTTPS 是 HTTP 协议的一种扩展，它本身并不保传输的证安全性，那么谁来保证安全性呢？在 HTTPS 中，使用&lt;code&gt;传输层安全性(TLS)&lt;/code&gt;或&lt;code&gt;安全套接字层(SSL)&lt;/code&gt;对通信协议进行加密。也就是&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;HTTP + SSL(TLS) = HTTPS&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;https-做了什么&#34;&gt;HTTPS 做了什么&lt;/h3&gt;
+&lt;p&gt;HTTPS 协议提供了三个关键的指标&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;加密(Encryption)&lt;/code&gt;， HTTPS 通过对数据加密来使其免受窃听者对数据的监听，这就意味着当用户在浏览网站时，没有人能够监听他和网站之间的信息交换，或者跟踪用户的活动，访问记录等，从而窃取用户信息。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;数据一致性(Data integrity)&lt;/code&gt;，数据在传输的过程中不会被窃听者所修改，用户发送的数据会&lt;code&gt;完整&lt;/code&gt;的传输到服务端，保证用户发的是什么，服务器接收的就是什么。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;身份认证(Authentication)&lt;/code&gt;，是指确认对方的真实身份，也就是&lt;code&gt;证明你是你&lt;/code&gt;（可以比作人脸识别），它可以防止中间人攻击并建立用户信任。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;HTTPS 协议其实非常简单，RFC 文档很小，只有短短的 7 页，里面规定了新的协议名，默认&lt;code&gt;端口号443&lt;/code&gt;，至于其他的&lt;strong&gt;应答模式、报文结构、请求方法、URI、头字段、连接管理&lt;/strong&gt;等等都完全沿用 HTTP，没有任何新的东西。&lt;/p&gt;
+&lt;p&gt;也就是说，除了协议名称和默认端口号外（HTTP 默认端口 80），HTTPS 协议在语法、语义上和 HTTP 一样，HTTP 有的，HTTPS 也照单全收。那么，HTTPS 如何做到 HTTP 所不能做到的&lt;code&gt;安全性呢&lt;/code&gt;？关键在于这个 &lt;code&gt;S&lt;/code&gt; 也就是 &lt;code&gt;SSL/TLS&lt;/code&gt; 。&lt;/p&gt;
+&lt;h2 id=&#34;ssl&#34;&gt;ssl&lt;/h2&gt;
+&lt;h3 id=&#34;认识-ssltls&#34;&gt;认识 SSL/TLS&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;TLS(Transport Layer Security)&lt;/code&gt; 是 &lt;code&gt;SSL(Secure Socket Layer)&lt;/code&gt; 的后续版本，它们是用于在互联网两台计算机之间用于&lt;code&gt;身份验证&lt;/code&gt;和&lt;code&gt;加密&lt;/code&gt;的一种协议。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意：在互联网中，很多名称都可以进行互换。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们都知道一些在线业务（比如在线支付）最重要的一个步骤是创建一个值得信赖的交易环境，能够让客户安心的进行交易，SSL/TLS 就保证了这一点，SSL/TLS 通过将称为 &lt;code&gt;X.509&lt;/code&gt; 证书的数字文档将网站和公司的实体信息绑定到&lt;code&gt;加密密钥&lt;/code&gt;来进行工作。每一个&lt;code&gt;密钥对(key pairs)&lt;/code&gt; 都有一个 &lt;code&gt;私有密钥(private key)&lt;/code&gt; 和 &lt;code&gt;公有密钥(public key)&lt;/code&gt;，私有密钥是独有的，一般位于服务器上，用于解密由公共密钥加密过的信息；公有密钥是公有的，与服务器进行交互的每个人都可以持有公有密钥，用公钥加密的信息只能由私有密钥来解密。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;什么是 &lt;code&gt;X.509&lt;/code&gt;：X.509 是&lt;code&gt;公开密钥&lt;/code&gt;证书的标准格式，这个文档将加密密钥与（个人或组织）进行安全的关联。&lt;/p&gt;
+&lt;p&gt;X.509 主要应用如下&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;SSL/TLS 和 HTTPS 用于经过身份验证和加密的 Web 浏览&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;通过 &lt;a href=&#34;https://www.ssl.com/article/sending-secure-email-with-s-mime/&#34;&gt;S/MIME&lt;/a&gt; 协议签名和加密的电子邮件&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;代码签名：它指的是使用数字证书对软件应用程序进行签名以安全分发和安装的过程。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通过使用由知名公共证书颁发机构（例如SSL.com）颁发的证书对软件进行数字签名，开发人员可以向最终用户保证他们希望安装的软件是由已知且受信任的开发人员发布；并且签名后未被篡改或损害。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;还可用于文档签名&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;还可用于客户端认证&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;政府签发的电子身份证&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;https-的内核是-http&#34;&gt;HTTPS 的内核是 HTTP&lt;/h3&gt;
+&lt;p&gt;HTTPS 并不是一项新的应用层协议，只是 HTTP 通信接口部分由 SSL 和 TLS 替代而已。通常情况下，HTTP 会先直接和 TCP 进行通信。在使用 SSL 的 HTTPS 后，则会先演变为和 SSL 进行通信，然后再由 SSL 和 TCP 进行通信。也就是说，&lt;strong&gt;HTTPS 就是身披了一层 SSL 的 HTTP&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;SSL 是一个独立的协议，不只有 HTTP 可以使用，其他应用层协议也可以使用，比如 &lt;code&gt;SMTP(电子邮件协议)&lt;/code&gt;、&lt;code&gt;Telnet(远程登录协议)&lt;/code&gt; 等都可以使用。&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844904089495535624&#34;&gt;看完这篇 HTTPS，和面试官扯皮就没问题了&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;码农翻身&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA&#34;&gt;一个故事讲完https&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+">http-https协议</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-zheng-xiang-dai-li-he-fan-xiang-dai-li/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;Web 上的代理服务器是代表客户端完成事务处理的中间人。如果没有 Web 代理， HTTP 客户端就要直接与 HTTP 服务器进行对话。有了 Web 代理，客户端就可以与代理进行对话，然后由代理代表客户端与服务器进行交流。客户端仍然会完成对事务的处理，但它是通过代理服务器提供的优质服务来实现的。&lt;/p&gt;
@@ -1189,7 +1373,8 @@
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-content-security-policy/"" data-c="
-          &lt;h2 id=&#34;一-简介&#34;&gt;一、简介&lt;/h2&gt;
+          &lt;h1 id=&#34;http-content-security-policy&#34;&gt;http-Content-Security-Policy&lt;/h1&gt;
+&lt;h2 id=&#34;一-简介&#34;&gt;一、简介&lt;/h2&gt;
 &lt;p&gt;CSP 的实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行，等同于提供白名单。它的实现和执行全部由浏览器完成，开发者只需提供配置。&lt;/p&gt;
 &lt;p&gt;CSP 大大增强了网页的安全性。攻击者即使发现了漏洞，也没法注入脚本，除非还控制了一台列入了白名单的可信主机。&lt;/p&gt;
 &lt;p&gt;两种方法可以启用 CSP。一种是通过 HTTP 头信息的&lt;code&gt;Content-Security-Policy&lt;/code&gt;的字段。&lt;/p&gt;
@@ -1220,7 +1405,7 @@ style-src cdn.example.org third-party.org; child-src https:
 &lt;li&gt;&lt;code&gt;font-src&lt;/code&gt;：字体文件&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;object-src&lt;/code&gt;：插件（比如 Flash）&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;child-src&lt;/code&gt;：框架&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;frame-ancestors&lt;/code&gt;：嵌入的外部资源（比如&lt;frame&gt;、&lt;iframe&gt;、&lt;embed&gt;和&lt;applet&gt;）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;frame-ancestors&lt;/code&gt;：嵌入的外部资源（比如&lt;code&gt;&amp;lt;frame&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;iframe&amp;gt;&lt;/code&gt;、&lt;code&gt;&amp;lt;embed&amp;gt;&lt;/code&gt;和&lt;code&gt;&amp;lt;applet&amp;gt;&lt;/code&gt;）&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;connect-src&lt;/code&gt;：HTTP 连接（通过 XHR、WebSockets、EventSource等）&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;worker-src&lt;/code&gt;：&lt;code&gt;worker&lt;/code&gt;脚本&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;manifest-src&lt;/code&gt;：manifest 文件&lt;/li&gt;
@@ -1253,13 +1438,13 @@ style-src cdn.example.org third-party.org; child-src https:
 &lt;p&gt;上面代码指定，将注入行为报告给&lt;code&gt;/my_amazing_csp_report_parser&lt;/code&gt;这个 URL。&lt;/p&gt;
 &lt;p&gt;浏览器会使用&lt;code&gt;POST&lt;/code&gt;方法，发送一个JSON对象，下面是一个例子。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-json&#34;&gt;{
-  &amp;quot;csp-report&amp;quot;: {
-    &amp;quot;document-uri&amp;quot;: &amp;quot;http://example.org/page.html&amp;quot;,
-    &amp;quot;referrer&amp;quot;: &amp;quot;http://evil.example.com/&amp;quot;,
-    &amp;quot;blocked-uri&amp;quot;: &amp;quot;http://evil.example.com/evil.js&amp;quot;,
-    &amp;quot;violated-directive&amp;quot;: &amp;quot;script-src &#39;self&#39; https://apis.google.com&amp;quot;,
-    &amp;quot;original-policy&amp;quot;: &amp;quot;script-src &#39;self&#39; https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser&amp;quot;
-  }
+    &amp;quot;csp-report&amp;quot;: {
+     &amp;quot;document-uri&amp;quot;: &amp;quot;http://example.org/page.html&amp;quot;,
+     &amp;quot;referrer&amp;quot;: &amp;quot;http://evil.example.com/&amp;quot;,
+     &amp;quot;blocked-uri&amp;quot;: &amp;quot;http://evil.example.com/evil.js&amp;quot;,
+     &amp;quot;violated-directive&amp;quot;: &amp;quot;script-src &#39;self&#39; https://apis.google.com&amp;quot;,
+     &amp;quot;original-policy&amp;quot;: &amp;quot;script-src &#39;self&#39; https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser&amp;quot;
+    }
 }
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;三-content-security-policy-report-only&#34;&gt;三、Content-Security-Policy-Report-Only&lt;/h2&gt;
@@ -1301,7 +1486,7 @@ script-src https://host1.com https://host2.com
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;页面内嵌脚本，必须有这个token才能执行。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script nonce=EDNnf03nceIOfn39fn3e9h3sdfa&amp;gt;
-  // some code
+// some code
 &amp;lt;/script&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;hash值的例子如下，服务器给出一个允许执行的代码的hash值。&lt;/p&gt;
@@ -1310,7 +1495,7 @@ script-src https://host1.com https://host2.com
 &lt;p&gt;下面的代码就会允许执行，因为hash值相符。&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;script&amp;gt;alert(&#39;Hello, world.&#39;);&amp;lt;/script&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;注意，计算hash值的时候，&lt;script&gt;标签不算在内。&lt;/p&gt;
+&lt;p&gt;注意，计算hash值的时候，&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;标签不算在内。&lt;/p&gt;
 &lt;p&gt;除了&lt;code&gt;script-src&lt;/code&gt;选项，nonce值和hash值还可以用在&lt;code&gt;style-src&lt;/code&gt;选项，控制页面内嵌的样式表。&lt;/p&gt;
 &lt;h2 id=&#34;六-注意点&#34;&gt;六、注意点&lt;/h2&gt;
 &lt;p&gt;（1）&lt;code&gt;script-src&lt;/code&gt;和&lt;code&gt;object-src&lt;/code&gt;是必设的，除非设置了&lt;code&gt;default-src&lt;/code&gt;。&lt;/p&gt;
@@ -1333,7 +1518,7 @@ src=&amp;quot;/path/jsonp?callback=alert(document.domain)//&amp;quot;&amp;gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&#34;文档&#34;&gt;文档&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy&#34;&gt;MDN/HTTP/Headers/Content-Security-Policy&lt;/a&gt;&lt;/p&gt;
-">http-Content Security Policy</a>
+">http-Content-Security-Policy</a>
       </div>
       
       <div class="item">
