@@ -2,13 +2,209 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-08-09T00:40:26.641Z</updated>
+    <updated>2021-08-12T23:04:51.560Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
     <logo>https://leecss.com/images/avatar.png</logo>
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
+    <entry>
+        <title type="html"><![CDATA[http-图解https]]></title>
+        <id>https://leecss.com/post/http-tu-jie-https/</id>
+        <link href="https://leecss.com/post/http-tu-jie-https/">
+        </link>
+        <updated>2021-08-11T23:01:00.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>本周，<a href="https://www.cloudflare.com/">CloudFlare</a>宣布，开始提供Keyless服务，即你把网站放到它们的CDN上，不用提供自己的私钥，也能使用SSL加密链接。</p>
+<p>我看了CloudFlare的说明（<a href="https://blog.cloudflare.com/announcing-keyless-ssl-all-the-benefits-of-cloudflare-without-having-to-turn-over-your-private-ssl-keys/">这里</a>和<a href="https://blog.cloudflare.com/keyless-ssl-the-nitty-gritty-technical-details/">这里</a>），突然意识到这是绝好的例子，可以用来说明SSL/TLS协议的运行机制。它配有插图，很容易看懂。</p>
+<p>下面，我就用这些图片作为例子，配合我半年前写的<a href="https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">《SSL/TLS协议运行机制的概述》</a>，来解释SSL协议。</p>
+<h2 id="一-ssl协议的握手过程">一、SSL协议的握手过程</h2>
+<p>开始加密通信之前，客户端和服务器首先必须建立连接和交换参数，这个过程叫做握手（handshake）。</p>
+<p>假定客户端叫做爱丽丝，服务器叫做鲍勃，整个握手过程可以用下图说明（点击看大图）。</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628722928788.png" alt="" loading="lazy"></figure>
+<p>握手阶段分成五步。</p>
+<blockquote>
+<p>第一步，爱丽丝给出协议版本号、一个客户端生成的随机数（Client random），以及客户端支持的加密方法。</p>
+<p>第二步，鲍勃确认双方使用的加密方法，并给出数字证书、以及一个服务器生成的随机数（Server random）。</p>
+<p>第三步，爱丽丝确认数字证书有效，然后生成一个新的随机数（Premaster secret），并使用数字证书中的公钥，加密这个随机数，发给鲍勃。</p>
+<p>第四步，鲍勃使用自己的私钥，获取爱丽丝发来的随机数（即Premaster secret）。</p>
+<p>第五步，爱丽丝和鲍勃根据约定的加密方法，使用前面的三个随机数，生成&quot;对话密钥&quot;（session key），用来加密接下来的整个对话过程。</p>
+</blockquote>
+<p>上面的五步，画成一张图，就是下面这样。</p>
+<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1628722965974.png" alt="" loading="lazy"></figure>
+<h2 id="二-私钥的作用">二、私钥的作用</h2>
+<p>握手阶段有三点需要注意。</p>
+<blockquote>
+<p>（1）生成对话密钥一共需要三个随机数。</p>
+<p>（2）握手之后的对话使用&quot;对话密钥&quot;加密（对称加密），服务器的公钥和私钥只用于加密和解密&quot;对话密钥&quot;（非对称加密），无其他作用。</p>
+<p>（3）服务器公钥放在服务器的数字证书之中。</p>
+</blockquote>
+<p>从上面第二点可知，整个对话过程中（握手阶段和其后的对话），服务器的公钥和私钥只需要用到一次。这就是CloudFlare能够提供Keyless服务的根本原因。</p>
+<p>某些客户（比如银行）想要使用外部CDN，加快自家网站的访问速度，但是出于安全考虑，不能把私钥交给CDN服务商。这时，完全可以把私钥留在自家服务器，只用来解密对话密钥，其他步骤都让CDN服务商去完成。</p>
+<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1628722990019.png" alt="" loading="lazy"></figure>
+<p>上图中，银行的服务器只参与第四步，后面的对话都不再会用到私钥了。</p>
+<h2 id="三-dh算法的握手阶段">三、DH算法的握手阶段</h2>
+<p>整个握手阶段都不加密（也没法加密），都是明文的。因此，如果有人窃听通信，他可以知道双方选择的加密方法，以及三个随机数中的两个。整个通话的安全，只取决于第三个随机数（Premaster secret）能不能被破解。</p>
+<p>虽然理论上，只要服务器的公钥足够长（比如2048位），那么Premaster secret可以保证不被破解。但是为了足够安全，我们可以考虑把握手阶段的算法从默认的<a href="https://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html">RSA算法</a>，改为 <a href="https://zh.wikipedia.org/wiki/%E8%BF%AA%E8%8F%B2%EF%BC%8D%E8%B5%AB%E5%B0%94%E6%9B%BC%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2">Diffie-Hellman算法</a>（简称DH算法）。</p>
+<p>采用DH算法后，Premaster secret不需要传递，双方只要交换各自的参数，就可以算出这个随机数。</p>
+<figure data-type="image" tabindex="4"><img src="https://leecss.com/post-images/1628723043151.png" alt="" loading="lazy"></figure>
+<p>上图中，第三步和第四步由传递Premaster secret变成了传递DH算法所需的参数，然后双方各自算出Premaster secret。这样就提高了安全性。</p>
+<h2 id="四-session的恢复">四、session的恢复</h2>
+<p>握手阶段用来建立SSL连接。如果出于某种原因，对话中断，就需要重新握手。</p>
+<p>这时有两种方法可以恢复原来的session：一种叫做session ID，另一种叫做session ticket。</p>
+<p>session ID的思想很简单，就是每一次对话都有一个编号（session ID）。如果对话中断，下次重连的时候，只要客户端给出这个编号，且服务器有这个编号的记录，双方就可以重新使用已有的&quot;对话密钥&quot;，而不必重新生成一把。</p>
+<figure data-type="image" tabindex="5"><img src="https://leecss.com/post-images/1628723092336.png" alt="" loading="lazy"></figure>
+<p>上图中，客户端给出session ID，服务器确认该编号存在，双方就不再进行握手阶段剩余的步骤，而直接用已有的对话密钥进行加密通信。</p>
+<p>session ID是目前所有浏览器都支持的方法，但是它的缺点在于session ID往往只保留在一台服务器上。所以，如果客户端的请求发到另一台服务器，就无法恢复对话。session ticket就是为了解决这个问题而诞生的，目前只有Firefox和Chrome浏览器支持。</p>
+<figure data-type="image" tabindex="6"><img src="https://leecss.com/post-images/1628723132146.png" alt="" loading="lazy"></figure>
+<p>上图中，客户端不再发送session ID，而是发送一个服务器在上一次对话中发送过来的session ticket。这个session ticket是加密的，只有服务器才能解密，其中包括本次对话的主要信息，比如对话密钥和加密方法。当服务器收到session ticket以后，解密后就不必重新生成对话密钥了。</p>
+<h2 id="转载">转载</h2>
+<blockquote>
+<p>阮一峰</p>
+<p><a href="https://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html">https://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html</a></p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[nginx-代理缓存]]></title>
+        <id>https://leecss.com/post/nginx-dai-li-huan-cun/</id>
+        <link href="https://leecss.com/post/nginx-dai-li-huan-cun/">
+        </link>
+        <updated>2021-08-11T00:42:31.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>nginx代理缓存是代理服务器缓存，当有用户A第一次访问后，下一次别的用户访问(或用户A第二次用别的浏览器访问)，就会使用缓存，提升访问速度。</p>
+<h2 id="配置">配置</h2>
+<p>test.conf</p>
+<pre><code class="language-nginx">proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
+
+server {
+   listen       80;
+   server_name  test.com;
+
+   location / {
+       proxy_cache my_cache;
+       proxy_pass   http://127.0.0.1:8888;
+       proxy_set_header Host $host;
+   }
+}
+</code></pre>
+<p><code>proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;</code></p>
+<p>第一个参数指定缓存保存的本地路径</p>
+<p>levels参数负责设置缓存目录级别</p>
+<blockquote>
+<p>当levels=1:2时，表示是两级目录，1和2表示用1位和2位16进制来命名目录名称。</p>
+<p>在此例中，第一级目录用1位16进制命名，如b；第二级目录用2位16进制命名，如2b。所以此例中一级目录有16个，二级目录有16*16=256个：<code>/cache/b/2b/d7b6e5978e3f042f52e875005925e51b</code></p>
+<p>总目录数为16*256=4096个。</p>
+</blockquote>
+<p>keys_zone参数用来为这个缓存区起名<br>
+10m 指内存缓存空间大小为10MB</p>
+<hr>
+<p><code>proxy_cache my_cache;</code>使用定义的缓存区</p>
+<h2 id="服务">服务</h2>
+<p>nginx-cache/test.html</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div&gt;This is content, and data is: &lt;span id=&quot;data&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;button id=&quot;button&quot;&gt;click me&lt;/button&gt;
+&lt;/body&gt;
+&lt;script&gt;
+  var index = 0
+  function doRequest () {
+    var data = document.getElementById('data')
+    data.innerText = ''
+    fetch('/data', {
+      headers: {
+        'X-Test-Cache': index++
+      }
+    }).then(function (resp) {
+      return resp.text()
+    }).then(function (text) {
+      data.innerText = text
+    })
+  }
+  document.getElementById('button').addEventListener('click', doRequest)
+&lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<p>nginx-cache/server.js</p>
+<pre><code class="language-js">const http = require('http')
+const fs = require('fs')
+
+const wait = (seconds) =&gt; {
+  return new Promise((resolve) =&gt; {
+    setTimeout(resolve, seconds * 1000)
+  })
+}
+http.createServer(function (request, response) {
+  console.log('request come', request.url)
+
+  if (request.url === '/') {
+    const html = fs.readFileSync('test.html', 'utf8')
+    response.writeHead(200, {
+      'Content-Type': 'text/html'
+    })
+    response.end(html)
+  }
+
+  if (request.url === '/data') {
+    response.writeHead(200, {
+      'Cache-Control': 'max-age=2, s-maxage=20, private',
+      'Vary': 'X-Test-Cache'
+    })
+    wait(2).then(() =&gt; response.end('success'))
+  }
+}).listen(8888)
+
+console.log('server listening on 8888')
+</code></pre>
+<p>max-age: 客户端缓存时长</p>
+<p>s-maxage：代理服务器缓存时长</p>
+<p>private：仅客户端可缓存</p>
+<p>Vary：仅当设置的属性值一致时使用缓存</p>
+<p>注意：修改代码看效果时，需要重启node服务</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[chrome-设置]]></title>
+        <id>https://leecss.com/post/chrome-she-zhi/</id>
+        <link href="https://leecss.com/post/chrome-she-zhi/">
+        </link>
+        <updated>2021-08-10T22:22:51.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>chrome功能设置及操作</p>
+<h2 id="启动时">启动时</h2>
+<h3 id="同时打开多网页">同时打开多网页</h3>
+<p>打开特定网页或一组网页</p>
+<pre><code class="language-sh">https://leecss.com/
+https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/
+https://fanyi.baidu.com/
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[git-报错]]></title>
+        <id>https://leecss.com/post/git-bao-cuo/</id>
+        <link href="https://leecss.com/post/git-bao-cuo/">
+        </link>
+        <updated>2021-08-09T15:39:47.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>记录git操作的报错信息</p>
+<h2 id="列表">列表</h2>
+<p>1、在子目录中执行git命令，需切换到根目录</p>
+<blockquote>
+<p>You need to run this command from the toplevel of the working tree.</p>
+<p>您需要从工作树的顶层运行此命令。</p>
+</blockquote>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[nginx-安装和基础代理配置]]></title>
         <id>https://leecss.com/post/nginx-an-zhuang-he-ji-chu-dai-li-pei-zhi/</id>
@@ -119,7 +315,8 @@ http.createServer(function (request, response) {
 
 console.log('server listening on 8888')
 </code></pre>
-<p>目前发现没有起作用，以后查一下原因</p>
+<p>添加完配置之后，可以看到，获取的<code>request.headers.host</code>由实际的<code>127.0.0.1:8888</code>变成了<code>test.com</code><br>
+修改完之后，需要从任务管理器中杀死nginx进程，然后再重启nginx</p>
 <h2 id="推荐阅读">推荐阅读</h2>
 <p><a href="https://www.cnblogs.com/thewindkee/p/12873181.html">如何禁止chrome浏览器http自动转成https</a></p>
 ]]></content>
@@ -135,71 +332,113 @@ console.log('server listening on 8888')
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[http-https协议]]></title>
+        <title type="html"><![CDATA[http-https协议概述]]></title>
         <id>https://leecss.com/post/http-https-xie-yi/</id>
         <link href="https://leecss.com/post/http-https-xie-yi/">
         </link>
         <updated>2021-08-08T02:58:58.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<h3 id="为什么会有https">为什么会有https?</h3>
-<p>一个简单的回答可能会是 <code>HTTP</code> 它不安全。由于 HTTP 天生明文传输的特性，在 HTTP 的传输过程中，任何人都有可能从中截获、修改或者伪造请求发送，所以可以认为 HTTP 是不安全的；在 HTTP 的传输过程中不会验证通信方的身份，因此 HTTP 信息交换的双方可能会遭到伪装，也就是<code>没有用户验证</code>；在 HTTP 的传输过程中，接收方和发送方并<code>不会验证报文的完整性</code>，综上，为了结局上述问题，HTTPS 应用而生。</p>
-<h3 id="什么是-https">什么是 HTTPS</h3>
-<p>你还记得 HTTP 是怎么定义的吗？HTTP 是一种 <code>超文本传输协议(Hypertext Transfer Protocol)</code> 协议，它 是一个在计算机世界里专门在两点之间传输文字、图片、音频、视频等超文本数据的约定和规范，那么我们看一下 HTTPS 是如何定义的</p>
-<p><code>HTTPS</code> 的全称是 <code>Hypertext Transfer Protocol Secure</code>，它用来在计算机网络上的两个端系统之间进行<code>安全的交换信息(secure communication)</code>，它相当于在 HTTP 的基础上加了一个 <code>Secure 安全</code>的词眼，那么我们可以给出一个 HTTPS 的定义：HTTPS 是一个在计算机世界里专门在两点之间安全的传输文字、图片、音频、视频等超文本数据的约定和规范。 HTTPS 是 HTTP 协议的一种扩展，它本身并不保传输的证安全性，那么谁来保证安全性呢？在 HTTPS 中，使用<code>传输层安全性(TLS)</code>或<code>安全套接字层(SSL)</code>对通信协议进行加密。也就是</p>
-<p><strong>HTTP + SSL(TLS) = HTTPS</strong></p>
-<h3 id="https-做了什么">HTTPS 做了什么</h3>
-<p>HTTPS 协议提供了三个关键的指标</p>
-<ul>
-<li><code>加密(Encryption)</code>， HTTPS 通过对数据加密来使其免受窃听者对数据的监听，这就意味着当用户在浏览网站时，没有人能够监听他和网站之间的信息交换，或者跟踪用户的活动，访问记录等，从而窃取用户信息。</li>
-<li><code>数据一致性(Data integrity)</code>，数据在传输的过程中不会被窃听者所修改，用户发送的数据会<code>完整</code>的传输到服务端，保证用户发的是什么，服务器接收的就是什么。</li>
-<li><code>身份认证(Authentication)</code>，是指确认对方的真实身份，也就是<code>证明你是你</code>（可以比作人脸识别），它可以防止中间人攻击并建立用户信任。</li>
-</ul>
-<p>HTTPS 协议其实非常简单，RFC 文档很小，只有短短的 7 页，里面规定了新的协议名，默认<code>端口号443</code>，至于其他的<strong>应答模式、报文结构、请求方法、URI、头字段、连接管理</strong>等等都完全沿用 HTTP，没有任何新的东西。</p>
-<p>也就是说，除了协议名称和默认端口号外（HTTP 默认端口 80），HTTPS 协议在语法、语义上和 HTTP 一样，HTTP 有的，HTTPS 也照单全收。那么，HTTPS 如何做到 HTTP 所不能做到的<code>安全性呢</code>？关键在于这个 <code>S</code> 也就是 <code>SSL/TLS</code> 。</p>
-<h2 id="ssl">ssl</h2>
-<h3 id="认识-ssltls">认识 SSL/TLS</h3>
-<p><code>TLS(Transport Layer Security)</code> 是 <code>SSL(Secure Socket Layer)</code> 的后续版本，它们是用于在互联网两台计算机之间用于<code>身份验证</code>和<code>加密</code>的一种协议。</p>
+<p>互联网的通信安全，建立在SSL/TLS协议之上。</p>
+<p>本文简要介绍SSL/TLS协议的运行机制。文章的重点是设计思想和运行过程，不涉及具体的实现细节。如果想了解这方面的内容，请参阅<a href="https://tools.ietf.org/html/rfc5246">RFC文档</a>。</p>
+<h2 id="一-作用">一、作用</h2>
+<p>不使用SSL/TLS的HTTP通信，就是不加密的通信。所有信息明文传播，带来了三大风险。</p>
 <blockquote>
-<p>注意：在互联网中，很多名称都可以进行互换。</p>
+<p>（1） <strong>窃听风险</strong>（eavesdropping）：第三方可以获知通信内容。</p>
+<p>（2） <strong>篡改风险</strong>（tampering）：第三方可以修改通信内容。</p>
+<p>（3） <strong>冒充风险</strong>（pretending）：第三方可以冒充他人身份参与通信。</p>
 </blockquote>
-<p>我们都知道一些在线业务（比如在线支付）最重要的一个步骤是创建一个值得信赖的交易环境，能够让客户安心的进行交易，SSL/TLS 就保证了这一点，SSL/TLS 通过将称为 <code>X.509</code> 证书的数字文档将网站和公司的实体信息绑定到<code>加密密钥</code>来进行工作。每一个<code>密钥对(key pairs)</code> 都有一个 <code>私有密钥(private key)</code> 和 <code>公有密钥(public key)</code>，私有密钥是独有的，一般位于服务器上，用于解密由公共密钥加密过的信息；公有密钥是公有的，与服务器进行交互的每个人都可以持有公有密钥，用公钥加密的信息只能由私有密钥来解密。</p>
+<p>SSL/TLS协议是为了解决这三大风险而设计的，希望达到：</p>
 <blockquote>
-<p>什么是 <code>X.509</code>：X.509 是<code>公开密钥</code>证书的标准格式，这个文档将加密密钥与（个人或组织）进行安全的关联。</p>
-<p>X.509 主要应用如下</p>
-<ul>
-<li>
-<p>SSL/TLS 和 HTTPS 用于经过身份验证和加密的 Web 浏览</p>
-</li>
-<li>
-<p>通过 <a href="https://www.ssl.com/article/sending-secure-email-with-s-mime/">S/MIME</a> 协议签名和加密的电子邮件</p>
-</li>
-<li>
-<p>代码签名：它指的是使用数字证书对软件应用程序进行签名以安全分发和安装的过程。</p>
-</li>
-</ul>
-<p>通过使用由知名公共证书颁发机构（例如SSL.com）颁发的证书对软件进行数字签名，开发人员可以向最终用户保证他们希望安装的软件是由已知且受信任的开发人员发布；并且签名后未被篡改或损害。</p>
-<ul>
-<li>
-<p>还可用于文档签名</p>
-</li>
-<li>
-<p>还可用于客户端认证</p>
-</li>
-<li>
-<p>政府签发的电子身份证</p>
-</li>
-</ul>
+<p>（1） 所有信息都是<strong>加密传播</strong>，第三方无法窃听。</p>
+<p>（2） 具有<strong>校验机制</strong>，一旦被篡改，通信双方会立刻发现。</p>
+<p>（3） 配备<strong>身份证书</strong>，防止身份被冒充。</p>
 </blockquote>
-<h3 id="https-的内核是-http">HTTPS 的内核是 HTTP</h3>
-<p>HTTPS 并不是一项新的应用层协议，只是 HTTP 通信接口部分由 SSL 和 TLS 替代而已。通常情况下，HTTP 会先直接和 TCP 进行通信。在使用 SSL 的 HTTPS 后，则会先演变为和 SSL 进行通信，然后再由 SSL 和 TCP 进行通信。也就是说，<strong>HTTPS 就是身披了一层 SSL 的 HTTP</strong>。</p>
-<p>SSL 是一个独立的协议，不只有 HTTP 可以使用，其他应用层协议也可以使用，比如 <code>SMTP(电子邮件协议)</code>、<code>Telnet(远程登录协议)</code> 等都可以使用。</p>
+<p>互联网是开放环境，通信双方都是未知身份，这为协议的设计带来了很大的难度。而且，协议还必须能够经受所有匪夷所思的攻击，这使得SSL/TLS协议变得异常复杂。</p>
+<h2 id="二-历史">二、历史</h2>
+<p>互联网加密通信协议的历史，几乎与互联网一样长。</p>
+<blockquote>
+<p>1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是未发布。</p>
+<p>1995年，NetScape公司发布SSL 2.0版，很快发现有严重漏洞。</p>
+<p>1996年，SSL 3.0版问世，得到大规模应用。</p>
+<p>1999年，互联网标准化组织ISOC接替NetScape公司，发布了SSL的升级版<a href="https://en.wikipedia.org/wiki/Secure_Sockets_Layer">TLS</a> 1.0版。</p>
+<p>2006年和2008年，TLS进行了两次升级，分别为TLS 1.1版和TLS 1.2版。最新的变动是2011年TLS 1.2的<a href="https://tools.ietf.org/html/rfc6176">修订版</a>。</p>
+</blockquote>
+<p>目前，应用最广泛的是TLS 1.0，接下来是SSL 3.0。但是，主流浏览器都已经实现了TLS 1.2的支持。</p>
+<p>TLS 1.0通常被标示为SSL 3.1，TLS 1.1为SSL 3.2，TLS 1.2为SSL 3.3。</p>
+<h2 id="三-基本的运行过程">三、基本的运行过程</h2>
+<p>SSL/TLS协议的基本思路是采用<a href="https://en.wikipedia.org/wiki/Public-key_cryptography">公钥加密法</a>，也就是说，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。</p>
+<p>但是，这里有两个问题。</p>
+<p><strong>（1）如何保证公钥不被篡改？</strong></p>
+<blockquote>
+<p>解决方法：将公钥放在<a href="https://en.wikipedia.org/wiki/Digital_certificate">数字证书</a>中。只要证书是可信的，公钥就是可信的。</p>
+</blockquote>
+<p><strong>（2）公钥加密计算量太大，如何减少耗用的时间？</strong></p>
+<blockquote>
+<p>解决方法：每一次对话（session），客户端和服务器端都生成一个&quot;对话密钥&quot;（session key），用它来加密信息。由于&quot;对话密钥&quot;是对称加密，所以运算速度非常快，而服务器公钥只用于加密&quot;对话密钥&quot;本身，这样就减少了加密运算的消耗时间。</p>
+</blockquote>
+<p>因此，SSL/TLS协议的基本过程是这样的：</p>
+<blockquote>
+<p>（1） 客户端向服务器端索要并验证公钥。</p>
+<p>（2） 双方协商生成&quot;对话密钥&quot;。</p>
+<p>（3） 双方采用&quot;对话密钥&quot;进行加密通信。</p>
+</blockquote>
+<p>上面过程的前两步，又称为&quot;握手阶段&quot;（handshake）。</p>
+<h2 id="四-握手阶段的详细过程">四、握手阶段的详细过程</h2>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628721665340.png" alt="" loading="lazy"></figure>
+<p>&quot;握手阶段&quot;涉及四次通信，我们一个个来看。需要注意的是，&quot;握手阶段&quot;的所有通信都是明文的。</p>
+<h3 id="41-客户端发出请求clienthello">4.1 客户端发出请求（ClientHello）</h3>
+<p>首先，客户端（通常是浏览器）先向服务器发出加密通信的请求，这被叫做ClientHello请求。</p>
+<p>在这一步，客户端主要向服务器提供以下信息。</p>
+<blockquote>
+<p>（1） 支持的协议版本，比如TLS 1.0版。</p>
+<p>（2） 一个客户端生成的随机数，稍后用于生成&quot;对话密钥&quot;。</p>
+<p>（3） 支持的加密方法，比如RSA公钥加密。</p>
+<p>（4） 支持的压缩方法。</p>
+</blockquote>
+<p>这里需要注意的是，客户端发送的信息之中不包括服务器的域名。也就是说，理论上服务器只能包含一个网站，否则会分不清应该向客户端提供哪一个网站的数字证书。这就是为什么通常一台服务器只能有一张数字证书的原因。</p>
+<p>对于虚拟主机的用户来说，这当然很不方便。2006年，TLS协议加入了一个<a href="https://tools.ietf.org/html/rfc4366">Server Name Indication扩展</a>，允许客户端向服务器提供它所请求的域名。</p>
+<h3 id="42-服务器回应severhello">4.2 服务器回应（SeverHello）</h3>
+<p>服务器收到客户端请求后，向客户端发出回应，这叫做SeverHello。服务器的回应包含以下内容。</p>
+<blockquote>
+<p>（1） 确认使用的加密通信协议版本，比如TLS 1.0版本。如果浏览器与服务器支持的版本不一致，服务器关闭加密通信。</p>
+<p>（2） 一个服务器生成的随机数，稍后用于生成&quot;对话密钥&quot;。</p>
+<p>（3） 确认使用的加密方法，比如RSA公钥加密。</p>
+<p>（4） 服务器证书。</p>
+</blockquote>
+<p>除了上面这些信息，如果服务器需要确认客户端的身份，就会再包含一项请求，要求客户端提供&quot;客户端证书&quot;。比如，金融机构往往只允许认证客户连入自己的网络，就会向正式客户提供USB密钥，里面就包含了一张客户端证书。</p>
+<h3 id="43-客户端回应">4.3 客户端回应</h3>
+<p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。</p>
+<p>如果证书没有问题，客户端就会从证书中取出服务器的公钥。然后，向服务器发送下面三项信息。</p>
+<blockquote>
+<p>（1） 一个随机数。该随机数用服务器公钥加密，防止被窃听。</p>
+<p>（2） 编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。</p>
+<p>（3） 客户端握手结束通知，表示客户端的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供服务器校验。</p>
+</blockquote>
+<p>上面第一项的随机数，是整个握手阶段出现的第三个随机数，又称&quot;pre-master key&quot;。有了它以后，客户端和服务器就同时有了三个随机数，接着双方就用事先商定的加密方法，各自生成本次会话所用的同一把&quot;会话密钥&quot;。</p>
+<p>至于为什么一定要用三个随机数，来生成&quot;会话密钥&quot;，<a href="http://blog.csdn.net/dog250/article/details/5717162">dog250</a>解释得很好：</p>
+<blockquote>
+<p>&quot;不管是客户端还是服务器，都需要随机数，这样生成的密钥才不会每次都一样。由于SSL协议中证书是静态的，因此十分有必要引入一种随机因素来保证协商出来的密钥的随机性。</p>
+<p>对于RSA密钥交换算法来说，pre-master-key本身就是一个随机数，再加上hello消息中的随机，三个随机数通过一个密钥导出器最终导出一个对称密钥。</p>
+<p>pre master的存在在于SSL协议不信任每个主机都能产生完全随机的随机数，如果随机数不随机，那么pre master secret就有可能被猜出来，那么仅适用pre master secret作为密钥就不合适了，因此必须引入新的随机因素，那么客户端和服务器加上pre master secret三个随机数一同生成的密钥就不容易被猜出了，一个伪随机可能完全不随机，可是是三个伪随机就十分接近随机了，每增加一个自由度，随机性增加的可不是一。&quot;</p>
+</blockquote>
+<p>此外，如果前一步，服务器要求客户端证书，客户端会在这一步发送证书及相关信息。</p>
+<h3 id="44-服务器的最后回应">4.4 服务器的最后回应</h3>
+<p>服务器收到客户端的第三个随机数pre-master key之后，计算生成本次会话所用的&quot;会话密钥&quot;。然后，向客户端最后发送下面信息。</p>
+<blockquote>
+<p>（1）编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。</p>
+<p>（2）服务器握手结束通知，表示服务器的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供客户端校验。</p>
+</blockquote>
+<p>至此，整个握手阶段全部结束。接下来，客户端与服务器进入加密通信，就完全是使用普通的HTTP协议，只不过用&quot;会话密钥&quot;加密内容。</p>
+<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1628721733951.jpg" alt="" loading="lazy"></figure>
 <h2 id="转载">转载</h2>
-<p><a href="https://juejin.cn/post/6844904089495535624">看完这篇 HTTPS，和面试官扯皮就没问题了</a></p>
-<h2 id="推荐阅读">推荐阅读</h2>
 <blockquote>
-<p>码农翻身</p>
-<p><a href="https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA">一个故事讲完https</a></p>
+<p>阮一峰</p>
+<p><a href="https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
 </blockquote>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA">一个故事讲完https</a></p>
+<p><a href="https://juejin.cn/post/6844904089495535624">看完这篇 HTTPS，和面试官扯皮就没问题了</a></p>
+<p><a href="https://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html">HTTPS 升级指南</a></p>
 ]]></content>
     </entry>
     <entry>
@@ -681,1235 +920,6 @@ document.cookie
 <p><a href="https://juejin.cn/post/6844904034181070861">傻傻分不清之 Cookie、Session、Token、JWT</a></p>
 <p><a href="https://juejin.cn/post/6844903812092674061">深入了解浏览器存储--从cookie到WebStorage、IndexedDB</a></p>
 <p><a href="https://juejin.cn/post/6914109129267740686">面试不再怕：史上最全的cookie知识点详解</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-缓存验证]]></title>
-        <id>https://leecss.com/post/http-huan-cun-yan-zheng/</id>
-        <link href="https://leecss.com/post/http-huan-cun-yan-zheng/">
-        </link>
-        <updated>2021-07-23T00:31:09.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>当我们给Catch-Control 设置了 no-catch 后，每次浏览器对这个资源的请求时，都会到服务器端进行资源验证，验证完之后，如果确定这个资源可以使用缓存，浏览器才会读取本地的缓存。</p>
-<h2 id="缓存验证流程">缓存验证流程</h2>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1627000310327.jpg" alt="" loading="lazy"></figure>
-<h2 id="方式">方式</h2>
-<p>验证资源是否需要更新有两种方式： Last-Modified 与 Etag</p>
-<h3 id="last-modified">Last-Modified</h3>
-<p>上次修改时间。主要配合If-Modified-Since 或者 If-Unmodified-Since 这两个Header 使用。</p>
-<p>通过对比请求首部字段If-Modified-Since和实体首部字段 Last-Modified，来判断是否使用缓存。</p>
-<p>如果我们请求的一个资源，它返回的Header 中有Last-Modified 并指定了一个时间。那么下次浏览器再发送这个请求的时候就会带上这个时间，并把它放在 If-Modified-Since中；服务器就可以根据If-Modified-Since值对比资源上次修改的时间，如果两个时间一致，说明请求的资源都没有过更新，那么就可以使用缓存</p>
-<h3 id="etag">Etag</h3>
-<p>是一个更为严格的验证，通过数据签名的方式验证。主要配合 If-Match 或者 If-None-Match 使用。</p>
-<p>它根据数据内容产生一个唯一的编码（数据不同，编码结果不同）。最典型的做法，是我们对数据内容做一个哈希计算。</p>
-<p>当服务端加上<code>Last-Modified</code>,<code>Etag</code>，浏览器下次请求就会带上<code>If-Modified-Since</code>和<code>If-None-Match</code>,来进行缓存验证。</p>
-<p><strong>使用缓存实例</strong></p>
-<p>test.html</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;UTF-8&quot;&gt;
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
-  &lt;title&gt;Document&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    
-&lt;/body&gt;
-&lt;script src=&quot;/script.js&quot;&gt;&lt;/script&gt;
-&lt;/html&gt;
-</code></pre>
-<p>server.js</p>
-<pre><code class="language-js">const http = require('http')
-const fs = require('fs')
-
-http.createServer(function (request, response) {
-  console.log('request come', request.url)
-
-  if (request.url === '/') {
-    const html = fs.readFileSync('test.html', 'utf8')
-    response.writeHead(200, {
-      'Content-Type': 'text/html'
-    })
-    response.end(html)
-  }
-
-  if (request.url === '/script.js') {
-    
-    const etag = request.headers['if-none-match']
-    if (etag === '777') {
-      response.writeHead(304, {
-        'Content-Type': 'text/javascript',
-        'Cache-Control': 'max-age=2000000, no-cache',
-        'Last-Modified': '123',
-        'Etag': '777'
-      })
-      response.end()
-    } else {
-      response.writeHead(200, {
-        'Content-Type': 'text/javascript',
-        'Cache-Control': 'max-age=2000000, no-cache',
-        'Last-Modified': '123',
-        'Etag': '777'
-      })
-      response.end('console.log(&quot;script loaded twice&quot;)')
-    }
-  }
-}).listen(8888)
-
-console.log('server listening on 8888')
-</code></pre>
-<p>使用<code>node server.js</code>启动，在<code>http://localhost:8888/</code>上查看server.js的网络请求。</p>
-<p>可以发现，状态码第一次是200，第二次及以后缓存范围期限内，都是304</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[chrome-开发者工具]]></title>
-        <id>https://leecss.com/post/chrome-kai-fa-zhe-gong-ju/</id>
-        <link href="https://leecss.com/post/chrome-kai-fa-zhe-gong-ju/">
-        </link>
-        <updated>2021-07-22T23:46:53.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>开发调试工具</p>
-<h2 id="功能">功能</h2>
-<h3 id="network">Network</h3>
-<p>1、Disable cache</p>
-<p>当勾选了Disable cache，浏览器发送http请求就不会再发送缓存相关的请求头，比如If-Modified-Since、If-None-Match等，即不再使用缓存。</p>
-<p>2、connectionId</p>
-<p>在name状态栏那一行右击，可以勾选要显示和隐藏的列，选择显示connectionId</p>
-<blockquote>
-<p><code>connectionId</code> is the unique identifier of the connection used for that query/TCP connection etc. It's a way of evaluating which resources are using which connection.</p>
-<p>connectionId是用于该查询/TCP连接等的连接的唯一标识符。它是一种评估哪些资源正在使用哪个连接的方法。</p>
-</blockquote>
-<p>For example:</p>
-<pre><code>Name      Connection ID    (TCP Handshake / Reused Connection)
-foo.jpg   72218            Handshake
-bar.jpg   72218            Reused
-cat.jpg   79146            Handshake
-baz.jpg   72218            Reused
-dog.jpg   79146            Reused
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-实体首部字段Content-Type]]></title>
-        <id>https://leecss.com/post/http-shi-ti-shou-bu-zi-duan-content-type/</id>
-        <link href="https://leecss.com/post/http-shi-ti-shou-bu-zi-duan-content-type/">
-        </link>
-        <updated>2021-07-22T22:07:15.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>Content-Type（内容类型），一般是指网页中存在的 Content-Type，用于定义网络文件的类型和网页的编码，决定浏览器将以什么形式、什么编码读取这个文件，这就是经常看到一些 PHP 网页点击的结果却是下载一个文件或一张图片的原因。</p>
-<p>Content-Type 标头告诉客户端实际返回的内容的内容类型。</p>
-<p>语法格式：</p>
-<pre><code class="language-http">Content-Type: text/html; charset=utf-8
-Content-Type: multipart/form-data; boundary=something
-</code></pre>
-<h2 id="常见媒体类型">常见媒体类型</h2>
-<ul>
-<li>text/html ： HTML格式</li>
-<li>text/plain ：纯文本格式</li>
-<li>text/xml ： XML格式</li>
-<li>image/gif ：gif图片格式</li>
-<li>image/jpeg ：jpg图片格式</li>
-<li>image/png：png图片格式</li>
-</ul>
-<p>以application开头的媒体格式类型：</p>
-<ul>
-<li>application/xhtml+xml ：XHTML格式</li>
-<li>application/xml： XML数据格式</li>
-<li>application/atom+xml ：Atom XML聚合格式</li>
-<li>application/json： JSON数据格式</li>
-<li>application/pdf：pdf格式</li>
-<li>application/msword ： Word文档格式</li>
-<li>application/octet-stream ： 二进制流数据（如常见的文件下载）</li>
-<li>application/x-www-form-urlencoded ： <code>&lt;form encType=&quot;&quot;&gt;</code>中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式）</li>
-</ul>
-<p>另外一种常见的媒体格式是上传文件之时使用的：</p>
-<ul>
-<li>multipart/form-data ： 需要在表单中进行文件上传时，就需要使用该格式</li>
-</ul>
-<h2 id="http-content-type-对照表">HTTP content-type 对照表</h2>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">文件扩展名</th>
-<th style="text-align:left">Content-Type(Mime-Type)</th>
-<th style="text-align:left">文件扩展名</th>
-<th style="text-align:left">Content-Type(Mime-Type)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">.*（ 二进制流，不知道下载文件类型）</td>
-<td style="text-align:left">application/octet-stream</td>
-<td style="text-align:left">.tif</td>
-<td style="text-align:left">image/tiff</td>
-</tr>
-<tr>
-<td style="text-align:left">.001</td>
-<td style="text-align:left">application/x-001</td>
-<td style="text-align:left">.301</td>
-<td style="text-align:left">application/x-301</td>
-</tr>
-<tr>
-<td style="text-align:left">.323</td>
-<td style="text-align:left">text/h323</td>
-<td style="text-align:left">.906</td>
-<td style="text-align:left">application/x-906</td>
-</tr>
-<tr>
-<td style="text-align:left">.907</td>
-<td style="text-align:left">drawing/907</td>
-<td style="text-align:left">.a11</td>
-<td style="text-align:left">application/x-a11</td>
-</tr>
-<tr>
-<td style="text-align:left">.acp</td>
-<td style="text-align:left">audio/x-mei-aac</td>
-<td style="text-align:left">.ai</td>
-<td style="text-align:left">application/postscript</td>
-</tr>
-<tr>
-<td style="text-align:left">.aif</td>
-<td style="text-align:left">audio/aiff</td>
-<td style="text-align:left">.aifc</td>
-<td style="text-align:left">audio/aiff</td>
-</tr>
-<tr>
-<td style="text-align:left">.aiff</td>
-<td style="text-align:left">audio/aiff</td>
-<td style="text-align:left">.anv</td>
-<td style="text-align:left">application/x-anv</td>
-</tr>
-<tr>
-<td style="text-align:left">.asa</td>
-<td style="text-align:left">text/asa</td>
-<td style="text-align:left">.asf</td>
-<td style="text-align:left">video/x-ms-asf</td>
-</tr>
-<tr>
-<td style="text-align:left">.asp</td>
-<td style="text-align:left">text/asp</td>
-<td style="text-align:left">.asx</td>
-<td style="text-align:left">video/x-ms-asf</td>
-</tr>
-<tr>
-<td style="text-align:left">.au</td>
-<td style="text-align:left">audio/basic</td>
-<td style="text-align:left">.avi</td>
-<td style="text-align:left">video/avi</td>
-</tr>
-<tr>
-<td style="text-align:left">.awf</td>
-<td style="text-align:left">application/vnd.adobe.workflow</td>
-<td style="text-align:left">.biz</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.bmp</td>
-<td style="text-align:left">application/x-bmp</td>
-<td style="text-align:left">.bot</td>
-<td style="text-align:left">application/x-bot</td>
-</tr>
-<tr>
-<td style="text-align:left">.c4t</td>
-<td style="text-align:left">application/x-c4t</td>
-<td style="text-align:left">.c90</td>
-<td style="text-align:left">application/x-c90</td>
-</tr>
-<tr>
-<td style="text-align:left">.cal</td>
-<td style="text-align:left">application/x-cals</td>
-<td style="text-align:left">.cat</td>
-<td style="text-align:left">application/vnd.ms-pki.seccat</td>
-</tr>
-<tr>
-<td style="text-align:left">.cdf</td>
-<td style="text-align:left">application/x-netcdf</td>
-<td style="text-align:left">.cdr</td>
-<td style="text-align:left">application/x-cdr</td>
-</tr>
-<tr>
-<td style="text-align:left">.cel</td>
-<td style="text-align:left">application/x-cel</td>
-<td style="text-align:left">.cer</td>
-<td style="text-align:left">application/x-x509-ca-cert</td>
-</tr>
-<tr>
-<td style="text-align:left">.cg4</td>
-<td style="text-align:left">application/x-g4</td>
-<td style="text-align:left">.cgm</td>
-<td style="text-align:left">application/x-cgm</td>
-</tr>
-<tr>
-<td style="text-align:left">.cit</td>
-<td style="text-align:left">application/x-cit</td>
-<td style="text-align:left">.class</td>
-<td style="text-align:left">java/*</td>
-</tr>
-<tr>
-<td style="text-align:left">.cml</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.cmp</td>
-<td style="text-align:left">application/x-cmp</td>
-</tr>
-<tr>
-<td style="text-align:left">.cmx</td>
-<td style="text-align:left">application/x-cmx</td>
-<td style="text-align:left">.cot</td>
-<td style="text-align:left">application/x-cot</td>
-</tr>
-<tr>
-<td style="text-align:left">.crl</td>
-<td style="text-align:left">application/pkix-crl</td>
-<td style="text-align:left">.crt</td>
-<td style="text-align:left">application/x-x509-ca-cert</td>
-</tr>
-<tr>
-<td style="text-align:left">.csi</td>
-<td style="text-align:left">application/x-csi</td>
-<td style="text-align:left">.css</td>
-<td style="text-align:left">text/css</td>
-</tr>
-<tr>
-<td style="text-align:left">.cut</td>
-<td style="text-align:left">application/x-cut</td>
-<td style="text-align:left">.dbf</td>
-<td style="text-align:left">application/x-dbf</td>
-</tr>
-<tr>
-<td style="text-align:left">.dbm</td>
-<td style="text-align:left">application/x-dbm</td>
-<td style="text-align:left">.dbx</td>
-<td style="text-align:left">application/x-dbx</td>
-</tr>
-<tr>
-<td style="text-align:left">.dcd</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.dcx</td>
-<td style="text-align:left">application/x-dcx</td>
-</tr>
-<tr>
-<td style="text-align:left">.der</td>
-<td style="text-align:left">application/x-x509-ca-cert</td>
-<td style="text-align:left">.dgn</td>
-<td style="text-align:left">application/x-dgn</td>
-</tr>
-<tr>
-<td style="text-align:left">.dib</td>
-<td style="text-align:left">application/x-dib</td>
-<td style="text-align:left">.dll</td>
-<td style="text-align:left">application/x-msdownload</td>
-</tr>
-<tr>
-<td style="text-align:left">.doc</td>
-<td style="text-align:left">application/msword</td>
-<td style="text-align:left">.dot</td>
-<td style="text-align:left">application/msword</td>
-</tr>
-<tr>
-<td style="text-align:left">.drw</td>
-<td style="text-align:left">application/x-drw</td>
-<td style="text-align:left">.dtd</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.dwf</td>
-<td style="text-align:left">Model/vnd.dwf</td>
-<td style="text-align:left">.dwf</td>
-<td style="text-align:left">application/x-dwf</td>
-</tr>
-<tr>
-<td style="text-align:left">.dwg</td>
-<td style="text-align:left">application/x-dwg</td>
-<td style="text-align:left">.dxb</td>
-<td style="text-align:left">application/x-dxb</td>
-</tr>
-<tr>
-<td style="text-align:left">.dxf</td>
-<td style="text-align:left">application/x-dxf</td>
-<td style="text-align:left">.edn</td>
-<td style="text-align:left">application/vnd.adobe.edn</td>
-</tr>
-<tr>
-<td style="text-align:left">.emf</td>
-<td style="text-align:left">application/x-emf</td>
-<td style="text-align:left">.eml</td>
-<td style="text-align:left">message/rfc822</td>
-</tr>
-<tr>
-<td style="text-align:left">.ent</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.epi</td>
-<td style="text-align:left">application/x-epi</td>
-</tr>
-<tr>
-<td style="text-align:left">.eps</td>
-<td style="text-align:left">application/x-ps</td>
-<td style="text-align:left">.eps</td>
-<td style="text-align:left">application/postscript</td>
-</tr>
-<tr>
-<td style="text-align:left">.etd</td>
-<td style="text-align:left">application/x-ebx</td>
-<td style="text-align:left">.exe</td>
-<td style="text-align:left">application/x-msdownload</td>
-</tr>
-<tr>
-<td style="text-align:left">.fax</td>
-<td style="text-align:left">image/fax</td>
-<td style="text-align:left">.fdf</td>
-<td style="text-align:left">application/vnd.fdf</td>
-</tr>
-<tr>
-<td style="text-align:left">.fif</td>
-<td style="text-align:left">application/fractals</td>
-<td style="text-align:left">.fo</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.frm</td>
-<td style="text-align:left">application/x-frm</td>
-<td style="text-align:left">.g4</td>
-<td style="text-align:left">application/x-g4</td>
-</tr>
-<tr>
-<td style="text-align:left">.gbr</td>
-<td style="text-align:left">application/x-gbr</td>
-<td style="text-align:left">.</td>
-<td style="text-align:left">application/x-</td>
-</tr>
-<tr>
-<td style="text-align:left">.gif</td>
-<td style="text-align:left">image/gif</td>
-<td style="text-align:left">.gl2</td>
-<td style="text-align:left">application/x-gl2</td>
-</tr>
-<tr>
-<td style="text-align:left">.gp4</td>
-<td style="text-align:left">application/x-gp4</td>
-<td style="text-align:left">.hgl</td>
-<td style="text-align:left">application/x-hgl</td>
-</tr>
-<tr>
-<td style="text-align:left">.hmr</td>
-<td style="text-align:left">application/x-hmr</td>
-<td style="text-align:left">.hpg</td>
-<td style="text-align:left">application/x-hpgl</td>
-</tr>
-<tr>
-<td style="text-align:left">.hpl</td>
-<td style="text-align:left">application/x-hpl</td>
-<td style="text-align:left">.hqx</td>
-<td style="text-align:left">application/mac-binhex40</td>
-</tr>
-<tr>
-<td style="text-align:left">.hrf</td>
-<td style="text-align:left">application/x-hrf</td>
-<td style="text-align:left">.hta</td>
-<td style="text-align:left">application/hta</td>
-</tr>
-<tr>
-<td style="text-align:left">.htc</td>
-<td style="text-align:left">text/x-component</td>
-<td style="text-align:left">.htm</td>
-<td style="text-align:left">text/html</td>
-</tr>
-<tr>
-<td style="text-align:left">.html</td>
-<td style="text-align:left">text/html</td>
-<td style="text-align:left">.htt</td>
-<td style="text-align:left">text/webviewhtml</td>
-</tr>
-<tr>
-<td style="text-align:left">.htx</td>
-<td style="text-align:left">text/html</td>
-<td style="text-align:left">.icb</td>
-<td style="text-align:left">application/x-icb</td>
-</tr>
-<tr>
-<td style="text-align:left">.ico</td>
-<td style="text-align:left">image/x-icon</td>
-<td style="text-align:left">.ico</td>
-<td style="text-align:left">application/x-ico</td>
-</tr>
-<tr>
-<td style="text-align:left">.iff</td>
-<td style="text-align:left">application/x-iff</td>
-<td style="text-align:left">.ig4</td>
-<td style="text-align:left">application/x-g4</td>
-</tr>
-<tr>
-<td style="text-align:left">.igs</td>
-<td style="text-align:left">application/x-igs</td>
-<td style="text-align:left">.iii</td>
-<td style="text-align:left">application/x-iphone</td>
-</tr>
-<tr>
-<td style="text-align:left">.img</td>
-<td style="text-align:left">application/x-img</td>
-<td style="text-align:left">.ins</td>
-<td style="text-align:left">application/x-internet-signup</td>
-</tr>
-<tr>
-<td style="text-align:left">.isp</td>
-<td style="text-align:left">application/x-internet-signup</td>
-<td style="text-align:left">.IVF</td>
-<td style="text-align:left">video/x-ivf</td>
-</tr>
-<tr>
-<td style="text-align:left">.java</td>
-<td style="text-align:left">java/*</td>
-<td style="text-align:left">.jfif</td>
-<td style="text-align:left">image/jpeg</td>
-</tr>
-<tr>
-<td style="text-align:left">.jpe</td>
-<td style="text-align:left">image/jpeg</td>
-<td style="text-align:left">.jpe</td>
-<td style="text-align:left">application/x-jpe</td>
-</tr>
-<tr>
-<td style="text-align:left">.jpeg</td>
-<td style="text-align:left">image/jpeg</td>
-<td style="text-align:left">.jpg</td>
-<td style="text-align:left">image/jpeg</td>
-</tr>
-<tr>
-<td style="text-align:left">.jpg</td>
-<td style="text-align:left">application/x-jpg</td>
-<td style="text-align:left">.js</td>
-<td style="text-align:left">application/x-javascript</td>
-</tr>
-<tr>
-<td style="text-align:left">.jsp</td>
-<td style="text-align:left">text/html</td>
-<td style="text-align:left">.la1</td>
-<td style="text-align:left">audio/x-liquid-file</td>
-</tr>
-<tr>
-<td style="text-align:left">.lar</td>
-<td style="text-align:left">application/x-laplayer-reg</td>
-<td style="text-align:left">.latex</td>
-<td style="text-align:left">application/x-latex</td>
-</tr>
-<tr>
-<td style="text-align:left">.lavs</td>
-<td style="text-align:left">audio/x-liquid-secure</td>
-<td style="text-align:left">.lbm</td>
-<td style="text-align:left">application/x-lbm</td>
-</tr>
-<tr>
-<td style="text-align:left">.lmsff</td>
-<td style="text-align:left">audio/x-la-lms</td>
-<td style="text-align:left">.ls</td>
-<td style="text-align:left">application/x-javascript</td>
-</tr>
-<tr>
-<td style="text-align:left">.ltr</td>
-<td style="text-align:left">application/x-ltr</td>
-<td style="text-align:left">.m1v</td>
-<td style="text-align:left">video/x-mpeg</td>
-</tr>
-<tr>
-<td style="text-align:left">.m2v</td>
-<td style="text-align:left">video/x-mpeg</td>
-<td style="text-align:left">.m3u</td>
-<td style="text-align:left">audio/mpegurl</td>
-</tr>
-<tr>
-<td style="text-align:left">.m4e</td>
-<td style="text-align:left">video/mpeg4</td>
-<td style="text-align:left">.mac</td>
-<td style="text-align:left">application/x-mac</td>
-</tr>
-<tr>
-<td style="text-align:left">.man</td>
-<td style="text-align:left">application/x-troff-man</td>
-<td style="text-align:left">.math</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.mdb</td>
-<td style="text-align:left">application/msaccess</td>
-<td style="text-align:left">.mdb</td>
-<td style="text-align:left">application/x-mdb</td>
-</tr>
-<tr>
-<td style="text-align:left">.mfp</td>
-<td style="text-align:left">application/x-shockwave-flash</td>
-<td style="text-align:left">.mht</td>
-<td style="text-align:left">message/rfc822</td>
-</tr>
-<tr>
-<td style="text-align:left">.mhtml</td>
-<td style="text-align:left">message/rfc822</td>
-<td style="text-align:left">.mi</td>
-<td style="text-align:left">application/x-mi</td>
-</tr>
-<tr>
-<td style="text-align:left">.mid</td>
-<td style="text-align:left">audio/mid</td>
-<td style="text-align:left">.midi</td>
-<td style="text-align:left">audio/mid</td>
-</tr>
-<tr>
-<td style="text-align:left">.mil</td>
-<td style="text-align:left">application/x-mil</td>
-<td style="text-align:left">.mml</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.mnd</td>
-<td style="text-align:left">audio/x-musicnet-download</td>
-<td style="text-align:left">.mns</td>
-<td style="text-align:left">audio/x-musicnet-stream</td>
-</tr>
-<tr>
-<td style="text-align:left">.mocha</td>
-<td style="text-align:left">application/x-javascript</td>
-<td style="text-align:left">.movie</td>
-<td style="text-align:left">video/x-sgi-movie</td>
-</tr>
-<tr>
-<td style="text-align:left">.mp1</td>
-<td style="text-align:left">audio/mp1</td>
-<td style="text-align:left">.mp2</td>
-<td style="text-align:left">audio/mp2</td>
-</tr>
-<tr>
-<td style="text-align:left">.mp2v</td>
-<td style="text-align:left">video/mpeg</td>
-<td style="text-align:left">.mp3</td>
-<td style="text-align:left">audio/mp3</td>
-</tr>
-<tr>
-<td style="text-align:left">.mp4</td>
-<td style="text-align:left">video/mpeg4</td>
-<td style="text-align:left">.mpa</td>
-<td style="text-align:left">video/x-mpg</td>
-</tr>
-<tr>
-<td style="text-align:left">.mpd</td>
-<td style="text-align:left">application/vnd.ms-project</td>
-<td style="text-align:left">.mpe</td>
-<td style="text-align:left">video/x-mpeg</td>
-</tr>
-<tr>
-<td style="text-align:left">.mpeg</td>
-<td style="text-align:left">video/mpg</td>
-<td style="text-align:left">.mpg</td>
-<td style="text-align:left">video/mpg</td>
-</tr>
-<tr>
-<td style="text-align:left">.mpga</td>
-<td style="text-align:left">audio/rn-mpeg</td>
-<td style="text-align:left">.mpp</td>
-<td style="text-align:left">application/vnd.ms-project</td>
-</tr>
-<tr>
-<td style="text-align:left">.mps</td>
-<td style="text-align:left">video/x-mpeg</td>
-<td style="text-align:left">.mpt</td>
-<td style="text-align:left">application/vnd.ms-project</td>
-</tr>
-<tr>
-<td style="text-align:left">.mpv</td>
-<td style="text-align:left">video/mpg</td>
-<td style="text-align:left">.mpv2</td>
-<td style="text-align:left">video/mpeg</td>
-</tr>
-<tr>
-<td style="text-align:left">.mpw</td>
-<td style="text-align:left">application/vnd.ms-project</td>
-<td style="text-align:left">.mpx</td>
-<td style="text-align:left">application/vnd.ms-project</td>
-</tr>
-<tr>
-<td style="text-align:left">.mtx</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.mxp</td>
-<td style="text-align:left">application/x-mmxp</td>
-</tr>
-<tr>
-<td style="text-align:left">.net</td>
-<td style="text-align:left">image/pnetvue</td>
-<td style="text-align:left">.nrf</td>
-<td style="text-align:left">application/x-nrf</td>
-</tr>
-<tr>
-<td style="text-align:left">.nws</td>
-<td style="text-align:left">message/rfc822</td>
-<td style="text-align:left">.odc</td>
-<td style="text-align:left">text/x-ms-odc</td>
-</tr>
-<tr>
-<td style="text-align:left">.out</td>
-<td style="text-align:left">application/x-out</td>
-<td style="text-align:left">.p10</td>
-<td style="text-align:left">application/pkcs10</td>
-</tr>
-<tr>
-<td style="text-align:left">.p12</td>
-<td style="text-align:left">application/x-pkcs12</td>
-<td style="text-align:left">.p7b</td>
-<td style="text-align:left">application/x-pkcs7-certificates</td>
-</tr>
-<tr>
-<td style="text-align:left">.p7c</td>
-<td style="text-align:left">application/pkcs7-mime</td>
-<td style="text-align:left">.p7m</td>
-<td style="text-align:left">application/pkcs7-mime</td>
-</tr>
-<tr>
-<td style="text-align:left">.p7r</td>
-<td style="text-align:left">application/x-pkcs7-certreqresp</td>
-<td style="text-align:left">.p7s</td>
-<td style="text-align:left">application/pkcs7-signature</td>
-</tr>
-<tr>
-<td style="text-align:left">.pc5</td>
-<td style="text-align:left">application/x-pc5</td>
-<td style="text-align:left">.pci</td>
-<td style="text-align:left">application/x-pci</td>
-</tr>
-<tr>
-<td style="text-align:left">.pcl</td>
-<td style="text-align:left">application/x-pcl</td>
-<td style="text-align:left">.pcx</td>
-<td style="text-align:left">application/x-pcx</td>
-</tr>
-<tr>
-<td style="text-align:left">.pdf</td>
-<td style="text-align:left">application/pdf</td>
-<td style="text-align:left">.pdf</td>
-<td style="text-align:left">application/pdf</td>
-</tr>
-<tr>
-<td style="text-align:left">.pdx</td>
-<td style="text-align:left">application/vnd.adobe.pdx</td>
-<td style="text-align:left">.pfx</td>
-<td style="text-align:left">application/x-pkcs12</td>
-</tr>
-<tr>
-<td style="text-align:left">.pgl</td>
-<td style="text-align:left">application/x-pgl</td>
-<td style="text-align:left">.pic</td>
-<td style="text-align:left">application/x-pic</td>
-</tr>
-<tr>
-<td style="text-align:left">.pko</td>
-<td style="text-align:left">application/vnd.ms-pki.pko</td>
-<td style="text-align:left">.pl</td>
-<td style="text-align:left">application/x-perl</td>
-</tr>
-<tr>
-<td style="text-align:left">.plg</td>
-<td style="text-align:left">text/html</td>
-<td style="text-align:left">.pls</td>
-<td style="text-align:left">audio/scpls</td>
-</tr>
-<tr>
-<td style="text-align:left">.plt</td>
-<td style="text-align:left">application/x-plt</td>
-<td style="text-align:left">.png</td>
-<td style="text-align:left">image/png</td>
-</tr>
-<tr>
-<td style="text-align:left">.png</td>
-<td style="text-align:left">application/x-png</td>
-<td style="text-align:left">.pot</td>
-<td style="text-align:left">application/vnd.ms-powerpoint</td>
-</tr>
-<tr>
-<td style="text-align:left">.ppa</td>
-<td style="text-align:left">application/vnd.ms-powerpoint</td>
-<td style="text-align:left">.ppm</td>
-<td style="text-align:left">application/x-ppm</td>
-</tr>
-<tr>
-<td style="text-align:left">.pps</td>
-<td style="text-align:left">application/vnd.ms-powerpoint</td>
-<td style="text-align:left">.ppt</td>
-<td style="text-align:left">application/vnd.ms-powerpoint</td>
-</tr>
-<tr>
-<td style="text-align:left">.ppt</td>
-<td style="text-align:left">application/x-ppt</td>
-<td style="text-align:left">.pr</td>
-<td style="text-align:left">application/x-pr</td>
-</tr>
-<tr>
-<td style="text-align:left">.prf</td>
-<td style="text-align:left">application/pics-rules</td>
-<td style="text-align:left">.prn</td>
-<td style="text-align:left">application/x-prn</td>
-</tr>
-<tr>
-<td style="text-align:left">.prt</td>
-<td style="text-align:left">application/x-prt</td>
-<td style="text-align:left">.ps</td>
-<td style="text-align:left">application/x-ps</td>
-</tr>
-<tr>
-<td style="text-align:left">.ps</td>
-<td style="text-align:left">application/postscript</td>
-<td style="text-align:left">.ptn</td>
-<td style="text-align:left">application/x-ptn</td>
-</tr>
-<tr>
-<td style="text-align:left">.pwz</td>
-<td style="text-align:left">application/vnd.ms-powerpoint</td>
-<td style="text-align:left">.r3t</td>
-<td style="text-align:left">text/vnd.rn-realtext3d</td>
-</tr>
-<tr>
-<td style="text-align:left">.ra</td>
-<td style="text-align:left">audio/vnd.rn-realaudio</td>
-<td style="text-align:left">.ram</td>
-<td style="text-align:left">audio/x-pn-realaudio</td>
-</tr>
-<tr>
-<td style="text-align:left">.ras</td>
-<td style="text-align:left">application/x-ras</td>
-<td style="text-align:left">.rat</td>
-<td style="text-align:left">application/rat-file</td>
-</tr>
-<tr>
-<td style="text-align:left">.rdf</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.rec</td>
-<td style="text-align:left">application/vnd.rn-recording</td>
-</tr>
-<tr>
-<td style="text-align:left">.red</td>
-<td style="text-align:left">application/x-red</td>
-<td style="text-align:left">.rgb</td>
-<td style="text-align:left">application/x-rgb</td>
-</tr>
-<tr>
-<td style="text-align:left">.rjs</td>
-<td style="text-align:left">application/vnd.rn-realsystem-rjs</td>
-<td style="text-align:left">.rjt</td>
-<td style="text-align:left">application/vnd.rn-realsystem-rjt</td>
-</tr>
-<tr>
-<td style="text-align:left">.rlc</td>
-<td style="text-align:left">application/x-rlc</td>
-<td style="text-align:left">.rle</td>
-<td style="text-align:left">application/x-rle</td>
-</tr>
-<tr>
-<td style="text-align:left">.rm</td>
-<td style="text-align:left">application/vnd.rn-realmedia</td>
-<td style="text-align:left">.rmf</td>
-<td style="text-align:left">application/vnd.adobe.rmf</td>
-</tr>
-<tr>
-<td style="text-align:left">.rmi</td>
-<td style="text-align:left">audio/mid</td>
-<td style="text-align:left">.rmj</td>
-<td style="text-align:left">application/vnd.rn-realsystem-rmj</td>
-</tr>
-<tr>
-<td style="text-align:left">.rmm</td>
-<td style="text-align:left">audio/x-pn-realaudio</td>
-<td style="text-align:left">.rmp</td>
-<td style="text-align:left">application/vnd.rn-rn_music_package</td>
-</tr>
-<tr>
-<td style="text-align:left">.rms</td>
-<td style="text-align:left">application/vnd.rn-realmedia-secure</td>
-<td style="text-align:left">.rmvb</td>
-<td style="text-align:left">application/vnd.rn-realmedia-vbr</td>
-</tr>
-<tr>
-<td style="text-align:left">.rmx</td>
-<td style="text-align:left">application/vnd.rn-realsystem-rmx</td>
-<td style="text-align:left">.rnx</td>
-<td style="text-align:left">application/vnd.rn-realplayer</td>
-</tr>
-<tr>
-<td style="text-align:left">.rp</td>
-<td style="text-align:left">image/vnd.rn-realpix</td>
-<td style="text-align:left">.rpm</td>
-<td style="text-align:left">audio/x-pn-realaudio-plugin</td>
-</tr>
-<tr>
-<td style="text-align:left">.rsml</td>
-<td style="text-align:left">application/vnd.rn-rsml</td>
-<td style="text-align:left">.rt</td>
-<td style="text-align:left">text/vnd.rn-realtext</td>
-</tr>
-<tr>
-<td style="text-align:left">.rtf</td>
-<td style="text-align:left">application/msword</td>
-<td style="text-align:left">.rtf</td>
-<td style="text-align:left">application/x-rtf</td>
-</tr>
-<tr>
-<td style="text-align:left">.rv</td>
-<td style="text-align:left">video/vnd.rn-realvideo</td>
-<td style="text-align:left">.sam</td>
-<td style="text-align:left">application/x-sam</td>
-</tr>
-<tr>
-<td style="text-align:left">.sat</td>
-<td style="text-align:left">application/x-sat</td>
-<td style="text-align:left">.sdp</td>
-<td style="text-align:left">application/sdp</td>
-</tr>
-<tr>
-<td style="text-align:left">.sdw</td>
-<td style="text-align:left">application/x-sdw</td>
-<td style="text-align:left">.sit</td>
-<td style="text-align:left">application/x-stuffit</td>
-</tr>
-<tr>
-<td style="text-align:left">.slb</td>
-<td style="text-align:left">application/x-slb</td>
-<td style="text-align:left">.sld</td>
-<td style="text-align:left">application/x-sld</td>
-</tr>
-<tr>
-<td style="text-align:left">.slk</td>
-<td style="text-align:left">drawing/x-slk</td>
-<td style="text-align:left">.smi</td>
-<td style="text-align:left">application/smil</td>
-</tr>
-<tr>
-<td style="text-align:left">.smil</td>
-<td style="text-align:left">application/smil</td>
-<td style="text-align:left">.smk</td>
-<td style="text-align:left">application/x-smk</td>
-</tr>
-<tr>
-<td style="text-align:left">.snd</td>
-<td style="text-align:left">audio/basic</td>
-<td style="text-align:left">.sol</td>
-<td style="text-align:left">text/plain</td>
-</tr>
-<tr>
-<td style="text-align:left">.sor</td>
-<td style="text-align:left">text/plain</td>
-<td style="text-align:left">.spc</td>
-<td style="text-align:left">application/x-pkcs7-certificates</td>
-</tr>
-<tr>
-<td style="text-align:left">.spl</td>
-<td style="text-align:left">application/futuresplash</td>
-<td style="text-align:left">.spp</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.ssm</td>
-<td style="text-align:left">application/streamingmedia</td>
-<td style="text-align:left">.sst</td>
-<td style="text-align:left">application/vnd.ms-pki.certstore</td>
-</tr>
-<tr>
-<td style="text-align:left">.stl</td>
-<td style="text-align:left">application/vnd.ms-pki.stl</td>
-<td style="text-align:left">.stm</td>
-<td style="text-align:left">text/html</td>
-</tr>
-<tr>
-<td style="text-align:left">.sty</td>
-<td style="text-align:left">application/x-sty</td>
-<td style="text-align:left">.svg</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.swf</td>
-<td style="text-align:left">application/x-shockwave-flash</td>
-<td style="text-align:left">.tdf</td>
-<td style="text-align:left">application/x-tdf</td>
-</tr>
-<tr>
-<td style="text-align:left">.tg4</td>
-<td style="text-align:left">application/x-tg4</td>
-<td style="text-align:left">.tga</td>
-<td style="text-align:left">application/x-tga</td>
-</tr>
-<tr>
-<td style="text-align:left">.tif</td>
-<td style="text-align:left">image/tiff</td>
-<td style="text-align:left">.tif</td>
-<td style="text-align:left">application/x-tif</td>
-</tr>
-<tr>
-<td style="text-align:left">.tiff</td>
-<td style="text-align:left">image/tiff</td>
-<td style="text-align:left">.tld</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.top</td>
-<td style="text-align:left">drawing/x-top</td>
-<td style="text-align:left">.torrent</td>
-<td style="text-align:left">application/x-bittorrent</td>
-</tr>
-<tr>
-<td style="text-align:left">.tsd</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.txt</td>
-<td style="text-align:left">text/plain</td>
-</tr>
-<tr>
-<td style="text-align:left">.uin</td>
-<td style="text-align:left">application/x-icq</td>
-<td style="text-align:left">.uls</td>
-<td style="text-align:left">text/iuls</td>
-</tr>
-<tr>
-<td style="text-align:left">.vcf</td>
-<td style="text-align:left">text/x-vcard</td>
-<td style="text-align:left">.vda</td>
-<td style="text-align:left">application/x-vda</td>
-</tr>
-<tr>
-<td style="text-align:left">.vdx</td>
-<td style="text-align:left">application/vnd.visio</td>
-<td style="text-align:left">.vml</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.vpg</td>
-<td style="text-align:left">application/x-vpeg005</td>
-<td style="text-align:left">.vsd</td>
-<td style="text-align:left">application/vnd.visio</td>
-</tr>
-<tr>
-<td style="text-align:left">.vsd</td>
-<td style="text-align:left">application/x-vsd</td>
-<td style="text-align:left">.vss</td>
-<td style="text-align:left">application/vnd.visio</td>
-</tr>
-<tr>
-<td style="text-align:left">.vst</td>
-<td style="text-align:left">application/vnd.visio</td>
-<td style="text-align:left">.vst</td>
-<td style="text-align:left">application/x-vst</td>
-</tr>
-<tr>
-<td style="text-align:left">.vsw</td>
-<td style="text-align:left">application/vnd.visio</td>
-<td style="text-align:left">.vsx</td>
-<td style="text-align:left">application/vnd.visio</td>
-</tr>
-<tr>
-<td style="text-align:left">.vtx</td>
-<td style="text-align:left">application/vnd.visio</td>
-<td style="text-align:left">.vxml</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.wav</td>
-<td style="text-align:left">audio/wav</td>
-<td style="text-align:left">.wax</td>
-<td style="text-align:left">audio/x-ms-wax</td>
-</tr>
-<tr>
-<td style="text-align:left">.wb1</td>
-<td style="text-align:left">application/x-wb1</td>
-<td style="text-align:left">.wb2</td>
-<td style="text-align:left">application/x-wb2</td>
-</tr>
-<tr>
-<td style="text-align:left">.wb3</td>
-<td style="text-align:left">application/x-wb3</td>
-<td style="text-align:left">.wbmp</td>
-<td style="text-align:left">image/vnd.wap.wbmp</td>
-</tr>
-<tr>
-<td style="text-align:left">.wiz</td>
-<td style="text-align:left">application/msword</td>
-<td style="text-align:left">.wk3</td>
-<td style="text-align:left">application/x-wk3</td>
-</tr>
-<tr>
-<td style="text-align:left">.wk4</td>
-<td style="text-align:left">application/x-wk4</td>
-<td style="text-align:left">.wkq</td>
-<td style="text-align:left">application/x-wkq</td>
-</tr>
-<tr>
-<td style="text-align:left">.wks</td>
-<td style="text-align:left">application/x-wks</td>
-<td style="text-align:left">.wm</td>
-<td style="text-align:left">video/x-ms-wm</td>
-</tr>
-<tr>
-<td style="text-align:left">.wma</td>
-<td style="text-align:left">audio/x-ms-wma</td>
-<td style="text-align:left">.wmd</td>
-<td style="text-align:left">application/x-ms-wmd</td>
-</tr>
-<tr>
-<td style="text-align:left">.wmf</td>
-<td style="text-align:left">application/x-wmf</td>
-<td style="text-align:left">.wml</td>
-<td style="text-align:left">text/vnd.wap.wml</td>
-</tr>
-<tr>
-<td style="text-align:left">.wmv</td>
-<td style="text-align:left">video/x-ms-wmv</td>
-<td style="text-align:left">.wmx</td>
-<td style="text-align:left">video/x-ms-wmx</td>
-</tr>
-<tr>
-<td style="text-align:left">.wmz</td>
-<td style="text-align:left">application/x-ms-wmz</td>
-<td style="text-align:left">.wp6</td>
-<td style="text-align:left">application/x-wp6</td>
-</tr>
-<tr>
-<td style="text-align:left">.wpd</td>
-<td style="text-align:left">application/x-wpd</td>
-<td style="text-align:left">.wpg</td>
-<td style="text-align:left">application/x-wpg</td>
-</tr>
-<tr>
-<td style="text-align:left">.wpl</td>
-<td style="text-align:left">application/vnd.ms-wpl</td>
-<td style="text-align:left">.wq1</td>
-<td style="text-align:left">application/x-wq1</td>
-</tr>
-<tr>
-<td style="text-align:left">.wr1</td>
-<td style="text-align:left">application/x-wr1</td>
-<td style="text-align:left">.wri</td>
-<td style="text-align:left">application/x-wri</td>
-</tr>
-<tr>
-<td style="text-align:left">.wrk</td>
-<td style="text-align:left">application/x-wrk</td>
-<td style="text-align:left">.ws</td>
-<td style="text-align:left">application/x-ws</td>
-</tr>
-<tr>
-<td style="text-align:left">.ws2</td>
-<td style="text-align:left">application/x-ws</td>
-<td style="text-align:left">.wsc</td>
-<td style="text-align:left">text/scriptlet</td>
-</tr>
-<tr>
-<td style="text-align:left">.wsdl</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.wvx</td>
-<td style="text-align:left">video/x-ms-wvx</td>
-</tr>
-<tr>
-<td style="text-align:left">.xdp</td>
-<td style="text-align:left">application/vnd.adobe.xdp</td>
-<td style="text-align:left">.xdr</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.xfd</td>
-<td style="text-align:left">application/vnd.adobe.xfd</td>
-<td style="text-align:left">.xfdf</td>
-<td style="text-align:left">application/vnd.adobe.xfdf</td>
-</tr>
-<tr>
-<td style="text-align:left">.xhtml</td>
-<td style="text-align:left">text/html</td>
-<td style="text-align:left">.xls</td>
-<td style="text-align:left">application/vnd.ms-excel</td>
-</tr>
-<tr>
-<td style="text-align:left">.xls</td>
-<td style="text-align:left">application/x-xls</td>
-<td style="text-align:left">.xlw</td>
-<td style="text-align:left">application/x-xlw</td>
-</tr>
-<tr>
-<td style="text-align:left">.xml</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.xpl</td>
-<td style="text-align:left">audio/scpls</td>
-</tr>
-<tr>
-<td style="text-align:left">.xq</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.xql</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.xquery</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.xsd</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.xsl</td>
-<td style="text-align:left">text/xml</td>
-<td style="text-align:left">.xslt</td>
-<td style="text-align:left">text/xml</td>
-</tr>
-<tr>
-<td style="text-align:left">.xwd</td>
-<td style="text-align:left">application/x-xwd</td>
-<td style="text-align:left">.x_b</td>
-<td style="text-align:left">application/x-x_b</td>
-</tr>
-<tr>
-<td style="text-align:left">.sis</td>
-<td style="text-align:left">application/vnd.symbian.install</td>
-<td style="text-align:left">.sisx</td>
-<td style="text-align:left">application/vnd.symbian.install</td>
-</tr>
-<tr>
-<td style="text-align:left">.x_t</td>
-<td style="text-align:left">application/x-x_t</td>
-<td style="text-align:left">.ipa</td>
-<td style="text-align:left">application/vnd.iphone</td>
-</tr>
-<tr>
-<td style="text-align:left">.apk</td>
-<td style="text-align:left">application/vnd.android.package-archive</td>
-<td style="text-align:left">.xap</td>
-<td style="text-align:left">application/x-silverlight-app</td>
-</tr>
-</tbody>
-</table>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-其他首部字段]]></title>
-        <id>https://leecss.com/post/http-qi-ta-shou-bu-zi-duan/</id>
-        <link href="https://leecss.com/post/http-qi-ta-shou-bu-zi-duan/">
-        </link>
-        <updated>2021-07-22T00:13:10.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>HTTP 首部字段是可以自行扩展的。所以在 Web 服务器和浏览器的应用上，会出现各种非标准的首部字段。</p>
-<h2 id="常用的首部字段">常用的首部字段</h2>
-<h3 id="x-frame-options">X-Frame-Options</h3>
-<p>首部字段 X-Frame-Options 属于 HTTP 响应首部，用于控制网站内容在其他 Web 网站的 Frame 标签内的显示问题。其主要目的是为了防止点击劫持（clickjacking）攻击。</p>
-<p>取值：</p>
-<ul>
-<li><strong>DENY</strong>：表示该页面不允许在 frame 中展示，即便是在相同域名的页面中嵌套也不允许。</li>
-<li><strong>SAMEORIGIN</strong>：表示该页面可以在相同域名页面的 frame 中展示。</li>
-<li><strong>ALLOW-FROM uri</strong>：表示该页面可以在指定来源的 frame 中展示。</li>
-</ul>
-<pre><code class="language-http">X-Frame-Options: DENY
-X-Frame-Options: SAMEORIGIN
-X-Frame-Options: ALLOW-FROM http://hackr.jp
-</code></pre>
-<h3 id="x-xss-protection">X-XSS-Protection</h3>
-<p>首部字段 X-XSS-Protection 属于 HTTP 响应首部，它是针对跨站脚本攻击（XSS）的一种对策，用于控制浏览器 XSS 防护机制的开关。</p>
-<p>当检测到跨站脚本攻击 (XSS)时，浏览器将停止加载页面。针对现代浏览器，会选择更强大的Content-Security-Policy。</p>
-<pre><code>X-XSS-Protection: 0  //禁止XSS过滤。
-X-XSS-Protection: 1  //启用XSS过滤（通常浏览器是默认的）。如果检测到跨站脚本攻击，浏览器将清除页面（删除不安全的部分）。
-X-XSS-Protection: 1; mode=block //启用XSS过滤。 如果检测到攻击，浏览器将不会清除页面，而是阻止页面加载。
-X-XSS-Protection: 1; report=&lt;reporting-uri&gt; //启用XSS过滤。 如果检测到跨站脚本攻击，浏览器将清除页面并使用CSP report-uri指令的功能发送违规报告。
-</code></pre>
-<h3 id="dnt">DNT</h3>
-<p>首部字段 DNT 属于 HTTP 请求首部，其中 DNT 是 Do Not Track 的简称，意为拒绝个人信息被收集，是表示拒绝被精准广告追踪的一种方法。</p>
-<pre><code class="language-http">DNT:0 //同意被追踪
-DNT:1 //拒绝被追踪
-</code></pre>
-<p>由于首部字段 DNT 的功能具备有效性，所以 Web 服务器需要对 DNT做对应的支持。</p>
 ]]></content>
     </entry>
 </feed>

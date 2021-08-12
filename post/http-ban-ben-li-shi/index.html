@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>http-版本历史 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1628468133639">
+<link rel="shortcut icon" href="/favicon.ico?v=1628809484317">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">80</span>
+        <span class="site-item-stat-count">84</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1157,6 +1157,190 @@
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-tu-jie-https/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;本周，&lt;a href=&#34;https://www.cloudflare.com/&#34;&gt;CloudFlare&lt;/a&gt;宣布，开始提供Keyless服务，即你把网站放到它们的CDN上，不用提供自己的私钥，也能使用SSL加密链接。&lt;/p&gt;
+&lt;p&gt;我看了CloudFlare的说明（&lt;a href=&#34;https://blog.cloudflare.com/announcing-keyless-ssl-all-the-benefits-of-cloudflare-without-having-to-turn-over-your-private-ssl-keys/&#34;&gt;这里&lt;/a&gt;和&lt;a href=&#34;https://blog.cloudflare.com/keyless-ssl-the-nitty-gritty-technical-details/&#34;&gt;这里&lt;/a&gt;），突然意识到这是绝好的例子，可以用来说明SSL/TLS协议的运行机制。它配有插图，很容易看懂。&lt;/p&gt;
+&lt;p&gt;下面，我就用这些图片作为例子，配合我半年前写的&lt;a href=&#34;https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html&#34;&gt;《SSL/TLS协议运行机制的概述》&lt;/a&gt;，来解释SSL协议。&lt;/p&gt;
+&lt;h2 id=&#34;一-ssl协议的握手过程&#34;&gt;一、SSL协议的握手过程&lt;/h2&gt;
+&lt;p&gt;开始加密通信之前，客户端和服务器首先必须建立连接和交换参数，这个过程叫做握手（handshake）。&lt;/p&gt;
+&lt;p&gt;假定客户端叫做爱丽丝，服务器叫做鲍勃，整个握手过程可以用下图说明（点击看大图）。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628722928788.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;握手阶段分成五步。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;第一步，爱丽丝给出协议版本号、一个客户端生成的随机数（Client random），以及客户端支持的加密方法。&lt;/p&gt;
+&lt;p&gt;第二步，鲍勃确认双方使用的加密方法，并给出数字证书、以及一个服务器生成的随机数（Server random）。&lt;/p&gt;
+&lt;p&gt;第三步，爱丽丝确认数字证书有效，然后生成一个新的随机数（Premaster secret），并使用数字证书中的公钥，加密这个随机数，发给鲍勃。&lt;/p&gt;
+&lt;p&gt;第四步，鲍勃使用自己的私钥，获取爱丽丝发来的随机数（即Premaster secret）。&lt;/p&gt;
+&lt;p&gt;第五步，爱丽丝和鲍勃根据约定的加密方法，使用前面的三个随机数，生成&amp;quot;对话密钥&amp;quot;（session key），用来加密接下来的整个对话过程。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面的五步，画成一张图，就是下面这样。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628722965974.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;二-私钥的作用&#34;&gt;二、私钥的作用&lt;/h2&gt;
+&lt;p&gt;握手阶段有三点需要注意。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（1）生成对话密钥一共需要三个随机数。&lt;/p&gt;
+&lt;p&gt;（2）握手之后的对话使用&amp;quot;对话密钥&amp;quot;加密（对称加密），服务器的公钥和私钥只用于加密和解密&amp;quot;对话密钥&amp;quot;（非对称加密），无其他作用。&lt;/p&gt;
+&lt;p&gt;（3）服务器公钥放在服务器的数字证书之中。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;从上面第二点可知，整个对话过程中（握手阶段和其后的对话），服务器的公钥和私钥只需要用到一次。这就是CloudFlare能够提供Keyless服务的根本原因。&lt;/p&gt;
+&lt;p&gt;某些客户（比如银行）想要使用外部CDN，加快自家网站的访问速度，但是出于安全考虑，不能把私钥交给CDN服务商。这时，完全可以把私钥留在自家服务器，只用来解密对话密钥，其他步骤都让CDN服务商去完成。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628722990019.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;上图中，银行的服务器只参与第四步，后面的对话都不再会用到私钥了。&lt;/p&gt;
+&lt;h2 id=&#34;三-dh算法的握手阶段&#34;&gt;三、DH算法的握手阶段&lt;/h2&gt;
+&lt;p&gt;整个握手阶段都不加密（也没法加密），都是明文的。因此，如果有人窃听通信，他可以知道双方选择的加密方法，以及三个随机数中的两个。整个通话的安全，只取决于第三个随机数（Premaster secret）能不能被破解。&lt;/p&gt;
+&lt;p&gt;虽然理论上，只要服务器的公钥足够长（比如2048位），那么Premaster secret可以保证不被破解。但是为了足够安全，我们可以考虑把握手阶段的算法从默认的&lt;a href=&#34;https://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html&#34;&gt;RSA算法&lt;/a&gt;，改为 &lt;a href=&#34;https://zh.wikipedia.org/wiki/%E8%BF%AA%E8%8F%B2%EF%BC%8D%E8%B5%AB%E5%B0%94%E6%9B%BC%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2&#34;&gt;Diffie-Hellman算法&lt;/a&gt;（简称DH算法）。&lt;/p&gt;
+&lt;p&gt;采用DH算法后，Premaster secret不需要传递，双方只要交换各自的参数，就可以算出这个随机数。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628723043151.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;上图中，第三步和第四步由传递Premaster secret变成了传递DH算法所需的参数，然后双方各自算出Premaster secret。这样就提高了安全性。&lt;/p&gt;
+&lt;h2 id=&#34;四-session的恢复&#34;&gt;四、session的恢复&lt;/h2&gt;
+&lt;p&gt;握手阶段用来建立SSL连接。如果出于某种原因，对话中断，就需要重新握手。&lt;/p&gt;
+&lt;p&gt;这时有两种方法可以恢复原来的session：一种叫做session ID，另一种叫做session ticket。&lt;/p&gt;
+&lt;p&gt;session ID的思想很简单，就是每一次对话都有一个编号（session ID）。如果对话中断，下次重连的时候，只要客户端给出这个编号，且服务器有这个编号的记录，双方就可以重新使用已有的&amp;quot;对话密钥&amp;quot;，而不必重新生成一把。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628723092336.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;上图中，客户端给出session ID，服务器确认该编号存在，双方就不再进行握手阶段剩余的步骤，而直接用已有的对话密钥进行加密通信。&lt;/p&gt;
+&lt;p&gt;session ID是目前所有浏览器都支持的方法，但是它的缺点在于session ID往往只保留在一台服务器上。所以，如果客户端的请求发到另一台服务器，就无法恢复对话。session ticket就是为了解决这个问题而诞生的，目前只有Firefox和Chrome浏览器支持。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;6&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628723132146.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;上图中，客户端不再发送session ID，而是发送一个服务器在上一次对话中发送过来的session ticket。这个session ticket是加密的，只有服务器才能解密，其中包括本次对话的主要信息，比如对话密钥和加密方法。当服务器收到session ticket以后，解密后就不必重新生成对话密钥了。&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;阮一峰&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html&#34;&gt;https://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+">http-图解https</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/nginx-dai-li-huan-cun/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;nginx代理缓存是代理服务器缓存，当有用户A第一次访问后，下一次别的用户访问(或用户A第二次用别的浏览器访问)，就会使用缓存，提升访问速度。&lt;/p&gt;
+&lt;h2 id=&#34;配置&#34;&gt;配置&lt;/h2&gt;
+&lt;p&gt;test.conf&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-nginx&#34;&gt;proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
+
+server {
+   listen       80;
+   server_name  test.com;
+
+   location / {
+       proxy_cache my_cache;
+       proxy_pass   http://127.0.0.1:8888;
+       proxy_set_header Host $host;
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;第一个参数指定缓存保存的本地路径&lt;/p&gt;
+&lt;p&gt;levels参数负责设置缓存目录级别&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当levels=1:2时，表示是两级目录，1和2表示用1位和2位16进制来命名目录名称。&lt;/p&gt;
+&lt;p&gt;在此例中，第一级目录用1位16进制命名，如b；第二级目录用2位16进制命名，如2b。所以此例中一级目录有16个，二级目录有16*16=256个：&lt;code&gt;/cache/b/2b/d7b6e5978e3f042f52e875005925e51b&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;总目录数为16*256=4096个。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;keys_zone参数用来为这个缓存区起名&lt;br&gt;
+10m 指内存缓存空间大小为10MB&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;code&gt;proxy_cache my_cache;&lt;/code&gt;使用定义的缓存区&lt;/p&gt;
+&lt;h2 id=&#34;服务&#34;&gt;服务&lt;/h2&gt;
+&lt;p&gt;nginx-cache/test.html&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;head&amp;gt;
+  &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt;
+  &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt;
+  &amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;ie=edge&amp;quot;&amp;gt;
+  &amp;lt;title&amp;gt;Document&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+  &amp;lt;div&amp;gt;This is content, and data is: &amp;lt;span id=&amp;quot;data&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;
+  &amp;lt;button id=&amp;quot;button&amp;quot;&amp;gt;click me&amp;lt;/button&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;script&amp;gt;
+  var index = 0
+  function doRequest () {
+    var data = document.getElementById(&#39;data&#39;)
+    data.innerText = &#39;&#39;
+    fetch(&#39;/data&#39;, {
+      headers: {
+        &#39;X-Test-Cache&#39;: index++
+      }
+    }).then(function (resp) {
+      return resp.text()
+    }).then(function (text) {
+      data.innerText = text
+    })
+  }
+  document.getElementById(&#39;button&#39;).addEventListener(&#39;click&#39;, doRequest)
+&amp;lt;/script&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;nginx-cache/server.js&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const http = require(&#39;http&#39;)
+const fs = require(&#39;fs&#39;)
+
+const wait = (seconds) =&amp;gt; {
+  return new Promise((resolve) =&amp;gt; {
+    setTimeout(resolve, seconds * 1000)
+  })
+}
+http.createServer(function (request, response) {
+  console.log(&#39;request come&#39;, request.url)
+
+  if (request.url === &#39;/&#39;) {
+    const html = fs.readFileSync(&#39;test.html&#39;, &#39;utf8&#39;)
+    response.writeHead(200, {
+      &#39;Content-Type&#39;: &#39;text/html&#39;
+    })
+    response.end(html)
+  }
+
+  if (request.url === &#39;/data&#39;) {
+    response.writeHead(200, {
+      &#39;Cache-Control&#39;: &#39;max-age=2, s-maxage=20, private&#39;,
+      &#39;Vary&#39;: &#39;X-Test-Cache&#39;
+    })
+    wait(2).then(() =&amp;gt; response.end(&#39;success&#39;))
+  }
+}).listen(8888)
+
+console.log(&#39;server listening on 8888&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;max-age: 客户端缓存时长&lt;/p&gt;
+&lt;p&gt;s-maxage：代理服务器缓存时长&lt;/p&gt;
+&lt;p&gt;private：仅客户端可缓存&lt;/p&gt;
+&lt;p&gt;Vary：仅当设置的属性值一致时使用缓存&lt;/p&gt;
+&lt;p&gt;注意：修改代码看效果时，需要重启node服务&lt;/p&gt;
+">nginx-代理缓存</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/chrome-she-zhi/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;chrome功能设置及操作&lt;/p&gt;
+&lt;h2 id=&#34;启动时&#34;&gt;启动时&lt;/h2&gt;
+&lt;h3 id=&#34;同时打开多网页&#34;&gt;同时打开多网页&lt;/h3&gt;
+&lt;p&gt;打开特定网页或一组网页&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;https://leecss.com/
+https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/
+https://fanyi.baidu.com/
+&lt;/code&gt;&lt;/pre&gt;
+">chrome-设置</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-bao-cuo/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;记录git操作的报错信息&lt;/p&gt;
+&lt;h2 id=&#34;列表&#34;&gt;列表&lt;/h2&gt;
+&lt;p&gt;1、在子目录中执行git命令，需切换到根目录&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;You need to run this command from the toplevel of the working tree.&lt;/p&gt;
+&lt;p&gt;您需要从工作树的顶层运行此命令。&lt;/p&gt;
+&lt;/blockquote&gt;
+">git-报错</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/nginx-an-zhuang-he-ji-chu-dai-li-pei-zhi/"" data-c="
           &lt;h2 id=&#34;安装和启动&#34;&gt;安装和启动&lt;/h2&gt;
 &lt;h3 id=&#34;安装&#34;&gt;安装&lt;/h3&gt;
@@ -1262,7 +1446,8 @@ http.createServer(function (request, response) {
 
 console.log(&#39;server listening on 8888&#39;)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;目前发现没有起作用，以后查一下原因&lt;/p&gt;
+&lt;p&gt;添加完配置之后，可以看到，获取的&lt;code&gt;request.headers.host&lt;/code&gt;由实际的&lt;code&gt;127.0.0.1:8888&lt;/code&gt;变成了&lt;code&gt;test.com&lt;/code&gt;&lt;br&gt;
+修改完之后，需要从任务管理器中杀死nginx进程，然后再重启nginx&lt;/p&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.cnblogs.com/thewindkee/p/12873181.html&#34;&gt;如何禁止chrome浏览器http自动转成https&lt;/a&gt;&lt;/p&gt;
 ">nginx-安装和基础代理配置</a>
@@ -1278,66 +1463,108 @@ console.log(&#39;server listening on 8888&#39;)
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-https-xie-yi/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
-&lt;h3 id=&#34;为什么会有https&#34;&gt;为什么会有https?&lt;/h3&gt;
-&lt;p&gt;一个简单的回答可能会是 &lt;code&gt;HTTP&lt;/code&gt; 它不安全。由于 HTTP 天生明文传输的特性，在 HTTP 的传输过程中，任何人都有可能从中截获、修改或者伪造请求发送，所以可以认为 HTTP 是不安全的；在 HTTP 的传输过程中不会验证通信方的身份，因此 HTTP 信息交换的双方可能会遭到伪装，也就是&lt;code&gt;没有用户验证&lt;/code&gt;；在 HTTP 的传输过程中，接收方和发送方并&lt;code&gt;不会验证报文的完整性&lt;/code&gt;，综上，为了结局上述问题，HTTPS 应用而生。&lt;/p&gt;
-&lt;h3 id=&#34;什么是-https&#34;&gt;什么是 HTTPS&lt;/h3&gt;
-&lt;p&gt;你还记得 HTTP 是怎么定义的吗？HTTP 是一种 &lt;code&gt;超文本传输协议(Hypertext Transfer Protocol)&lt;/code&gt; 协议，它 是一个在计算机世界里专门在两点之间传输文字、图片、音频、视频等超文本数据的约定和规范，那么我们看一下 HTTPS 是如何定义的&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;HTTPS&lt;/code&gt; 的全称是 &lt;code&gt;Hypertext Transfer Protocol Secure&lt;/code&gt;，它用来在计算机网络上的两个端系统之间进行&lt;code&gt;安全的交换信息(secure communication)&lt;/code&gt;，它相当于在 HTTP 的基础上加了一个 &lt;code&gt;Secure 安全&lt;/code&gt;的词眼，那么我们可以给出一个 HTTPS 的定义：HTTPS 是一个在计算机世界里专门在两点之间安全的传输文字、图片、音频、视频等超文本数据的约定和规范。 HTTPS 是 HTTP 协议的一种扩展，它本身并不保传输的证安全性，那么谁来保证安全性呢？在 HTTPS 中，使用&lt;code&gt;传输层安全性(TLS)&lt;/code&gt;或&lt;code&gt;安全套接字层(SSL)&lt;/code&gt;对通信协议进行加密。也就是&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;HTTP + SSL(TLS) = HTTPS&lt;/strong&gt;&lt;/p&gt;
-&lt;h3 id=&#34;https-做了什么&#34;&gt;HTTPS 做了什么&lt;/h3&gt;
-&lt;p&gt;HTTPS 协议提供了三个关键的指标&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;加密(Encryption)&lt;/code&gt;， HTTPS 通过对数据加密来使其免受窃听者对数据的监听，这就意味着当用户在浏览网站时，没有人能够监听他和网站之间的信息交换，或者跟踪用户的活动，访问记录等，从而窃取用户信息。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;数据一致性(Data integrity)&lt;/code&gt;，数据在传输的过程中不会被窃听者所修改，用户发送的数据会&lt;code&gt;完整&lt;/code&gt;的传输到服务端，保证用户发的是什么，服务器接收的就是什么。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;身份认证(Authentication)&lt;/code&gt;，是指确认对方的真实身份，也就是&lt;code&gt;证明你是你&lt;/code&gt;（可以比作人脸识别），它可以防止中间人攻击并建立用户信任。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;HTTPS 协议其实非常简单，RFC 文档很小，只有短短的 7 页，里面规定了新的协议名，默认&lt;code&gt;端口号443&lt;/code&gt;，至于其他的&lt;strong&gt;应答模式、报文结构、请求方法、URI、头字段、连接管理&lt;/strong&gt;等等都完全沿用 HTTP，没有任何新的东西。&lt;/p&gt;
-&lt;p&gt;也就是说，除了协议名称和默认端口号外（HTTP 默认端口 80），HTTPS 协议在语法、语义上和 HTTP 一样，HTTP 有的，HTTPS 也照单全收。那么，HTTPS 如何做到 HTTP 所不能做到的&lt;code&gt;安全性呢&lt;/code&gt;？关键在于这个 &lt;code&gt;S&lt;/code&gt; 也就是 &lt;code&gt;SSL/TLS&lt;/code&gt; 。&lt;/p&gt;
-&lt;h2 id=&#34;ssl&#34;&gt;ssl&lt;/h2&gt;
-&lt;h3 id=&#34;认识-ssltls&#34;&gt;认识 SSL/TLS&lt;/h3&gt;
-&lt;p&gt;&lt;code&gt;TLS(Transport Layer Security)&lt;/code&gt; 是 &lt;code&gt;SSL(Secure Socket Layer)&lt;/code&gt; 的后续版本，它们是用于在互联网两台计算机之间用于&lt;code&gt;身份验证&lt;/code&gt;和&lt;code&gt;加密&lt;/code&gt;的一种协议。&lt;/p&gt;
+&lt;p&gt;互联网的通信安全，建立在SSL/TLS协议之上。&lt;/p&gt;
+&lt;p&gt;本文简要介绍SSL/TLS协议的运行机制。文章的重点是设计思想和运行过程，不涉及具体的实现细节。如果想了解这方面的内容，请参阅&lt;a href=&#34;https://tools.ietf.org/html/rfc5246&#34;&gt;RFC文档&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;一-作用&#34;&gt;一、作用&lt;/h2&gt;
+&lt;p&gt;不使用SSL/TLS的HTTP通信，就是不加密的通信。所有信息明文传播，带来了三大风险。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;注意：在互联网中，很多名称都可以进行互换。&lt;/p&gt;
+&lt;p&gt;（1） &lt;strong&gt;窃听风险&lt;/strong&gt;（eavesdropping）：第三方可以获知通信内容。&lt;/p&gt;
+&lt;p&gt;（2） &lt;strong&gt;篡改风险&lt;/strong&gt;（tampering）：第三方可以修改通信内容。&lt;/p&gt;
+&lt;p&gt;（3） &lt;strong&gt;冒充风险&lt;/strong&gt;（pretending）：第三方可以冒充他人身份参与通信。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;我们都知道一些在线业务（比如在线支付）最重要的一个步骤是创建一个值得信赖的交易环境，能够让客户安心的进行交易，SSL/TLS 就保证了这一点，SSL/TLS 通过将称为 &lt;code&gt;X.509&lt;/code&gt; 证书的数字文档将网站和公司的实体信息绑定到&lt;code&gt;加密密钥&lt;/code&gt;来进行工作。每一个&lt;code&gt;密钥对(key pairs)&lt;/code&gt; 都有一个 &lt;code&gt;私有密钥(private key)&lt;/code&gt; 和 &lt;code&gt;公有密钥(public key)&lt;/code&gt;，私有密钥是独有的，一般位于服务器上，用于解密由公共密钥加密过的信息；公有密钥是公有的，与服务器进行交互的每个人都可以持有公有密钥，用公钥加密的信息只能由私有密钥来解密。&lt;/p&gt;
+&lt;p&gt;SSL/TLS协议是为了解决这三大风险而设计的，希望达到：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;什么是 &lt;code&gt;X.509&lt;/code&gt;：X.509 是&lt;code&gt;公开密钥&lt;/code&gt;证书的标准格式，这个文档将加密密钥与（个人或组织）进行安全的关联。&lt;/p&gt;
-&lt;p&gt;X.509 主要应用如下&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;SSL/TLS 和 HTTPS 用于经过身份验证和加密的 Web 浏览&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;通过 &lt;a href=&#34;https://www.ssl.com/article/sending-secure-email-with-s-mime/&#34;&gt;S/MIME&lt;/a&gt; 协议签名和加密的电子邮件&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;代码签名：它指的是使用数字证书对软件应用程序进行签名以安全分发和安装的过程。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;通过使用由知名公共证书颁发机构（例如SSL.com）颁发的证书对软件进行数字签名，开发人员可以向最终用户保证他们希望安装的软件是由已知且受信任的开发人员发布；并且签名后未被篡改或损害。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;还可用于文档签名&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;还可用于客户端认证&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;政府签发的电子身份证&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;（1） 所有信息都是&lt;strong&gt;加密传播&lt;/strong&gt;，第三方无法窃听。&lt;/p&gt;
+&lt;p&gt;（2） 具有&lt;strong&gt;校验机制&lt;/strong&gt;，一旦被篡改，通信双方会立刻发现。&lt;/p&gt;
+&lt;p&gt;（3） 配备&lt;strong&gt;身份证书&lt;/strong&gt;，防止身份被冒充。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&#34;https-的内核是-http&#34;&gt;HTTPS 的内核是 HTTP&lt;/h3&gt;
-&lt;p&gt;HTTPS 并不是一项新的应用层协议，只是 HTTP 通信接口部分由 SSL 和 TLS 替代而已。通常情况下，HTTP 会先直接和 TCP 进行通信。在使用 SSL 的 HTTPS 后，则会先演变为和 SSL 进行通信，然后再由 SSL 和 TCP 进行通信。也就是说，&lt;strong&gt;HTTPS 就是身披了一层 SSL 的 HTTP&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;SSL 是一个独立的协议，不只有 HTTP 可以使用，其他应用层协议也可以使用，比如 &lt;code&gt;SMTP(电子邮件协议)&lt;/code&gt;、&lt;code&gt;Telnet(远程登录协议)&lt;/code&gt; 等都可以使用。&lt;/p&gt;
+&lt;p&gt;互联网是开放环境，通信双方都是未知身份，这为协议的设计带来了很大的难度。而且，协议还必须能够经受所有匪夷所思的攻击，这使得SSL/TLS协议变得异常复杂。&lt;/p&gt;
+&lt;h2 id=&#34;二-历史&#34;&gt;二、历史&lt;/h2&gt;
+&lt;p&gt;互联网加密通信协议的历史，几乎与互联网一样长。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是未发布。&lt;/p&gt;
+&lt;p&gt;1995年，NetScape公司发布SSL 2.0版，很快发现有严重漏洞。&lt;/p&gt;
+&lt;p&gt;1996年，SSL 3.0版问世，得到大规模应用。&lt;/p&gt;
+&lt;p&gt;1999年，互联网标准化组织ISOC接替NetScape公司，发布了SSL的升级版&lt;a href=&#34;https://en.wikipedia.org/wiki/Secure_Sockets_Layer&#34;&gt;TLS&lt;/a&gt; 1.0版。&lt;/p&gt;
+&lt;p&gt;2006年和2008年，TLS进行了两次升级，分别为TLS 1.1版和TLS 1.2版。最新的变动是2011年TLS 1.2的&lt;a href=&#34;https://tools.ietf.org/html/rfc6176&#34;&gt;修订版&lt;/a&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;目前，应用最广泛的是TLS 1.0，接下来是SSL 3.0。但是，主流浏览器都已经实现了TLS 1.2的支持。&lt;/p&gt;
+&lt;p&gt;TLS 1.0通常被标示为SSL 3.1，TLS 1.1为SSL 3.2，TLS 1.2为SSL 3.3。&lt;/p&gt;
+&lt;h2 id=&#34;三-基本的运行过程&#34;&gt;三、基本的运行过程&lt;/h2&gt;
+&lt;p&gt;SSL/TLS协议的基本思路是采用&lt;a href=&#34;https://en.wikipedia.org/wiki/Public-key_cryptography&#34;&gt;公钥加密法&lt;/a&gt;，也就是说，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。&lt;/p&gt;
+&lt;p&gt;但是，这里有两个问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;（1）如何保证公钥不被篡改？&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;解决方法：将公钥放在&lt;a href=&#34;https://en.wikipedia.org/wiki/Digital_certificate&#34;&gt;数字证书&lt;/a&gt;中。只要证书是可信的，公钥就是可信的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;（2）公钥加密计算量太大，如何减少耗用的时间？&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;解决方法：每一次对话（session），客户端和服务器端都生成一个&amp;quot;对话密钥&amp;quot;（session key），用它来加密信息。由于&amp;quot;对话密钥&amp;quot;是对称加密，所以运算速度非常快，而服务器公钥只用于加密&amp;quot;对话密钥&amp;quot;本身，这样就减少了加密运算的消耗时间。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因此，SSL/TLS协议的基本过程是这样的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（1） 客户端向服务器端索要并验证公钥。&lt;/p&gt;
+&lt;p&gt;（2） 双方协商生成&amp;quot;对话密钥&amp;quot;。&lt;/p&gt;
+&lt;p&gt;（3） 双方采用&amp;quot;对话密钥&amp;quot;进行加密通信。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面过程的前两步，又称为&amp;quot;握手阶段&amp;quot;（handshake）。&lt;/p&gt;
+&lt;h2 id=&#34;四-握手阶段的详细过程&#34;&gt;四、握手阶段的详细过程&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628721665340.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&amp;quot;握手阶段&amp;quot;涉及四次通信，我们一个个来看。需要注意的是，&amp;quot;握手阶段&amp;quot;的所有通信都是明文的。&lt;/p&gt;
+&lt;h3 id=&#34;41-客户端发出请求clienthello&#34;&gt;4.1 客户端发出请求（ClientHello）&lt;/h3&gt;
+&lt;p&gt;首先，客户端（通常是浏览器）先向服务器发出加密通信的请求，这被叫做ClientHello请求。&lt;/p&gt;
+&lt;p&gt;在这一步，客户端主要向服务器提供以下信息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（1） 支持的协议版本，比如TLS 1.0版。&lt;/p&gt;
+&lt;p&gt;（2） 一个客户端生成的随机数，稍后用于生成&amp;quot;对话密钥&amp;quot;。&lt;/p&gt;
+&lt;p&gt;（3） 支持的加密方法，比如RSA公钥加密。&lt;/p&gt;
+&lt;p&gt;（4） 支持的压缩方法。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这里需要注意的是，客户端发送的信息之中不包括服务器的域名。也就是说，理论上服务器只能包含一个网站，否则会分不清应该向客户端提供哪一个网站的数字证书。这就是为什么通常一台服务器只能有一张数字证书的原因。&lt;/p&gt;
+&lt;p&gt;对于虚拟主机的用户来说，这当然很不方便。2006年，TLS协议加入了一个&lt;a href=&#34;https://tools.ietf.org/html/rfc4366&#34;&gt;Server Name Indication扩展&lt;/a&gt;，允许客户端向服务器提供它所请求的域名。&lt;/p&gt;
+&lt;h3 id=&#34;42-服务器回应severhello&#34;&gt;4.2 服务器回应（SeverHello）&lt;/h3&gt;
+&lt;p&gt;服务器收到客户端请求后，向客户端发出回应，这叫做SeverHello。服务器的回应包含以下内容。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（1） 确认使用的加密通信协议版本，比如TLS 1.0版本。如果浏览器与服务器支持的版本不一致，服务器关闭加密通信。&lt;/p&gt;
+&lt;p&gt;（2） 一个服务器生成的随机数，稍后用于生成&amp;quot;对话密钥&amp;quot;。&lt;/p&gt;
+&lt;p&gt;（3） 确认使用的加密方法，比如RSA公钥加密。&lt;/p&gt;
+&lt;p&gt;（4） 服务器证书。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;除了上面这些信息，如果服务器需要确认客户端的身份，就会再包含一项请求，要求客户端提供&amp;quot;客户端证书&amp;quot;。比如，金融机构往往只允许认证客户连入自己的网络，就会向正式客户提供USB密钥，里面就包含了一张客户端证书。&lt;/p&gt;
+&lt;h3 id=&#34;43-客户端回应&#34;&gt;4.3 客户端回应&lt;/h3&gt;
+&lt;p&gt;客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。&lt;/p&gt;
+&lt;p&gt;如果证书没有问题，客户端就会从证书中取出服务器的公钥。然后，向服务器发送下面三项信息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（1） 一个随机数。该随机数用服务器公钥加密，防止被窃听。&lt;/p&gt;
+&lt;p&gt;（2） 编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。&lt;/p&gt;
+&lt;p&gt;（3） 客户端握手结束通知，表示客户端的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供服务器校验。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面第一项的随机数，是整个握手阶段出现的第三个随机数，又称&amp;quot;pre-master key&amp;quot;。有了它以后，客户端和服务器就同时有了三个随机数，接着双方就用事先商定的加密方法，各自生成本次会话所用的同一把&amp;quot;会话密钥&amp;quot;。&lt;/p&gt;
+&lt;p&gt;至于为什么一定要用三个随机数，来生成&amp;quot;会话密钥&amp;quot;，&lt;a href=&#34;http://blog.csdn.net/dog250/article/details/5717162&#34;&gt;dog250&lt;/a&gt;解释得很好：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;quot;不管是客户端还是服务器，都需要随机数，这样生成的密钥才不会每次都一样。由于SSL协议中证书是静态的，因此十分有必要引入一种随机因素来保证协商出来的密钥的随机性。&lt;/p&gt;
+&lt;p&gt;对于RSA密钥交换算法来说，pre-master-key本身就是一个随机数，再加上hello消息中的随机，三个随机数通过一个密钥导出器最终导出一个对称密钥。&lt;/p&gt;
+&lt;p&gt;pre master的存在在于SSL协议不信任每个主机都能产生完全随机的随机数，如果随机数不随机，那么pre master secret就有可能被猜出来，那么仅适用pre master secret作为密钥就不合适了，因此必须引入新的随机因素，那么客户端和服务器加上pre master secret三个随机数一同生成的密钥就不容易被猜出了，一个伪随机可能完全不随机，可是是三个伪随机就十分接近随机了，每增加一个自由度，随机性增加的可不是一。&amp;quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;此外，如果前一步，服务器要求客户端证书，客户端会在这一步发送证书及相关信息。&lt;/p&gt;
+&lt;h3 id=&#34;44-服务器的最后回应&#34;&gt;4.4 服务器的最后回应&lt;/h3&gt;
+&lt;p&gt;服务器收到客户端的第三个随机数pre-master key之后，计算生成本次会话所用的&amp;quot;会话密钥&amp;quot;。然后，向客户端最后发送下面信息。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;（1）编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。&lt;/p&gt;
+&lt;p&gt;（2）服务器握手结束通知，表示服务器的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供客户端校验。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;至此，整个握手阶段全部结束。接下来，客户端与服务器进入加密通信，就完全是使用普通的HTTP协议，只不过用&amp;quot;会话密钥&amp;quot;加密内容。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1628721733951.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
-&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844904089495535624&#34;&gt;看完这篇 HTTPS，和面试官扯皮就没问题了&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;blockquote&gt;
-&lt;p&gt;码农翻身&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA&#34;&gt;一个故事讲完https&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;阮一峰&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html&#34;&gt;https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-">http-https协议</a>
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA&#34;&gt;一个故事讲完https&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844904089495535624&#34;&gt;看完这篇 HTTPS，和面试官扯皮就没问题了&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html&#34;&gt;HTTPS 升级指南&lt;/a&gt;&lt;/p&gt;
+">http-https协议概述</a>
       </div>
       
       <div class="item">
@@ -7309,10 +7536,40 @@ git push
 &lt;p&gt;对比当前提交和上次提交&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff HEAD HEAD~
 &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对比具体文件file.txt&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff file.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对比分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git diff master dev
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;撤销某次提交&#34;&gt;撤销某次提交&lt;/h2&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git revert &amp;lt;commitID&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;当执行完&lt;code&gt;git revert &amp;lt;commitID&amp;gt;&lt;/code&gt;,会出现&lt;code&gt;vim&lt;/code&gt;编辑器页面，按&lt;code&gt;:q&lt;/code&gt;退出编辑，然后提交该commit&lt;/p&gt;
+&lt;h2 id=&#34;打标签&#34;&gt;打标签&lt;/h2&gt;
+&lt;p&gt;新增标签&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git tag v1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;推送标签&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin --tags
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;定位bug&#34;&gt;定位bug&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;# 开始定位
+git bisect start HEAD 4d83cf
+# 功能正常
+git bisect good
+# 功能不正常
+git bisect bad
+# 退出定位
+git bisect reset
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;删除分支&#34;&gt;删除分支&lt;/h2&gt;
+&lt;p&gt;删除本地分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git branch -d [branch-name]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;删除远程分支&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git push origin --delete dev
+&lt;/code&gt;&lt;/pre&gt;
 ">git-实用场景</a>
       </div>
       
@@ -9269,7 +9526,8 @@ git branch -u origin/main foo
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/"" data-c="
-          &lt;h2 id=&#34;git&#34;&gt;git&lt;/h2&gt;
+          &lt;h1 id=&#34;前端教程导航&#34;&gt;前端教程导航&lt;/h1&gt;
+&lt;h2 id=&#34;git&#34;&gt;git&lt;/h2&gt;
 &lt;p&gt;1、&lt;a href=&#34;https://learngitbranching.js.org/?locale=zh_CN&#34;&gt;游戏化教程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2、&lt;a href=&#34;https://www.bookstack.cn/read/git-tutorial/README.md&#34;&gt;阮一峰&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;​      &lt;a href=&#34;http://www.ruanyifeng.com/blog/2014/06/git_remote.html&#34;&gt;阮一峰blog1&lt;/a&gt;&lt;/p&gt;
@@ -9281,10 +9539,11 @@ git branch -u origin/main foo
 &lt;p&gt;7、&lt;a href=&#34;https://www.liaoxuefeng.com/wiki/896043488029600&#34;&gt;廖雪峰&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;8、&lt;a href=&#34;http://www.worldhello.net/gotgit/&#34;&gt;蒋鑫-git权威指南&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;​      &lt;a href=&#34;http://www.worldhello.net/gotgithub/&#34;&gt;蒋鑫-gotgithub&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;9、&lt;a href=&#34;https://www.jianshu.com/nb/49854893&#34;&gt;简书某作者&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;9、&lt;a href=&#34;https://www.jianshu.com/nb/49854893&#34;&gt;简书-繁华似锦Fighting&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;10、&lt;a href=&#34;https://git-scm.com/book/zh/v2&#34;&gt;git文档&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;11、&lt;a href=&#34;https://docs.github.com/en&#34;&gt;github文档&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;http&#34;&gt;HTTP&lt;/h2&gt;
+&lt;p&gt;书籍：图解HTTP、HTTP权威指南&lt;/p&gt;
 &lt;p&gt;1、&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/HTTP&#34;&gt;MDN-HTTP&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2、&lt;a href=&#34;https://juejin.cn/post/6844903844216832007&#34;&gt;图解HTTP整理-前端基础篇之HTTP协议&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;3、&lt;a href=&#34;https://juejin.cn/post/6844903586703343624&#34;&gt;图解HTTP整理-来一场轰轰烈烈的HTTP协议扫盲革命&lt;/a&gt;&lt;/p&gt;
@@ -9292,6 +9551,21 @@ git branch -u origin/main foo
 &lt;p&gt;​      &lt;a href=&#34;https://www.runoob.com/ajax/ajax-tutorial.html&#34;&gt;菜鸟教程-AJAX&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;5、&lt;a href=&#34;https://www.tutorialspoint.com/http/http_header_fields.htm&#34;&gt;http-tutorial&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;​      &lt;a href=&#34;https://www.tutorialspoint.com/ajax/index.htm&#34;&gt;ajax-tutorial&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;nginx&#34;&gt;Nginx&lt;/h2&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://juejin.cn/post/6844903793918738440&#34;&gt;前端开发者必备的Nginx知识&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;javascript&#34;&gt;JavaScript&lt;/h2&gt;
+&lt;p&gt;书籍：JavaScript高级程序设计&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/rwaldron/idiomatic.js&#34;&gt;JavaScript 编码原则-英文版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/rwaldron/idiomatic.js/tree/master/translations/zh_CN&#34;&gt;JavaScript 编码原则-中文版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://airbnb.io/javascript/&#34;&gt;JavaScript 规范指南&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/airbnb/javascript&#34;&gt;JavaScript 规范指南-英文版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/lin-123/javascript&#34;&gt;JavaScript 规范指南-中文版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://zh.javascript.info/&#34;&gt;现代JavaScript教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://wangdoc.com/javascript/&#34;&gt;JavaScript 教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​      &lt;a href=&#34;https://javascript.ruanyifeng.com/&#34;&gt;JavaScript 标准参考教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3、&lt;a href=&#34;https://wangdoc.com/es6/&#34;&gt;ES6 入门教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​	  &lt;a href=&#34;https://es6.ruanyifeng.com/&#34;&gt;ES6 入门教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4、&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/&#34;&gt;JavaScript秘密花园&lt;/a&gt;&lt;/p&gt;
 ">前端教程导航</a>
       </div>
       
