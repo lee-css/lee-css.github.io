@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>http-缓存验证 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1628809484317">
+<link rel="shortcut icon" href="/favicon.ico?v=1630283899761">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,19 +176,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">84</span>
+        <span class="site-item-stat-count">99</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">8</span>
+        <span class="site-item-stat-count">9</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">8</span>
+        <span class="site-item-stat-count">9</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -719,10 +719,544 @@ console.log('server listening on 8888')
   
   
   
+<link rel="stylesheet" href="/media/live2d/css/live2d.css" />
+<div class="box-scale">
+  <div id="landlord" style="left: 5px;bottom: px;"
+    data-key="">
+    <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+    
+
+      <div class="message" style="opacity:0"></div>
+      <div class="live_talk_input_body">
+        <div class="live_talk_input_name_body">
+          <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off"
+            placeholder="你的名字" />
+        </div>
+        <div class="live_talk_input_text_body">
+          <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off"
+            placeholder="要和我聊什么呀？" />
+          <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+        </div>
+      </div>
+      <input name="live_talk" id="live_talk" value="1" type="hidden" />
+      <div class="live_ico_box">
+        <div class="live_ico_item type_info" id="showInfoBtn"></div>
+        <div class="live_ico_item type_talk" id="showTalkBtn"></div>
+        
+        <div class="live_ico_item type_youdu" id="youduButton"></div>
+        <div class="live_ico_item type_quit" id="hideButton"></div>
+        <input name="live_statu_val" id="live_statu_val" value="0" type="hidden" />
+        <audio src="" style="display:none;" id="live2d_bgm" data-bgm="0" preload="none"></audio>
+        <input id="duType" value="douqilai" type="hidden">
+        
+      </div>
+    
+  </div>
+</div>
+<div id="open_live2d">召唤看板娘</div>
+<script>
+  var message_Path = 'https://cdn.jsdelivr.net/gh/hsxyhao/live2d.github.io@master/';
+  let landlord = document.querySelector('#landlord');
+  var apiKey = landlord.dataset.key;
+</script>
+<script type="text/javascript" src="/media/live2d/js/live2d.js"></script>
+<script>
+	var home_Path = document.location.protocol + '//' + window.document.location.hostname + ":" + window.document.location.port + '/';
+	var userAgent = window.navigator.userAgent.toLowerCase();
+	var norunAI = ["android", "iphone", "ipod", "ipad", "windows phone", "mqqbrowser", "msie", "trident/7.0"];
+	var norunFlag = false;
+
+	for (var i = 0; i < norunAI.length; i++) {
+		if (userAgent.indexOf(norunAI[i]) > -1) {
+			norunFlag = true;
+			break;
+		}
+	}
+
+	if (!window.WebGLRenderingContext) {
+		norunFlag = true;
+	}
+
+	if (!norunFlag) {
+		var hitFlag = false;
+		var AIFadeFlag = false;
+		var liveTlakTimer = null;
+		var sleepTimer_ = null;
+		var AITalkFlag = false;
+		var talkNum = 0;
+		(function () {
+			function renderTip(template, context) {
+				var tokenReg = /(\\)?\{([^\{\}\\]+)(\\)?\}/g;
+				return template.replace(tokenReg, function (word, slash1, token, slash2) {
+					if (slash1 || slash2) {
+						return word.replace('\\', '');
+					}
+					var variables = token.replace(/\s/g, '').split('.');
+					var currentObject = context;
+					var i, length, variable;
+					for (i = 0, length = variables.length; i < length; ++i) {
+						variable = variables[i];
+						currentObject = currentObject[variable];
+						if (currentObject === undefined || currentObject === null) return '';
+					}
+					return currentObject;
+				});
+			}
+
+			String.prototype.renderTip = function (context) {
+				return renderTip(this, context);
+			};
+
+			var re = /x/;
+			re.toString = function () {
+				showMessage('哈哈，你打开了控制台，是想要看看我的秘密吗？', 5000);
+				return '';
+			};
+
+			$(document).on('copy', function () {
+				showMessage('你都复制了些什么呀，转载要记得加上出处哦~~', 5000);
+			});
+
+			function initTips() {
+				$.ajax({
+					cache: true,
+					url: message_Path + 'message.json',
+					dataType: "json",
+					success: function (result) {
+						$.each(result.mouseover, function (index, tips) {
+							$(tips.selector).mouseover(function () {
+								var text = tips.text;
+								if (Array.isArray(tips.text)) text = tips.text[Math.floor(Math.random() * tips.text.length + 1) - 1];
+								text = text.renderTip({ text: $(this).text() });
+								showMessage(text, 3000);
+								talkValTimer();
+								clearInterval(liveTlakTimer);
+								liveTlakTimer = null;
+							});
+							$(tips.selector).mouseout(function () {
+								showHitokoto();
+								if (liveTlakTimer == null) {
+									liveTlakTimer = window.setInterval(function () {
+										showHitokoto();
+									}, 15000);
+								};
+							});
+						});
+						$.each(result.click, function (index, tips) {
+							$(tips.selector).click(function () {
+								if (hitFlag) {
+									return false
+								}
+								hitFlag = true;
+								setTimeout(function () {
+									hitFlag = false;
+								}, 8000);
+								var text = tips.text;
+								if (Array.isArray(tips.text)) text = tips.text[Math.floor(Math.random() * tips.text.length + 1) - 1];
+								text = text.renderTip({ text: $(this).text() });
+								showMessage(text, 3000);
+							});
+							clearInterval(liveTlakTimer);
+							liveTlakTimer = null;
+							if (liveTlakTimer == null) {
+								liveTlakTimer = window.setInterval(function () {
+									showHitokoto();
+								}, 15000);
+							};
+						});
+					}
+				});
+			}
+			initTips();
+
+			var text;
+			if (document.referrer !== '') {
+				var referrer = document.createElement('a');
+				referrer.href = document.referrer;
+				text = '嗨！来自 <span style="color:#0099cc;">' + referrer.hostname + '</span> 的朋友！';
+				var domain = referrer.hostname.split('.')[1];
+				if (domain == 'baidu') {
+					text = '嗨！ 来自 百度搜索 的朋友！<br>欢迎访问<span style="color:#0099cc;">「 ' + document.title.split(' - ')[0] + ' 」</span>';
+				} else if (domain == 'so') {
+					text = '嗨！ 来自 360搜索 的朋友！<br>欢迎访问<span style="color:#0099cc;">「 ' + document.title.split(' - ')[0] + ' 」</span>';
+				} else if (domain == 'google') {
+					text = '嗨！ 来自 谷歌搜索 的朋友！<br>欢迎访问<span style="color:#0099cc;">「 ' + document.title.split(' - ')[0] + ' 」</span>';
+				}
+			} else {
+				if (window.location.href == home_Path) { //主页URL判断，需要斜杠结尾
+					var now = (new Date()).getHours();
+					if (now > 23 || now <= 5) {
+						text = '你是夜猫子呀？这么晚还不睡觉，明天起的来嘛？';
+					} else if (now > 5 && now <= 7) {
+						text = '早上好！一日之计在于晨，美好的一天就要开始了！';
+					} else if (now > 7 && now <= 11) {
+						text = '上午好！工作顺利嘛，不要久坐，多起来走动走动哦！';
+					} else if (now > 11 && now <= 14) {
+						text = '中午了，工作了一个上午，现在是午餐时间！';
+					} else if (now > 14 && now <= 17) {
+						text = '午后很容易犯困呢，今天的运动目标完成了吗？';
+					} else if (now > 17 && now <= 19) {
+						text = '傍晚了！窗外夕阳的景色很美丽呢，最美不过夕阳红~~';
+					} else if (now > 19 && now <= 21) {
+						text = '晚上好，今天过得怎么样？';
+					} else if (now > 21 && now <= 23) {
+						text = '已经这么晚了呀，早点休息吧，晚安~~';
+					} else {
+						text = '嗨~ 快来逗我玩吧！';
+					}
+				} else {
+					text = '欢迎阅读<span style="color:#0099cc;">「 ' + document.title.split(' - ')[0] + ' 」</span>';
+				}
+			}
+			showMessage(text, 12000);
+		})();
+
+		liveTlakTimer = setInterval(function () {
+			showHitokoto();
+		}, 15000);
+
+		function showHitokoto() {
+			if (sessionStorage.getItem("Sleepy") !== "1") {
+				if (!AITalkFlag) {
+					$.getJSON('https://v1.hitokoto.cn/', function (result) {
+						talkValTimer();
+						showMessage(result.hitokoto, 0);
+					});
+				}
+			} else {
+				hideMessage(0);
+				if (sleepTimer_ == null) {
+					sleepTimer_ = setInterval(function () {
+						checkSleep();
+					}, 200);
+				}
+			}
+		}
+
+		function checkSleep() {
+			var sleepStatu = sessionStorage.getItem("Sleepy");
+			if (sleepStatu !== '1') {
+				talkValTimer();
+				showMessage('你回来啦~', 0);
+				clearInterval(sleepTimer_);
+				sleepTimer_ = null;
+			}
+		}
+
+		function showMessage(text, timeout) {
+			if (Array.isArray(text)) text = text[Math.floor(Math.random() * text.length + 1) - 1];
+			$('.message').stop();
+			$('.message').html(text);
+			$('.message').fadeTo(200, 1);
+			//if (timeout === null) timeout = 5000;
+			//hideMessage(timeout);
+		}
+		function talkValTimer() {
+			$('#live_talk').val('1');
+		}
+
+		function hideMessage(timeout) {
+			//$('.message').stop().css('opacity',1);
+			if (timeout === null) timeout = 5000;
+			$('.message').delay(timeout).fadeTo(200, 0);
+		}
+
+		function initLive2d() {
+			$('#hideButton').on('click', function () {
+				if (AIFadeFlag) {
+					return false;
+				} else {
+					AIFadeFlag = true;
+					localStorage.setItem("live2dhidden", "0");
+					$('#landlord').fadeOut(200);
+					$('#open_live2d').delay(200).fadeIn(200);
+					setTimeout(function () {
+						AIFadeFlag = false;
+					}, 300);
+				}
+			});
+			$('#open_live2d').on('click', function () {
+				if (AIFadeFlag) {
+					return false;
+				} else {
+					AIFadeFlag = true;
+					localStorage.setItem("live2dhidden", "1");
+					$('#open_live2d').fadeOut(200);
+					$('#landlord').delay(200).fadeIn(200);
+					setTimeout(function () {
+						AIFadeFlag = false;
+					}, 300);
+				}
+			});
+			$('#youduButton').on('click', function () {
+				if ($('#youduButton').hasClass('doudong')) {
+					var typeIs = $('#youduButton').attr('data-type');
+					$('#youduButton').removeClass('doudong');
+					$('body').removeClass(typeIs);
+					$('#youduButton').attr('data-type', '');
+				} else {
+					var duType = $('#duType').val();
+					var duArr = duType.split(",");
+					var dataType = duArr[Math.floor(Math.random() * duArr.length)];
+
+					$('#youduButton').addClass('doudong');
+					$('#youduButton').attr('data-type', dataType);
+					$('body').addClass(dataType);
+				}
+			});
+			if (apiKey) {
+				$('#showInfoBtn').on('click', function () {
+					var live_statu = $('#live_statu_val').val();
+					if (live_statu == "0") {
+						return
+					} else {
+						$('#live_statu_val').val("0");
+						$('.live_talk_input_body').fadeOut(500);
+						AITalkFlag = false;
+						showHitokoto();
+						$('#showTalkBtn').show();
+						$('#showInfoBtn').hide();
+					}
+				});
+				$('#showTalkBtn').on('click', function () {
+					var live_statu = $('#live_statu_val').val();
+					if (live_statu == "1") {
+						return
+					} else {
+						$('#live_statu_val').val("1");
+						$('.live_talk_input_body').fadeIn(500);
+						AITalkFlag = true;
+						$('#showTalkBtn').hide();
+						$('#showInfoBtn').show();
+
+					}
+				});
+				$('#talk_send').on('click', function () {
+					var info_ = $('#AIuserText').val();
+					var userid_ = $('#AIuserName').val();
+					if (info_ == "") {
+						showMessage('写点什么吧！', 0);
+						return;
+					}
+					if (userid_ == "") {
+						showMessage('聊之前请告诉我你的名字吧！', 0);
+						return;
+					}
+					showMessage('思考中~', 0);
+					let protocol = window.location.protocol.indexOf("s") > 0 ? "https" : "http";
+					$.ajax({
+						type: "get",
+						url: `${protocol}://www.tuling123.com/openapi/api?key=${apiKey}&info=${info_}`,
+						dataType: "json",
+						success: function (res) {
+							talkValTimer();
+							showMessage(res.text, 0);
+							$('#AIuserText').val("");
+							sessionStorage.setItem("live2duser", userid_);
+						},
+						error: function (e) {
+							talkValTimer();
+							showMessage('似乎有什么错误，请和站长联系！', 0);
+						}
+					});
+				});
+			} else {
+				$('#showInfoBtn').hide();
+				$('#showTalkBtn').hide();
+			}
+			//获取音乐信息初始化
+			var bgmListInfo = $('input[name=live2dBGM]');
+			if (bgmListInfo.length == 0) {
+				$('#musicButton').hide();
+			} else {
+				var bgmPlayNow = parseInt($('#live2d_bgm').attr('data-bgm'));
+				var bgmPlayTime = 0;
+				var live2dBGM_Num = sessionStorage.getItem("live2dBGM_Num");
+				var live2dBGM_PlayTime = sessionStorage.getItem("live2dBGM_PlayTime");
+				if (live2dBGM_Num) {
+					if (live2dBGM_Num <= $('input[name=live2dBGM]').length - 1) {
+						bgmPlayNow = parseInt(live2dBGM_Num);
+					}
+				}
+				if (live2dBGM_PlayTime) {
+					bgmPlayTime = parseInt(live2dBGM_PlayTime);
+				}
+				var live2dBGMSrc = bgmListInfo.eq(bgmPlayNow).val();
+				$('#live2d_bgm').attr('data-bgm', bgmPlayNow);
+				$('#live2d_bgm').attr('src', live2dBGMSrc);
+				$('#live2d_bgm')[0].currentTime = bgmPlayTime;
+				$('#live2d_bgm')[0].volume = 0.5;
+				var live2dBGM_IsPlay = sessionStorage.getItem("live2dBGM_IsPlay");
+				var live2dBGM_WindowClose = sessionStorage.getItem("live2dBGM_WindowClose");
+				if (live2dBGM_IsPlay == '0' && live2dBGM_WindowClose == '0') {
+					$('#live2d_bgm')[0].play();
+					$('#musicButton').addClass('play');
+				}
+				sessionStorage.setItem("live2dBGM_WindowClose", '1');
+				$('#musicButton').on('click', function () {
+					if ($('#musicButton').hasClass('play')) {
+						$('#live2d_bgm')[0].pause();
+						$('#musicButton').removeClass('play');
+						sessionStorage.setItem("live2dBGM_IsPlay", '1');
+					} else {
+						$('#live2d_bgm')[0].play();
+						$('#musicButton').addClass('play');
+						sessionStorage.setItem("live2dBGM_IsPlay", '0');
+					}
+				});
+				window.onbeforeunload = function () {
+					sessionStorage.setItem("live2dBGM_WindowClose", '0');
+					if ($('#musicButton').hasClass('play')) {
+						sessionStorage.setItem("live2dBGM_IsPlay", '0');
+					}
+				}
+				document.getElementById('live2d_bgm').addEventListener("timeupdate", function () {
+					var live2dBgmPlayTimeNow = document.getElementById('live2d_bgm').currentTime;
+					sessionStorage.setItem("live2dBGM_PlayTime", live2dBgmPlayTimeNow);
+				});
+				document.getElementById('live2d_bgm').addEventListener("ended", function () {
+					var listNow = parseInt($('#live2d_bgm').attr('data-bgm'));
+					listNow++;
+					if (listNow > $('input[name=live2dBGM]').length - 1) {
+						listNow = 0;
+					}
+					var listNewSrc = $('input[name=live2dBGM]').eq(listNow).val();
+					sessionStorage.setItem("live2dBGM_Num", listNow);
+					$('#live2d_bgm').attr('src', listNewSrc);
+					$('#live2d_bgm')[0].play();
+					$('#live2d_bgm').attr('data-bgm', listNow);
+				});
+				document.getElementById('live2d_bgm').addEventListener("error", function () {
+					$('#live2d_bgm')[0].pause();
+					$('#musicButton').removeClass('play');
+					showMessage('音乐似乎加载不出来了呢！', 0);
+				});
+			}
+			//获取用户名
+			var live2dUser = sessionStorage.getItem("live2duser");
+			if (live2dUser !== null) {
+				$('#AIuserName').val(live2dUser);
+			}
+			//获取位置
+			var landL = sessionStorage.getItem("historywidth");
+			var landB = sessionStorage.getItem("historyheight");
+			if (landL == null || landB == null) {
+				landL = '5px'
+				landB = '0px'
+			}
+			$('#landlord').css('left', landL + 'px');
+			$('#landlord').css('bottom', landB + 'px');
+			//移动
+			function getEvent() {
+				return window.event || arguments.callee.caller.arguments[0];
+			}
+			var smcc = document.getElementById("landlord");
+			var moveX = 0;
+			var moveY = 0;
+			var moveBottom = 0;
+			var moveLeft = 0;
+			var moveable = false;
+			var docMouseMoveEvent = document.onmousemove;
+			var docMouseUpEvent = document.onmouseup;
+			smcc.onmousedown = function () {
+				var ent = getEvent();
+				moveable = true;
+				moveX = ent.clientX;
+				moveY = ent.clientY;
+				var obj = smcc;
+				moveBottom = parseInt(obj.style.bottom);
+				moveLeft = parseInt(obj.style.left);
+				if (isFirefox = navigator.userAgent.indexOf("Firefox") > 0) {
+					window.getSelection().removeAllRanges();
+				}
+				document.onmousemove = function () {
+					if (moveable) {
+						var ent = getEvent();
+						var x = moveLeft + ent.clientX - moveX;
+						var y = moveBottom + (moveY - ent.clientY);
+						obj.style.left = x + "px";
+						obj.style.bottom = y + "px";
+					}
+				};
+				document.onmouseup = function () {
+					if (moveable) {
+						var historywidth = obj.style.left;
+						var historyheight = obj.style.bottom;
+						historywidth = historywidth.replace('px', '');
+						historyheight = historyheight.replace('px', '');
+						sessionStorage.setItem("historywidth", historywidth);
+						sessionStorage.setItem("historyheight", historyheight);
+						document.onmousemove = docMouseMoveEvent;
+						document.onmouseup = docMouseUpEvent;
+						moveable = false;
+						moveX = 0;
+						moveY = 0;
+						moveBottom = 0;
+						moveLeft = 0;
+					}
+				};
+			};
+		}
+		$(document).ready(function () {
+			var AIimgSrc = [];
+			let chooseLive2d = 'aoba'
+			if (chooseLive2d === 'histoire') {
+				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_00.png");
+				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_01.png");
+				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_02.png");
+				AIimgSrc.push(message_Path + "model/histoire/histoire.1024/texture_03.png");
+			} else if (chooseLive2d === 'rem') {
+				AIimgSrc.push(message_Path + "model/rem/remu2048/texture_00.png");
+			} else if (chooseLive2d === 'aoba') {
+				AIimgSrc.push(message_Path + "model/aoba/textures/texture_00.png");
+			} else if (chooseLive2d === 'hijiki') {
+				AIimgSrc.push(message_Path + "model/hijiki/moc/hijiki.2048/texture_00.png");
+			} else if (chooseLive2d === 'tororo') {
+				AIimgSrc.push(message_Path + "model/tororo/moc/tororo.2048/texture_00.png");
+			}
+			var images = [];
+			var imgLength = AIimgSrc.length;
+			var loadingNum = 0;
+			for (var i = 0; i < imgLength; i++) {
+				images[i] = new Image();
+				images[i].src = AIimgSrc[i];
+				images[i].onload = function () {
+					loadingNum++;
+					if (loadingNum === imgLength) {
+						var live2dhidden = localStorage.getItem("live2dhidden");
+						if (live2dhidden === "0") {
+							setTimeout(function () {
+								$('#open_live2d').fadeIn(200);
+							}, 1300);
+						} else {
+							setTimeout(function () {
+								$('#landlord').fadeIn(200);
+							}, 1300);
+						}
+						let model = '';
+						if (chooseLive2d === 'histoire') {
+							model = message_Path + "model/histoire/model.json";
+						} else if (chooseLive2d === 'rem') {
+							model = message_Path + "model/rem/model.json";
+						} else if (chooseLive2d === 'aoba') {
+							model = message_Path + "model/aoba/model.json";
+						} else if (chooseLive2d === 'hijiki') {
+							model = message_Path + "model/hijiki/hijiki.model.json";
+						} else if (chooseLive2d === 'tororo') {
+							model = message_Path + "model/tororo/tororo.model.json";
+						}
+						setTimeout(function () {
+							loadlive2d("live2d", model);
+						}, 1000);
+						initLive2d();
+						images = null;
+					}
+				}
+			}
+		});
+	}
+</script>
   
-  <script src="https://player.lmih.cn/player/js/player.js" id="myhk" key="demo" m="1"></script>
-
-
   
 </div>
 <script>
@@ -1141,6 +1675,1358 @@ console.log('server listening on 8888')
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/js-shou-xie-bind/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;手写bind&lt;/p&gt;
+&lt;!-- more --&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 模拟 bind
+Function.prototype.bind1 = function () {
+    // 将参数拆解为数组
+    const args = Array.prototype.slice.call(arguments)
+
+    // 获取 this（数组第一项）
+    const t = args.shift()
+
+    // fn1.bind(...) 中的 fn1
+    const self = this
+
+    // 返回一个函数
+    return function () {
+        return self.apply(t, args)
+    }
+}
+
+function fn1(a, b, c) {
+    console.log(&#39;this&#39;, this)
+    console.log(a, b, c)
+    return &#39;this is fn1&#39;
+}
+
+const fn2 = fn1.bind1({x: 100}, 10, 20, 30)
+const res = fn2()
+console.log(res)
+
+&lt;/code&gt;&lt;/pre&gt;
+"> js手写-bind</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-this-zhi-xiang/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;this 的取值是在执行时确定的，不是定义时候确定的&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;this的应用场景&#34;&gt;this的应用场景&lt;/h2&gt;
+&lt;h3 id=&#34;作为普通函数&#34;&gt;作为普通函数&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function fn1() {
+  console.log(this)
+}
+fn1() // window
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;使用-call-apply-bind&#34;&gt;使用 call apply bind&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function fn1() {
+  console.log(this)
+}
+fn1.call({ X:100 })  // {X: 100}
+
+const fn2 = fn1.bind({ x:200 })
+fn2()  // {x: 200}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;作为对象方法被调用&#34;&gt;作为对象方法被调用&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const zhangsan = {
+  name: &#39;zhangsan&#39;,
+  sayHi() {
+    // this 即当前对象
+    console.log(this)
+  },
+  wait() {
+    setTimeout(function() {
+      // this === window
+      console.log(this)
+    })
+  }
+}
+zhangsan.sayHi() // {name: &amp;quot;zhangsan&amp;quot;, sayHi: ƒ, wait: ƒ}
+zhangsan.wait() // window
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;箭头函数&#34;&gt;箭头函数&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const zhangsan = {
+  name: &#39;zhangsan&#39;,
+  sayHi() {
+    // this 即当前对象
+    console.log(this)
+  },
+  wait() {
+    setTimeout(() =&amp;gt; {
+      // this 即当前对象
+      console.log(this)
+    })
+  }
+}
+zhangsan.sayHi() // {name: &amp;quot;zhangsan&amp;quot;, sayHi: ƒ, wait: ƒ}
+zhangsan.wait() // {name: &amp;quot;zhangsan&amp;quot;, sayHi: ƒ, wait: ƒ}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;在-class-方法中调用&#34;&gt;在 class 方法中调用&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;class People {
+  constructor(name) {
+    this.name = name
+  }
+  sayHi() {
+    console.log(this)
+  }
+}
+const zhangsan = new People(&#39;zhangsan&#39;)
+zhangsan.sayHi() // zhangsan对象： People {name: &amp;quot;zhangsan&amp;quot;}
+&lt;/code&gt;&lt;/pre&gt;
+">JavaScript-this指向</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-zuo-yong-yu-he-bi-bao/"" data-c="
+          &lt;h2 id=&#34;作用域&#34;&gt;作用域&lt;/h2&gt;
+&lt;p&gt;作用域：变量的合法使用范围&lt;br&gt;
+全局作用域：在全局可以使用&lt;br&gt;
+函数作用域：只能在函数块中使用&lt;br&gt;
+块级作用域（ES6新增）：let，const定义的变量有块级作用域{}内部使用&lt;/p&gt;
+&lt;h2 id=&#34;自由变量&#34;&gt;自由变量&lt;/h2&gt;
+&lt;p&gt;1.一个变量在当前作用域没有定义，但是被使用了&lt;br&gt;
+2.向上级作用域，一层一层依次寻找，直到找到为止&lt;br&gt;
+3.如果到全局作用域都没找到，则报错：xxx is not defined&lt;/p&gt;
+&lt;h2 id=&#34;闭包&#34;&gt;闭包&lt;/h2&gt;
+&lt;p&gt;闭包：作用域应用的一种特殊情况&lt;br&gt;
+表现：&lt;/p&gt;
+&lt;p&gt;函数作为参数被传递&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 函数作为参数被传递
+function print(fn) {
+    const a = 200
+    fn()
+}
+const a = 100
+function fn() {
+    console.log(a)
+}
+print(fn) // 100
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;函数作为返回值被返回&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 函数作为返回值
+function create() {
+    const a = 100
+    return function () {
+        console.log(a)
+    }
+}
+
+const fn = create()
+const a = 200
+fn() // 100
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;所有的自由变量的查找，是在函数定义的地方，向上级作用域查找，不是在执行的地方&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes&#34;&gt;http://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/#function.closures&#34;&gt;http://bonsaiden.github.io/JavaScript-Garden/zh/#function.closures&lt;/a&gt;&lt;/p&gt;
+"> JavaScript-作用域和闭包</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-object-dui-xiang-fang-fa-hasownproperty/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;对象实例的&lt;code&gt;hasOwnProperty&lt;/code&gt;方法返回一个布尔值，用于判断某个属性定义在对象自身，还是定义在原型链上。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Date.hasOwnProperty(&#39;length&#39;) // true
+Date.hasOwnProperty(&#39;toString&#39;) // false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面代码表明，&lt;code&gt;Date.length&lt;/code&gt;（构造函数&lt;code&gt;Date&lt;/code&gt;可以接受多少个参数）是&lt;code&gt;Date&lt;/code&gt;自身的属性，&lt;code&gt;Date.toString&lt;/code&gt;是继承的属性。&lt;/p&gt;
+&lt;h2 id=&#34;hasownproperty-函数&#34;&gt;&lt;code&gt;hasOwnProperty&lt;/code&gt; 函数&lt;/h2&gt;
+&lt;p&gt;为了判断一个对象是否包含&lt;em&gt;自定义&lt;/em&gt;属性而不是原型链上的属性， 我们需要使用继承自 &lt;code&gt;Object.prototype&lt;/code&gt; 的 &lt;code&gt;hasOwnProperty&lt;/code&gt; 方法。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;hasOwnProperty&lt;/code&gt; 是 JavaScript 中唯一一个处理属性但是&lt;strong&gt;不&lt;/strong&gt;查找原型链的函数。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 修改Object.prototype
+Object.prototype.bar = 1; 
+var foo = {goo: undefined};
+
+foo.bar; // 1
+&#39;bar&#39; in foo; // true
+
+foo.hasOwnProperty(&#39;bar&#39;); // false
+foo.hasOwnProperty(&#39;goo&#39;); // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;只有 &lt;code&gt;hasOwnProperty&lt;/code&gt; 可以给出正确和期望的结果，这在遍历对象的属性时会很有用。 &lt;strong&gt;没有&lt;/strong&gt;其它方法可以用来排除原型链上的属性，而不是定义在对象&lt;em&gt;自身&lt;/em&gt;上的属性。&lt;/p&gt;
+&lt;h3 id=&#34;hasownproperty-作为属性&#34;&gt;&lt;code&gt;hasOwnProperty&lt;/code&gt; 作为属性&lt;/h3&gt;
+&lt;p&gt;JavaScript &lt;strong&gt;不会&lt;/strong&gt;保护 &lt;code&gt;hasOwnProperty&lt;/code&gt; 被非法占用，因此如果一个对象碰巧存在这个属性， 就需要使用&lt;em&gt;外部&lt;/em&gt;的 &lt;code&gt;hasOwnProperty&lt;/code&gt; 函数来获取正确的结果。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var foo = {
+    hasOwnProperty: function() {
+        return false;
+    },
+    bar: &#39;Here be dragons&#39;
+};
+
+foo.hasOwnProperty(&#39;bar&#39;); // 总是返回 false
+
+// 使用其它对象的 hasOwnProperty，并将其上下文设置为foo
+({}).hasOwnProperty.call(foo, &#39;bar&#39;); // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当检查对象上某个属性是否存在时，&lt;code&gt;hasOwnProperty&lt;/code&gt; 是&lt;strong&gt;唯一&lt;/strong&gt;可用的方法。 同时在使用 &lt;code&gt;for in&lt;/code&gt; loop遍历对象时，推荐&lt;strong&gt;总是&lt;/strong&gt;使用 &lt;code&gt;hasOwnProperty&lt;/code&gt; 方法， 这将会避免原型对象扩展带来的干扰。&lt;/p&gt;
+&lt;h2 id=&#34;for-in-循环&#34;&gt;&lt;code&gt;for in&lt;/code&gt; 循环&lt;/h2&gt;
+&lt;p&gt;和 &lt;code&gt;in&lt;/code&gt; 操作符一样，&lt;code&gt;for in&lt;/code&gt; 循环同样在查找对象属性时遍历原型链上的所有属性。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 修改 Object.prototype
+Object.prototype.bar = 1;
+
+var foo = {moo: 2};
+for(var i in foo) {
+    console.log(i); // 输出两个属性：bar 和 moo
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;由于不可能改变 &lt;code&gt;for in&lt;/code&gt; 自身的行为，因此有必要过滤出那些不希望出现在循环体中的属性， 这可以通过 &lt;code&gt;Object.prototype&lt;/code&gt; 原型上的 &lt;code&gt;hasOwnProperty&lt;/code&gt; 函数来完成。&lt;/p&gt;
+&lt;h3 id=&#34;使用-hasownproperty-过滤&#34;&gt;使用 &lt;code&gt;hasOwnProperty&lt;/code&gt; 过滤&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// foo 变量是上例中的
+for(var i in foo) {
+    if (foo.hasOwnProperty(i)) {
+        console.log(i);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这个版本的代码是唯一正确的写法。由于我们使用了 &lt;code&gt;hasOwnProperty&lt;/code&gt;，所以这次&lt;strong&gt;只&lt;/strong&gt;输出 &lt;code&gt;moo&lt;/code&gt;。 如果不使用 &lt;code&gt;hasOwnProperty&lt;/code&gt;，则这段代码在原生对象原型（比如 &lt;code&gt;Object.prototype&lt;/code&gt;）被扩展时可能会出错。&lt;/p&gt;
+&lt;p&gt;一个广泛使用的类库 &lt;a href=&#34;http://www.prototypejs.org/&#34;&gt;Prototype&lt;/a&gt; 就扩展了原生的 JavaScript 对象。 因此，当这个类库被包含在页面中时，不使用 &lt;code&gt;hasOwnProperty&lt;/code&gt; 过滤的 &lt;code&gt;for in&lt;/code&gt; 循环难免会出问题。&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/#object.hasownproperty&#34;&gt;JavaScript秘密花园&lt;/a&gt;&lt;/p&gt;
+">JavaScript-Object对象方法hasOwnProperty</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-yuan-xing-lian/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;当谈到继承时，JavaScript 只有一种结构：对象。每个实例对象（object）都有一个私有属性（称之为 &lt;strong&gt;proto&lt;/strong&gt; ）指向它的构造函数的原型对象（&lt;strong&gt;prototype&lt;/strong&gt;）。该原型对象也有一个自己的原型对象（&lt;strong&gt;proto&lt;/strong&gt;），层层向上直到一个对象的原型对象为 &lt;code&gt;null&lt;/code&gt;。根据定义，&lt;code&gt;null&lt;/code&gt; 没有原型，并作为这个&lt;strong&gt;原型链&lt;/strong&gt;中的最后一个环节。&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain&#34;&gt;MDN-prototype_chain&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wangdoc.com/javascript/oop/prototype.html&#34;&gt;阮一峰&lt;/a&gt;&lt;/p&gt;
+">JavaScript-原型链</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-yuan-xing/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;继承的实现和js的原型&lt;/p&gt;
+&lt;h2 id=&#34;类&#34;&gt;类&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 类
+class Student {
+    constructor(name, number) {
+        this.name = name
+        this.number = number
+    }
+    sayHi() {
+        console.log(
+            `姓名 ${this.name} ，学号 ${this.number}`
+        )
+    }
+}
+
+// 通过类 new 对象/实例
+const xialuo = new Student(&#39;夏洛&#39;, 100)
+console.log(xialuo.name)
+console.log(xialuo.number)
+xialuo.sayHi()
+
+const madongmei = new Student(&#39;马冬梅&#39;, 101)
+console.log(madongmei.name)
+console.log(madongmei.number)
+madongmei.sayHi()
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;用类实现继承&#34;&gt;用类实现继承&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 父类
+class People {
+    constructor(name) {
+        this.name = name
+    }
+    eat() {
+        console.log(`${this.name} eat something`)
+    }
+}
+
+// 子类
+class Student extends People {
+    constructor(name, number) {
+        super(name)
+        this.number = number
+    }
+    sayHi() {
+        console.log(`姓名 ${this.name} 学号 ${this.number}`)
+    }
+}
+
+// 子类
+class Teacher extends People {
+    constructor(name, major) {
+        super(name)
+        this.major = major
+    }
+    teach() {
+        console.log(`${this.name} 教授 ${this.major}`)
+    }
+}
+
+// 实例
+const xialuo = new Student(&#39;夏洛&#39;, 100)
+console.log(xialuo.name)
+console.log(xialuo.number)
+xialuo.sayHi()
+xialuo.eat()
+
+// 实例
+const wanglaoshi = new Teacher(&#39;王老师&#39;, &#39;语文&#39;)
+console.log(wanglaoshi.name)
+console.log(wanglaoshi.major)
+wanglaoshi.teach()
+wanglaoshi.eat()
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;原型关系&#34;&gt;原型关系&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// class实际上是函数，可见是语法糖
+typeof People // &#39;function&#39;
+typeof Student // &#39;function&#39;
+
+// 隐式原型和显式原型
+console.log(xialuo.__proto__)
+/**
+ * People
+ *  constructor: class Student
+ *  sayHi: ƒ sayHi()
+ *  [[Prototype]]: Object
+*/
+console.log(Student.prototype)
+/**
+ * People
+ *  constructor: class Student
+ *  sayHi: ƒ sayHi()
+ *  [[Prototype]]: Object
+*/
+console.log(xialuo.__proto__ === Student.prototype) // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;每个class都有显式原型 prototype&lt;br&gt;
+每个实例都有隐式原型 &lt;code&gt;__proto__&lt;/code&gt;&lt;br&gt;
+实例的隐式原型 &lt;code&gt;__proto__&lt;/code&gt; 指向class的显式原型prototype&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1630195055419.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;基于原型的执行规则&#34;&gt;基于原型的执行规则&lt;/h2&gt;
+&lt;p&gt;获取属性xialuo.name 或执行方法xialuo.sayhi()时&lt;/p&gt;
+&lt;p&gt;先在自身属性和方法找&lt;/p&gt;
+&lt;p&gt;如果找不到则去&lt;code&gt;__proto__&lt;/code&gt;中找&lt;/p&gt;
+&lt;h2 id=&#34;原型链&#34;&gt;原型链&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1630196768351.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+">JavaScript-类的继承和原型</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-lei-xing-zhuan-huan/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;显式转化类型&lt;/p&gt;
+&lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
+&lt;h3 id=&#34;数字转字符串&#34;&gt;数字转字符串&lt;/h3&gt;
+&lt;h4 id=&#34;一元的加号操作符&#34;&gt;一元的加号操作符&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&#39;&#39; + 10 === &#39;10&#39;; // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;tostring&#34;&gt;toString()&lt;/h4&gt;
+&lt;p&gt;语法：&lt;code&gt;number.toString(radix)&lt;/code&gt;&lt;br&gt;
+radix：规定表示数字的基数，是 2 ~ 36 之间的整数。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var num = 15;
+var a = num.toString(); // 15
+var b = num.toString(2); // 1111
+var c = num.toString(8); // 17
+var d = num.toString(16); // f
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;字符串转数字&#34;&gt;字符串转数字&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;+&#39;010&#39; === 10
+Number(&#39;010&#39;) === 10
+parseInt(&#39;010&#39;, 10) === 10  // 用来转换为整数
+
++&#39;010.2&#39; === 10.2
+Number(&#39;010.2&#39;) === 10.2
+parseInt(&#39;010.2&#39;, 10) === 10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;一元的加号操作符-2&#34;&gt;一元的加号操作符&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;+&#39;10&#39; === 10; // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;parseint&#34;&gt;parseInt()&lt;/h4&gt;
+&lt;p&gt;语法：&lt;code&gt;parseInt(string, radix)&lt;/code&gt;&lt;br&gt;
+string：要被解析的字符串；&lt;br&gt;
+radix：表示要解析的数字的基数。该值介于 2 ~ 36 之间。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;parseInt(&amp;quot;10&amp;quot;);         //返回 10
+parseInt(&amp;quot;19&amp;quot;,10);      //返回 19 (10+9)
+parseInt(&amp;quot;11&amp;quot;,2);       //返回 3 (2+1)
+parseInt(&amp;quot;17&amp;quot;,8);       //返回 15 (8+7)
+parseInt(&amp;quot;1f&amp;quot;,16);      //返回 31 (16+15)
+parseInt(&amp;quot;010&amp;quot;);        //未定：返回 10 或 8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;number&#34;&gt;Number()&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Number(&#39;010&#39;) === 10
+Number(&#39;010.2&#39;) === 10.2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;其他类型转布尔值&#34;&gt;其他类型转布尔值&lt;/h3&gt;
+&lt;h4 id=&#34;&#34;&gt;!!&lt;/h4&gt;
+&lt;p&gt;通过使用 &lt;strong&gt;否&lt;/strong&gt; 操作符两次，可以把一个值转换为布尔型。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;!!&#39;foo&#39;;   // true
+!!&#39;&#39;;      // false
+!!&#39;0&#39;;     // true
+!!&#39;1&#39;;     // true
+!!&#39;-1&#39;     // true
+!!{};      // true
+!!true;    // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;boolean&#34;&gt;Boolean()&lt;/h4&gt;
+&lt;p&gt;除了undefined、null、0、-0、NaN、&#39;&#39;会被转换成false，其他的值都会转换成true。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let a = Boolean(null); // false
+&lt;/code&gt;&lt;/pre&gt;
+">JavaScript-类型转换</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/js-shou-xie-shen-kao-bei/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;什么是深拷贝？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;浅拷贝(Shallow Copy)、深拷贝(Deep Copy)只存在于&lt;em&gt;引用类型&lt;/em&gt;中 (基本数据类型是按值访问的，操作保存的是实际的值)&lt;br&gt;
+&lt;strong&gt;区别&lt;/strong&gt;：是否是真正获取了一个对象的复制实体，而不是引用。&lt;br&gt;
+&lt;strong&gt;赋值&lt;/strong&gt;： 只复制了指向对象的指针，改变对象会互相影响。&lt;br&gt;
+&lt;strong&gt;浅拷贝&lt;/strong&gt;： 只复制对象一层，改变引用对象还会互相影响。&lt;br&gt;
+&lt;strong&gt;深拷贝&lt;/strong&gt;： 完全复制对象的值，改变对象不会互相影响。&lt;/p&gt;
+&lt;p&gt;基本类型： Boolean、Number、String、Null、Undefined、Symbol、BigInt&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var num1 = 1;
+var num2 = num1;
+// num1: 1
+// num2: 1
+num2 = 2;
+// num1: 1
+// num2: 2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;引用类型： Object&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var obj1 = {x: 1, y: 2};
+var obj2 = obj1;
+// obj1: {x: 1, y: 2}
+// obj2: {x: 1, y: 2}
+obj2.x = 2;
+// obj1: {x: 2, y: 2}
+// obj2: {x: 2, y: 2}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;简易版&#34;&gt;简易版&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * 深拷贝
+ */
+
+const obj1 = {
+    age: 20,
+    name: &#39;xxx&#39;,
+    address: {
+        city: &#39;beijing&#39;
+    },
+    arr: [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+}
+
+const obj2 = deepClone(obj1)
+obj2.address.city = &#39;shanghai&#39;
+obj2.arr[0] = &#39;a1&#39;
+console.log(obj1.address.city)
+console.log(obj1.arr[0])
+
+/**
+ * 深拷贝
+ * @param {Object} obj 要拷贝的对象
+ */
+function deepClone(obj = {}) {
+    if (typeof obj !== &#39;object&#39; || obj == null) {
+        // obj 是 null ，或者不是对象和数组，直接返回
+        return obj
+    }
+
+    // 初始化返回结果
+    let result
+    if (obj instanceof Array) {
+        result = []
+    } else {
+        result = {}
+    }
+
+    for (let key in obj) {
+        // 保证 key 不是原型的属性
+        if (obj.hasOwnProperty(key)) {
+            // 递归调用！！！
+            result[key] = deepClone(obj[key])
+        }
+    }
+
+    // 返回结果
+    return result
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;深入版&#34;&gt;深入版&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const mapTag = &#39;[object Map]&#39;;
+const setTag = &#39;[object Set]&#39;;
+const arrayTag = &#39;[object Array]&#39;;
+const objectTag = &#39;[object Object]&#39;;
+const argsTag = &#39;[object Arguments]&#39;;
+
+const boolTag = &#39;[object Boolean]&#39;;
+const dateTag = &#39;[object Date]&#39;;
+const numberTag = &#39;[object Number]&#39;;
+const stringTag = &#39;[object String]&#39;;
+const symbolTag = &#39;[object Symbol]&#39;;
+const errorTag = &#39;[object Error]&#39;;
+const regexpTag = &#39;[object RegExp]&#39;;
+const funcTag = &#39;[object Function]&#39;;
+
+const deepTag = [mapTag, setTag, arrayTag, objectTag, argsTag];
+
+
+function forEach(array, iteratee) {
+    let index = -1;
+    const length = array.length;
+    while (++index &amp;lt; length) {
+        iteratee(array[index], index);
+    }
+    return array;
+}
+
+function isObject(target) {
+    const type = typeof target;
+    return target !== null &amp;amp;&amp;amp; (type === &#39;object&#39; || type === &#39;function&#39;);
+}
+
+function getType(target) {
+    return Object.prototype.toString.call(target);
+}
+
+function getInit(target) {
+    const Ctor = target.constructor;
+    return new Ctor();
+}
+
+function cloneSymbol(targe) {
+    return Object(Symbol.prototype.valueOf.call(targe));
+}
+
+function cloneReg(targe) {
+    const reFlags = /\w*$/;
+    const result = new targe.constructor(targe.source, reFlags.exec(targe));
+    result.lastIndex = targe.lastIndex;
+    return result;
+}
+
+function cloneFunction(func) {
+    const bodyReg = /(?&amp;lt;={)(.|\n)+(?=})/m;
+    const paramReg = /(?&amp;lt;=\().+(?=\)\s+{)/;
+    const funcString = func.toString();
+    if (func.prototype) {
+        const param = paramReg.exec(funcString);
+        const body = bodyReg.exec(funcString);
+        if (body) {
+            if (param) {
+                const paramArr = param[0].split(&#39;,&#39;);
+                return new Function(...paramArr, body[0]);
+            } else {
+                return new Function(body[0]);
+            }
+        } else {
+            return null;
+        }
+    } else {
+        return eval(funcString);
+    }
+}
+
+function cloneOtherType(targe, type) {
+    const Ctor = targe.constructor;
+    switch (type) {
+        case boolTag:
+        case numberTag:
+        case stringTag:
+        case errorTag:
+        case dateTag:
+            return new Ctor(targe);
+        case regexpTag:
+            return cloneReg(targe);
+        case symbolTag:
+            return cloneSymbol(targe);
+        case funcTag:
+            return cloneFunction(targe);
+        default:
+            return null;
+    }
+}
+
+function clone(target, map = new WeakMap()) {
+
+    // 克隆原始类型
+    if (!isObject(target)) {
+        return target;
+    }
+
+    // 初始化
+    const type = getType(target);
+    let cloneTarget;
+    if (deepTag.includes(type)) {
+        cloneTarget = getInit(target, type);
+    } else {
+        return cloneOtherType(target, type);
+    }
+
+    // 防止循环引用
+    if (map.get(target)) {
+        return map.get(target);
+    }
+    map.set(target, cloneTarget);
+
+    // 克隆set
+    if (type === setTag) {
+        target.forEach(value =&amp;gt; {
+            cloneTarget.add(clone(value, map));
+        });
+        return cloneTarget;
+    }
+
+    // 克隆map
+    if (type === mapTag) {
+        target.forEach((value, key) =&amp;gt; {
+            cloneTarget.set(key, clone(value, map));
+        });
+        return cloneTarget;
+    }
+
+    // 克隆对象和数组
+    const keys = type === arrayTag ? undefined : Object.keys(target);
+    forEach(keys || target, (value, key) =&amp;gt; {
+        if (keys) {
+            key = value;
+        }
+        cloneTarget[key] = clone(target[key], map);
+    });
+
+    return cloneTarget;
+}
+
+module.exports = {
+    clone
+};
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.conardli.top/blog/article/JS%E8%BF%9B%E9%98%B6/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E4%B8%AA%E6%83%8A%E8%89%B3%E9%9D%A2%E8%AF%95%E5%AE%98%E7%9A%84%E6%B7%B1%E6%8B%B7%E8%B4%9D.html&#34;&gt;如何写出一个惊艳面试官的深拷贝&lt;/a&gt;&lt;/p&gt;
+"> js手写-深拷贝</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-yin-shi-lei-xing-zhuan-huan/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;类型转换分为两种，隐式转换即程序自动进行的类型转换，强制转换即我们手动进行的类型转换。&lt;/p&gt;
+&lt;h2 id=&#34;隐式转换&#34;&gt;隐式转换&lt;/h2&gt;
+&lt;h3 id=&#34;类型转换规则&#34;&gt;类型转换规则&lt;/h3&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1629968151232.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;if语句和逻辑运算&#34;&gt;if语句和逻辑运算&lt;/h3&gt;
+&lt;h4 id=&#34;turly变量和falsely变量&#34;&gt;turly变量和falsely变量&lt;/h4&gt;
+&lt;p&gt;turly变量：&lt;code&gt;!!a===true&lt;/code&gt;的变量&lt;/p&gt;
+&lt;p&gt;falsely变量：&lt;code&gt;!!a===false&lt;/code&gt;的变量&lt;/p&gt;
+&lt;h4 id=&#34;falsely变量&#34;&gt;falsely变量&lt;/h4&gt;
+&lt;p&gt;以下是falsely变量，除此以外都是truly变量&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;0
+NaN
+&#39;&#39;
+null
+undefined
+false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;即&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;!!0 === false
+!!NaN === false
+!!&#39;&#39; === false
+!!null === false
+!!undefined === false
+!!false === false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;if语句&#34;&gt;if语句&lt;/h4&gt;
+&lt;p&gt;if语句中判断的就是turly变量和falsely变量&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// truly变量
+const a = true
+if (a) {
+
+}
+const b = 100
+if (b) {
+
+}
+
+// false变量
+const c = &#39;&#39;
+if (c) {
+
+}
+const d = null
+if (d) {
+
+}
+let e
+if (e) {
+  
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;逻辑判断&#34;&gt;逻辑判断&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 逻辑判断
+console.log(10 &amp;amp;&amp;amp; 0) // 0
+console.log(&#39;&#39; || &#39;abc&#39;) // &#39;abc&#39;
+console.log(!window.abc) // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;各种数学运算符&#34;&gt;各种数学运算符&lt;/h3&gt;
+&lt;h4 id=&#34;数学运算符-&#34;&gt;数学运算符(&lt;code&gt;- * /&lt;/code&gt;)&lt;/h4&gt;
+&lt;p&gt;我们在对各种非&lt;code&gt;Number&lt;/code&gt;类型运用数学运算符(&lt;code&gt;- * /&lt;/code&gt;)时，会先将非&lt;code&gt;Number&lt;/code&gt;类型转换为&lt;code&gt;Number&lt;/code&gt;类型;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;1 - true // 0
+1 - null //  1
+1 * undefined //  NaN
+2 * [&#39;5&#39;] //  10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;操作符&#34;&gt;&lt;code&gt;+&lt;/code&gt;操作符&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;1.当一侧为&lt;code&gt;String&lt;/code&gt;类型，被识别为字符串拼接，并会优先将另一侧转换为字符串类型。&lt;/li&gt;
+&lt;li&gt;2.当一侧为&lt;code&gt;Number&lt;/code&gt;类型，另一侧为原始类型，则将原始类型转换为&lt;code&gt;Number&lt;/code&gt;类型。&lt;/li&gt;
+&lt;li&gt;3.当一侧为&lt;code&gt;Number&lt;/code&gt;类型，另一侧为引用类型，将引用类型和&lt;code&gt;Number&lt;/code&gt;类型转换成字符串后拼接。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;123 + &#39;123&#39; // 123123   （规则1）
+123 + null  // 123    （规则2）
+123 + true // 124    （规则2）
+123 + {}  // 123[object Object]    （规则3）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;&#34;&gt;==&lt;/h3&gt;
+&lt;p&gt;使用&lt;code&gt;==&lt;/code&gt;时，若两侧类型相同，则比较结果和&lt;code&gt;===&lt;/code&gt;相同，否则会发生隐式转换，使用&lt;code&gt;==&lt;/code&gt;时发生的转换可以分为几种不同的情况（只考虑两侧类型不同）：&lt;/p&gt;
+&lt;h4 id=&#34;nan&#34;&gt;NaN&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;NaN&lt;/code&gt;和其他任何类型比较永远返回&lt;code&gt;false&lt;/code&gt;(包括和他自己)。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;NaN == NaN // false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;boolean&#34;&gt;Boolean&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;Boolean&lt;/code&gt;和其他任何类型比较，&lt;code&gt;Boolean&lt;/code&gt;首先被转换为&lt;code&gt;Number&lt;/code&gt;类型。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;true == 1  // true 
+true == &#39;2&#39;  // false
+true == [&#39;1&#39;]  // true
+true == [&#39;2&#39;]  // false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里注意一个可能会弄混的点：&lt;code&gt;undefined、null&lt;/code&gt;和&lt;code&gt;Boolean&lt;/code&gt;比较，虽然&lt;code&gt;undefined、null&lt;/code&gt;和&lt;code&gt;false&lt;/code&gt;都很容易被想象成假值，但是他们比较结果是&lt;code&gt;false&lt;/code&gt;，原因是&lt;code&gt;false&lt;/code&gt;首先被转换成&lt;code&gt;0&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;undefined == false // false
+null == false // false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;string和number&#34;&gt;String和Number&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;String&lt;/code&gt;和&lt;code&gt;Number&lt;/code&gt;比较，先将&lt;code&gt;String&lt;/code&gt;转换为&lt;code&gt;Number&lt;/code&gt;类型。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;123 == &#39;123&#39; // true
+&#39;&#39; == 0 // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;null和undefined&#34;&gt;null和undefined&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;null == undefined&lt;/code&gt;比较结果是&lt;code&gt;true&lt;/code&gt;，除此之外，&lt;code&gt;null、undefined&lt;/code&gt;和其他任何结果的比较值都为&lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;null == undefined // true
+null == &#39;&#39; // false
+null == 0 // false
+null == false // false
+undefined == &#39;&#39; // false
+undefined == 0 // false
+undefined == false // false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;原始类型和引用类型&#34;&gt;原始类型和引用类型&lt;/h4&gt;
+&lt;p&gt;当原始类型和引用类型做比较时，对象类型会依照&lt;code&gt;ToPrimitive&lt;/code&gt;规则转换为原始类型:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;  &#39;[object Object]&#39; == {} // true
+  &#39;1,2,3&#39; == [1, 2, 3] // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;来看看下面这个比较：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;[] == ![] // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;!&lt;/code&gt;的优先级高于&lt;code&gt;==&lt;/code&gt;，&lt;code&gt;![]&lt;/code&gt;首先会被转换为&lt;code&gt;false&lt;/code&gt;，然后根据上面第三点，&lt;code&gt;false&lt;/code&gt;转换成&lt;code&gt;Number&lt;/code&gt;类型&lt;code&gt;0&lt;/code&gt;，左侧&lt;code&gt;[]&lt;/code&gt;转换为&lt;code&gt;0&lt;/code&gt;，两侧比较相等。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;[null] == false // true
+[undefined] == false // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;根据数组的&lt;code&gt;ToPrimitive&lt;/code&gt;规则，数组元素为&lt;code&gt;null&lt;/code&gt;或&lt;code&gt;undefined&lt;/code&gt;时，该元素被当做空字符串处理，所以&lt;code&gt;[null]、[undefined]&lt;/code&gt;都会被转换为&lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;何时使用&#34;&gt;何时使用&lt;/h4&gt;
+&lt;p&gt;除了 == null 之外，其他都一律使用 ===&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const obj = { x: 100 }
+if (obj.a == null) { }
+// 相当于：
+// if (obj.a === null || obj.a === undefined) { }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.conardli.top/blog/article/JS%E8%BF%9B%E9%98%B6/%E4%BD%A0%E7%9C%9F%E7%9A%84%E6%8E%8C%E6%8F%A1%E5%8F%98%E9%87%8F%E5%92%8C%E7%B1%BB%E5%9E%8B%E4%BA%86%E5%90%97%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.html#%E4%B8%83%E3%80%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2&#34;&gt;类型转换&lt;/a&gt;&lt;/p&gt;
+"> JavaScript-隐式类型转换</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-null-he-undefined/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;null&lt;/code&gt;与&lt;code&gt;undefined&lt;/code&gt;都可以表示“没有”，含义非常相似。将一个变量赋值为&lt;code&gt;undefined&lt;/code&gt;或&lt;code&gt;null&lt;/code&gt;，老实说，语法效果几乎没区别。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var a = undefined;
+// 或者
+var a = null;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面代码中，变量&lt;code&gt;a&lt;/code&gt;分别被赋值为&lt;code&gt;undefined&lt;/code&gt;和&lt;code&gt;null&lt;/code&gt;，这两种写法的效果几乎等价。&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;if&lt;/code&gt;语句中，它们都会被自动转为&lt;code&gt;false&lt;/code&gt;，相等运算符（&lt;code&gt;==&lt;/code&gt;）甚至直接报告两者相等。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;if (!undefined) {
+  console.log(&#39;undefined is false&#39;);
+}
+// undefined is false
+
+if (!null) {
+  console.log(&#39;null is false&#39;);
+}
+// null is false
+
+undefined == null
+// true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;既然含义与用法都差不多，为什么要同时设置两个这样的值，这不是无端增加复杂度，令初学者困扰吗？这与历史原因有关。&lt;/p&gt;
+&lt;p&gt;1995年 JavaScript 诞生时，最初像 Java 一样，只设置了&lt;code&gt;null&lt;/code&gt;表示&amp;quot;无&amp;quot;。根据 C 语言的传统，&lt;code&gt;null&lt;/code&gt;可以自动转为&lt;code&gt;0&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Number(null) // 0
+5 + null // 5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面代码中，&lt;code&gt;null&lt;/code&gt;转为数字时，自动变成0。&lt;/p&gt;
+&lt;p&gt;但是，JavaScript 的设计者 Brendan Eich，觉得这样做还不够。首先，第一版的 JavaScript 里面，&lt;code&gt;null&lt;/code&gt;就像在 Java 里一样，被当成一个对象，Brendan Eich 觉得表示“无”的值最好不是对象。其次，那时的 JavaScript 不包括错误处理机制，Brendan Eich 觉得，如果&lt;code&gt;null&lt;/code&gt;自动转为0，很不容易发现错误。&lt;/p&gt;
+&lt;p&gt;因此，他又设计了一个&lt;code&gt;undefined&lt;/code&gt;。区别是这样的：&lt;code&gt;null&lt;/code&gt;是一个表示“空”的对象，转为数值时为&lt;code&gt;0&lt;/code&gt;；&lt;code&gt;undefined&lt;/code&gt;是一个表示&amp;quot;此处无定义&amp;quot;的原始值，转为数值时为&lt;code&gt;NaN&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Number(undefined) // NaN
+5 + undefined // NaN
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;undefined&#34;&gt;undefined&lt;/h2&gt;
+&lt;h3 id=&#34;重新赋值与void-0&#34;&gt;重新赋值与void 0&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;为什么有的编程规范要求用 void 0 代替 undefined？&lt;/p&gt;
+&lt;p&gt;这个语言也定义了一个全局变量，它的值是 &lt;code&gt;undefined&lt;/code&gt;，这个变量也被称为 &lt;code&gt;undefined&lt;/code&gt;。 但是这个变量&lt;strong&gt;不是&lt;/strong&gt;一个常量，也不是一个关键字。这意味着它的&lt;em&gt;值&lt;/em&gt;可以轻易被覆盖。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Undefined 类型表示未定义，它的类型只有一个值，就是 undefined。任何变量在赋值前是 Undefined 类型、值为 undefined，一般我们可以用全局变量 undefined（就是名为 undefined 的这个变量）来表达这个值，或者 void 运算来把任意一个表达式变成 undefined 值。&lt;/p&gt;
+&lt;p&gt;但是呢，因为 JavaScript 的代码 undefined 是一个变量，而并非是一个关键字，这是 JavaScript 语言公认的设计失误之一，所以，我们为了避免无意中被篡改，我建议使用 void 0 来获取 undefined 值。&lt;/p&gt;
+&lt;p&gt;我实际验证了一下，全局变量中无法被赋值，但在函数作用域中可以被赋值。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 全局作用域
+var undefined = 123
+console.log(undefined) // undefined
+
+// 函数作用域
+(function(){
+  var undefined = 123
+  console.log(undefined) // 123
+})()
+
+function part() {
+  var undefined = 123
+  console.log(undefined) // 123
+}
+part()
+
+// void 0
+(function(){  
+  console.log(void 0) // undefined
+})()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;返回undefined的情况&#34;&gt;返回undefined的情况&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;访问未修改的全局变量 &lt;code&gt;undefined&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;由于没有定义 &lt;code&gt;return&lt;/code&gt; 表达式的函数隐式返回。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;return&lt;/code&gt; 表达式没有显式的返回任何内容。&lt;/li&gt;
+&lt;li&gt;访问不存在的属性。&lt;/li&gt;
+&lt;li&gt;函数参数没有被显式的传递值。&lt;/li&gt;
+&lt;li&gt;任何被设置为 &lt;code&gt;undefined&lt;/code&gt; 值的变量。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 变量声明了，但没有赋值
+var i;
+i // undefined
+
+// 调用函数时，应该提供的参数没有提供，该参数等于 undefined
+function f(x) {
+  return x;
+}
+f() // undefined
+
+// 对象没有赋值的属性
+var  o = new Object();
+o.p // undefined
+
+// 函数没有返回值时，默认返回 undefined
+function f() {}
+f() // undefined
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;null&#34;&gt;null&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;null&lt;/code&gt;表示空值，即该处的值现在为空。&lt;/p&gt;
+&lt;p&gt;**调用函数时，某个参数未设置任何值，这时就可以传入&lt;code&gt;null&lt;/code&gt;，表示该参数为空。**比如，某个函数接受引擎抛出的错误作为参数，如果运行过程中未出错，那么这个参数就会传入&lt;code&gt;null&lt;/code&gt;，表示未发生错误。&lt;/p&gt;
+&lt;h2 id=&#34;区别&#34;&gt;区别&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;undefined表示“缺少值”，即此处应有一个值，但还没有定义。&lt;/p&gt;
+&lt;p&gt;null表示被赋值过的对象，刻意把一个对象赋值为&lt;code&gt;null&lt;/code&gt;，故意表示其为空，不应有值。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;undefined转为数值时为&lt;code&gt;NaN&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;null转换为数值时值为0&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/#core.undefined&#34;&gt;JavaScript秘密花园&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://wangdoc.com/javascript/types/null-undefined-boolean.html&#34;&gt;阮一峰&lt;/a&gt;&lt;/p&gt;
+">JavaScript-null和undefined</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-objectprototypetostring-fang-fa/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;JavaScript 标准文档只给出了一种获取 &lt;code&gt;[[Class]]&lt;/code&gt; 值的方法，那就是使用 &lt;code&gt;Object.prototype.toString&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;javascript-类型表格&#34;&gt;JavaScript 类型表格&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Value               Class      Type
+-------------------------------------
+&amp;quot;foo&amp;quot;               String     string
+new String(&amp;quot;foo&amp;quot;)   String     object
+1.2                 Number     number
+new Number(1.2)     Number     object
+true                Boolean    boolean
+new Boolean(true)   Boolean    object
+new Date()          Date       object
+new Error()         Error      object
+[1,2,3]             Array      object
+new Array(1, 2, 3)  Array      object
+new Function(&amp;quot;&amp;quot;)    Function   function
+/abc/g              RegExp     object (function in Nitro/V8)
+new RegExp(&amp;quot;meow&amp;quot;)  RegExp     object (function in Nitro/V8)
+{}                  Object     object
+new Object()        Object     object
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面表格中，&lt;em&gt;Type&lt;/em&gt; 一列表示 &lt;code&gt;typeof&lt;/code&gt; 操作符的运算结果。可以看到，这个值在大多数情况下都返回 &amp;quot;object&amp;quot;。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Class&lt;/em&gt; 一列表示对象的内部属性 &lt;code&gt;[[Class]]&lt;/code&gt; 的值。&lt;/p&gt;
+&lt;p&gt;为了获取对象的 &lt;code&gt;[[Class]]&lt;/code&gt;，我们需要使用定义在 &lt;code&gt;Object.prototype&lt;/code&gt; 上的方法 &lt;code&gt;toString&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;类型&#34;&gt;类型&lt;/h2&gt;
+&lt;h3 id=&#34;基本类型&#34;&gt;基本类型&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;基本类型&lt;/th&gt;
+&lt;th&gt;返回值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Boolean&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Boolean]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Number&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Number]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;String&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object String]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Undefined&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Undefined]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Null&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Null]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Symbol&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Symbol]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Object.prototype.toString.call(true) === &amp;quot;[object Boolean]&amp;quot;
+Object.prototype.toString.call(1) === &amp;quot;[object Number]&amp;quot;
+Object.prototype.toString.call(&amp;quot;a&amp;quot;) === &amp;quot;[object String]&amp;quot;
+Object.prototype.toString.call(undefined) === &amp;quot;[object Undefined]&amp;quot; 
+Object.prototype.toString.call(null) === &amp;quot;[object Null]&amp;quot;
+Object.prototype.toString.call(Symbol()) === &amp;quot;[object Symbol]&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;引用类型&#34;&gt;引用类型&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;引用类型&lt;/th&gt;
+&lt;th&gt;返回值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Function&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Function]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Array&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Array]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Date&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Date]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;RegExp&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object RegExp]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Object&lt;/td&gt;
+&lt;td&gt;&amp;quot;[object Object]&amp;quot;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Object.prototype.toString.call(function(){}) === &amp;quot;[object Function]&amp;quot;
+Object.prototype.toString.call([]) === &amp;quot;[object Array]&amp;quot;
+Object.prototype.toString.call(new Date()) === &amp;quot;[object Date]&amp;quot;
+Object.prototype.toString.call(new RegExp(&#39;^http://&#39;)) === &amp;quot;[object RegExp]&amp;quot;
+Object.prototype.toString.call({}) === &amp;quot;[object Object]&amp;quot; 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;使用&#34;&gt;使用&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function is(type, obj) {
+    var clas = Object.prototype.toString.call(obj).slice(8, -1);
+    return obj !== undefined &amp;amp;&amp;amp; obj !== null &amp;amp;&amp;amp; clas === type;
+}
+
+is(&#39;String&#39;, &#39;test&#39;); // true
+is(&#39;String&#39;, new String(&#39;test&#39;)); // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面例子中，&lt;code&gt;Object.prototype.toString&lt;/code&gt; 方法被调用，this 被设置为了需要获取 &lt;code&gt;[[Class]]&lt;/code&gt; 值的对象。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Object.prototype.toString&lt;/code&gt; 返回一种标准格式字符串，所以上例可以通过 &lt;code&gt;slice&lt;/code&gt; 截取指定位置的字符串，如下所示：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Object.prototype.toString.call([])    // &amp;quot;[object Array]&amp;quot;
+Object.prototype.toString.call({})    // &amp;quot;[object Object]&amp;quot;
+Object.prototype.toString.call(2)    // &amp;quot;[object Number]&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;结论&#34;&gt;结论&lt;/h2&gt;
+&lt;p&gt;为了检测一个对象的类型，强烈推荐使用 &lt;code&gt;Object.prototype.toString&lt;/code&gt; 方法； 因为这是唯一一个可依赖的方式。正如上面表格所示，&lt;code&gt;typeof&lt;/code&gt; 的一些返回值在标准文档中并未定义， 因此不同的引擎实现可能不同。&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/#types.typeof&#34;&gt;Object.prototype.toString&lt;/a&gt;&lt;/p&gt;
+">JavaScript-Object.prototype.toString方法</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-instanceof-yun-suan-fu/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;instanceof&lt;/code&gt; 操作符用来比较两个操作数的构造函数。只有在比较自定义的对象时才有意义。 如果用来比较内置类型，将会和 &lt;code&gt;typeof&lt;/code&gt; 操作符一样用处不大。&lt;/p&gt;
+&lt;h2 id=&#34;作用&#34;&gt;作用&lt;/h2&gt;
+&lt;h3 id=&#34;比较自定义对象&#34;&gt;比较自定义对象&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function Foo() {}
+function Bar() {}
+Bar.prototype = new Foo();
+
+new Bar() instanceof Bar; // true
+new Bar() instanceof Foo; // true
+
+// 如果仅仅设置 Bar.prototype 为函数 Foo 本身，而不是 Foo 构造函数的一个实例
+Bar.prototype = Foo;
+new Bar() instanceof Foo; // false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;instanceof-比较内置类型&#34;&gt;&lt;code&gt;instanceof&lt;/code&gt; 比较内置类型&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;new String(&#39;foo&#39;) instanceof String; // true
+new String(&#39;foo&#39;) instanceof Object; // true
+
+&#39;foo&#39; instanceof String; // false
+&#39;foo&#39; instanceof Object; // false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;有一点需要注意，&lt;code&gt;instanceof&lt;/code&gt; 用来比较属于不同 JavaScript 上下文的对象（比如，浏览器中不同的文档结构）时将会出错， 因为它们的构造函数不会是同一个对象。&lt;/p&gt;
+&lt;h3 id=&#34;结论&#34;&gt;结论&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;instanceof&lt;/code&gt; 操作符应该&lt;strong&gt;仅仅&lt;/strong&gt;用来比较来自同一个 JavaScript 上下文的自定义对象。 正如 &lt;code&gt;typeof&lt;/code&gt;操作符一样，任何其它的用法都应该是避免的。&lt;/p&gt;
+&lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/#types.instanceof&#34;&gt;instanceof 操作符&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof&#34;&gt;MDN-instanceof&lt;/a&gt;&lt;/p&gt;
+">JavaScript-instanceof运算符</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-typeof-yun-suan-fu/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;JavaScript 有三种方法，可以确定一个值到底是什么类型。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;typeof&lt;/code&gt;运算符&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;instanceof&lt;/code&gt;运算符&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Object.prototype.toString&lt;/code&gt;方法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;typeof&lt;/code&gt;运算符可以返回一个值的数据类型。&lt;/p&gt;
+&lt;h2 id=&#34;语法&#34;&gt;语法&lt;/h2&gt;
+&lt;p&gt;它支持两种语法形式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;作为运算符：&lt;code&gt;typeof x&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;函数形式：&lt;code&gt;typeof(x)&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;案例&#34;&gt;案例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;typeof undefined // &amp;quot;undefined&amp;quot;
+
+typeof 0 // &amp;quot;number&amp;quot;
+
+typeof 10n // &amp;quot;bigint&amp;quot;
+
+typeof true // &amp;quot;boolean&amp;quot;
+
+typeof &amp;quot;foo&amp;quot; // &amp;quot;string&amp;quot;
+
+typeof Symbol(&amp;quot;id&amp;quot;) // &amp;quot;symbol&amp;quot;
+
+typeof Math // &amp;quot;object&amp;quot;  (1)
+
+typeof null // &amp;quot;object&amp;quot;  (2)
+
+typeof alert // &amp;quot;function&amp;quot;  (3)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Math&lt;/code&gt; 是一个提供数学运算的内建 &lt;code&gt;object&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;null&lt;/code&gt;的类型是&lt;code&gt;object&lt;/code&gt;，这是由于历史原因造成的。1995年的 JavaScript 语言第一版，只设计了五种数据类型（对象、整数、浮点数、字符串和布尔值），没考虑&lt;code&gt;null&lt;/code&gt;，只把它当作&lt;code&gt;object&lt;/code&gt;的一种特殊值。后来&lt;code&gt;null&lt;/code&gt;独立出来，作为一种单独的数据类型，为了兼容以前的代码，&lt;code&gt;typeof null&lt;/code&gt;返回&lt;code&gt;object&lt;/code&gt;就没法改变了。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;typeof alert&lt;/code&gt; 的结果是 &lt;code&gt;&amp;quot;function&amp;quot;&lt;/code&gt;，因为 &lt;code&gt;alert&lt;/code&gt; 在 JavaScript 语言中是一个函数。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;用法&#34;&gt;用法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;typeof&lt;/code&gt; 只有一个实际的应用， 而这个应用却&lt;strong&gt;不是&lt;/strong&gt;用来检查对象的类型，这个实际应用是用来检测一个对象是否已经定义或者是否已经赋值。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;v
+// ReferenceError: v is not defined
+
+typeof v
+// &amp;quot;undefined&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上面代码中，变量&lt;code&gt;v&lt;/code&gt;没有用&lt;code&gt;var&lt;/code&gt;命令声明，直接使用就会报错。但是，放在&lt;code&gt;typeof&lt;/code&gt;后面，就不报错了，而是返回&lt;code&gt;undefined&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;实际编程中，这个特点通常用在判断语句。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 错误的写法
+if (v) {
+  // ...
+}
+// ReferenceError: v is not defined
+
+// 正确的写法
+if (typeof v === &amp;quot;undefined&amp;quot;) {
+  // ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://wangdoc.com/javascript/types/general.html#typeof-%E8%BF%90%E7%AE%97%E7%AC%A6&#34;&gt;typeof 运算符&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://zh.javascript.info/types#type-typeof&#34;&gt;typeof 运算符&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/typeof&#34;&gt;MDN-typeof&lt;/a&gt;&lt;/p&gt;
+">JavaScript-typeof运算符</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-yuan-shi-lei-xing-he-yin-yong-lei-xing/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;通常，数值、字符串、布尔值这三种类型，合称为原始类型（primitive type）的值，即它们是最基本的数据类型，不能再细分了。对象则称为合成类型（complex type）的值，因为一个对象往往是多个原始类型的值的合成，可以看作是一个存放各种值的容器。至于&lt;code&gt;undefined&lt;/code&gt;和&lt;code&gt;null&lt;/code&gt;，一般将它们看成两个特殊值。&lt;/p&gt;
+&lt;h2 id=&#34;栈内存和堆内存&#34;&gt;栈内存和堆内存&lt;/h2&gt;
+&lt;h3 id=&#34;栈内存&#34;&gt;栈内存&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;存储的值大小固定&lt;/li&gt;
+&lt;li&gt;空间较小&lt;/li&gt;
+&lt;li&gt;可以直接操作其保存的变量，运行效率高&lt;/li&gt;
+&lt;li&gt;由系统自动分配存储空间&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;堆内存&#34;&gt;堆内存&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;存储的值大小不定，可动态调整&lt;/li&gt;
+&lt;li&gt;空间较大，运行效率低&lt;/li&gt;
+&lt;li&gt;无法直接操作其内部存储，使用引用地址读取&lt;/li&gt;
+&lt;li&gt;通过代码进行分配空间&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;值类型&#34;&gt;值类型&lt;/h2&gt;
+&lt;h3 id=&#34;解析&#34;&gt;解析&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 值类型
+let a = 100
+let b = a
+a = 200
+console.log(b) // 100
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;JavaScript&lt;/code&gt;中的原始类型的值被直接存储在栈中，在变量定义时，栈就为其分配好了内存空间。&lt;/p&gt;
+&lt;p&gt;内存中有一个变量&lt;code&gt;a&lt;/code&gt;，值为&lt;code&gt;100&lt;/code&gt;。我们从变量&lt;code&gt;a&lt;/code&gt;复制出一个变量&lt;code&gt;b&lt;/code&gt;，此时在内存中创建了一个块新的空间用于存储&lt;code&gt;b&lt;/code&gt;，虽然两者值是相同的，但是两者指向的内存空间完全不同，这两个变量参与任何操作都互不影响。当改变a后，b指向的空间存储的值仍为&lt;code&gt;100&lt;/code&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1629504334414.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;比较&#34;&gt;比较&lt;/h3&gt;
+&lt;p&gt;对于原始类型，比较时会直接比较它们的值，如果值相等，即返回&lt;code&gt;true&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var a = &#39;abc&#39;;
+var b = &#39;abc&#39;;
+console.log(a === b); // true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;常见值类型&#34;&gt;常见值类型&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 常见值类型
+let a // undefined
+const s = &#39;abc&#39;
+const n = 100
+const b = true
+const s = Symbol(&#39;s&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;引用类型&#34;&gt;引用类型&lt;/h2&gt;
+&lt;h3 id=&#34;解析-2&#34;&gt;解析&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 引用类型
+let a = { age: 20 }
+let b = a
+b.age = 21
+console.log(a.age) // 21
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;引用类型的值实际存储在堆内存中，它在栈中只存储了一个固定长度的地址，这个地址指向堆内存中的值。&lt;/p&gt;
+&lt;p&gt;当我们复制引用类型的变量时，实际上复制的是栈中存储的地址，所以复制出来的&lt;code&gt;b&lt;/code&gt;实际上和&lt;code&gt;a&lt;/code&gt;指向的堆中同一个对象。因此，我们改变其中任何一个变量的值，另一个变量都会受到影响，这就是为什么会有深拷贝和浅拷贝的原因。&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1629504342917.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h3 id=&#34;比较-2&#34;&gt;比较&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var obja = { age: 20 }
+var objb = { age: 20 }
+console.log(obja === objb); // false
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;对于引用类型，比较时会比较它们的引用地址，虽然两个变量在堆中存储的对象具有的属性值都是相等的，但是它们被存储在了不同的存储空间，因此比较值为&lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;常见引用类型&#34;&gt;常见引用类型&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 常见引用类型
+const obj = { x: 100 }
+const arr = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+// 特殊引用类型，指针指向为空地址
+const n = null
+// 特殊引用类型，但不用于存储数据，所以没有&amp;quot;拷贝、复制函数&amp;quot;一说
+function fn() {}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.csdn.net/u012836896/article/details/89973820&#34;&gt;栈和堆的区别&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.conardli.top/blog/article/JS%E8%BF%9B%E9%98%B6/%E4%BD%A0%E7%9C%9F%E7%9A%84%E6%8E%8C%E6%8F%A1%E5%8F%98%E9%87%8F%E5%92%8C%E7%B1%BB%E5%9E%8B%E4%BA%86%E5%90%97%EF%BC%88%E4%B8%80%EF%BC%89%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html#%E5%AF%BC%E8%AF%BB&#34;&gt;你真的掌握变量和类型了吗（一）&lt;/a&gt;&lt;/p&gt;
+"> javascript-原始类型和引用类型</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-shu-ju-lei-xing/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;JavaScript 语言的每一个值，都属于某一种数据类型。&lt;/p&gt;
+&lt;p&gt;在 JavaScript 中有 8 种基本的数据类型（7 种原始类型和 1 种引用类型）。&lt;/p&gt;
+&lt;p&gt;原始类型：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数值（number）：整数和小数（比如&lt;code&gt;1&lt;/code&gt;和&lt;code&gt;3.14&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;字符串（string）：文本（比如&lt;code&gt;Hello World&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;布尔值（boolean）：表示真伪的两个特殊值，即&lt;code&gt;true&lt;/code&gt;（真）和&lt;code&gt;false&lt;/code&gt;（假）。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;undefined&lt;/code&gt;：表示“未定义”或不存在，即由于目前没有定义，所以此处暂时没有任何值。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;null&lt;/code&gt;：表示空值，即此处的值为空。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;symbol&lt;/code&gt;(es6新增): 用于创建对象的唯一标识符。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bigInt&lt;/code&gt;(es10新增)：表示任意长度的整数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;引用(对象/合成)类型:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对象（object）：各种值组成的集合。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;对象是最复杂的数据类型，又可以分成三个子类型。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;狭义的对象（object）&lt;/li&gt;
+&lt;li&gt;数组（array）&lt;/li&gt;
+&lt;li&gt;函数（function）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;动态类型&#34;&gt;动态类型&lt;/h2&gt;
+&lt;p&gt;我们可以将任何类型的值存入变量。例如，一个变量可以在前一刻是个字符串，下一刻就存储一个数字：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 没有错误
+let message = &amp;quot;hello&amp;quot;;
+message = 123456;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;允许这种操作的编程语言，例如 JavaScript，被称为“动态类型”（dynamically typed）的编程语言，意思是虽然编程语言中有不同的数据类型，但是你定义的变量并不会在定义后，被限制为某一数据类型。&lt;/p&gt;
+&lt;h2 id=&#34;number&#34;&gt;number&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let n = 123;
+n = 12.345;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;number&lt;/em&gt; 类型代表整数和浮点数。&lt;/p&gt;
+&lt;p&gt;数字可以有很多操作，比如，乘法 &lt;code&gt;*&lt;/code&gt;、除法 &lt;code&gt;/&lt;/code&gt;、加法 &lt;code&gt;+&lt;/code&gt;、减法 &lt;code&gt;-&lt;/code&gt; 等等。&lt;/p&gt;
+&lt;p&gt;除了常规的数字，还包括所谓的“特殊数值（“special numeric values”）”也属于这种类型：&lt;code&gt;Infinity&lt;/code&gt;、&lt;code&gt;-Infinity&lt;/code&gt; 和 &lt;code&gt;NaN&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Infinity&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Infinity&lt;/code&gt; 代表数学概念中的 &lt;a href=&#34;https://en.wikipedia.org/wiki/Infinity&#34;&gt;无穷大&lt;/a&gt; ∞。是一个比任何数字都大的特殊值。&lt;/p&gt;
+&lt;p&gt;我们可以通过除以 0 来得到它：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;alert( 1 / 0 ); // Infinity
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;或者在代码中直接使用它：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;alert( Infinity ); // Infinity
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;NaN&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;NaN&lt;/code&gt; 代表一个计算错误。它是一个不正确的或者一个未定义的数学操作所得到的结果，比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;alert( &amp;quot;not a number&amp;quot; / 2 ); // NaN，这样的除法是错误的
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;NaN&lt;/code&gt; 是粘性的。任何对 &lt;code&gt;NaN&lt;/code&gt; 的进一步操作都会返回 &lt;code&gt;NaN&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;alert( &amp;quot;not a number&amp;quot; / 2 + 5 ); // NaN
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;所以，如果在数学表达式中有一个 &lt;code&gt;NaN&lt;/code&gt;，会被传播到最终结果。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;数学运算是安全的&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 JavaScript 中做数学运算是安全的。我们可以做任何事：除以 0，将非数字字符串视为数字，等等。&lt;/p&gt;
+&lt;p&gt;脚本永远不会因为一个致命的错误（“死亡”）而停止。最坏的情况下，我们会得到 &lt;code&gt;NaN&lt;/code&gt; 的结果。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;bigint&#34;&gt;bigInt&lt;/h2&gt;
+&lt;p&gt;在 JavaScript 中，“number” 类型无法表示大于 &lt;code&gt;(253-1)&lt;/code&gt;（即 &lt;code&gt;9007199254740991&lt;/code&gt;），或小于 &lt;code&gt;-(253-1)&lt;/code&gt; 的整数。这是其内部表示形式导致的技术限制。&lt;/p&gt;
+&lt;p&gt;在大多数情况下，这个范围就足够了，但有时我们需要很大的数字，例如用于加密或微秒精度的时间戳。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;BigInt&lt;/code&gt; 类型是最近被添加到 JavaScript 语言中的，用于表示任意长度的整数。&lt;/p&gt;
+&lt;p&gt;可以通过将 &lt;code&gt;n&lt;/code&gt; 附加到整数字段的末尾来创建 &lt;code&gt;BigInt&lt;/code&gt; 值。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 尾部的 &amp;quot;n&amp;quot; 表示这是一个 BigInt 类型
+const bigInt = 1234567890123456789012345678901234567890n;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;兼容性问题&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;目前 Firefox/Chrome/Edge/Safari 已经支持 &lt;code&gt;BigInt&lt;/code&gt; 了，但 IE 还没有。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;string&#34;&gt;string&lt;/h2&gt;
+&lt;p&gt;JavaScript 中的字符串必须被括在引号里。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;let str = &amp;quot;Hello&amp;quot;;
+let str2 = &#39;Single quotes are ok too&#39;;
+let phrase = `can embed another ${str}`;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在 JavaScript 中，有三种包含字符串的方式。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;双引号：&lt;code&gt;&amp;quot;Hello&amp;quot;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;单引号：&lt;code&gt;&#39;Hello&#39;&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;反引号：&lt;code&gt;Hello&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;双引号和单引号都是“简单”引用，在 JavaScript 中两者几乎没有什么差别。&lt;/p&gt;
+&lt;p&gt;反引号是 &lt;strong&gt;功能扩展&lt;/strong&gt; 引号。它们允许我们通过将变量和表达式包装在 &lt;code&gt;${…}&lt;/code&gt; 中，来将它们嵌入到字符串中。例如：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let name = &amp;quot;John&amp;quot;;
+
+// 嵌入一个变量
+alert( `Hello, ${name}!` ); // Hello, John!
+
+// 嵌入一个表达式
+alert( `the result is ${1 + 2}` ); // the result is 3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;${…}&lt;/code&gt; 内的表达式会被计算，计算结果会成为字符串的一部分。可以在 &lt;code&gt;${…}&lt;/code&gt; 内放置任何东西：诸如名为 &lt;code&gt;name&lt;/code&gt; 的变量，或者诸如 &lt;code&gt;1 + 2&lt;/code&gt; 的算数表达式，或者其他一些更复杂的。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;JavaScript 中没有 character 类型。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在一些语言中，单个字符有一个特殊的 “character” 类型，在 C 语言和 Java 语言中被称为 “char”。&lt;/p&gt;
+&lt;p&gt;在 JavaScript 中没有这种类型。只有一种 &lt;code&gt;string&lt;/code&gt; 类型，一个字符串可以包含零个（为空）、一个或多个字符。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let name = &amp;quot;Ilya&amp;quot;;
+
+// 表达式为数字 1
+alert( `hello ${1}` ); // hello 1
+
+// 表达式是一个字符串 &amp;quot;name&amp;quot;
+alert( `hello ${&amp;quot;name&amp;quot;}` ); // hello name
+
+// 表达式是一个变量，嵌入进去了。
+alert( `hello ${name}` ); // hello Ilya
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;boolean&#34;&gt;boolean&lt;/h2&gt;
+&lt;p&gt;boolean 类型仅包含两个值：&lt;code&gt;true&lt;/code&gt; 和 &lt;code&gt;false&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;这种类型通常用于存储表示 yes 或 no 的值：&lt;code&gt;true&lt;/code&gt; 意味着 “yes，正确”，&lt;code&gt;false&lt;/code&gt; 意味着 “no，不正确”。&lt;/p&gt;
+&lt;p&gt;比如：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let nameFieldChecked = true; // yes, name field is checked
+let ageFieldChecked = false; // no, age field is not checked
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;布尔值也可作为比较的结果：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let isGreater = 4 &amp;gt; 1;
+
+alert( isGreater ); // true（比较的结果是 &amp;quot;yes&amp;quot;）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;null&#34;&gt;null&lt;/h2&gt;
+&lt;p&gt;它构成了一个独立的类型，只包含 &lt;code&gt;null&lt;/code&gt; 值：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let age = null;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;相比较于其他编程语言，JavaScript 中的 &lt;code&gt;null&lt;/code&gt; 不是一个“对不存在的 &lt;code&gt;object&lt;/code&gt; 的引用”或者 “null 指针”。&lt;/p&gt;
+&lt;p&gt;JavaScript 中的 &lt;code&gt;null&lt;/code&gt; 仅仅是一个代表“无”、“空”或“值未知”的特殊值。&lt;/p&gt;
+&lt;p&gt;上面的代码表示 &lt;code&gt;age&lt;/code&gt; 是未知的。&lt;/p&gt;
+&lt;h2 id=&#34;undefined&#34;&gt;undefined&lt;/h2&gt;
+&lt;p&gt;特殊值 &lt;code&gt;undefined&lt;/code&gt; 和 &lt;code&gt;null&lt;/code&gt; 一样自成类型。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;undefined&lt;/code&gt; 的含义是 &lt;code&gt;未被赋值&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;如果一个变量已被声明，但未被赋值，那么它的值就是 &lt;code&gt;undefined&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let age;
+
+alert(age); // 弹出 &amp;quot;undefined&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从技术上讲，可以显式地将 &lt;code&gt;undefined&lt;/code&gt; 赋值给变量：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let age = 100;
+
+// 将值修改为 undefined
+age = undefined;
+
+alert(age); // &amp;quot;undefined&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;但是不建议这样做。通常，使用 &lt;code&gt;null&lt;/code&gt; 将一个“空”或者“未知”的值写入变量中，而 &lt;code&gt;undefined&lt;/code&gt; 则保留作为未进行初始化的事物的默认初始值。&lt;/p&gt;
+&lt;h2 id=&#34;symbol&#34;&gt;symbol&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;symbol&lt;/code&gt; 类型用于创建对象的唯一标识符。&lt;/p&gt;
+&lt;h2 id=&#34;object&#34;&gt;object&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;object&lt;/code&gt; 类型是一个特殊的类型。&lt;/p&gt;
+&lt;p&gt;其他所有的数据类型都被称为“原始类型”，因为它们的值只包含一个单独的内容（字符串、数字或者其他）。相反，&lt;code&gt;object&lt;/code&gt; 则用于储存数据集合和更复杂的实体。&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;JavaScript 中有八种基本的数据类型（译注：前七种为基本数据类型，也称为原始类型，而 &lt;code&gt;object&lt;/code&gt; 为复杂数据类型）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;number&lt;/code&gt; 用于任何类型的数字：整数或浮点数，在 &lt;code&gt;±(253-1)&lt;/code&gt; 范围内的整数。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bigint&lt;/code&gt; 用于任意长度的整数。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;string&lt;/code&gt; 用于字符串：一个字符串可以包含 0 个或多个字符，所以没有单独的单字符类型。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;boolean&lt;/code&gt; 用于 &lt;code&gt;true&lt;/code&gt; 和 &lt;code&gt;false&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;null&lt;/code&gt; 用于未知的值 —— 只有一个 &lt;code&gt;null&lt;/code&gt; 值的独立类型。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;undefined&lt;/code&gt; 用于未定义的值 —— 只有一个 &lt;code&gt;undefined&lt;/code&gt; 值的独立类型。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;symbol&lt;/code&gt; 用于唯一的标识符。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;object&lt;/code&gt; 用于更复杂的数据结构。&lt;/li&gt;
+&lt;/ul&gt;
+">JavaScript-数据类型</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-tu-jie-https/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;本周，&lt;a href=&#34;https://www.cloudflare.com/&#34;&gt;CloudFlare&lt;/a&gt;宣布，开始提供Keyless服务，即你把网站放到它们的CDN上，不用提供自己的私钥，也能使用SSL加密链接。&lt;/p&gt;
@@ -1301,13 +3187,18 @@ console.log(&#39;server listening on 8888&#39;)
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/chrome-she-zhi/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;chrome功能设置及操作&lt;/p&gt;
+&lt;h2 id=&#34;搜索引擎&#34;&gt;搜索引擎&lt;/h2&gt;
+&lt;p&gt;地址栏中使用的搜索引擎：百度&lt;/p&gt;
 &lt;h2 id=&#34;启动时&#34;&gt;启动时&lt;/h2&gt;
 &lt;h3 id=&#34;同时打开多网页&#34;&gt;同时打开多网页&lt;/h3&gt;
-&lt;p&gt;打开特定网页或一组网页&lt;/p&gt;
+&lt;p&gt;打开特定网页或一组网页，添加新网页&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;https://leecss.com/
 https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/
 https://fanyi.baidu.com/
 &lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;语言&#34;&gt;语言&lt;/h2&gt;
+&lt;p&gt;高级 - 语言 - 语言折叠 - 添加语言 - 中文简体&lt;/p&gt;
+&lt;p&gt;中文简体 - 以这种语言显示Google Chrome&lt;/p&gt;
 ">chrome-设置</a>
       </div>
       
@@ -1439,8 +3330,23 @@ console.log(&#39;server listening on 8888&#39;)
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/ruan-jian-hui-zong/"" data-c="
-          &lt;h2 id=&#34;web服务器&#34;&gt;web服务器&lt;/h2&gt;
+          &lt;h2 id=&#34;开发&#34;&gt;开发&lt;/h2&gt;
+&lt;h3 id=&#34;web服务器&#34;&gt;web服务器&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&#34;http://nginx.org/en/download.html&#34;&gt;nginx&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;装机&#34;&gt;装机&lt;/h2&gt;
+&lt;h3 id=&#34;软件&#34;&gt;软件&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.huorong.cn/&#34;&gt;huorong&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://otp.landian.vip/zh-cn/&#34;&gt;Office Tool Plus&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.google.cn/chrome/&#34;&gt;chrome&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.7-zip.org/&#34;&gt;7-zip&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&#34;目录&#34;&gt;目录&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;D:       
+├─software  
+   ├─download     
+   └─apps
+      ├─huorong
+      └─7zip
+&lt;/code&gt;&lt;/pre&gt;
 ">软件汇总</a>
       </div>
       
