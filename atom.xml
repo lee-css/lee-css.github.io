@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://leecss.com</id>
     <title>当下</title>
-    <updated>2021-08-30T00:38:25.714Z</updated>
+    <updated>2021-09-14T00:41:02.685Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://leecss.com"/>
     <link rel="self" href="https://leecss.com/atom.xml"/>
@@ -10,914 +10,597 @@
     <icon>https://leecss.com/favicon.ico</icon>
     <rights>All rights reserved 2021, 当下</rights>
     <entry>
-        <title type="html"><![CDATA[ js手写-bind]]></title>
-        <id>https://leecss.com/post/js-shou-xie-bind/</id>
-        <link href="https://leecss.com/post/js-shou-xie-bind/">
+        <title type="html"><![CDATA[JavaScript-webApi-window方法requestAnimationFrame]]></title>
+        <id>https://leecss.com/post/javascript-webapi-window-fang-fa-requestanimationframe/</id>
+        <link href="https://leecss.com/post/javascript-webapi-window-fang-fa-requestanimationframe/">
         </link>
-        <updated>2021-08-30T00:37:35.000Z</updated>
-        <summary type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>手写bind</p>
-]]></summary>
+        <updated>2021-09-14T00:16:01.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>手写bind</p>
-<!-- more -->
-<pre><code class="language-js">// 模拟 bind
-Function.prototype.bind1 = function () {
-    // 将参数拆解为数组
-    const args = Array.prototype.slice.call(arguments)
+<p><code>window.requestAnimationFrame()</code>告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行</p>
+<h2 id="示例">示例</h2>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+        &lt;title&gt;JS 真题演示&lt;/title&gt;
 
-    // 获取 this（数组第一项）
-    const t = args.shift()
+        &lt;style&gt;
+            #div1 {
+                width: 100px;
+                height: 50px;
+                background-color: red;
+            }
+        &lt;/style&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;JS 真题演示&lt;/p&gt;
 
-    // fn1.bind(...) 中的 fn1
-    const self = this
+        &lt;div id=&quot;div1&quot;&gt;&lt;/div&gt;
 
-    // 返回一个函数
-    return function () {
-        return self.apply(t, args)
+        &lt;script src=&quot;https://cdn.bootcss.com/jquery/3.4.0/jquery.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;./RAF.js&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<pre><code class="language-js">// 3s 把宽度从 100px 变为 640px ，即增加 540px
+// 60帧/s ，3s 180 帧 ，每次变化 3px
+
+const $div1 = $('#div1')
+let curWidth = 100
+const maxWidth = 640
+
+// // setTimeout
+// function animate() {
+//     curWidth = curWidth + 3
+//     $div1.css('width', curWidth)
+//     if (curWidth &lt; maxWidth) {
+//         setTimeout(animate, 16.7) // 自己控制时间
+//     }
+// }
+// animate()
+
+// RAF
+function animate() {
+    curWidth = curWidth + 3
+    $div1.css('width', curWidth)
+    if (curWidth &lt; maxWidth) {
+        window.requestAnimationFrame(animate) // 时间不用自己控制
     }
 }
-
-function fn1(a, b, c) {
-    console.log('this', this)
-    console.log(a, b, c)
-    return 'this is fn1'
+animate()
+</code></pre>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame">https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JavaScript-数组去重]]></title>
+        <id>https://leecss.com/post/javascript-shu-zu-qu-chong/</id>
+        <link href="https://leecss.com/post/javascript-shu-zu-qu-chong/">
+        </link>
+        <updated>2021-09-13T23:59:07.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="示例">示例</h2>
+<pre><code class="language-js">// 传统方式
+function unique(arr) {
+    const res = []
+    arr.forEach(item =&gt; {
+        if (res.indexOf(item) &lt; 0) {
+            res.push(item)
+        }
+    })
+    return res
 }
 
-const fn2 = fn1.bind1({x: 100}, 10, 20, 30)
-const res = fn2()
+// 使用 Set （无序，不能重复）
+function unique(arr) {
+    const set = new Set(arr)
+    return [...set]
+}
+
+const res = unique([30, 10, 20, 30, 40, 10])
 console.log(res)
 
 </code></pre>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JavaScript-this指向]]></title>
-        <id>https://leecss.com/post/javascript-this-zhi-xiang/</id>
-        <link href="https://leecss.com/post/javascript-this-zhi-xiang/">
+        <title type="html"><![CDATA[JavaScript-实例-解析url参数]]></title>
+        <id>https://leecss.com/post/javascript-shi-li-jie-xi-url-can-shu/</id>
+        <link href="https://leecss.com/post/javascript-shi-li-jie-xi-url-can-shu/">
         </link>
-        <updated>2021-08-30T00:36:07.000Z</updated>
+        <updated>2021-09-13T14:15:47.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><strong>this 的取值是在执行时确定的，不是定义时候确定的</strong></p>
-<h2 id="this的应用场景">this的应用场景</h2>
-<h3 id="作为普通函数">作为普通函数</h3>
-<pre><code class="language-js">function fn1() {
-  console.log(this)
-}
-fn1() // window
-</code></pre>
-<h3 id="使用-call-apply-bind">使用 call apply bind</h3>
-<pre><code class="language-js">function fn1() {
-  console.log(this)
-}
-fn1.call({ X:100 })  // {X: 100}
-
-const fn2 = fn1.bind({ x:200 })
-fn2()  // {x: 200}
-</code></pre>
-<h3 id="作为对象方法被调用">作为对象方法被调用</h3>
-<pre><code class="language-js">const zhangsan = {
-  name: 'zhangsan',
-  sayHi() {
-    // this 即当前对象
-    console.log(this)
-  },
-  wait() {
-    setTimeout(function() {
-      // this === window
-      console.log(this)
-    })
-  }
-}
-zhangsan.sayHi() // {name: &quot;zhangsan&quot;, sayHi: ƒ, wait: ƒ}
-zhangsan.wait() // window
-</code></pre>
-<h3 id="箭头函数">箭头函数</h3>
-<pre><code class="language-js">const zhangsan = {
-  name: 'zhangsan',
-  sayHi() {
-    // this 即当前对象
-    console.log(this)
-  },
-  wait() {
-    setTimeout(() =&gt; {
-      // this 即当前对象
-      console.log(this)
-    })
-  }
-}
-zhangsan.sayHi() // {name: &quot;zhangsan&quot;, sayHi: ƒ, wait: ƒ}
-zhangsan.wait() // {name: &quot;zhangsan&quot;, sayHi: ƒ, wait: ƒ}
-</code></pre>
-<h3 id="在-class-方法中调用">在 class 方法中调用</h3>
-<pre><code class="language-js">class People {
-  constructor(name) {
-    this.name = name
-  }
-  sayHi() {
-    console.log(this)
-  }
-}
-const zhangsan = new People('zhangsan')
-zhangsan.sayHi() // zhangsan对象： People {name: &quot;zhangsan&quot;}
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ JavaScript-作用域和闭包]]></title>
-        <id>https://leecss.com/post/javascript-zuo-yong-yu-he-bi-bao/</id>
-        <link href="https://leecss.com/post/javascript-zuo-yong-yu-he-bi-bao/">
-        </link>
-        <updated>2021-08-30T00:34:37.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="作用域">作用域</h2>
-<p>作用域：变量的合法使用范围<br>
-全局作用域：在全局可以使用<br>
-函数作用域：只能在函数块中使用<br>
-块级作用域（ES6新增）：let，const定义的变量有块级作用域{}内部使用</p>
-<h2 id="自由变量">自由变量</h2>
-<p>1.一个变量在当前作用域没有定义，但是被使用了<br>
-2.向上级作用域，一层一层依次寻找，直到找到为止<br>
-3.如果到全局作用域都没找到，则报错：xxx is not defined</p>
-<h2 id="闭包">闭包</h2>
-<p>闭包：作用域应用的一种特殊情况<br>
-表现：</p>
-<p>函数作为参数被传递</p>
-<pre><code class="language-js">// 函数作为参数被传递
-function print(fn) {
-    const a = 200
-    fn()
-}
-const a = 100
-function fn() {
-    console.log(a)
-}
-print(fn) // 100
-</code></pre>
-<p>函数作为返回值被返回</p>
-<pre><code class="language-js">// 函数作为返回值
-function create() {
-    const a = 100
-    return function () {
-        console.log(a)
+<p>不想看正则，以后复习再看</p>
+<h2 id="获取参数值">获取参数值</h2>
+<pre><code class="language-js">// 传统方式
+function query(name) {
+    const search = location.search.substr(1) // 类似 array.slice(1)
+    // search: 'a=10&amp;b=20&amp;c=30'
+    const reg = new RegExp(`(^|&amp;)${name}=([^&amp;]*)(&amp;|$)`, 'i')
+    const res = search.match(reg)
+    if (res === null) {
+        return null
     }
+    return res[2]
+}
+query('d')
+
+// URLSearchParams
+function query(name) {
+    const search = location.search
+    const p = new URLSearchParams(search)
+    return p.get(name)
+}
+console.log( query('b') )
+
+</code></pre>
+<h2 id="url参数解析为js对象">url参数解析为js对象</h2>
+<pre><code class="language-js">// url参数解析为js对象
+
+// 传统方式，分析search
+function queryToObj() {
+  const res = {}
+  const search = location.search.substr(1) // 去掉前面的`?`
+  search.split('&amp;').forEach(paramStr =&gt; {
+    const arr = paramStr.split('=')
+    const key = arr[0]
+    const val = arr[1]
+    res[key] = val
+  })
+  return res
 }
 
-const fn = create()
-const a = 200
-fn() // 100
+// 使用URLSearchParams
+function queryToObj() {
+  const res = {}
+  const pList = new URLSearchParams(location.search)
+  pList.forEach((val, key) =&gt; {
+    res[key] = val
+  })
+  return res
+}
+
 </code></pre>
-<p><strong>所有的自由变量的查找，是在函数定义的地方，向上级作用域查找，不是在执行的地方</strong></p>
+<h2 id="mdn">MDN</h2>
+<p><code>URLSearchParams</code> 接口定义了一些实用的方法来处理 URL 的查询字符串。</p>
+<pre><code class="language-js">var paramsString = &quot;q=URLUtils.searchParams&amp;topic=api&quot;
+var searchParams = new URLSearchParams(paramsString);
+
+for (let p of searchParams) {
+  console.log(p);
+}
+
+// ['q', 'URLUtils.searchParams']
+// ['topic', 'api']
+
+</code></pre>
 <h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes">http://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes</a></p>
-<p><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#function.closures">http://bonsaiden.github.io/JavaScript-Garden/zh/#function.closures</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams">https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JavaScript-Object对象方法hasOwnProperty]]></title>
-        <id>https://leecss.com/post/javascript-object-dui-xiang-fang-fa-hasownproperty/</id>
-        <link href="https://leecss.com/post/javascript-object-dui-xiang-fang-fa-hasownproperty/">
+        <title type="html"><![CDATA[ js手写-max]]></title>
+        <id>https://leecss.com/post/js-shou-xie-max/</id>
+        <link href="https://leecss.com/post/js-shou-xie-max/">
         </link>
-        <updated>2021-08-29T05:39:52.000Z</updated>
+        <updated>2021-09-13T13:53:43.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>对象实例的<code>hasOwnProperty</code>方法返回一个布尔值，用于判断某个属性定义在对象自身，还是定义在原型链上。</p>
-<pre><code class="language-js">Date.hasOwnProperty('length') // true
-Date.hasOwnProperty('toString') // false
-</code></pre>
-<p>上面代码表明，<code>Date.length</code>（构造函数<code>Date</code>可以接受多少个参数）是<code>Date</code>自身的属性，<code>Date.toString</code>是继承的属性。</p>
-<h2 id="hasownproperty-函数"><code>hasOwnProperty</code> 函数</h2>
-<p>为了判断一个对象是否包含<em>自定义</em>属性而不是原型链上的属性， 我们需要使用继承自 <code>Object.prototype</code> 的 <code>hasOwnProperty</code> 方法。</p>
-<p><code>hasOwnProperty</code> 是 JavaScript 中唯一一个处理属性但是<strong>不</strong>查找原型链的函数。</p>
-<pre><code class="language-js">// 修改Object.prototype
-Object.prototype.bar = 1; 
-var foo = {goo: undefined};
-
-foo.bar; // 1
-'bar' in foo; // true
-
-foo.hasOwnProperty('bar'); // false
-foo.hasOwnProperty('goo'); // true
-</code></pre>
-<p>只有 <code>hasOwnProperty</code> 可以给出正确和期望的结果，这在遍历对象的属性时会很有用。 <strong>没有</strong>其它方法可以用来排除原型链上的属性，而不是定义在对象<em>自身</em>上的属性。</p>
-<h3 id="hasownproperty-作为属性"><code>hasOwnProperty</code> 作为属性</h3>
-<p>JavaScript <strong>不会</strong>保护 <code>hasOwnProperty</code> 被非法占用，因此如果一个对象碰巧存在这个属性， 就需要使用<em>外部</em>的 <code>hasOwnProperty</code> 函数来获取正确的结果。</p>
-<pre><code class="language-js">var foo = {
-    hasOwnProperty: function() {
-        return false;
-    },
-    bar: 'Here be dragons'
-};
-
-foo.hasOwnProperty('bar'); // 总是返回 false
-
-// 使用其它对象的 hasOwnProperty，并将其上下文设置为foo
-({}).hasOwnProperty.call(foo, 'bar'); // true
-</code></pre>
-<p>当检查对象上某个属性是否存在时，<code>hasOwnProperty</code> 是<strong>唯一</strong>可用的方法。 同时在使用 <code>for in</code> loop遍历对象时，推荐<strong>总是</strong>使用 <code>hasOwnProperty</code> 方法， 这将会避免原型对象扩展带来的干扰。</p>
-<h2 id="for-in-循环"><code>for in</code> 循环</h2>
-<p>和 <code>in</code> 操作符一样，<code>for in</code> 循环同样在查找对象属性时遍历原型链上的所有属性。</p>
-<pre><code class="language-js">// 修改 Object.prototype
-Object.prototype.bar = 1;
-
-var foo = {moo: 2};
-for(var i in foo) {
-    console.log(i); // 输出两个属性：bar 和 moo
-}
-</code></pre>
-<p>由于不可能改变 <code>for in</code> 自身的行为，因此有必要过滤出那些不希望出现在循环体中的属性， 这可以通过 <code>Object.prototype</code> 原型上的 <code>hasOwnProperty</code> 函数来完成。</p>
-<h3 id="使用-hasownproperty-过滤">使用 <code>hasOwnProperty</code> 过滤</h3>
-<pre><code class="language-js">// foo 变量是上例中的
-for(var i in foo) {
-    if (foo.hasOwnProperty(i)) {
-        console.log(i);
+<p>获取多个数字中的最大值</p>
+<h2 id="示例">示例</h2>
+<pre><code class="language-js">function max() {
+  const nums = Array.prototype.slice.call(arguments) // 变为数组
+  let max = 0
+  nums.forEach(n =&gt; {
+    if (n &gt; max) {
+      max = n
     }
+  })
+  return max
 }
 </code></pre>
-<p>这个版本的代码是唯一正确的写法。由于我们使用了 <code>hasOwnProperty</code>，所以这次<strong>只</strong>输出 <code>moo</code>。 如果不使用 <code>hasOwnProperty</code>，则这段代码在原生对象原型（比如 <code>Object.prototype</code>）被扩展时可能会出错。</p>
-<p>一个广泛使用的类库 <a href="http://www.prototypejs.org/">Prototype</a> 就扩展了原生的 JavaScript 对象。 因此，当这个类库被包含在页面中时，不使用 <code>hasOwnProperty</code> 过滤的 <code>for in</code> 循环难免会出问题。</p>
-<h2 id="转载">转载</h2>
-<p><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#object.hasownproperty">JavaScript秘密花园</a></p>
+<h2 id="感受">感受</h2>
+<p>换一种写法</p>
+<pre><code class="language-js">function max(...array) {
+  const length = array == null ? 0 : array.length
+  return length
+    ? array.reduce((acc,cur) =&gt; {
+      return acc &gt; cur ? acc : cur
+    })
+    : void 0
+}
+max(1,2,3)
+</code></pre>
+<h2 id="当然没必要">当然没必要</h2>
+<p>直接用Math.max()就好</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JavaScript-原型链]]></title>
-        <id>https://leecss.com/post/javascript-yuan-xing-lian/</id>
-        <link href="https://leecss.com/post/javascript-yuan-xing-lian/">
+        <title type="html"><![CDATA[ js手写-trim]]></title>
+        <id>https://leecss.com/post/js-shou-xie-trim/</id>
+        <link href="https://leecss.com/post/js-shou-xie-trim/">
         </link>
-        <updated>2021-08-29T01:59:19.000Z</updated>
+        <updated>2021-09-13T13:37:04.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>当谈到继承时，JavaScript 只有一种结构：对象。每个实例对象（object）都有一个私有属性（称之为 <strong>proto</strong> ）指向它的构造函数的原型对象（<strong>prototype</strong>）。该原型对象也有一个自己的原型对象（<strong>proto</strong>），层层向上直到一个对象的原型对象为 <code>null</code>。根据定义，<code>null</code> 没有原型，并作为这个<strong>原型链</strong>中的最后一个环节。</p>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">MDN-prototype_chain</a></p>
-<p><a href="https://wangdoc.com/javascript/oop/prototype.html">阮一峰</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaScript-类的继承和原型]]></title>
-        <id>https://leecss.com/post/javascript-yuan-xing/</id>
-        <link href="https://leecss.com/post/javascript-yuan-xing/">
-        </link>
-        <updated>2021-08-28T23:56:49.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>继承的实现和js的原型</p>
-<h2 id="类">类</h2>
-<pre><code class="language-js">// 类
-class Student {
-    constructor(name, number) {
-        this.name = name
-        this.number = number
-    }
-    sayHi() {
-        console.log(
-            `姓名 ${this.name} ，学号 ${this.number}`
-        )
-    }
+<p>原型，this,正则</p>
+<h2 id="示例">示例</h2>
+<pre><code class="language-js">String.prototype.trim = function() {
+  return this.replace(/^\s+/,'').replace(/\s+$/,'')
 }
-
-// 通过类 new 对象/实例
-const xialuo = new Student('夏洛', 100)
-console.log(xialuo.name)
-console.log(xialuo.number)
-xialuo.sayHi()
-
-const madongmei = new Student('马冬梅', 101)
-console.log(madongmei.name)
-console.log(madongmei.number)
-madongmei.sayHi()
-
-</code></pre>
-<h2 id="用类实现继承">用类实现继承</h2>
-<pre><code class="language-js">// 父类
-class People {
-    constructor(name) {
-        this.name = name
-    }
-    eat() {
-        console.log(`${this.name} eat something`)
-    }
-}
-
-// 子类
-class Student extends People {
-    constructor(name, number) {
-        super(name)
-        this.number = number
-    }
-    sayHi() {
-        console.log(`姓名 ${this.name} 学号 ${this.number}`)
-    }
-}
-
-// 子类
-class Teacher extends People {
-    constructor(name, major) {
-        super(name)
-        this.major = major
-    }
-    teach() {
-        console.log(`${this.name} 教授 ${this.major}`)
-    }
-}
-
-// 实例
-const xialuo = new Student('夏洛', 100)
-console.log(xialuo.name)
-console.log(xialuo.number)
-xialuo.sayHi()
-xialuo.eat()
-
-// 实例
-const wanglaoshi = new Teacher('王老师', '语文')
-console.log(wanglaoshi.name)
-console.log(wanglaoshi.major)
-wanglaoshi.teach()
-wanglaoshi.eat()
-
-</code></pre>
-<h2 id="原型关系">原型关系</h2>
-<pre><code class="language-js">// class实际上是函数，可见是语法糖
-typeof People // 'function'
-typeof Student // 'function'
-
-// 隐式原型和显式原型
-console.log(xialuo.__proto__)
-/**
- * People
- *  constructor: class Student
- *  sayHi: ƒ sayHi()
- *  [[Prototype]]: Object
-*/
-console.log(Student.prototype)
-/**
- * People
- *  constructor: class Student
- *  sayHi: ƒ sayHi()
- *  [[Prototype]]: Object
-*/
-console.log(xialuo.__proto__ === Student.prototype) // true
-</code></pre>
-<p>每个class都有显式原型 prototype<br>
-每个实例都有隐式原型 <code>__proto__</code><br>
-实例的隐式原型 <code>__proto__</code> 指向class的显式原型prototype</p>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1630195055419.jpg" alt="" loading="lazy"></figure>
-<h2 id="基于原型的执行规则">基于原型的执行规则</h2>
-<p>获取属性xialuo.name 或执行方法xialuo.sayhi()时</p>
-<p>先在自身属性和方法找</p>
-<p>如果找不到则去<code>__proto__</code>中找</p>
-<h2 id="原型链">原型链</h2>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1630196768351.jpg" alt="" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaScript-类型转换]]></title>
-        <id>https://leecss.com/post/javascript-lei-xing-zhuan-huan/</id>
-        <link href="https://leecss.com/post/javascript-lei-xing-zhuan-huan/">
-        </link>
-        <updated>2021-08-27T08:04:43.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>显式转化类型</p>
-<h2 id="分类">分类</h2>
-<h3 id="数字转字符串">数字转字符串</h3>
-<h4 id="一元的加号操作符">一元的加号操作符</h4>
-<pre><code class="language-js">'' + 10 === '10'; // true
-</code></pre>
-<h4 id="tostring">toString()</h4>
-<p>语法：<code>number.toString(radix)</code><br>
-radix：规定表示数字的基数，是 2 ~ 36 之间的整数。</p>
-<pre><code class="language-js">var num = 15;
-var a = num.toString(); // 15
-var b = num.toString(2); // 1111
-var c = num.toString(8); // 17
-var d = num.toString(16); // f
-</code></pre>
-<h3 id="字符串转数字">字符串转数字</h3>
-<pre><code class="language-js">+'010' === 10
-Number('010') === 10
-parseInt('010', 10) === 10  // 用来转换为整数
-
-+'010.2' === 10.2
-Number('010.2') === 10.2
-parseInt('010.2', 10) === 10
-</code></pre>
-<h4 id="一元的加号操作符-2">一元的加号操作符</h4>
-<pre><code class="language-js">+'10' === 10; // true
-</code></pre>
-<h4 id="parseint">parseInt()</h4>
-<p>语法：<code>parseInt(string, radix)</code><br>
-string：要被解析的字符串；<br>
-radix：表示要解析的数字的基数。该值介于 2 ~ 36 之间。</p>
-<pre><code class="language-js">parseInt(&quot;10&quot;);         //返回 10
-parseInt(&quot;19&quot;,10);      //返回 19 (10+9)
-parseInt(&quot;11&quot;,2);       //返回 3 (2+1)
-parseInt(&quot;17&quot;,8);       //返回 15 (8+7)
-parseInt(&quot;1f&quot;,16);      //返回 31 (16+15)
-parseInt(&quot;010&quot;);        //未定：返回 10 或 8
-</code></pre>
-<h4 id="number">Number()</h4>
-<pre><code class="language-js">Number('010') === 10
-Number('010.2') === 10.2
-</code></pre>
-<h3 id="其他类型转布尔值">其他类型转布尔值</h3>
-<h4 id="">!!</h4>
-<p>通过使用 <strong>否</strong> 操作符两次，可以把一个值转换为布尔型。</p>
-<pre><code class="language-js">!!'foo';   // true
-!!'';      // false
-!!'0';     // true
-!!'1';     // true
-!!'-1'     // true
-!!{};      // true
-!!true;    // true
-</code></pre>
-<h4 id="boolean">Boolean()</h4>
-<p>除了undefined、null、0、-0、NaN、''会被转换成false，其他的值都会转换成true。</p>
-<pre><code class="language-js">let a = Boolean(null); // false
 </code></pre>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[ js手写-深拷贝]]></title>
-        <id>https://leecss.com/post/js-shou-xie-shen-kao-bei/</id>
-        <link href="https://leecss.com/post/js-shou-xie-shen-kao-bei/">
+        <title type="html"><![CDATA[ js手写-isEqual]]></title>
+        <id>https://leecss.com/post/js-shou-xie-isequal/</id>
+        <link href="https://leecss.com/post/js-shou-xie-isequal/">
         </link>
-        <updated>2021-08-27T01:40:01.000Z</updated>
+        <updated>2021-09-12T23:50:58.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><strong>什么是深拷贝？</strong></p>
-<p>浅拷贝(Shallow Copy)、深拷贝(Deep Copy)只存在于<em>引用类型</em>中 (基本数据类型是按值访问的，操作保存的是实际的值)<br>
-<strong>区别</strong>：是否是真正获取了一个对象的复制实体，而不是引用。<br>
-<strong>赋值</strong>： 只复制了指向对象的指针，改变对象会互相影响。<br>
-<strong>浅拷贝</strong>： 只复制对象一层，改变引用对象还会互相影响。<br>
-<strong>深拷贝</strong>： 完全复制对象的值，改变对象不会互相影响。</p>
-<p>基本类型： Boolean、Number、String、Null、Undefined、Symbol、BigInt</p>
-<pre><code class="language-js">var num1 = 1;
-var num2 = num1;
-// num1: 1
-// num2: 1
-num2 = 2;
-// num1: 1
-// num2: 2
-</code></pre>
-<p>引用类型： Object</p>
-<pre><code class="language-js">var obj1 = {x: 1, y: 2};
-var obj2 = obj1;
-// obj1: {x: 1, y: 2}
-// obj2: {x: 1, y: 2}
-obj2.x = 2;
-// obj1: {x: 2, y: 2}
-// obj2: {x: 2, y: 2}
-</code></pre>
-<h2 id="简易版">简易版</h2>
-<pre><code class="language-js">/**
- * 深拷贝
- */
-
-const obj1 = {
-    age: 20,
-    name: 'xxx',
-    address: {
-        city: 'beijing'
-    },
-    arr: ['a', 'b', 'c']
+<p>比较两个对象或数组是否属性值全部一致</p>
+<h2 id="示例">示例</h2>
+<pre><code class="language-js">// 判断是否是对象或数组
+function isObject(obj) {
+    return typeof obj === 'object' &amp;&amp; obj !== null
 }
-
-const obj2 = deepClone(obj1)
-obj2.address.city = 'shanghai'
-obj2.arr[0] = 'a1'
-console.log(obj1.address.city)
-console.log(obj1.arr[0])
-
-/**
- * 深拷贝
- * @param {Object} obj 要拷贝的对象
- */
-function deepClone(obj = {}) {
-    if (typeof obj !== 'object' || obj == null) {
-        // obj 是 null ，或者不是对象和数组，直接返回
-        return obj
+// 全相等（深度）
+function isEqual(obj1, obj2) {
+    if (!isObject(obj1) || !isObject(obj2)) {
+        // 值类型（注意，参与 equal 的一般不会是函数）
+        return obj1 === obj2
     }
-
-    // 初始化返回结果
-    let result
-    if (obj instanceof Array) {
-        result = []
-    } else {
-        result = {}
+    if (obj1 === obj2) {
+        return true
     }
-
-    for (let key in obj) {
-        // 保证 key 不是原型的属性
-        if (obj.hasOwnProperty(key)) {
-            // 递归调用！！！
-            result[key] = deepClone(obj[key])
+    // 两个都是对象或数组，而且不相等
+    // 1. 先取出 obj1 和 obj2 的 keys ，比较个数
+    const obj1Keys = Object.keys(obj1)
+    const obj2Keys = Object.keys(obj2)
+    if (obj1Keys.length !== obj2Keys.length) {
+        return false
+    }
+    // 2. 以 obj1 为基准，和 obj2 一次递归比较
+    for (let key in obj1) {
+        // 比较当前 key 的 val —— 递归！！！
+        const res = isEqual(obj1[key], obj2[key])
+        if (!res) {
+            return false
         }
     }
-
-    // 返回结果
-    return result
+    // 3. 全相等
+    return true
 }
+
+// 测试
+const obj1 = {
+    a: 100,
+    b: {
+        x: 100,
+        y: 200
+    }
+}
+const obj2 = {
+    a: 100,
+    b: {
+        x: 100,
+        y: 200
+    }
+}
+// console.log( obj1 === obj2 )
+console.log( isEqual(obj1, obj2) )
+
+const arr1 = [1, 2, 3]
+const arr2 = [1, 2, 3, 4]
 
 </code></pre>
-<h2 id="深入版">深入版</h2>
-<pre><code class="language-js">const mapTag = '[object Map]';
-const setTag = '[object Set]';
-const arrayTag = '[object Array]';
-const objectTag = '[object Object]';
-const argsTag = '[object Arguments]';
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[js手写-throttle]]></title>
+        <id>https://leecss.com/post/js-shou-xie-throttle/</id>
+        <link href="https://leecss.com/post/js-shou-xie-throttle/">
+        </link>
+        <updated>2021-09-12T23:07:29.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>当拖拽事件执行时，频率太快，减少事件的执行次数，以一个固定频率来执行。</p>
+<h2 id="示例">示例</h2>
+<pre><code class="language-js">const div1 = document.getElementById('div1')
 
-const boolTag = '[object Boolean]';
-const dateTag = '[object Date]';
-const numberTag = '[object Number]';
-const stringTag = '[object String]';
-const symbolTag = '[object Symbol]';
-const errorTag = '[object Error]';
-const regexpTag = '[object RegExp]';
-const funcTag = '[object Function]';
-
-const deepTag = [mapTag, setTag, arrayTag, objectTag, argsTag];
-
-
-function forEach(array, iteratee) {
-    let index = -1;
-    const length = array.length;
-    while (++index &lt; length) {
-        iteratee(array[index], index);
+let timer = null
+div1.addEventListener('drag', function (e) {
+    if (timer) {
+        return
     }
-    return array;
+    timer = setTimeout(() =&gt; {
+        console.log(e.offsetX, e.offsetY)
+
+        timer = null
+    }, 100)
+})
+</code></pre>
+<pre><code class="language-js">const div1 = document.getElementById('div1')
+
+// 节流
+function throttle(fn, delay = 100) {
+    let timer = null
+
+    return function () {
+        if (timer) {
+            return
+        }
+        timer = setTimeout(() =&gt; {
+            fn.apply(this, arguments)
+            timer = null
+        }, delay)
+    }
 }
 
-function isObject(target) {
-    const type = typeof target;
-    return target !== null &amp;&amp; (type === 'object' || type === 'function');
+div1.addEventListener('drag', throttle(function (e) {
+    console.log(e.offsetX, e.offsetY)
+}))
+</code></pre>
+<h3 id="apply">apply</h3>
+<pre><code class="language-js">div1.addEventListener('drag', function(event) {
+
+})
+</code></pre>
+<p><code>fn.apply(this, arguments)</code>:由上述代码可知，arguments参数是传递到throttle返回的函数中的，所以需要将参数传递给fn</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ js手写-debounce]]></title>
+        <id>https://leecss.com/post/js-shou-xie-debounce/</id>
+        <link href="https://leecss.com/post/js-shou-xie-debounce/">
+        </link>
+        <updated>2021-09-12T22:53:49.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>输入框中防止连续触发事件，用户输入结束或暂停时再触发</p>
+<h2 id="示例">示例</h2>
+<pre><code class="language-js">const input1 = document.getElementById('input1')
+
+let timer = null
+input1.addEventListener('keyup', function () {
+    if (timer) {
+        clearTimeout(timer)
+    }
+    timer = setTimeout(() =&gt; {
+        // 模拟触发 change 事件
+        console.log(input1.value)
+
+        // 清空定时器
+        timer = null
+    }, 500)
+})
+</code></pre>
+<pre><code class="language-js">const input1 = document.getElementById('input1')
+
+// 防抖
+function debounce(fn, delay = 500) {
+    // timer 是闭包中的
+    let timer = null
+
+    return function () {
+        if (timer) {
+            clearTimeout(timer)
+        }
+        timer = setTimeout(() =&gt; {
+            fn.apply(this, arguments)
+            timer = null
+        }, delay)
+    }
 }
 
-function getType(target) {
-    return Object.prototype.toString.call(target);
+input1.addEventListener('keyup', debounce(function (e) {
+    console.log(e.target)
+    console.log(input1.value)
+}, 600))
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JavaScript-webApi-Ajax]]></title>
+        <id>https://leecss.com/post/javascript-webapi-ajax/</id>
+        <link href="https://leecss.com/post/javascript-webapi-ajax/">
+        </link>
+        <updated>2021-09-12T08:52:56.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p><code>ajax</code>是一种技术方案，但并不是一种<strong>新技术</strong>。它依赖的是现有的<code>CSS</code>/<code>HTML</code>/<code>Javascript</code>，而其中最核心的依赖是浏览器提供的<code>XMLHttpRequest</code>对象，是这个对象使得浏览器可以发出<code>HTTP</code>请求与接收<code>HTTP</code>响应。</p>
+<p>所以我用一句话来总结两者的关系：我们使用<code>XMLHttpRequest</code>对象来发送一个<code>Ajax</code>请求。</p>
+<h2 id="xmlhttprequest">XMLHttpRequest</h2>
+<pre><code class="language-js">const xhr = new XMLHttpRequest()
+xhr.open('GET', '/data/test.json', true)
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+            // console.log(
+            //     JSON.parse(xhr.responseText)
+            // )
+            alert(xhr.responseText)
+        } else if (xhr.status === 404) {
+            console.log('404 not found')
+        }
+    }
+}
+xhr.send(null)
+</code></pre>
+<h2 id="手写简易ajax">手写简易ajax</h2>
+<pre><code class="language-js">function ajax(url) {
+    const p = new Promise((resolve, reject) =&gt; {
+        const xhr = new XMLHttpRequest()
+        xhr.open('GET', url, true)
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    resolve(
+                        JSON.parse(xhr.responseText)
+                    )
+                } else if (xhr.status === 404 || xhr.status === 500) {
+                    reject(new Error('404 not found'))
+                }
+            }
+        }
+        xhr.send(null)
+    })
+    return p
 }
 
-function getInit(target) {
-    const Ctor = target.constructor;
-    return new Ctor();
+const url = '/data/test.json'
+ajax(url)
+.then(res =&gt; console.log(res))
+.catch(err =&gt; console.error(err))
+</code></pre>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://juejin.cn/post/6844903469896171533">Ajax 知识体系大梳理</a></p>
+<p><a href="https://segmentfault.com/a/1190000004322487">你真的会使用<code>XMLHttpRequest</code>吗</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JavaScript-webApi-事件]]></title>
+        <id>https://leecss.com/post/javascript-webapi-shi-jian/</id>
+        <link href="https://leecss.com/post/javascript-webapi-shi-jian/">
+        </link>
+        <updated>2021-09-12T02:50:14.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>事件绑定：普通绑定和代理绑定</p>
+<p>事件冒泡</p>
+<h2 id="事件绑定">事件绑定</h2>
+<pre><code class="language-js">// 通用的事件绑定函数
+function bindEvent(elem, type, fn) {
+    elem.addEventListener(type, fn)
 }
 
-function cloneSymbol(targe) {
-    return Object(Symbol.prototype.valueOf.call(targe));
-}
-
-function cloneReg(targe) {
-    const reFlags = /\w*$/;
-    const result = new targe.constructor(targe.source, reFlags.exec(targe));
-    result.lastIndex = targe.lastIndex;
-    return result;
-}
-
-function cloneFunction(func) {
-    const bodyReg = /(?&lt;={)(.|\n)+(?=})/m;
-    const paramReg = /(?&lt;=\().+(?=\)\s+{)/;
-    const funcString = func.toString();
-    if (func.prototype) {
-        const param = paramReg.exec(funcString);
-        const body = bodyReg.exec(funcString);
-        if (body) {
-            if (param) {
-                const paramArr = param[0].split(',');
-                return new Function(...paramArr, body[0]);
-            } else {
-                return new Function(body[0]);
+// 普通绑定
+const btn1 = document.getElementById('btn1')
+bindEvent(btn1, 'click', function (event) {
+    // console.log(event.target) // 获取触发的元素
+    event.preventDefault() // 阻止默认行为
+    alert(this.innerHTML)
+})
+</code></pre>
+<h2 id="事件冒泡">事件冒泡</h2>
+<p>事件冒泡：由触发元素一层一层向上传递</p>
+<p>阻止事件冒泡：<code>event.stopPropagation()</code></p>
+<pre><code class="language-html">&lt;div id=&quot;div1&quot;&gt;
+    &lt;p id=&quot;p1&quot;&gt;激活&lt;/p&gt;
+    &lt;p id=&quot;p2&quot;&gt;取消&lt;/p&gt;
+    &lt;p id=&quot;p3&quot;&gt;取消&lt;/p&gt;
+    &lt;p id=&quot;p4&quot;&gt;取消&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&quot;div2&quot;&gt;
+    &lt;p id=&quot;p5&quot;&gt;取消&lt;/p&gt;
+    &lt;p id=&quot;p6&quot;&gt;取消&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-js">const p1 = document.getElementById('p1')
+bindEvent(p1, 'click', event =&gt; {
+    // event.stopPropagation() // 阻止冒泡
+    console.log('激活')
+})
+const body = document.body
+bindEvent(body, 'click', event =&gt; {
+    console.log('body clicked')
+    console.log(event.target)
+})
+const div2 = document.getElementById('div2')
+bindEvent(div2, 'click', event =&gt; {
+    console.log('div2 clicked')
+    console.log(event.target)
+})
+</code></pre>
+<h2 id="事件代理">事件代理</h2>
+<p>由于冒泡机制，所以事件会传递到触发元素的父级元素，不需要使用循环为每个同级元素添加事件。</p>
+<p>当许多同级元素都需要相同的事件行为时，将事件加在他们的父元素上，比如瀑布流。</p>
+<p>由于父级元素可能包含其他的元素，不需要添加事件，所以需要区分。</p>
+<pre><code class="language-js">function bindEvent(elem, type, selector, fn) {
+    if (fn == null) {
+        fn = selector
+        selector = null
+    }
+    elem.addEventListener(type, event =&gt; {
+        const target = event.target
+        if (selector) {
+            // 代理绑定
+            if (target.matches(selector)) {
+                fn.call(target, event)
             }
         } else {
-            return null;
+            // 普通绑定
+            fn.call(target, event)
         }
-    } else {
-        return eval(funcString);
-    }
-}
-
-function cloneOtherType(targe, type) {
-    const Ctor = targe.constructor;
-    switch (type) {
-        case boolTag:
-        case numberTag:
-        case stringTag:
-        case errorTag:
-        case dateTag:
-            return new Ctor(targe);
-        case regexpTag:
-            return cloneReg(targe);
-        case symbolTag:
-            return cloneSymbol(targe);
-        case funcTag:
-            return cloneFunction(targe);
-        default:
-            return null;
-    }
-}
-
-function clone(target, map = new WeakMap()) {
-
-    // 克隆原始类型
-    if (!isObject(target)) {
-        return target;
-    }
-
-    // 初始化
-    const type = getType(target);
-    let cloneTarget;
-    if (deepTag.includes(type)) {
-        cloneTarget = getInit(target, type);
-    } else {
-        return cloneOtherType(target, type);
-    }
-
-    // 防止循环引用
-    if (map.get(target)) {
-        return map.get(target);
-    }
-    map.set(target, cloneTarget);
-
-    // 克隆set
-    if (type === setTag) {
-        target.forEach(value =&gt; {
-            cloneTarget.add(clone(value, map));
-        });
-        return cloneTarget;
-    }
-
-    // 克隆map
-    if (type === mapTag) {
-        target.forEach((value, key) =&gt; {
-            cloneTarget.set(key, clone(value, map));
-        });
-        return cloneTarget;
-    }
-
-    // 克隆对象和数组
-    const keys = type === arrayTag ? undefined : Object.keys(target);
-    forEach(keys || target, (value, key) =&gt; {
-        if (keys) {
-            key = value;
-        }
-        cloneTarget[key] = clone(target[key], map);
-    });
-
-    return cloneTarget;
-}
-
-module.exports = {
-    clone
-};
-
-</code></pre>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="http://www.conardli.top/blog/article/JS%E8%BF%9B%E9%98%B6/%E5%A6%82%E4%BD%95%E5%86%99%E5%87%BA%E4%B8%80%E4%B8%AA%E6%83%8A%E8%89%B3%E9%9D%A2%E8%AF%95%E5%AE%98%E7%9A%84%E6%B7%B1%E6%8B%B7%E8%B4%9D.html">如何写出一个惊艳面试官的深拷贝</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ JavaScript-隐式类型转换]]></title>
-        <id>https://leecss.com/post/javascript-yin-shi-lei-xing-zhuan-huan/</id>
-        <link href="https://leecss.com/post/javascript-yin-shi-lei-xing-zhuan-huan/">
-        </link>
-        <updated>2021-08-26T08:54:29.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>类型转换分为两种，隐式转换即程序自动进行的类型转换，强制转换即我们手动进行的类型转换。</p>
-<h2 id="隐式转换">隐式转换</h2>
-<h3 id="类型转换规则">类型转换规则</h3>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1629968151232.png" alt="" loading="lazy"></figure>
-<h3 id="if语句和逻辑运算">if语句和逻辑运算</h3>
-<h4 id="turly变量和falsely变量">turly变量和falsely变量</h4>
-<p>turly变量：<code>!!a===true</code>的变量</p>
-<p>falsely变量：<code>!!a===false</code>的变量</p>
-<h4 id="falsely变量">falsely变量</h4>
-<p>以下是falsely变量，除此以外都是truly变量</p>
-<pre><code>0
-NaN
-''
-null
-undefined
-false
-</code></pre>
-<p>即</p>
-<pre><code class="language-js">!!0 === false
-!!NaN === false
-!!'' === false
-!!null === false
-!!undefined === false
-!!false === false
-</code></pre>
-<h4 id="if语句">if语句</h4>
-<p>if语句中判断的就是turly变量和falsely变量</p>
-<pre><code class="language-js">// truly变量
-const a = true
-if (a) {
-
-}
-const b = 100
-if (b) {
-
-}
-
-// false变量
-const c = ''
-if (c) {
-
-}
-const d = null
-if (d) {
-
-}
-let e
-if (e) {
-  
+    })
 }
 </code></pre>
-<h4 id="逻辑判断">逻辑判断</h4>
-<pre><code class="language-js">// 逻辑判断
-console.log(10 &amp;&amp; 0) // 0
-console.log('' || 'abc') // 'abc'
-console.log(!window.abc) // true
+<pre><code class="language-html">&lt;div id=&quot;div3&quot;&gt;
+    &lt;a href=&quot;#&quot;&gt;a1&lt;/a&gt;&lt;br&gt;
+    &lt;a href=&quot;#&quot;&gt;a2&lt;/a&gt;&lt;br&gt;
+    &lt;a href=&quot;#&quot;&gt;a3&lt;/a&gt;&lt;br&gt;
+    &lt;a href=&quot;#&quot;&gt;a4&lt;/a&gt;&lt;br&gt;
+    &lt;button&gt;加载更多...&lt;/button&gt;
+&lt;/div&gt;
 </code></pre>
-<h3 id="各种数学运算符">各种数学运算符</h3>
-<h4 id="数学运算符-">数学运算符(<code>- * /</code>)</h4>
-<p>我们在对各种非<code>Number</code>类型运用数学运算符(<code>- * /</code>)时，会先将非<code>Number</code>类型转换为<code>Number</code>类型;</p>
-<pre><code class="language-js">1 - true // 0
-1 - null //  1
-1 * undefined //  NaN
-2 * ['5'] //  10
+<pre><code class="language-js">// 代理绑定
+const div3 = document.getElementById('div3')
+bindEvent(div3, 'click', 'a', function (event) {
+    event.preventDefault()
+    alert(this.innerHTML)
+})
 </code></pre>
-<h4 id="操作符"><code>+</code>操作符</h4>
+<h3 id="targetmatchesselector"><code>target.matches(selector)</code></h3>
+<h4 id="mdn">MDN</h4>
+<blockquote>
+<p><code>Element.matches()</code></p>
+<p>如果元素被指定的选择器字符串选择，<code>Element.matches()</code>方法返回true; 否则返回false。</p>
+</blockquote>
+<pre><code class="language-js">let result = element.matches(selectorString);
+</code></pre>
 <ul>
-<li>1.当一侧为<code>String</code>类型，被识别为字符串拼接，并会优先将另一侧转换为字符串类型。</li>
-<li>2.当一侧为<code>Number</code>类型，另一侧为原始类型，则将原始类型转换为<code>Number</code>类型。</li>
-<li>3.当一侧为<code>Number</code>类型，另一侧为引用类型，将引用类型和<code>Number</code>类型转换成字符串后拼接。</li>
+<li><code>result</code> 的值为 <code>true</code> 或 <code>false</code>.</li>
+<li><code>selectorString</code> 是个css选择器字符串.</li>
 </ul>
-<pre><code class="language-js">123 + '123' // 123123   （规则1）
-123 + null  // 123    （规则2）
-123 + true // 124    （规则2）
-123 + {}  // 123[object Object]    （规则3）
+<h4 id="示例">示例</h4>
+<p>比如我们有这样的一个 HTML 片段：</p>
+<pre><code class="language-html">&lt;ul id=&quot;list&quot;&gt;
+  &lt;li&gt;item 1&lt;/li&gt;
+  &lt;li&gt;item 2&lt;/li&gt;
+  &lt;li&gt;item 3&lt;/li&gt;
+  ......
+  &lt;li&gt;item n&lt;/li&gt;
+&lt;/ul&gt;
+// ...... 代表中间还有未知数个 li
 </code></pre>
-<h3 id="">==</h3>
-<p>使用<code>==</code>时，若两侧类型相同，则比较结果和<code>===</code>相同，否则会发生隐式转换，使用<code>==</code>时发生的转换可以分为几种不同的情况（只考虑两侧类型不同）：</p>
-<h4 id="nan">NaN</h4>
-<p><code>NaN</code>和其他任何类型比较永远返回<code>false</code>(包括和他自己)。</p>
-<pre><code class="language-js">NaN == NaN // false
+<p>我们来实现把 #list 下的 li 元素的事件代理委托到它的父层元素也就是 #list 上：</p>
+<pre><code class="language-js">// 给父层元素绑定事件
+document.getElementById('list').addEventListener('click', function (e) {
+  // 兼容性处理
+  var event = e || window.event;
+  var target = event.target || event.srcElement;
+  // 判断是否匹配目标元素
+  if (target.nodeName.toLocaleLowerCase === 'li') {
+    console.log('the content is: ', target.innerHTML);
+  }
+});
 </code></pre>
-<h4 id="boolean">Boolean</h4>
-<p><code>Boolean</code>和其他任何类型比较，<code>Boolean</code>首先被转换为<code>Number</code>类型。</p>
-<pre><code class="language-js">true == 1  // true 
-true == '2'  // false
-true == ['1']  // true
-true == ['2']  // false
+<p>在上述代码中， target 元素则是在 #list 元素之下具体被点击的元素，然后通过判断 target 的一些属性（比如：nodeName，id 等等）可以更精确地匹配到某一类 #list li 元素之上；</p>
+<p><strong>使用 Element.matches 精确匹配</strong></p>
+<p>如果改变下 HTML 成：</p>
+<pre><code class="language-js">&lt;ul id=&quot;list&quot;&gt;
+  &lt;li className=&quot;class-1&quot;&gt;item 1&lt;/li&gt;
+  &lt;li&gt;item 2&lt;/li&gt;
+  &lt;li className=&quot;class-1&quot;&gt;item 3&lt;/li&gt;
+  ......
+  &lt;li&gt;item n&lt;/li&gt;
+&lt;/ul&gt;
+// ...... 代表中间还有未知数个 li
 </code></pre>
-<p>这里注意一个可能会弄混的点：<code>undefined、null</code>和<code>Boolean</code>比较，虽然<code>undefined、null</code>和<code>false</code>都很容易被想象成假值，但是他们比较结果是<code>false</code>，原因是<code>false</code>首先被转换成<code>0</code>：</p>
-<pre><code class="language-js">undefined == false // false
-null == false // false
-</code></pre>
-<h4 id="string和number">String和Number</h4>
-<p><code>String</code>和<code>Number</code>比较，先将<code>String</code>转换为<code>Number</code>类型。</p>
-<pre><code class="language-js">123 == '123' // true
-'' == 0 // true
-</code></pre>
-<h4 id="null和undefined">null和undefined</h4>
-<p><code>null == undefined</code>比较结果是<code>true</code>，除此之外，<code>null、undefined</code>和其他任何结果的比较值都为<code>false</code>。</p>
-<pre><code class="language-js">null == undefined // true
-null == '' // false
-null == 0 // false
-null == false // false
-undefined == '' // false
-undefined == 0 // false
-undefined == false // false
-</code></pre>
-<h4 id="原始类型和引用类型">原始类型和引用类型</h4>
-<p>当原始类型和引用类型做比较时，对象类型会依照<code>ToPrimitive</code>规则转换为原始类型:</p>
-<pre><code class="language-js">  '[object Object]' == {} // true
-  '1,2,3' == [1, 2, 3] // true
-</code></pre>
-<p>来看看下面这个比较：</p>
-<pre><code class="language-js">[] == ![] // true
-</code></pre>
-<p><code>!</code>的优先级高于<code>==</code>，<code>![]</code>首先会被转换为<code>false</code>，然后根据上面第三点，<code>false</code>转换成<code>Number</code>类型<code>0</code>，左侧<code>[]</code>转换为<code>0</code>，两侧比较相等。</p>
-<pre><code class="language-js">[null] == false // true
-[undefined] == false // true
-</code></pre>
-<p>根据数组的<code>ToPrimitive</code>规则，数组元素为<code>null</code>或<code>undefined</code>时，该元素被当做空字符串处理，所以<code>[null]、[undefined]</code>都会被转换为<code>0</code>。</p>
-<h4 id="何时使用">何时使用</h4>
-<p>除了 == null 之外，其他都一律使用 ===</p>
-<pre><code class="language-js">const obj = { x: 100 }
-if (obj.a == null) { }
-// 相当于：
-// if (obj.a === null || obj.a === undefined) { }
-</code></pre>
+<p>这里，我们想把 #list 元素下的 li 元素（并且它的 class 为 class-1）的点击事件委托代理到 #list 之上；</p>
+<p>如果通过上述的方法我们还需要在 <code>if (target.nodeName.toLocaleLowerCase === 'li')</code> 判断之中在加入一个判断 <code>target.nodeName.className === 'class-1'</code>；</p>
+<p>但是如果想像 CSS 选择器般做更加灵活的匹配的话，上面的判断未免就太多了，并且很难做到灵活性，这里可以使用 <code>Element.matches API</code> 来匹配；</p>
+<p><code>Element.matches API</code>的基本使用方法: <code>Element.matches(selectorString)</code>，<code>selectorString</code> 既是 CSS 那样的选择器规则，比如本例中可以使用 <code>target.matches('li.class-1')</code>，他会返回一个布尔值，如果 target 元素是标签 li 并且它的类是 class-1 ，那么就会返回 true，否则返回 false；</p>
+<h2 id="参考">参考</h2>
+<p><a href="https://zhuanlan.zhihu.com/p/26536815">JavaScript 事件委托详解</a></p>
 <h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="http://www.conardli.top/blog/article/JS%E8%BF%9B%E9%98%B6/%E4%BD%A0%E7%9C%9F%E7%9A%84%E6%8E%8C%E6%8F%A1%E5%8F%98%E9%87%8F%E5%92%8C%E7%B1%BB%E5%9E%8B%E4%BA%86%E5%90%97%EF%BC%88%E4%BA%8C%EF%BC%89%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.html#%E4%B8%83%E3%80%81%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2">类型转换</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaScript-null和undefined]]></title>
-        <id>https://leecss.com/post/javascript-null-he-undefined/</id>
-        <link href="https://leecss.com/post/javascript-null-he-undefined/">
-        </link>
-        <updated>2021-08-26T03:17:30.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>null</code>与<code>undefined</code>都可以表示“没有”，含义非常相似。将一个变量赋值为<code>undefined</code>或<code>null</code>，老实说，语法效果几乎没区别。</p>
-<pre><code class="language-js">var a = undefined;
-// 或者
-var a = null;
-</code></pre>
-<p>上面代码中，变量<code>a</code>分别被赋值为<code>undefined</code>和<code>null</code>，这两种写法的效果几乎等价。</p>
-<p>在<code>if</code>语句中，它们都会被自动转为<code>false</code>，相等运算符（<code>==</code>）甚至直接报告两者相等。</p>
-<pre><code class="language-js">if (!undefined) {
-  console.log('undefined is false');
-}
-// undefined is false
-
-if (!null) {
-  console.log('null is false');
-}
-// null is false
-
-undefined == null
-// true
-</code></pre>
-<p>既然含义与用法都差不多，为什么要同时设置两个这样的值，这不是无端增加复杂度，令初学者困扰吗？这与历史原因有关。</p>
-<p>1995年 JavaScript 诞生时，最初像 Java 一样，只设置了<code>null</code>表示&quot;无&quot;。根据 C 语言的传统，<code>null</code>可以自动转为<code>0</code>。</p>
-<pre><code class="language-js">Number(null) // 0
-5 + null // 5
-</code></pre>
-<p>上面代码中，<code>null</code>转为数字时，自动变成0。</p>
-<p>但是，JavaScript 的设计者 Brendan Eich，觉得这样做还不够。首先，第一版的 JavaScript 里面，<code>null</code>就像在 Java 里一样，被当成一个对象，Brendan Eich 觉得表示“无”的值最好不是对象。其次，那时的 JavaScript 不包括错误处理机制，Brendan Eich 觉得，如果<code>null</code>自动转为0，很不容易发现错误。</p>
-<p>因此，他又设计了一个<code>undefined</code>。区别是这样的：<code>null</code>是一个表示“空”的对象，转为数值时为<code>0</code>；<code>undefined</code>是一个表示&quot;此处无定义&quot;的原始值，转为数值时为<code>NaN</code>。</p>
-<pre><code class="language-js">Number(undefined) // NaN
-5 + undefined // NaN
-</code></pre>
-<h2 id="undefined">undefined</h2>
-<h3 id="重新赋值与void-0">重新赋值与void 0</h3>
-<blockquote>
-<p>为什么有的编程规范要求用 void 0 代替 undefined？</p>
-<p>这个语言也定义了一个全局变量，它的值是 <code>undefined</code>，这个变量也被称为 <code>undefined</code>。 但是这个变量<strong>不是</strong>一个常量，也不是一个关键字。这意味着它的<em>值</em>可以轻易被覆盖。</p>
-</blockquote>
-<p>Undefined 类型表示未定义，它的类型只有一个值，就是 undefined。任何变量在赋值前是 Undefined 类型、值为 undefined，一般我们可以用全局变量 undefined（就是名为 undefined 的这个变量）来表达这个值，或者 void 运算来把任意一个表达式变成 undefined 值。</p>
-<p>但是呢，因为 JavaScript 的代码 undefined 是一个变量，而并非是一个关键字，这是 JavaScript 语言公认的设计失误之一，所以，我们为了避免无意中被篡改，我建议使用 void 0 来获取 undefined 值。</p>
-<p>我实际验证了一下，全局变量中无法被赋值，但在函数作用域中可以被赋值。</p>
-<pre><code class="language-js">// 全局作用域
-var undefined = 123
-console.log(undefined) // undefined
-
-// 函数作用域
-(function(){
-  var undefined = 123
-  console.log(undefined) // 123
-})()
-
-function part() {
-  var undefined = 123
-  console.log(undefined) // 123
-}
-part()
-
-// void 0
-(function(){  
-  console.log(void 0) // undefined
-})()
-</code></pre>
-<h3 id="返回undefined的情况">返回undefined的情况</h3>
-<ul>
-<li>访问未修改的全局变量 <code>undefined</code>。</li>
-<li>由于没有定义 <code>return</code> 表达式的函数隐式返回。</li>
-<li><code>return</code> 表达式没有显式的返回任何内容。</li>
-<li>访问不存在的属性。</li>
-<li>函数参数没有被显式的传递值。</li>
-<li>任何被设置为 <code>undefined</code> 值的变量。</li>
-</ul>
-<pre><code class="language-js">// 变量声明了，但没有赋值
-var i;
-i // undefined
-
-// 调用函数时，应该提供的参数没有提供，该参数等于 undefined
-function f(x) {
-  return x;
-}
-f() // undefined
-
-// 对象没有赋值的属性
-var  o = new Object();
-o.p // undefined
-
-// 函数没有返回值时，默认返回 undefined
-function f() {}
-f() // undefined
-</code></pre>
-<h2 id="null">null</h2>
-<p><code>null</code>表示空值，即该处的值现在为空。</p>
-<p>**调用函数时，某个参数未设置任何值，这时就可以传入<code>null</code>，表示该参数为空。**比如，某个函数接受引擎抛出的错误作为参数，如果运行过程中未出错，那么这个参数就会传入<code>null</code>，表示未发生错误。</p>
-<h2 id="区别">区别</h2>
-<blockquote>
-<p>undefined表示“缺少值”，即此处应有一个值，但还没有定义。</p>
-<p>null表示被赋值过的对象，刻意把一个对象赋值为<code>null</code>，故意表示其为空，不应有值。</p>
-</blockquote>
-<blockquote>
-<p>undefined转为数值时为<code>NaN</code></p>
-<p>null转换为数值时值为0</p>
-</blockquote>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="http://bonsaiden.github.io/JavaScript-Garden/zh/#core.undefined">JavaScript秘密花园</a></p>
-<p><a href="https://wangdoc.com/javascript/types/null-undefined-boolean.html">阮一峰</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/matches">MDN-Element/matches</a></p>
 ]]></content>
     </entry>
 </feed>

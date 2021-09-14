@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>http-TCP/IP三次握手 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1630283899761">
+<link rel="shortcut icon" href="/favicon.ico?v=1631580053663">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,7 +176,7 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">99</span>
+        <span class="site-item-stat-count">115</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
@@ -1690,6 +1690,1165 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-webapi-window-fang-fa-requestanimationframe/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;window.requestAnimationFrame()&lt;/code&gt;告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
+    &amp;lt;head&amp;gt;
+        &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt;
+        &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt;
+        &amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;ie=edge&amp;quot;&amp;gt;
+        &amp;lt;title&amp;gt;JS 真题演示&amp;lt;/title&amp;gt;
+
+        &amp;lt;style&amp;gt;
+            #div1 {
+                width: 100px;
+                height: 50px;
+                background-color: red;
+            }
+        &amp;lt;/style&amp;gt;
+    &amp;lt;/head&amp;gt;
+    &amp;lt;body&amp;gt;
+        &amp;lt;p&amp;gt;JS 真题演示&amp;lt;/p&amp;gt;
+
+        &amp;lt;div id=&amp;quot;div1&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+
+        &amp;lt;script src=&amp;quot;https://cdn.bootcss.com/jquery/3.4.0/jquery.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+        &amp;lt;script src=&amp;quot;./RAF.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+    &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 3s 把宽度从 100px 变为 640px ，即增加 540px
+// 60帧/s ，3s 180 帧 ，每次变化 3px
+
+const $div1 = $(&#39;#div1&#39;)
+let curWidth = 100
+const maxWidth = 640
+
+// // setTimeout
+// function animate() {
+//     curWidth = curWidth + 3
+//     $div1.css(&#39;width&#39;, curWidth)
+//     if (curWidth &amp;lt; maxWidth) {
+//         setTimeout(animate, 16.7) // 自己控制时间
+//     }
+// }
+// animate()
+
+// RAF
+function animate() {
+    curWidth = curWidth + 3
+    $div1.css(&#39;width&#39;, curWidth)
+    if (curWidth &amp;lt; maxWidth) {
+        window.requestAnimationFrame(animate) // 时间不用自己控制
+    }
+}
+animate()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame&lt;/a&gt;&lt;/p&gt;
+">JavaScript-webApi-window方法requestAnimationFrame</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-shu-zu-qu-chong/"" data-c="
+          &lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 传统方式
+function unique(arr) {
+    const res = []
+    arr.forEach(item =&amp;gt; {
+        if (res.indexOf(item) &amp;lt; 0) {
+            res.push(item)
+        }
+    })
+    return res
+}
+
+// 使用 Set （无序，不能重复）
+function unique(arr) {
+    const set = new Set(arr)
+    return [...set]
+}
+
+const res = unique([30, 10, 20, 30, 40, 10])
+console.log(res)
+
+&lt;/code&gt;&lt;/pre&gt;
+">JavaScript-数组去重</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-shi-li-jie-xi-url-can-shu/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;不想看正则，以后复习再看&lt;/p&gt;
+&lt;h2 id=&#34;获取参数值&#34;&gt;获取参数值&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 传统方式
+function query(name) {
+    const search = location.search.substr(1) // 类似 array.slice(1)
+    // search: &#39;a=10&amp;amp;b=20&amp;amp;c=30&#39;
+    const reg = new RegExp(`(^|&amp;amp;)${name}=([^&amp;amp;]*)(&amp;amp;|$)`, &#39;i&#39;)
+    const res = search.match(reg)
+    if (res === null) {
+        return null
+    }
+    return res[2]
+}
+query(&#39;d&#39;)
+
+// URLSearchParams
+function query(name) {
+    const search = location.search
+    const p = new URLSearchParams(search)
+    return p.get(name)
+}
+console.log( query(&#39;b&#39;) )
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;url参数解析为js对象&#34;&gt;url参数解析为js对象&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// url参数解析为js对象
+
+// 传统方式，分析search
+function queryToObj() {
+  const res = {}
+  const search = location.search.substr(1) // 去掉前面的`?`
+  search.split(&#39;&amp;amp;&#39;).forEach(paramStr =&amp;gt; {
+    const arr = paramStr.split(&#39;=&#39;)
+    const key = arr[0]
+    const val = arr[1]
+    res[key] = val
+  })
+  return res
+}
+
+// 使用URLSearchParams
+function queryToObj() {
+  const res = {}
+  const pList = new URLSearchParams(location.search)
+  pList.forEach((val, key) =&amp;gt; {
+    res[key] = val
+  })
+  return res
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;mdn&#34;&gt;MDN&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;URLSearchParams&lt;/code&gt; 接口定义了一些实用的方法来处理 URL 的查询字符串。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var paramsString = &amp;quot;q=URLUtils.searchParams&amp;amp;topic=api&amp;quot;
+var searchParams = new URLSearchParams(paramsString);
+
+for (let p of searchParams) {
+  console.log(p);
+}
+
+// [&#39;q&#39;, &#39;URLUtils.searchParams&#39;]
+// [&#39;topic&#39;, &#39;api&#39;]
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams&lt;/a&gt;&lt;/p&gt;
+">JavaScript-实例-解析url参数</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/js-shou-xie-max/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;获取多个数字中的最大值&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function max() {
+  const nums = Array.prototype.slice.call(arguments) // 变为数组
+  let max = 0
+  nums.forEach(n =&amp;gt; {
+    if (n &amp;gt; max) {
+      max = n
+    }
+  })
+  return max
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;感受&#34;&gt;感受&lt;/h2&gt;
+&lt;p&gt;换一种写法&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function max(...array) {
+  const length = array == null ? 0 : array.length
+  return length
+    ? array.reduce((acc,cur) =&amp;gt; {
+      return acc &amp;gt; cur ? acc : cur
+    })
+    : void 0
+}
+max(1,2,3)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;当然没必要&#34;&gt;当然没必要&lt;/h2&gt;
+&lt;p&gt;直接用Math.max()就好&lt;/p&gt;
+"> js手写-max</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/js-shou-xie-trim/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;原型，this,正则&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;String.prototype.trim = function() {
+  return this.replace(/^\s+/,&#39;&#39;).replace(/\s+$/,&#39;&#39;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+"> js手写-trim</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/js-shou-xie-isequal/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;比较两个对象或数组是否属性值全部一致&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 判断是否是对象或数组
+function isObject(obj) {
+    return typeof obj === &#39;object&#39; &amp;amp;&amp;amp; obj !== null
+}
+// 全相等（深度）
+function isEqual(obj1, obj2) {
+    if (!isObject(obj1) || !isObject(obj2)) {
+        // 值类型（注意，参与 equal 的一般不会是函数）
+        return obj1 === obj2
+    }
+    if (obj1 === obj2) {
+        return true
+    }
+    // 两个都是对象或数组，而且不相等
+    // 1. 先取出 obj1 和 obj2 的 keys ，比较个数
+    const obj1Keys = Object.keys(obj1)
+    const obj2Keys = Object.keys(obj2)
+    if (obj1Keys.length !== obj2Keys.length) {
+        return false
+    }
+    // 2. 以 obj1 为基准，和 obj2 一次递归比较
+    for (let key in obj1) {
+        // 比较当前 key 的 val —— 递归！！！
+        const res = isEqual(obj1[key], obj2[key])
+        if (!res) {
+            return false
+        }
+    }
+    // 3. 全相等
+    return true
+}
+
+// 测试
+const obj1 = {
+    a: 100,
+    b: {
+        x: 100,
+        y: 200
+    }
+}
+const obj2 = {
+    a: 100,
+    b: {
+        x: 100,
+        y: 200
+    }
+}
+// console.log( obj1 === obj2 )
+console.log( isEqual(obj1, obj2) )
+
+const arr1 = [1, 2, 3]
+const arr2 = [1, 2, 3, 4]
+
+&lt;/code&gt;&lt;/pre&gt;
+"> js手写-isEqual</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/js-shou-xie-throttle/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;当拖拽事件执行时，频率太快，减少事件的执行次数，以一个固定频率来执行。&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const div1 = document.getElementById(&#39;div1&#39;)
+
+let timer = null
+div1.addEventListener(&#39;drag&#39;, function (e) {
+    if (timer) {
+        return
+    }
+    timer = setTimeout(() =&amp;gt; {
+        console.log(e.offsetX, e.offsetY)
+
+        timer = null
+    }, 100)
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const div1 = document.getElementById(&#39;div1&#39;)
+
+// 节流
+function throttle(fn, delay = 100) {
+    let timer = null
+
+    return function () {
+        if (timer) {
+            return
+        }
+        timer = setTimeout(() =&amp;gt; {
+            fn.apply(this, arguments)
+            timer = null
+        }, delay)
+    }
+}
+
+div1.addEventListener(&#39;drag&#39;, throttle(function (e) {
+    console.log(e.offsetX, e.offsetY)
+}))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;apply&#34;&gt;apply&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;div1.addEventListener(&#39;drag&#39;, function(event) {
+
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;fn.apply(this, arguments)&lt;/code&gt;:由上述代码可知，arguments参数是传递到throttle返回的函数中的，所以需要将参数传递给fn&lt;/p&gt;
+">js手写-throttle</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/js-shou-xie-debounce/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;输入框中防止连续触发事件，用户输入结束或暂停时再触发&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const input1 = document.getElementById(&#39;input1&#39;)
+
+let timer = null
+input1.addEventListener(&#39;keyup&#39;, function () {
+    if (timer) {
+        clearTimeout(timer)
+    }
+    timer = setTimeout(() =&amp;gt; {
+        // 模拟触发 change 事件
+        console.log(input1.value)
+
+        // 清空定时器
+        timer = null
+    }, 500)
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const input1 = document.getElementById(&#39;input1&#39;)
+
+// 防抖
+function debounce(fn, delay = 500) {
+    // timer 是闭包中的
+    let timer = null
+
+    return function () {
+        if (timer) {
+            clearTimeout(timer)
+        }
+        timer = setTimeout(() =&amp;gt; {
+            fn.apply(this, arguments)
+            timer = null
+        }, delay)
+    }
+}
+
+input1.addEventListener(&#39;keyup&#39;, debounce(function (e) {
+    console.log(e.target)
+    console.log(input1.value)
+}, 600))
+&lt;/code&gt;&lt;/pre&gt;
+"> js手写-debounce</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-webapi-ajax/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;ajax&lt;/code&gt;是一种技术方案，但并不是一种&lt;strong&gt;新技术&lt;/strong&gt;。它依赖的是现有的&lt;code&gt;CSS&lt;/code&gt;/&lt;code&gt;HTML&lt;/code&gt;/&lt;code&gt;Javascript&lt;/code&gt;，而其中最核心的依赖是浏览器提供的&lt;code&gt;XMLHttpRequest&lt;/code&gt;对象，是这个对象使得浏览器可以发出&lt;code&gt;HTTP&lt;/code&gt;请求与接收&lt;code&gt;HTTP&lt;/code&gt;响应。&lt;/p&gt;
+&lt;p&gt;所以我用一句话来总结两者的关系：我们使用&lt;code&gt;XMLHttpRequest&lt;/code&gt;对象来发送一个&lt;code&gt;Ajax&lt;/code&gt;请求。&lt;/p&gt;
+&lt;h2 id=&#34;xmlhttprequest&#34;&gt;XMLHttpRequest&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const xhr = new XMLHttpRequest()
+xhr.open(&#39;GET&#39;, &#39;/data/test.json&#39;, true)
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+            // console.log(
+            //     JSON.parse(xhr.responseText)
+            // )
+            alert(xhr.responseText)
+        } else if (xhr.status === 404) {
+            console.log(&#39;404 not found&#39;)
+        }
+    }
+}
+xhr.send(null)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;手写简易ajax&#34;&gt;手写简易ajax&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function ajax(url) {
+    const p = new Promise((resolve, reject) =&amp;gt; {
+        const xhr = new XMLHttpRequest()
+        xhr.open(&#39;GET&#39;, url, true)
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    resolve(
+                        JSON.parse(xhr.responseText)
+                    )
+                } else if (xhr.status === 404 || xhr.status === 500) {
+                    reject(new Error(&#39;404 not found&#39;))
+                }
+            }
+        }
+        xhr.send(null)
+    })
+    return p
+}
+
+const url = &#39;/data/test.json&#39;
+ajax(url)
+.then(res =&amp;gt; console.log(res))
+.catch(err =&amp;gt; console.error(err))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844903469896171533&#34;&gt;Ajax 知识体系大梳理&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://segmentfault.com/a/1190000004322487&#34;&gt;你真的会使用&lt;code&gt;XMLHttpRequest&lt;/code&gt;吗&lt;/a&gt;&lt;/p&gt;
+">JavaScript-webApi-Ajax</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-webapi-shi-jian/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;事件绑定：普通绑定和代理绑定&lt;/p&gt;
+&lt;p&gt;事件冒泡&lt;/p&gt;
+&lt;h2 id=&#34;事件绑定&#34;&gt;事件绑定&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 通用的事件绑定函数
+function bindEvent(elem, type, fn) {
+    elem.addEventListener(type, fn)
+}
+
+// 普通绑定
+const btn1 = document.getElementById(&#39;btn1&#39;)
+bindEvent(btn1, &#39;click&#39;, function (event) {
+    // console.log(event.target) // 获取触发的元素
+    event.preventDefault() // 阻止默认行为
+    alert(this.innerHTML)
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;事件冒泡&#34;&gt;事件冒泡&lt;/h2&gt;
+&lt;p&gt;事件冒泡：由触发元素一层一层向上传递&lt;/p&gt;
+&lt;p&gt;阻止事件冒泡：&lt;code&gt;event.stopPropagation()&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;div id=&amp;quot;div1&amp;quot;&amp;gt;
+    &amp;lt;p id=&amp;quot;p1&amp;quot;&amp;gt;激活&amp;lt;/p&amp;gt;
+    &amp;lt;p id=&amp;quot;p2&amp;quot;&amp;gt;取消&amp;lt;/p&amp;gt;
+    &amp;lt;p id=&amp;quot;p3&amp;quot;&amp;gt;取消&amp;lt;/p&amp;gt;
+    &amp;lt;p id=&amp;quot;p4&amp;quot;&amp;gt;取消&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&amp;lt;div id=&amp;quot;div2&amp;quot;&amp;gt;
+    &amp;lt;p id=&amp;quot;p5&amp;quot;&amp;gt;取消&amp;lt;/p&amp;gt;
+    &amp;lt;p id=&amp;quot;p6&amp;quot;&amp;gt;取消&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const p1 = document.getElementById(&#39;p1&#39;)
+bindEvent(p1, &#39;click&#39;, event =&amp;gt; {
+    // event.stopPropagation() // 阻止冒泡
+    console.log(&#39;激活&#39;)
+})
+const body = document.body
+bindEvent(body, &#39;click&#39;, event =&amp;gt; {
+    console.log(&#39;body clicked&#39;)
+    console.log(event.target)
+})
+const div2 = document.getElementById(&#39;div2&#39;)
+bindEvent(div2, &#39;click&#39;, event =&amp;gt; {
+    console.log(&#39;div2 clicked&#39;)
+    console.log(event.target)
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;事件代理&#34;&gt;事件代理&lt;/h2&gt;
+&lt;p&gt;由于冒泡机制，所以事件会传递到触发元素的父级元素，不需要使用循环为每个同级元素添加事件。&lt;/p&gt;
+&lt;p&gt;当许多同级元素都需要相同的事件行为时，将事件加在他们的父元素上，比如瀑布流。&lt;/p&gt;
+&lt;p&gt;由于父级元素可能包含其他的元素，不需要添加事件，所以需要区分。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function bindEvent(elem, type, selector, fn) {
+    if (fn == null) {
+        fn = selector
+        selector = null
+    }
+    elem.addEventListener(type, event =&amp;gt; {
+        const target = event.target
+        if (selector) {
+            // 代理绑定
+            if (target.matches(selector)) {
+                fn.call(target, event)
+            }
+        } else {
+            // 普通绑定
+            fn.call(target, event)
+        }
+    })
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;div id=&amp;quot;div3&amp;quot;&amp;gt;
+    &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;a1&amp;lt;/a&amp;gt;&amp;lt;br&amp;gt;
+    &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;a2&amp;lt;/a&amp;gt;&amp;lt;br&amp;gt;
+    &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;a3&amp;lt;/a&amp;gt;&amp;lt;br&amp;gt;
+    &amp;lt;a href=&amp;quot;#&amp;quot;&amp;gt;a4&amp;lt;/a&amp;gt;&amp;lt;br&amp;gt;
+    &amp;lt;button&amp;gt;加载更多...&amp;lt;/button&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 代理绑定
+const div3 = document.getElementById(&#39;div3&#39;)
+bindEvent(div3, &#39;click&#39;, &#39;a&#39;, function (event) {
+    event.preventDefault()
+    alert(this.innerHTML)
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;targetmatchesselector&#34;&gt;&lt;code&gt;target.matches(selector)&lt;/code&gt;&lt;/h3&gt;
+&lt;h4 id=&#34;mdn&#34;&gt;MDN&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;Element.matches()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果元素被指定的选择器字符串选择，&lt;code&gt;Element.matches()&lt;/code&gt;方法返回true; 否则返回false。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let result = element.matches(selectorString);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;result&lt;/code&gt; 的值为 &lt;code&gt;true&lt;/code&gt; 或 &lt;code&gt;false&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;selectorString&lt;/code&gt; 是个css选择器字符串.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;示例&#34;&gt;示例&lt;/h4&gt;
+&lt;p&gt;比如我们有这样的一个 HTML 片段：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;ul id=&amp;quot;list&amp;quot;&amp;gt;
+  &amp;lt;li&amp;gt;item 1&amp;lt;/li&amp;gt;
+  &amp;lt;li&amp;gt;item 2&amp;lt;/li&amp;gt;
+  &amp;lt;li&amp;gt;item 3&amp;lt;/li&amp;gt;
+  ......
+  &amp;lt;li&amp;gt;item n&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+// ...... 代表中间还有未知数个 li
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们来实现把 #list 下的 li 元素的事件代理委托到它的父层元素也就是 #list 上：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 给父层元素绑定事件
+document.getElementById(&#39;list&#39;).addEventListener(&#39;click&#39;, function (e) {
+  // 兼容性处理
+  var event = e || window.event;
+  var target = event.target || event.srcElement;
+  // 判断是否匹配目标元素
+  if (target.nodeName.toLocaleLowerCase === &#39;li&#39;) {
+    console.log(&#39;the content is: &#39;, target.innerHTML);
+  }
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在上述代码中， target 元素则是在 #list 元素之下具体被点击的元素，然后通过判断 target 的一些属性（比如：nodeName，id 等等）可以更精确地匹配到某一类 #list li 元素之上；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;使用 Element.matches 精确匹配&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;如果改变下 HTML 成：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&amp;lt;ul id=&amp;quot;list&amp;quot;&amp;gt;
+  &amp;lt;li className=&amp;quot;class-1&amp;quot;&amp;gt;item 1&amp;lt;/li&amp;gt;
+  &amp;lt;li&amp;gt;item 2&amp;lt;/li&amp;gt;
+  &amp;lt;li className=&amp;quot;class-1&amp;quot;&amp;gt;item 3&amp;lt;/li&amp;gt;
+  ......
+  &amp;lt;li&amp;gt;item n&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+// ...... 代表中间还有未知数个 li
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这里，我们想把 #list 元素下的 li 元素（并且它的 class 为 class-1）的点击事件委托代理到 #list 之上；&lt;/p&gt;
+&lt;p&gt;如果通过上述的方法我们还需要在 &lt;code&gt;if (target.nodeName.toLocaleLowerCase === &#39;li&#39;)&lt;/code&gt; 判断之中在加入一个判断 &lt;code&gt;target.nodeName.className === &#39;class-1&#39;&lt;/code&gt;；&lt;/p&gt;
+&lt;p&gt;但是如果想像 CSS 选择器般做更加灵活的匹配的话，上面的判断未免就太多了，并且很难做到灵活性，这里可以使用 &lt;code&gt;Element.matches API&lt;/code&gt; 来匹配；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Element.matches API&lt;/code&gt;的基本使用方法: &lt;code&gt;Element.matches(selectorString)&lt;/code&gt;，&lt;code&gt;selectorString&lt;/code&gt; 既是 CSS 那样的选择器规则，比如本例中可以使用 &lt;code&gt;target.matches(&#39;li.class-1&#39;)&lt;/code&gt;，他会返回一个布尔值，如果 target 元素是标签 li 并且它的类是 class-1 ，那么就会返回 true，否则返回 false；&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/26536815&#34;&gt;JavaScript 事件委托详解&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/API/Element/matches&#34;&gt;MDN-Element/matches&lt;/a&gt;&lt;/p&gt;
+">JavaScript-webApi-事件</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-webapi-dom/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;DOM本质：一棵树&lt;br&gt;
+HTML和DOM的区别：HTML是文件或者说一段代码，DOM是浏览器内存中已经初始化好的一棵树，树的结构&lt;/p&gt;
+&lt;h2 id=&#34;获取-dom-节点&#34;&gt;获取 DOM 节点&lt;/h2&gt;
+&lt;p&gt;getElementById&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const div1 = document.getElementById(&#39;div1&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;getElementsByTagName&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const divList = document.getElementsByTagName(&#39;div&#39;) // 集合
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;getElementsByClassName&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const containerList = document.getElementsByClassName(&#39;container&#39;) // 集合
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;querySelectorAll&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const pList = document.querySelectorAll(&#39;p&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;property-和-attribute&#34;&gt;property 和 attribute&lt;/h2&gt;
+&lt;p&gt;property：修改JS对象属性，不会体现到HTML结构中&lt;/p&gt;
+&lt;p&gt;attribute：修改HTML属性，会改变HTML 结构（标签结构）&lt;/p&gt;
+&lt;p&gt;两者都有可能引起DOM重新渲染&lt;/p&gt;
+&lt;p&gt;建议：尽量用 property 操作，因为property可能会在JS机制中，避免一些不必要的DOM渲染；但是attribute是修改HTML结构，一定会引起DOM结构的重新渲染，而DOM重新渲染是比较耗费性能的&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const pList = document.querySelectorAll(&#39;p&#39;)
+const p1 = pList[0]
+
+// property 形式
+p1.style.width = &#39;100px&#39;
+console.log( p1.style.width )
+p1.className = &#39;red&#39;
+console.log( p1.className )
+console.log(p1.nodeName) // p
+console.log(p1.nodeType) // 1
+
+// attribute
+p1.setAttribute(&#39;data-name&#39;, &#39;imooc&#39;)
+console.log( p1.getAttribute(&#39;data-name&#39;) )
+p1.setAttribute(&#39;style&#39;, &#39;font-size: 50px;&#39;)
+console.log( p1.getAttribute(&#39;style&#39;) )
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;dom结构操作&#34;&gt;DOM结构操作&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const div1 = document.getElementById(&#39;div1&#39;)
+const div2 = document.getElementById(&#39;div2&#39;)
+
+// 新建节点
+const newP = document.createElement(&#39;p&#39;)
+newP.innerHTML = &#39;this is newP&#39;
+// 插入节点
+div1.appendChild(newP)
+
+// 移动节点
+const p1 = document.getElementById(&#39;p1&#39;)
+div2.appendChild(p1)
+
+// 获取父元素
+console.log( p1.parentNode )
+
+// 获取子元素列表
+const div1ChildNodes = div1.childNodes
+console.log( div1.childNodes )
+const div1ChildNodesP = Array.prototype.slice.call(div1.childNodes).filter(child =&amp;gt; {
+    if (child.nodeType === 1) {
+        return true
+    }
+    return false
+})
+console.log(&#39;div1ChildNodesP&#39;, div1ChildNodesP)
+
+div1.removeChild( div1ChildNodesP[0] )
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;dom操作性能优化&#34;&gt;DOM操作性能优化&lt;/h2&gt;
+&lt;p&gt;避免频繁的 DOM 操作&lt;/p&gt;
+&lt;h3 id=&#34;对-dom-查询做缓存&#34;&gt;对 DOM 查询做缓存&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 不缓存 DOM 查询结果
+for (let i = 0; i &amp;lt; document.getElementsByTagName(&#39;p&#39;).length; i++) {
+  // 每次循环，都会计算length，频繁进行DOM查询
+}
+
+// 缓存 DOM 查询结果
+const pList = document.getElementsByTagName(&#39;p&#39;)
+const length = pList.length
+for (let i = 0; i &amp;lt; length; i++) {
+  // 缓存length，只进行一次DOM查询
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;将频繁操作改为一次性操作&#34;&gt;将频繁操作改为一次性操作&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const list = document.getElementById(&#39;list&#39;)
+for (let i  = 0; i &amp;lt; 20; i++) {
+    const li = document.createElement(&#39;li&#39;)
+    li.innerHTML = `List item ${i}`
+    list.appendChild(li)
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const list = document.getElementById(&#39;list&#39;)
+
+// 创建一个文档片段，此时还没有插入到 DOM 结构中
+const frag = document.createDocumentFragment()
+
+for (let i  = 0; i &amp;lt; 20; i++) {
+    const li = document.createElement(&#39;li&#39;)
+    li.innerHTML = `List item ${i}`
+
+    // 先插入文档片段中
+    frag.appendChild(li)
+}
+
+// 都完成之后，再统一插入到 DOM 结构中
+list.appendChild(frag)
+
+console.log(list)
+&lt;/code&gt;&lt;/pre&gt;
+">JavaScript-webApi-Dom</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-wei-ren-wu-he-hong-ren-wu/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;- 宏任务：setTimeout setInterval Ajax DOM 事件&lt;/p&gt;
+&lt;p&gt;- 微任务：Promise async/await（对于前端来说）&lt;/p&gt;
+&lt;p&gt;- 微任务比宏任务执行的更早&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;console.log(100)
+setTimeout(() =&amp;gt; {
+    console.log(200)
+})
+Promise.resolve().then(() =&amp;gt; {
+    console.log(300)
+})
+console.log(400)
+// 100 400 300 200
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;event-loop-和-dom-渲染&#34;&gt;event loop 和 DOM 渲染&lt;/h2&gt;
+&lt;p&gt;再次回顾 event loop 的过程&lt;/p&gt;
+&lt;p&gt;- 每一次 call stack 结束，都会触发 DOM 渲染（不一定非得渲染，就是给一次 DOM 渲染的机会！！！）&lt;/p&gt;
+&lt;p&gt;- 然后再进行 event loop&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const $p1 = $(&#39;&amp;lt;p&amp;gt;一段文字&amp;lt;/p&amp;gt;&#39;)
+const $p2 = $(&#39;&amp;lt;p&amp;gt;一段文字&amp;lt;/p&amp;gt;&#39;)
+const $p3 = $(&#39;&amp;lt;p&amp;gt;一段文字&amp;lt;/p&amp;gt;&#39;)
+$(&#39;#container&#39;)
+            .append($p1)
+            .append($p2)
+            .append($p3)
+
+console.log(&#39;length&#39;,  $(&#39;#container&#39;).children().length )
+alert(&#39;本次 call stack 结束，DOM 结构已更新，但尚未触发渲染&#39;)
+// （alert 会阻断 js 执行，也会阻断 DOM 渲染，便于查看效果）
+// 到此，即本次 call stack 结束后（同步任务都执行完了），浏览器会自动触发渲染，不用代码干预
+
+// 另外，按照 event loop 触发 DOM 渲染时机，setTimeout 时 alert ，就能看到 DOM 渲染后的结果了
+setTimeout(function () {
+    alert(&#39;setTimeout 是在下一次 Call Stack ，就能看到 DOM 渲染出来的结果了&#39;)
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1631147264569.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;宏任务和微任务的区别&#34;&gt;宏任务和微任务的区别&lt;/h2&gt;
+&lt;p&gt;- 宏任务：DOM 渲染后再触发&lt;/p&gt;
+&lt;p&gt;- 微任务：DOM 渲染前会触发&lt;/p&gt;
+&lt;p&gt;再深入思考一下：为何两者会有以上区别，一个在渲染前，一个在渲染后？&lt;/p&gt;
+&lt;p&gt;- 微任务：ES 语法标准之内，JS 引擎来统一处理。即，不用浏览器有任何干预，即可一次性处理完，更快更及时。&lt;/p&gt;
+&lt;p&gt;- 宏任务：ES 语法没有，JS 引擎不处理，浏览器（或 nodejs）干预处理。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 修改 DOM
+const $p1 = $(&#39;&amp;lt;p&amp;gt;一段文字&amp;lt;/p&amp;gt;&#39;)
+const $p2 = $(&#39;&amp;lt;p&amp;gt;一段文字&amp;lt;/p&amp;gt;&#39;)
+const $p3 = $(&#39;&amp;lt;p&amp;gt;一段文字&amp;lt;/p&amp;gt;&#39;)
+$(&#39;#container&#39;)
+    .append($p1)
+    .append($p2)
+    .append($p3)
+
+// // 微任务：渲染之前执行（DOM 结构已更新）
+Promise.resolve().then(() =&amp;gt; {
+    const length = $(&#39;#container&#39;).children().length
+    alert(`micro task ${length}`)
+})
+
+// 宏任务：渲染之后执行（DOM 结构已更新）
+setTimeout(() =&amp;gt; {
+    const length = $(&#39;#container&#39;).children().length
+    alert(`macro task ${length}`)
+})
+&lt;/code&gt;&lt;/pre&gt;
+">JavaScript-微任务和宏任务</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-for-of/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;for ... in 以及 forEach for 是常规的同步遍历；&lt;br&gt;
+for... of 用于异步的遍历。&lt;/p&gt;
+&lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 定时算乘法
+function multi(num) {
+    return new Promise((resolve) =&amp;gt; {
+        setTimeout(() =&amp;gt; {
+            resolve(num * num)
+        }, 1000)
+    })
+}
+
+// // 使用 forEach ，是 1s 之后打印出所有结果，即 3 个值是一起被计算出来的
+function test1 () {
+    const nums = [1, 2, 3];
+    nums.forEach(async x =&amp;gt; {
+        const res = await multi(x);
+        console.log(res);
+    })
+}
+test1();
+
+// 使用 for...of ，可以让计算挨个串行执行
+async function test2 () {
+    const nums = [1, 2, 3];
+    for (let x of nums) {
+        // 在 for...of 循环体的内部，遇到 await 会挨个串行计算
+        const res = await multi(x)
+        console.log(res)
+    }
+}
+test2()
+&lt;/code&gt;&lt;/pre&gt;
+">JavaScript-for-of</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-async-he-await/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;异步回调容易导致callback hell。&lt;br&gt;
+Promise then catch链式调用虽把层级铺开，但也是基于回调函数。&lt;br&gt;
+async/await能彻底消灭回调函数，用同步语法编写异步代码。async/await和promise并不冲突。&lt;/p&gt;
+&lt;h2 id=&#34;使用场景&#34;&gt;使用场景&lt;/h2&gt;
+&lt;p&gt;await后面不仅可以跟promise，还可以跟async&lt;/p&gt;
+&lt;h2 id=&#34;代码示例&#34;&gt;代码示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function loadImg(src) {
+    const promise = new Promise((resolve, reject) =&amp;gt; {
+        const img = document.createElement(&#39;img&#39;)
+        img.onload = () =&amp;gt; {
+            resolve(img)
+        }
+        img.onerror = () =&amp;gt; {
+            reject(new Error(`图片加载失败 ${src}`))
+        }
+        img.src = src
+    })
+    return promise
+}
+
+async function loadImg1() {
+    const src1 = &#39;http://www.imooc.com/static/img/index/logo_new.png&#39;
+    const img1 = await loadImg(src1)
+    return img1
+}
+
+async function loadImg2() {
+    const src2 = &#39;https://avatars3.githubusercontent.com/u/9583120&#39;
+    const img2 = await loadImg(src2)
+    return img2
+}
+
+(async function () {
+    // 注意：await 必须放在 async 函数中，否则会报错
+    try {
+        // 加载第一张图片
+        const img1 = await loadImg1()
+        console.log(img1)
+        // 加载第二张图片
+        const img2 = await loadImg2()
+        console.log(img2)
+    } catch (ex) {
+        console.error(ex)
+    }
+})()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;和promise的关系&#34;&gt;和promise的关系&lt;/h2&gt;
+&lt;p&gt;执行 async 函数，返回的是 Promise 对象&lt;/p&gt;
+&lt;p&gt;await 相当于 Promise 的 then&lt;/p&gt;
+&lt;p&gt;try...catch 可捕获异常，代替了 Promise 的 catch&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;- async 封装 Promise&lt;/p&gt;
+&lt;p&gt;- await 处理 Promise 成功&lt;/p&gt;
+&lt;p&gt;- try...catch 处理 Promise 失败&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;async&#34;&gt;async&lt;/h3&gt;
+&lt;p&gt;async 函数返回结果都是 Promise 对象（如果函数内没返回 Promise ，则自动封装一下）&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;async function fn2() {
+    return new Promise(() =&amp;gt; {})
+}
+console.log( fn2() )
+
+async function fn1() {
+    return 100
+}
+console.log( fn1() ) // 相当于 Promise.resolve(100)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;await&#34;&gt;await&lt;/h3&gt;
+&lt;p&gt;await 后面跟 Promise 对象：会阻断后续代码，等待状态变为 resolved ，才获取结果并继续执行&lt;/p&gt;
+&lt;p&gt;await 后续跟非 Promise 对象：会直接返回&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;(async function () {
+    const p1 = new Promise(() =&amp;gt; {})
+    await p1
+    console.log(&#39;p1&#39;) // 不会执行
+})()
+
+(async function () {
+    const p2 = Promise.resolve(100)
+    const res = await p2
+    console.log(res) // 100
+})()
+
+(async function () {
+    const res = await 100
+    console.log(res) // 100
+})()
+
+(async function () {
+    const p3 = Promise.reject(&#39;some err&#39;)
+    const res = await p3
+    console.log(res) // 不会执行
+})()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;trycatch&#34;&gt;try...catch&lt;/h3&gt;
+&lt;p&gt;try...catch 捕获 rejected 状态&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;(async function () {
+    const p4 = Promise.reject(&#39;some err&#39;)
+    try {
+        const res = await p4
+        console.log(res)
+    } catch (ex) {
+        console.error(ex)
+    }
+})()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;异步本质&#34;&gt;异步本质&lt;/h2&gt;
+&lt;p&gt;await 是同步写法，但本质还是异步调用。&lt;/p&gt;
+&lt;p&gt;即，只要遇到了 &lt;code&gt;await&lt;/code&gt; ，后面的代码都相当于放在 callback 里。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;async function async1 () {
+  console.log(&#39;async1 start&#39;)
+  await async2()
+  console.log(&#39;async1 end&#39;) // 关键在这一步，它相当于放在 callback 中，最后执行
+}
+
+async function async2 () {
+  console.log(&#39;async2&#39;)
+}
+
+console.log(&#39;script start&#39;)
+async1()
+console.log(&#39;script end&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+">JavaScript-async和await</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-event-loop/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;JS 是单线程运行的&lt;/li&gt;
+&lt;li&gt;异步要基于回调来实现&lt;/li&gt;
+&lt;li&gt;event loop 就是异步回调的实现机制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;js-如何执行&#34;&gt;JS 如何执行&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;从前到后，一行一行执行&lt;/li&gt;
+&lt;li&gt;如果某一行执行报错，则停止下面代码的执行&lt;/li&gt;
+&lt;li&gt;先把同步代码执行完，再执行异步&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;event-loop执行过程&#34;&gt;event loop执行过程&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;1. 同步代码，一行一行放在call stack 中执行
+2. 遇到异步，先“记录”下，等待时间（定时，网络请求等）
+3. 时机到了，就移动到 calllback queue
+4. 如果call stack 为空（即同步代码执行完），event loop开始工作
+5. 轮询查找callback queue，如有则移动到call stack 执行
+6. 继续轮询查找（永动机一样）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;代码示例&#34;&gt;代码示例&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;console.log(&#39;Hi&#39;)
+
+setTimeout(function cb1() {
+    console.log(&#39;cb1&#39;) // cb 即 callback
+}, 5000)
+
+console.log(&#39;Bye&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;代码执行过程：
+1. 将 console.log(&amp;quot;Hi&amp;quot;) 推入调用栈，调用栈会执行代码
+2. 执行代码，控制台打印“Hi”，调用栈清空
+3. 执行 setTimeout，setTimeout由浏览器定义，不是ES6的内容；将定时器放到Web APIs中，到时间后将回调函数放到回调函数队列中
+4. 执行完了setTimeout， 清空调用栈
+5. console.log(&amp;quot;Bye&amp;quot;)进入调用栈，执行，调用栈清空
+6. 同步代码被执行完,，回调栈空，浏览器内核启动时间循环机制
+7. 五秒之后，定时器将cb1推到回调函数队列中
+8. 事件循环将cb1放入调用栈
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;dom-事件也用-event-loop&#34;&gt;DOM 事件，也用 event loop&lt;/h2&gt;
+&lt;p&gt;DOM 事件不是异步，只是用了回调的方式，然后会用到 event loop&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&amp;lt;button id=&amp;quot;btn1&amp;quot;&amp;gt;提交&amp;lt;/button&amp;gt;
+
+&amp;lt;script&amp;gt;
+console.log(&#39;Hi&#39;)
+
+$(&#39;#btn1&#39;).click(function (e) {
+    console.log(&#39;button clicked&#39;)
+})
+
+console.log(&#39;Bye&#39;)
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+">JavaScript-event loop</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-yi-bu/"" data-c="
+          &lt;h2 id=&#34;单线程和异步&#34;&gt;单线程和异步&lt;/h2&gt;
+&lt;p&gt;JS 是单线程语言，只能同时做一件事&lt;/p&gt;
+&lt;p&gt;浏览器和 nodejs 已支持 JS 启动进程，如 Web Worker&lt;/p&gt;
+&lt;p&gt;JS 和 DOM 渲染共用同一个线程，因为 JS 可修改 DOM 结构&lt;/p&gt;
+&lt;p&gt;遇到等待（网络请求，定时任务）不能卡住&lt;/p&gt;
+&lt;p&gt;需要异步&lt;/p&gt;
+&lt;p&gt;回调 callback 函数形式&lt;/p&gt;
+&lt;h2 id=&#34;异步和同步的区别&#34;&gt;异步和同步的区别&lt;/h2&gt;
+&lt;p&gt;异步不会阻塞代码执行&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 异步 通过（callback 回调函数）执行
+console.log(100)
+setTimeout(() =&amp;gt; {
+    console.log(200)
+}, 1000)
+console.log(300)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;同步会阻塞代码执行&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 同步
+console.log(100)
+alert(200)
+console.log(300)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;异步的应用场景&#34;&gt;异步的应用场景&lt;/h2&gt;
+&lt;h3 id=&#34;网络请求&#34;&gt;网络请求&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;ajax&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// ajax
+console.log(&#39;start&#39;)
+$.get(&#39;./data.json&#39;, function(data) {
+  console.log(data)
+})
+console.log(&#39;end&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;图片加载&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 图片加载
+console.log(&#39;start&#39;)
+let img = document.createElement(&#39;img&#39;)
+img.onload = function() {
+  console.log(&#39;onload&#39;)
+}
+img.src = &#39;/xx.png&#39;
+console.log(&#39;end&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;定时任务&#34;&gt;定时任务&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// setTimeout
+console.log(100)
+setTimeout(function() {
+  console.log(200)
+}, 1000)
+console.log(300)
+
+// setInterval
+console.log(100)
+setInterval(function() {
+  console.log(200)
+}, 1000)
+console.log(300)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;promise&#34;&gt;promise&lt;/h2&gt;
+&lt;p&gt;主要是用来解决回调地狱的问题，所以出现了promise 。现在主流的方法是使用async 和 await 来进行解决异步问题。 async 和 await 本质上是一个语法糖 使函数的返回值包含在promise中返回。&lt;/p&gt;
+&lt;h3 id=&#34;回调地狱&#34;&gt;回调地狱&lt;/h3&gt;
+&lt;p&gt;嵌套格式&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;$.get(url1, (data1) =&amp;gt; {
+  console.log(data1)
+  $.get(url2, (data2) =&amp;gt; {
+    console.log(data2)
+    $.get(url3, (data3) =&amp;gt; {
+      console.log(data3)
+      // ...
+    })
+  })
+})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;promise-2&#34;&gt;promise&lt;/h3&gt;
+&lt;p&gt;管道格式&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function getData(url) {
+  return new Promise((resolve, reject) =&amp;gt; {
+    $.ajax({
+      url,
+      success(data) {
+        resolve(data)
+      },
+      error(err) {
+        reject(err)
+      }
+    })
+  })
+}
+
+const url1 = &#39;/data1.json&#39;
+const url2 = &#39;/data2.json&#39;
+const url3 = &#39;/data3.json&#39;
+getData(url1).then(data1 =&amp;gt; {
+  console.log(data1)
+  return getData(url2)
+}).then(data2 =&amp;gt; {
+  console.log(data2)
+  return getData(url3)
+}).then(data3 =&amp;gt; {
+  console.log(data3)  
+}).catch(err =&amp;gt; console.log(err))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;promise加载图片&#34;&gt;promise加载图片&lt;/h3&gt;
+&lt;p&gt;如果在 then 中 return 一个普通对象，下一个then中函数的参数会接收到；&lt;br&gt;
+如果在 then 中 return 一个Promise实例的话，下一个then 中函数接收到的参数就是新 Promise 的 resovle 的参数&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function loadImg(src) {
+    const p = new Promise(
+        (resolve, reject) =&amp;gt; {
+            const img = document.createElement(&#39;img&#39;)
+            img.onload = () =&amp;gt; {
+                resolve(img)
+            }
+            img.onerror = () =&amp;gt; {
+                const err = new Error(`图片加载失败 ${src}`)
+                reject(err)
+            }
+            img.src = src
+        }
+    )
+    return p
+}
+
+// const url = &#39;https://img1.baidu.com/it/u=681100297,1255002990&amp;amp;fm=253&amp;amp;fmt=auto&amp;amp;app=120&amp;amp;f=JPEG?w=890&amp;amp;h=500&#39;
+// loadImg(url).then(img =&amp;gt; {
+//     console.log(img.width)
+//     return img
+// }).then(img =&amp;gt; {
+//     console.log(img.height)
+// }).catch(ex =&amp;gt; console.error(ex))
+
+const url1 = &#39;https://img1.baidu.com/it/u=681100297,1255002990&amp;amp;fm=253&amp;amp;fmt=auto&amp;amp;app=120&amp;amp;f=JPEG?w=890&amp;amp;h=500&#39;
+const url2 = &#39;https://img2.baidu.com/it/u=2412886502,2778604333&amp;amp;fm=11&amp;amp;fmt=auto&amp;amp;gp=0.jpg&#39;
+
+loadImg(url1).then(img1 =&amp;gt; {
+    console.log(img1.width)
+    return img1 // 普通对象
+}).then(img1 =&amp;gt; {
+    console.log(img1.height)
+    return loadImg(url2) // promise 实例
+}).then(img2 =&amp;gt; {
+    console.log(img2.width)
+    return img2
+}).then(img2 =&amp;gt; {
+    console.log(img2.height)
+}).catch(ex =&amp;gt; console.error(ex))
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;三种状态&#34;&gt;三种状态&lt;/h3&gt;
+&lt;p&gt;1.pending&lt;br&gt;
+2.resloved&lt;br&gt;
+3.rejected&lt;/p&gt;
+&lt;p&gt;状态变化：&lt;br&gt;
+pending-&amp;gt; resloved 或者 pending-&amp;gt;rejected&lt;br&gt;
+状态的变化是不可逆的&lt;/p&gt;
+&lt;p&gt;状态的表现：&lt;br&gt;
+1.pending状态：不会触发then或catch&lt;br&gt;
+2.resolved状态：会触发后续的then回调函数&lt;br&gt;
+3.rejected状态：会触发后续的catch回调函数&lt;/p&gt;
+&lt;p&gt;then和catch改变状态：&lt;/p&gt;
+&lt;p&gt;1.then正常返回resolved，里面有报错则返回rejected&lt;br&gt;
+2.catch正常返回resolved，里面有报错则返回rejected&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// then() 一般正常返回 resolved 状态的 promise
+Promise.resolve().then(() =&amp;gt; {
+    return 100
+})
+
+// then() 里抛出错误，会返回 rejected 状态的 promise
+Promise.resolve().then(() =&amp;gt; {
+    throw new Error(&#39;err&#39;)
+})
+
+// catch() 不抛出错误，会返回 resolved 状态的 promise
+Promise.reject().catch(() =&amp;gt; {
+    console.error(&#39;catch some error&#39;)
+})
+
+// catch() 抛出错误，会返回 rejected 状态的 promise
+Promise.reject().catch(() =&amp;gt; {
+    console.error(&#39;catch some error&#39;)
+    throw new Error(&#39;err&#39;)
+})
+&lt;/code&gt;&lt;/pre&gt;
+"> JavaScript-异步</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/js-shou-xie-bind/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;手写bind&lt;/p&gt;
@@ -1834,6 +2993,40 @@ const a = 200
 fn() // 100
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;所有的自由变量的查找，是在函数定义的地方，向上级作用域查找，不是在执行的地方&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&#34;闭包的作用&#34;&gt;闭包的作用&lt;/h2&gt;
+&lt;h3 id=&#34;隐藏私有变量&#34;&gt;隐藏私有变量&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 闭包隐藏数据，只提供 API
+function createCache() {
+    const data = {} // 闭包中的数据，被隐藏，不被外界访问
+    return {
+        set: function (key, val) {
+            data[key] = val
+        },
+        get: function (key) {
+            return data[key]
+        }
+    }
+}
+
+const c = createCache()
+c.set(&#39;a&#39;, 100)
+console.log( c.get(&#39;a&#39;) )
+
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;块级作用域&#34;&gt;块级作用域&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let a
+for (let i = 0; i &amp;lt; 10; i++) {
+    a = document.createElement(&#39;a&#39;)
+    a.innerHTML = i + &#39;&amp;lt;br&amp;gt;&#39;
+    a.addEventListener(&#39;click&#39;, function (e) {
+        e.preventDefault()
+        alert(i)
+    })
+    document.body.appendChild(a)
+}
+
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes&#34;&gt;http://bonsaiden.github.io/JavaScript-Garden/zh/#function.scopes&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/#function.closures&#34;&gt;http://bonsaiden.github.io/JavaScript-Garden/zh/#function.closures&lt;/a&gt;&lt;/p&gt;
@@ -1844,6 +3037,7 @@ fn() // 100
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-object-dui-xiang-fang-fa-hasownproperty/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;对象实例的&lt;code&gt;hasOwnProperty&lt;/code&gt;方法返回一个布尔值，用于判断某个属性定义在对象自身，还是定义在原型链上。&lt;/p&gt;
+&lt;!-- more --&gt;
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;Date.hasOwnProperty(&#39;length&#39;) // true
 Date.hasOwnProperty(&#39;toString&#39;) // false
 &lt;/code&gt;&lt;/pre&gt;
@@ -2021,6 +3215,12 @@ console.log(xialuo.__proto__ === Student.prototype) // true
 &lt;p&gt;获取属性xialuo.name 或执行方法xialuo.sayhi()时&lt;/p&gt;
 &lt;p&gt;先在自身属性和方法找&lt;/p&gt;
 &lt;p&gt;如果找不到则去&lt;code&gt;__proto__&lt;/code&gt;中找&lt;/p&gt;
+&lt;h2 id=&#34;执行原型上的方法&#34;&gt;执行原型上的方法&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;xialuo.__proto__.sayHi()
+// 输出 undefined。 因为原型上没有相应的属性
+xialuo.sayHi()
+// 执行类似于 xialuo.__proto__.sayHi.call(xialuo)
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;原型链&#34;&gt;原型链&lt;/h2&gt;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1630196768351.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">JavaScript-类的继承和原型</a>
@@ -2462,6 +3662,7 @@ if (obj.a == null) { }
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-null-he-undefined/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;null&lt;/code&gt;与&lt;code&gt;undefined&lt;/code&gt;都可以表示“没有”，含义非常相似。将一个变量赋值为&lt;code&gt;undefined&lt;/code&gt;或&lt;code&gt;null&lt;/code&gt;，老实说，语法效果几乎没区别。&lt;/p&gt;
+&lt;!-- more --&gt;
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var a = undefined;
 // 或者
 var a = null;
@@ -11431,8 +12632,7 @@ git branch -u origin/main foo
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/"" data-c="
-          &lt;h1 id=&#34;前端教程导航&#34;&gt;前端教程导航&lt;/h1&gt;
-&lt;h2 id=&#34;git&#34;&gt;git&lt;/h2&gt;
+          &lt;h2 id=&#34;git&#34;&gt;git&lt;/h2&gt;
 &lt;p&gt;1、&lt;a href=&#34;https://learngitbranching.js.org/?locale=zh_CN&#34;&gt;游戏化教程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2、&lt;a href=&#34;https://www.bookstack.cn/read/git-tutorial/README.md&#34;&gt;阮一峰&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;​      &lt;a href=&#34;http://www.ruanyifeng.com/blog/2014/06/git_remote.html&#34;&gt;阮一峰blog1&lt;/a&gt;&lt;/p&gt;
@@ -11465,12 +12665,19 @@ git branch -u origin/main foo
 &lt;p&gt;&lt;a href=&#34;https://airbnb.io/javascript/&#34;&gt;JavaScript 规范指南&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/airbnb/javascript&#34;&gt;JavaScript 规范指南-英文版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/lin-123/javascript&#34;&gt;JavaScript 规范指南-中文版&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;1、&lt;a href=&#34;https://zh.javascript.info/&#34;&gt;现代JavaScript教程&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;2、&lt;a href=&#34;https://wangdoc.com/javascript/&#34;&gt;JavaScript 教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/JavaScript&#34;&gt;MDN-JavaScript&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://zh.javascript.info/&#34;&gt;现代JavaScript教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3、&lt;a href=&#34;https://wangdoc.com/javascript/&#34;&gt;JavaScript 教程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;​      &lt;a href=&#34;https://javascript.ruanyifeng.com/&#34;&gt;JavaScript 标准参考教程&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;3、&lt;a href=&#34;https://wangdoc.com/es6/&#34;&gt;ES6 入门教程&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;​	  &lt;a href=&#34;https://es6.ruanyifeng.com/&#34;&gt;ES6 入门教程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;4、&lt;a href=&#34;http://bonsaiden.github.io/JavaScript-Garden/zh/&#34;&gt;JavaScript秘密花园&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;es6&#34;&gt;ES6+&lt;/h2&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://wangdoc.com/es6/&#34;&gt;ES6 入门教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;​      &lt;a href=&#34;https://es6.ruanyifeng.com/&#34;&gt;ES6 入门教程&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;typescript&#34;&gt;TypeScript&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://ts.xcatliu.com/&#34;&gt;TypeScript 入门教程&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;css&#34;&gt;Css&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://cssguidelin.es/&#34;&gt;通用 CSS 笔记、建议与指导-英文版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/chadluo/CSS-Guidelines/blob/master/README.md&#34;&gt;通用 CSS 笔记、建议与指导-中文版&lt;/a&gt;&lt;/p&gt;
 ">前端教程导航</a>
       </div>
       
