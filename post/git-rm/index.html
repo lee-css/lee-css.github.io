@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git-rm | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1631580529454">
+<link rel="shortcut icon" href="/favicon.ico?v=1631581057613">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -182,13 +182,13 @@
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">10</span>
+        <span class="site-item-stat-count">9</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">10</span>
+        <span class="site-item-stat-count">9</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -9917,7 +9917,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/http-lian-jie-guan-li/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/http-lian-jie-guan-li/"" data-c="
           &lt;h1 id=&#34;http-连接管理&#34;&gt;http-连接管理&lt;/h1&gt;
 &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;http连接的几种方式：串行连接、并行连接、持久连接、管道化连接……&lt;/p&gt;
@@ -9927,7 +9927,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;HTTP事务需要按顺序进行传输，等待服务端完成处理并回传。&lt;/p&gt;
 &lt;p&gt;缺点：&lt;/p&gt;
 &lt;p&gt;每次HTTP通信后都要断开TCP连接，所以每个新的HTTP请求都需要建立一个新的tcp连接，极大的增加了通信开销。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625668312340.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625668312340.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;并行连接&#34;&gt;并行连接&lt;/h3&gt;
 &lt;p&gt;并发的执行多条HTTP请求，且每个请求都有自己的TCP连接。&lt;/p&gt;
 &lt;p&gt;特点：&lt;/p&gt;
@@ -9939,7 +9939,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;hr&gt;
 &lt;p&gt;实际上，浏览器确实使用了并行连接，但它们并行连接的总数限制为一个较小的值(通常是4个)。&lt;/p&gt;
 &lt;p&gt;服务器可以随意的关闭来自特定客户端的超量连接。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625668321507.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625668321507.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;持久连接&#34;&gt;持久连接&lt;/h3&gt;
 &lt;p&gt;也叫长连接、长轮询&lt;/p&gt;
 &lt;p&gt;在事务处理结束之后仍然保持在打开状态的TCP连接称为持久连接。&lt;/p&gt;
@@ -9955,7 +9955,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;1、发送了 Connection: close 请求首部之后，客户端就无法在那条连接上发送更多的请求了。&lt;/p&gt;
 &lt;p&gt;如果客户端不想在连接上发送其他请求了，就应该在最后一条请求中发送一个Connection: close 请求首部。&lt;/p&gt;
 &lt;p&gt;2、只有当连接上所有的报文都有正确的、自定义报文长度时——也就是说，实体主体部分的长度都和相应的Content-Length 一致，或者是用分块传输编码方式编码的——连接才能持久保持。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625668334800.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625668334800.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;管道化连接&#34;&gt;管道化连接&lt;/h3&gt;
 &lt;p&gt;在持久连接的基础上可选的使用请求管道。在响应到达之前，可以将多条请求放入队列。&lt;/p&gt;
 &lt;p&gt;限制：&lt;/p&gt;
@@ -9963,7 +9963,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;2、必须按照与请求相同的顺序回送HTTP响应。HTTP报文中没有序列号标签,因此如果收到的响应失序了,就没办法将其与请求匹配起来了。&lt;/p&gt;
 &lt;p&gt;3、HTTP 客户端必须做好连接会在任意时刻关闭的准备,还要准备好重发所有未完成的管道化请求。如果客户端打开了一条持久连接,并立即发出了10条请求,服务器可能在只处理了,比方说,5条请求之后关闭连接。剩下的5 条请求会失败,客户端必须能够应对这些过早关闭连接的情况,重新发出这些请求。&lt;/p&gt;
 &lt;p&gt;4、HTTP 客户端不应该用管道化的方式发送会产生副作用的请求(比如POST)。总之,出错的时候,管道化方式会阻碍客户端了解服务器执行的是一系列管道化请求中的哪一些。由于无法安全地重试POST这样的&lt;strong&gt;非幂等请求&lt;/strong&gt;,所以出错时,就存在某些方法永远不会被执行的风险。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625668345578.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625668345578.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;strong&gt;幂等请求&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;所谓幂等就是 多次执行对资源的影响，和一次执行对资源的影响相同。不管进行多少次重复操作，都是实现相同的结果。&lt;/p&gt;
 &lt;p&gt;幂等保证在pipeline中的所有请求可以不必关心发送次序和到达服务器后执行的次序，即使多次请求，返回的结果一直是一样的。&lt;/p&gt;
@@ -9986,7 +9986,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/http-ban-ben-li-shi/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/http-ban-ben-li-shi/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;现在使用的HTTP协议有几个版本。HTTP程序要尽量强健地处理各种不同的HTTP协议变体。&lt;/p&gt;
 &lt;p&gt;http请求是要通过tcp去建立连接，并在此之上发送数据,http只有请求和响应这个概念，没有链接这个概念。&lt;/p&gt;
@@ -10022,7 +10022,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;h4 id=&#34;管线化&#34;&gt;管线化&lt;/h4&gt;
 &lt;p&gt;&lt;u&gt;HTTP/1.1增加了pipeline支持。&lt;/u&gt;&lt;/p&gt;
 &lt;p&gt;管线化的连接建立在持久化连接的基础上，且响应需要顺序返回。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625583403314.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625583403314.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;非管线化的请求：如上图中第一幅&lt;/p&gt;
 &lt;p&gt;客户端发送一个请求之后，必须等待服务器响应之后才能发送下一个请求，不能同时并行发送多个请求。&lt;/p&gt;
 &lt;hr&gt;
@@ -10064,7 +10064,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/http-wang-luo-mo-xing/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/http-wang-luo-mo-xing/"" data-c="
           &lt;h1 id=&#34;http-五层网络模型&#34;&gt;http-五层网络模型&lt;/h1&gt;
 &lt;h2 id=&#34;1概述&#34;&gt;1.概述&lt;/h2&gt;
 &lt;h3 id=&#34;11协议&#34;&gt;1.1协议&lt;/h3&gt;
@@ -10072,7 +10072,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;为了使数据在网络上从源到达目的，网络通信的参与方必须遵循相同的规则，这套规则称为协议（protocol），它最终体现为在网络上传输的数据包的格式。&lt;/p&gt;
 &lt;p&gt;协议往往分成几个层次进行定义，分层定义是为了使某一层协议的改变不影响其他层次的协议。&lt;/p&gt;
 &lt;h3 id=&#34;12网络模型&#34;&gt;1.2网络模型&lt;/h3&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625500448131.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625500448131.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h4 id=&#34;121四层&#34;&gt;1.2.1四层&lt;/h4&gt;
 &lt;p&gt;TCP/IP 协议族是Internet最基本的协议，按照是否具有TCP/IP 协议族的协议来划分的话，从下到上为：&lt;/p&gt;
 &lt;ul&gt;
@@ -10102,14 +10102,14 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;网络层：为数据在结点之间传输创建逻辑链路。&lt;/p&gt;
 &lt;p&gt;传输层：为应用层实体提供端到端的通信功能。&lt;/p&gt;
 &lt;p&gt;应用层：为应用软件提供了很多服务。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625500557587.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625500557587.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;13层与协议&#34;&gt;1.3层与协议&lt;/h3&gt;
 &lt;p&gt;每一层都是为了完成一种功能。为了实现这些功能，就需要大家都遵守共同的规则。&lt;/p&gt;
 &lt;p&gt;大家都遵守的规则，就叫做&amp;quot;协议&amp;quot;（protocol）。&lt;/p&gt;
 &lt;p&gt;互联网的每一层，都定义了很多协议。这些协议集合起来总称为TCP/IP&lt;/p&gt;
 &lt;h2 id=&#34;2五层网络模型详解&#34;&gt;2.五层网络模型详解&lt;/h2&gt;
 &lt;p&gt;数据包格式：&lt;br&gt;
-&lt;img src=&#34;http://localhost:4000/post-images/1625500599926.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://leecss.com//post-images/1625500599926.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;21系统的角度&#34;&gt;2.1系统的角度&lt;/h3&gt;
 &lt;h4 id=&#34;211物理层&#34;&gt;2.1.1物理层&lt;/h4&gt;
 &lt;p&gt;光缆、电缆、双绞线、无线电波等方式，&lt;u&gt;把电脑连接起来的物理手段&lt;/u&gt;。&lt;/p&gt;
@@ -10187,7 +10187,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;接着，为了传输方便，在传输层（TCP 协议）把从应用层处收到的数据（HTTP 请求报文）进行分割，并在各个报文上打上标记序号及端口号后转发给网络层。&lt;/p&gt;
 &lt;p&gt;在网络层（IP 协议），增加作为通信目的地的 MAC 地址后转发给链路层。这样一来，发往网络的通信请求就准备齐全了。&lt;/p&gt;
 &lt;p&gt;接收端的服务器在链路层接收到数据，按序往上层发送，一直到应用层。当传输到应用层，才能算真正接收到由客户端发送过来的 HTTP请求。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625528569737.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625528569737.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;发送端在层与层之间传输数据时，每经过一层时必定会被打上一个该层所属的首部信息。反之，接收端在层与层传输数据时，每经过一层时会把对应的首部消去。&lt;/p&gt;
 &lt;p&gt;这种把数据信息包装起来的做法称为封装（encapsulate）。&lt;/p&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
@@ -10200,7 +10200,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-ming-ling-zong-jie/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-ming-ling-zong-jie/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;命令加思维导图&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -10430,7 +10430,7 @@ $ git revert [commit]
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 生成一个可供发布的压缩包
 # git archive
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625387910788.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625387910788.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;先抄一下阮老师的文章和腾讯的图&lt;/p&gt;
@@ -10440,7 +10440,7 @@ $ git revert [commit]
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-shi-yong-chang-jing/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-shi-yong-chang-jing/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;一些工作中会用到的知识点&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -10593,7 +10593,7 @@ git bisect reset
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-clean/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-clean/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git clean&lt;/code&gt;从你的工作区中删除所有没有 tracked，没有被管理过的文件。&lt;/p&gt;
 &lt;p&gt;作用是让使工作区回到一个干净的状态(一个指定的commit状态)&lt;/p&gt;
@@ -10623,7 +10623,7 @@ git bisect reset
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-show/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-show/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git show&lt;/code&gt;命令用于查看commit的内容&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -10641,7 +10641,7 @@ $ git show feature132@{2.hours.ago} # Time relative
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-show-branch/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-show-branch/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;查看分支及其历史提交记录&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -10663,12 +10663,12 @@ $ git show feature132@{2.hours.ago} # Time relative
 &lt;p&gt;&lt;code&gt;*&lt;/code&gt;表示当前分支上有此commit。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;+&lt;/code&gt;表示此颜色代表的分支上有此commit。&lt;/p&gt;
 &lt;p&gt;5、标识符的颜色只是用于容易区分列，一个分支一个颜色。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625361802965.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625361802965.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">git-show-branch</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-shu-biao-you-jian-shou-dong-tian-jia-git-bash/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-shu-biao-you-jian-shou-dong-tian-jia-git-bash/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;鼠标右键没有git bash的解决办法&lt;/p&gt;
 &lt;h2 id=&#34;操作&#34;&gt;操作&lt;/h2&gt;
@@ -10694,7 +10694,7 @@ $ git show feature132@{2.hours.ago} # Time relative
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-blame/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-blame/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;从blame这个词就能大致知道这个命令的作用了&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;git blame&lt;/code&gt; 命令可以查看每行代码的提交详情，包括提交人、时间等信息&lt;/p&gt;
@@ -10730,11 +10730,11 @@ $ git show feature132@{2.hours.ago} # Time relative
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-bisect/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-bisect/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;用来查找哪一次代码提交引入了错误。&lt;/p&gt;
 &lt;p&gt;它的原理很简单，就是将代码提交的历史，按照两分法不断缩小定位。所谓&amp;quot;两分法&amp;quot;，就是将代码历史一分为二，确定问题出在前半部分，还是后半部分，不断执行这个过程，直到范围缩小到某一次代码提交。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625311032096.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625311032096.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
 &lt;h3 id=&#34;启动查错&#34;&gt;启动查错&lt;/h3&gt;
 &lt;p&gt;&amp;quot;终点&amp;quot;是最近的提交，&amp;quot;起点&amp;quot;是更久以前的提交。它们之间的这段历史，就是差错的范围。&lt;/p&gt;
@@ -10773,7 +10773,7 @@ git bisect start HEAD 4d83cf
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-gitignore/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-gitignore/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;一些工作区中的文件不需要提交到远程，所以需要让git忽略他们，不对其进行检测，方法就是创建.gitignore文件&lt;/p&gt;
 &lt;h2 id=&#34;忽略规则&#34;&gt;忽略规则&lt;/h2&gt;
@@ -10819,7 +10819,7 @@ git commit -m &#39;update .gitignore&#39;
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-pei-zhi-ssh-key/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-pei-zhi-ssh-key/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;ssh可以基于密码进行认证，也可以基于密钥去认证用户，基于密钥认证时可以实现免密码登录的效果。&lt;/p&gt;
 &lt;p&gt;SSH公钥默认存储在账户的主目录下的&lt;code&gt;~/.ssh&lt;/code&gt;目录&lt;/p&gt;
@@ -10885,7 +10885,7 @@ PreferredAuthentications publickey
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-stash/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-stash/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git stash&lt;/code&gt;命令用于暂时保存没有提交的工作。运行该命令后，所有没有commit的代码，都会暂时从工作区移除，回到上次commit时的状态。&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -10931,7 +10931,7 @@ git stash apply stash@{1}
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-remote/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-remote/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;此命令用于管理远程主机(仓库)&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -10974,7 +10974,7 @@ jQuery
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-mv/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-mv/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;平时我们会遇到重命名文件的情况，git会把重命名的操作理解为以下几步&lt;/p&gt;
 &lt;p&gt;1、先删除了原文件&lt;/p&gt;
@@ -10987,7 +10987,7 @@ jQuery
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-rm/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-rm/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;平时我们都会有删除文件的需求，正常操作为&lt;/p&gt;
 &lt;p&gt;1、在文件系统中删除某文件&lt;/p&gt;
@@ -10999,7 +10999,7 @@ jQuery
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-rev-parse/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-rev-parse/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;显示某个指示符的SHA1哈希值。&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -11019,7 +11019,7 @@ jQuery
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-diff/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-diff/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git diff&lt;/code&gt;命令用于查看文件之间的差异。&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -11092,7 +11092,7 @@ git diff maste..dev
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-reflog/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-reflog/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;相当于版本控制的版本控制&lt;/p&gt;
 &lt;p&gt;git reflog 可以查看所有分支的所有操作记录&lt;/p&gt;
@@ -11120,13 +11120,13 @@ git diff maste..dev
 &lt;p&gt;git log显示当前HEAD及其祖先。&lt;/p&gt;
 &lt;p&gt;也就是说，它打印提交HEAD指向，然后它的父，其父，等等。&lt;/p&gt;
 &lt;p&gt;它通过递归查找每个提交的父进程遍历回购的祖先。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625067362274.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625067370478.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625067362274.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625067370478.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">git-reflog</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-log/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-log/"" data-c="
           &lt;h1 id=&#34;git-log&#34;&gt;git-log&lt;/h1&gt;
 &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git log&lt;/code&gt;命令按照提交时间从最晚到最早的顺序，列出所有 commit。&lt;/p&gt;
@@ -11209,9 +11209,9 @@ git mv b.txt a.txt &amp;amp;&amp;amp; git commit -m ‘rename b.txt to a.txt’
 a.txt =&amp;gt; a.txt b.txt =&amp;gt; b.txt =&amp;gt; a.txt
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;git log -p a.txt&lt;/code&gt;&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625285396990.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625285396990.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;code&gt;git log -p --follow a.txt&lt;/code&gt;&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625285403872.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625285403872.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&#34;https://x-front-team.github.io/2016/12/22/git-log-follow%E5%A5%87%E9%81%87%E8%AE%B0/&#34;&gt;https://x-front-team.github.io/&lt;/a&gt;&lt;/p&gt;
@@ -11220,7 +11220,7 @@ a.txt =&amp;gt; a.txt b.txt =&amp;gt; b.txt =&amp;gt; a.txt
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-restore/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-restore/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令&lt;/p&gt;
 &lt;p&gt;switch命令专门用来切换分支、创建并切换分支等&lt;/p&gt;
@@ -11261,7 +11261,7 @@ git restore --source HEAD~ .
 &lt;p&gt;举例说明：假如把readme.md从上次提交同时恢复到暂存区和工作区&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git restore --source HEAD~ --staged --worktree readme.md
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624980286919.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624980286919.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;注意事项&#34;&gt;注意事项&lt;/h2&gt;
 &lt;p&gt;必须指定要覆盖的文件，可以是具体的某一个，也可以是全部文件，但必须要指定，否则会报以下错误&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;you must specify path(s) to restore
@@ -11270,7 +11270,7 @@ git restore --source HEAD~ .
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-switch/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-switch/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令&lt;/p&gt;
 &lt;p&gt;switch命令专门用来切换分支、创建并切换分支等&lt;/p&gt;
@@ -11310,7 +11310,7 @@ git switch dev
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-checkout/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-checkout/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git checkout&lt;/code&gt;命令有多种用途。大致分为新建分支；切换分支、快照、标签；撤销文件。&lt;/p&gt;
 &lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
@@ -11350,16 +11350,16 @@ git switch dev
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/zhu-bao-bei-sheng-ri-kuai-le/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/zhu-bao-bei-sheng-ri-kuai-le/"" data-c="
           &lt;p&gt;happy birthday~&lt;br&gt;
 😛😛😛&lt;/p&gt;
 &lt;p&gt;一岁一礼 一寸欢喜&lt;br&gt;
-&lt;img src=&#34;http://localhost:4000/post-images/1624805818323.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://leecss.com//post-images/1624805818323.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 ">祝宝贝生日快乐</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-yuan-li/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-yuan-li/"" data-c="
           &lt;h2 id=&#34;git是如何存储信息的&#34;&gt;git是如何存储信息的&lt;/h2&gt;
 &lt;p&gt;1、初始化仓库，新建文件，并添加到暂存区&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -11456,14 +11456,14 @@ git cat-file -p 5f3f16
 100644 blob 4ef5d11d3b99f88fb9f70b694de01db16c56ed50    a.txt
 100644 blob 7170f7d93c37a8861f0e6816780b2881ad5f58d2    b.txt
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624773693534.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624773693534.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cat-file -t 39bd98
 commit
 
 git cat-file -p 39bd98
 tree 5f3f16e16db5faec1bf71fab36cbad24fbddfd39
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624773720929.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624773720929.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;6、HEAD指针和分支&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat .git/HEAD
 ref: refs/heads/master
@@ -11473,18 +11473,18 @@ cat .git/refs/heads/master
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;可以看出，HEAD指针指向分支指针，分支指针指向最新的commit&lt;/p&gt;
 &lt;p&gt;HEAD、分支、普通的Tag可以简单的理解成是一个指针，指向对应commit的SHA1值。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624773733859.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624773733859.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;7、为什么要把文件的权限和文件名储存在Tree object里面而不是Blob object呢？&lt;/p&gt;
 &lt;p&gt;因为更改一个文件名就需要新建一个Blob object，假如文件很大的话，会很占空间，而Tree object体积相对很小&lt;/p&gt;
 &lt;p&gt;8、当你修改了其中一个文件，创建一个新的commit后&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624774577309.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624774577309.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;git的三个分区&#34;&gt;git的三个分区&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;工作目录 （ working directory ）：操作系统上的文件，所有代码开发编辑都在这上面完成。&lt;/li&gt;
 &lt;li&gt;索引（ index or staging area ）：可以理解为一个暂存区域，这里面的代码会在下一次commit被提交到Git仓库。&lt;/li&gt;
 &lt;li&gt;Git仓库（ git repository ）：由Git object记录着每一次提交的快照，以及链式结构记录的提交变更历史。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624774695680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624774695680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;李泽帆&lt;/p&gt;
@@ -11494,7 +11494,7 @@ cat .git/refs/heads/master
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-init/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-init/"" data-c="
           &lt;h2 id=&#34;将当前目录转为git仓库&#34;&gt;将当前目录转为git仓库&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git init&lt;/code&gt;命令将当前目录转为git仓库。&lt;/p&gt;
 &lt;p&gt;它会在当前目录下生成一个.git子目录，在其中写入git的配置和项目的快照。&lt;/p&gt;
@@ -11506,7 +11506,7 @@ git init place
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-an-zhuang/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-an-zhuang/"" data-c="
           &lt;h2 id=&#34;windows&#34;&gt;windows&lt;/h2&gt;
 &lt;p&gt;从官方网站上下载安装包，按照默认配置快速安装（一直下一步），访问git官网，即可下载git，git的官方网址如下：&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://git-scm.com/downloads&#34;&gt;https://git-scm.com/downloads&lt;/a&gt;&lt;/p&gt;
@@ -11534,7 +11534,7 @@ local选项设置的优先级最高。
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-push/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-push/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git push&lt;/code&gt;命令用于将本地分支的更新，推送到远程主机。它的格式与&lt;code&gt;git pull&lt;/code&gt;命令相仿。&lt;/p&gt;
 &lt;p&gt;git push和当前的HEAD指针位于哪里没关系，只要指定完整的格式，即使当前指针不在分支上，也可以推送到远程&lt;/p&gt;
@@ -11603,7 +11603,7 @@ git config --global push.default simple
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-pull/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-pull/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;既然我们已经知道了如何用 &lt;code&gt;git fetch&lt;/code&gt; 获取远程的数据, 现在我们学习如何将这些变化更新到我们的工作当中。&lt;/p&gt;
 &lt;p&gt;其实有很多方法的 —— 当远程分支中有新的提交时，你可以像合并本地分支那样来合并远程分支。也就是说就是你可以执行以下命令:&lt;/p&gt;
@@ -11615,7 +11615,7 @@ git config --global push.default simple
 &lt;/ul&gt;
 &lt;p&gt;实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 &lt;code&gt;git pull&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;即&lt;code&gt;git pull&lt;/code&gt;相当于&lt;code&gt;git fetch&lt;/code&gt; 和 &lt;code&gt;git merge o/main&lt;/code&gt;的缩写，取回远程主机某个分支的更新，再与本地的指定分支合并。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624778165211.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624778165211.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;注意点&#34;&gt;注意点&lt;/h2&gt;
 &lt;p&gt;即使当前分支有没有 commit 的变动，也可以使用&lt;code&gt;git pull&lt;/code&gt;从远程拉取分支。&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -11690,7 +11690,7 @@ git push
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-fetch/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-fetch/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;从远程仓库获取数据，一旦远程主机的版本库有了更新（Git术语叫做commit），需要将这些更新取回本地，这时就要用到&lt;code&gt;git fetch&lt;/code&gt;命令。&lt;/p&gt;
 &lt;h3 id=&#34;git-fetch-做了些什么&#34;&gt;git fetch 做了些什么&lt;/h3&gt;
@@ -11705,7 +11705,7 @@ git push
 &lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt; 并不会改变你本地仓库的状态。它不会更新你的 &lt;code&gt;main&lt;/code&gt; 分支，也不会修改你磁盘上的文件。&lt;/p&gt;
 &lt;p&gt;理解这一点很重要，因为许多开发人员误以为执行了 &lt;code&gt;git fetch&lt;/code&gt; 以后，他们本地仓库就与远程仓库同步了。它可能已经将进行这一操作所需的所有数据都下载了下来，但是&lt;strong&gt;并没有&lt;/strong&gt;修改你本地的文件。&lt;/p&gt;
 &lt;p&gt;所以, 你可以将 &lt;code&gt;git fetch&lt;/code&gt; 的理解为单纯的下载操作。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624778106680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624778106680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
 &lt;h3 id=&#34;获取更新&#34;&gt;获取更新&lt;/h3&gt;
 &lt;p&gt;将某个远程主机的更新，全部取回本地。&lt;/p&gt;
@@ -11729,7 +11729,7 @@ git rebase origin/master
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-clone/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-clone/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;在&lt;strong&gt;本地&lt;/strong&gt;创建一个远程仓库的拷贝，&lt;code&gt;git clone&lt;/code&gt;命令用于克隆远程分支。&lt;/p&gt;
 &lt;h2 id=&#34;远程仓库&#34;&gt;远程仓库&lt;/h2&gt;
@@ -11781,7 +11781,7 @@ git rebase origin/master
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-describe/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-describe/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来&lt;strong&gt;描述&lt;/strong&gt;离你最近的锚点（也就是标签），它就是 &lt;code&gt;git describe&lt;/code&gt;！&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -11798,7 +11798,7 @@ git describe &amp;lt;branch&amp;gt;
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-tag/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-tag/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;标签&lt;em&gt;永远&lt;/em&gt;指向某个提交记录。&lt;/p&gt;
 &lt;p&gt;当软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性，我们可以打一个标签，标识了某个特定的位置。&lt;/p&gt;
@@ -11859,7 +11859,7 @@ git push origin --tags
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-cherry-pick/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-cherry-pick/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;对于多分支的代码库，将代码从一个分支转移到另一个分支是常见需求。&lt;/p&gt;
 &lt;p&gt;这时分两种情况。一种情况是，你需要另一个分支的所有代码变动，那么就采用合并（&lt;code&gt;git merge&lt;/code&gt;）。另一种情况是，你只需要部分代码变动（某几个提交），这时可以采用 Cherry pick。&lt;/p&gt;
@@ -11867,7 +11867,7 @@ git push origin --tags
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cherry-pick commitID
 git cherry-pick c1
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624778009309.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624778009309.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
 &lt;h3 id=&#34;一-基本用法&#34;&gt;一、基本用法&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;git cherry-pick&lt;/code&gt;命令的作用，就是将指定的提交（commit）应用于其他分支。&lt;/p&gt;
@@ -11917,7 +11917,7 @@ $ git cherry-pick f
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-revert/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-revert/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git revert&lt;/code&gt;命令用于撤销某个具体的commit。&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -11931,7 +11931,7 @@ $ git cherry-pick f
 &lt;h2 id=&#34;revert和reset的区别&#34;&gt;revert和reset的区别&lt;/h2&gt;
 &lt;p&gt;reset（重置）：将版本回退到某个commit&lt;/p&gt;
 &lt;p&gt;恢复（revert）:  回滚某个具体的commit,将它撤销&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777944096.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624777944096.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
 &lt;p&gt;先说一个场景，普通的commit可以直接用revert回滚，假如是一个合并的commit呢&lt;/p&gt;
 &lt;p&gt;普通commit&lt;/p&gt;
@@ -11944,7 +11944,7 @@ $ git cherry-pick f
 &lt;p&gt;当一个commit有两个父节点时，git并不知道你想要回滚它与哪个父节点之间联系，所以需要我们帮git确定保留哪一个。这时需要指定一个 parent number 标识出&amp;quot;主线&amp;quot;，主线的内容将会保留，而另一条分支的内容将被revert。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;即m的意义为指定要保留的父节点。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;以下图中为例：&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625366627629.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625366627629.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;我们可以看到合并的节点为&lt;code&gt;bd86846&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;使用 &lt;code&gt;git show&lt;/code&gt; 命令可以查看 commit 的详细信息&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git show bd86846
@@ -11961,7 +11961,7 @@ Merge: ba25a9d 1c7036f
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h4 id=&#34;需要注意的地方&#34;&gt;需要注意的地方&lt;/h4&gt;
 &lt;p&gt;小明从节点A拉了一条dev分支出来，在节点B中新增了一个文件http.js，并且合并到master分支，合并节点为E。这个时候发现会引起线上bug，赶紧撤回这个合并，新增一个revert节点E’。过了几天小明继续在dev分支上面开发新增了一个文件main.js，并在这个文件中import了http.js里面的逻辑，在dev分支上面一切运行正常。可当他将此时的dev分支合并到master时候却发现，&lt;strong&gt;http.js文件不见了&lt;/strong&gt;，导致main.js里面的逻辑运行报错了。但这次合并并没有任何冲突。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625366673091.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1625366673091.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;根据Git的合并策略，在合并两个有分叉的分支（上图中的D、E‘）时，Git 默认会选择Recursive策略。找到D和E’的最短路径共同祖先节点B，以B为base，对D，E‘做三向合并。B中有http.js，D中有http.js和main.js，E’中什么都没有。根据三向合并，B、D中都有http.js且没有变更，E‘删除了http.js，所以合并结果就是没有http.js，没有冲突，所以http.js文件不见了。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;即你之前被合并的分支上的提交，都会被丢弃，但是新增的提交，会保留下来。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;解决办法：&lt;/p&gt;
@@ -11976,7 +11976,7 @@ Merge: ba25a9d 1c7036f
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-reset/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-reset/"" data-c="
           &lt;h2 id=&#34;撤销区域&#34;&gt;撤销区域&lt;/h2&gt;
 &lt;h3 id=&#34;暂存区&#34;&gt;暂存区&lt;/h3&gt;
 &lt;p&gt;撤销已经添加到暂存区中的修改，即让暂存区与最近的提交保持一致，可以使用如下命令，如下三条命令等效&lt;/p&gt;
@@ -12039,13 +12039,13 @@ git reset HEAD~
 // 将当期分支的指针倒退一个 commit，改变仓库，暂存区，工作区
 git reset --hard HEAD~
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777861958.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777870293.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624777861958.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624777870293.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">git-reset</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-xiang-dui-yin-yong/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-xiang-dui-yin-yong/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;通过哈希值指定提交记录很不方便，所以 Git 引入了相对引用。&lt;/p&gt;
 &lt;p&gt;使用相对引用的话，你就可以从一个易于记忆的地方（比如bugFix 分支或 HEAD）开始计算。&lt;/p&gt;
@@ -12114,7 +12114,7 @@ git branch -f dev c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-referencezhi-zhen/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-referencezhi-zhen/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;所谓指针（reference），只是一个链接，用来指向其他物体，方便引用。Git有三种指针，但是所有指针归根结底都是指向某个commit。&lt;/p&gt;
 &lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
@@ -12160,7 +12160,7 @@ git branch -f dev c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-rebase/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-rebase/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;将当前分支移植到指定分支或指定commit之上。&lt;/p&gt;
 &lt;p&gt;Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。&lt;/p&gt;
@@ -12177,7 +12177,7 @@ git rebase c2
 &lt;ul&gt;
 &lt;li&gt;Rebase 修改了提交树的历史&lt;/li&gt;
 &lt;/ul&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777673513.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624777673513.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;交互式&#34;&gt;交互式&lt;/h2&gt;
 &lt;h3 id=&#34;-iinteractive&#34;&gt;-i，—interactive&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;-i&lt;/code&gt;参数会打开互动模式，让用户选择定制&lt;code&gt;rebase&lt;/code&gt;的行为。&lt;/p&gt;
@@ -12196,9 +12196,9 @@ git rebase c2
 &lt;p&gt;不同于 &lt;code&gt;git rebase&lt;/code&gt; 的是，&lt;code&gt;git merge&lt;/code&gt; 在不是 fast-forward（快速合并）的情况下，会产生一条额外的合并记录，类似 &lt;code&gt;Merge branch &#39;xxx&#39; into &#39;xxx&#39;&lt;/code&gt; 的一条提交信息。&lt;/p&gt;
 &lt;p&gt;另外，在解决冲突的时候，用 merge 只需要解决一次冲突即可，简单粗暴，而用 rebase 的时候 ，需要依次解决每次的冲突，才可以提交。&lt;/p&gt;
 &lt;p&gt;git merge&lt;br&gt;
-&lt;img src=&#34;http://localhost:4000/post-images/1624678535981.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://leecss.com//post-images/1624678535981.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;git rebase&lt;br&gt;
-&lt;img src=&#34;http://localhost:4000/post-images/1624678567467.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://leecss.com//post-images/1624678567467.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;使用情况&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;当需要保留详细的合并信息的时候建议使用&lt;code&gt;git merge&lt;/code&gt;，特别是需要将分支合并进入&lt;code&gt;master&lt;/code&gt;分支时；&lt;/p&gt;
 &lt;p&gt;当发现自己修改某个功能时，频繁进行了&lt;code&gt;git commit&lt;/code&gt;提交时，发现其实过多的提交信息没有必要时，可以尝试&lt;code&gt;git rebase&lt;/code&gt;。&lt;/p&gt;
@@ -12207,7 +12207,7 @@ git rebase c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-merge/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-merge/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git merge&lt;/code&gt;命令用于合并指定分支到当前分支&lt;/p&gt;
 &lt;p&gt;将develop分支合并到当前分支，当前分支会创建新的commit对象，它有两个父节点，分别指向当前分支和develop分支。&lt;/p&gt;
@@ -12221,13 +12221,13 @@ git rebase c2
 &lt;p&gt;以dev合并到master为例：&lt;/p&gt;
 &lt;p&gt;在maser分支执行&lt;code&gt;git merge dev&lt;/code&gt;，会有新的变更进入到master，新变更进入后，master分支的内容会产生变化，因此master分支需要一个新的提交来对应变化后的状态，于是，master分支的指针会指向最新产生的合并提交。&lt;/p&gt;
 &lt;p&gt;而对于dev分支来说，并没有任何内容发生变动，所以dev分支的指针仍然保持原位。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777430550.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624777430550.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;fast-forward快进&#34;&gt;fast-forward（快进）&lt;/h3&gt;
 &lt;p&gt;假如此时在C1节点master分支上，创建了一个新的分支dev,然后在dev分支上创建新的提交C2。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;如果合并分支之前，master分支和dev分支中只有一个分支创建了属于自己分支的独有提交，此时可以使用fast-forward进行合并。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;由于基于maste分支创建dev分支以后，master分支中并没有产生任何新的提交，如果此时想要将dev分支合并到master分支，只需要将master分支的指针指向到dev分支的最新提交，即可让master分支包含dev分支中的所有新变更。即：&lt;/p&gt;
 &lt;p&gt;&lt;u&gt;如果“指定分支”本身是当前分支的一个直接子节点，则会产生fast-forward合并，即合并不会产生新的节点，只是让当前分支指向“指定分支”的最新commit。&lt;/u&gt;&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777268946.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624777268946.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;冲突&#34;&gt;冲突&lt;/h2&gt;
 &lt;p&gt;当我们合并分支的时候，如果当前分支和要被合并的分支在同一个地方修改了不同的内容，会发生冲突，自动合并失败，需要人为解决。&lt;/p&gt;
 &lt;h3 id=&#34;解决冲突&#34;&gt;解决冲突&lt;/h3&gt;
@@ -12241,7 +12241,7 @@ git rebase c2
 &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; BranchName
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;当我们手动解决完之后，重新添加并提交即可。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777598642.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624777598642.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;放弃合并&#34;&gt;放弃合并&lt;/h3&gt;
 &lt;p&gt;当我们执行git merge --abort命令以后，git就取消了本次合并操作&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge --abort
@@ -12276,7 +12276,7 @@ git rebase c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-commit/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-commit/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git commit&lt;/code&gt;命令用于将暂存区中的变化提交到仓库区。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;-m&lt;/code&gt;参数用于指定 commit 信息，是必需的。如果省略&lt;code&gt;-m&lt;/code&gt;参数，&lt;code&gt;git commit&lt;/code&gt;会自动打开文本编辑器，要求输入。&lt;br&gt;
@@ -12303,7 +12303,7 @@ git rebase c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-add/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-add/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git add&lt;/code&gt;命令用于将变化的文件，从工作区提交到暂存区。&lt;/p&gt;
 &lt;p&gt;将指定文件放入暂存区&lt;/p&gt;
@@ -12376,7 +12376,7 @@ e - 手动编辑当前的区块&lt;br&gt;
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-branch/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-branch/"" data-c="
           &lt;h2 id=&#34;1-查看分支&#34;&gt;1、查看分支&lt;/h2&gt;
 &lt;p&gt;*表示当前分支&lt;/p&gt;
 &lt;p&gt;查看所有本地分支&lt;/p&gt;
@@ -12467,7 +12467,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-jian-jie/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-jian-jie/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;git是目前世界上最先进的 &lt;strong&gt;分布式&lt;/strong&gt;  &lt;strong&gt;版本控制&lt;/strong&gt;系统。&lt;/p&gt;
 &lt;h3 id=&#34;分布式&#34;&gt;分布式&lt;/h3&gt;
@@ -12485,7 +12485,7 @@ git branch -u origin/main foo
 &lt;p&gt;Git 仓库中的提交记录保存的是你的目录下所有文件的快照，就像是把整个目录复制，然后再粘贴一样，但比复制粘贴优雅许多！&lt;/p&gt;
 &lt;p&gt;Git 希望提交记录尽可能地轻量，因此在你每次进行提交时，它并不会盲目地复制整个目录。条件允许的情况下，它会将当前版本与仓库中的上一个版本进行对比，并把所有的差异打包到一起作为一个提交记录。&lt;/p&gt;
 &lt;p&gt;Git 还保存了提交的历史记录。这也是为什么大多数提交记录的上面都有父节点的原因 —— 我们会在图示中用箭头来表示这种关系。对于项目组的成员来说，维护提交历史对大家都有好处。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1623799889637.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1623799889637.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;分区及文件状态&#34;&gt;分区及文件状态&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Workspace：工作区&lt;/li&gt;
@@ -12497,14 +12497,14 @@ git branch -u origin/main foo
 &lt;p&gt;Index：暂存区，当执行 &lt;code&gt;git add&lt;/code&gt; 的命令后，工作区的文件就会被移入暂存区，暂存区标记了当前工作区中哪些内容是被 Git 管理的，当完成某个需求或者功能后需要提交代码，第一步就是通过 &lt;code&gt;git add&lt;/code&gt; 先提交到暂存区。&lt;/p&gt;
 &lt;p&gt;Repository：本地仓库，位于自己的电脑上（隐藏文件.git目录），通过 &lt;code&gt;git commit&lt;/code&gt; 提交暂存区的内容，会进入本地仓库。&lt;/p&gt;
 &lt;p&gt;Remote：远程仓库，用来托管代码的服务器，远程仓库的内容能够被分布在多个地点的处于协作关系的本地仓库修改，本地仓库修改完代码后通过 &lt;code&gt;git push&lt;/code&gt; 命令同步代码到远程仓库。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1623800678351.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624707230372.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624707238506.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1623800678351.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624707230372.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com//post-images/1624707238506.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">git-简介</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/sheng-huo-wang-zhan-dao-hang/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/sheng-huo-wang-zhan-dao-hang/"" data-c="
           &lt;h2 id=&#34;其他&#34;&gt;其他&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;http://www.tiqianhuandai.cc/&#34;&gt;房贷计算&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;壁纸&#34;&gt;壁纸&lt;/h2&gt;
@@ -12513,7 +12513,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/cheng-xu-yuan-zi-yuan-hui-zong/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/cheng-xu-yuan-zi-yuan-hui-zong/"" data-c="
           &lt;h2 id=&#34;写在最前面&#34;&gt;写在最前面&lt;/h2&gt;
 &lt;p&gt;互联网时代，不缺乏学习的资源，缺乏学习的心。&lt;/p&gt;
 &lt;p&gt;再一次整理这些网站，希望不负初心！&lt;/p&gt;
@@ -12544,7 +12544,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/qian-duan-jiao-cheng-dao-hang/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/qian-duan-jiao-cheng-dao-hang/"" data-c="
           &lt;h2 id=&#34;git&#34;&gt;git&lt;/h2&gt;
 &lt;p&gt;1、&lt;a href=&#34;https://learngitbranching.js.org/?locale=zh_CN&#34;&gt;游戏化教程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2、&lt;a href=&#34;https://www.bookstack.cn/read/git-tutorial/README.md&#34;&gt;阮一峰&lt;/a&gt;&lt;/p&gt;
@@ -12595,7 +12595,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-yu-yi-hua-ban-ben/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/git-yu-yi-hua-ban-ben/"" data-c="
           &lt;h2 id=&#34;版本格式&#34;&gt;版本格式&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;0.y.z&lt;/code&gt; 表示开发阶段，一切可能随时改变，非稳定版。&lt;/li&gt;
@@ -12785,7 +12785,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/google-cha-jian/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com//post/google-cha-jian/"" data-c="
           &lt;h2 id=&#34;1-bluesea&#34;&gt;1、BlueSea&lt;/h2&gt;
 &lt;p&gt;GitHub 链接：https://github.com/jiangqizheng/BlueSea 。&lt;/p&gt;
 &lt;p&gt;介绍：帮助翻译及记忆英语单词&lt;/p&gt;
