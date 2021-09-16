@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>git命令总结 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1631581057613">
+<link rel="shortcut icon" href="/favicon.ico?v=1631753000197">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,19 +176,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">115</span>
+        <span class="site-item-stat-count">118</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">9</span>
+        <span class="site-item-stat-count">10</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">9</span>
+        <span class="site-item-stat-count">10</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -1840,6 +1840,135 @@ $ git revert [commit]
       <hr>
     </div>
     <div class="result" id="result">
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/css-sheng-bei-bu-ju/"" data-c="
+          &lt;h2 id=&#34;要求&#34;&gt;要求&lt;/h2&gt;
+&lt;p&gt;左右宽度固定，中间宽度自适应&lt;/p&gt;
+&lt;h2 id=&#34;实现&#34;&gt;实现&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+    &amp;lt;meta charset=&amp;quot;UTF-8&amp;quot;&amp;gt;
+    &amp;lt;meta name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0&amp;quot;&amp;gt;
+    &amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;ie=edge&amp;quot;&amp;gt;
+    &amp;lt;title&amp;gt;圣杯布局&amp;lt;/title&amp;gt;
+    &amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
+        body {
+            min-width: 550px;
+        }
+        #header {
+            text-align: center;
+            background-color: #f1f1f1;
+        }
+
+        #container {
+            padding-left: 200px;
+            padding-right: 150px;
+        }
+        #container .column {
+            float: left;
+        }
+
+        #center {
+            background-color: #ccc;
+            width: 100%;
+        }
+        #left {
+            position: relative;
+            background-color: yellow;
+            width: 200px;
+            margin-left: -100%;
+            right: 200px;
+        }
+        #right {
+            background-color: red;
+            width: 150px;
+            margin-right: -150px;
+        }
+
+        #footer {
+            text-align: center;
+            background-color: #f1f1f1;
+        }
+
+        /* 手写 clearfix */
+        .clearfix:after {
+            content: &#39;&#39;;
+            display: table;
+            clear: both;
+        }
+    &amp;lt;/style&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+    &amp;lt;div id=&amp;quot;header&amp;quot;&amp;gt;this is header&amp;lt;/div&amp;gt;
+    &amp;lt;div id=&amp;quot;container&amp;quot; class=&amp;quot;clearfix&amp;quot;&amp;gt;
+        &amp;lt;div id=&amp;quot;center&amp;quot; class=&amp;quot;column&amp;quot;&amp;gt;this is center&amp;lt;/div&amp;gt;
+        &amp;lt;div id=&amp;quot;left&amp;quot; class=&amp;quot;column&amp;quot;&amp;gt;this is left&amp;lt;/div&amp;gt;
+        &amp;lt;div id=&amp;quot;right&amp;quot; class=&amp;quot;column&amp;quot;&amp;gt;this is right&amp;lt;/div&amp;gt;
+    &amp;lt;/div&amp;gt;
+    &amp;lt;div id=&amp;quot;footer&amp;quot;&amp;gt;this is footer&amp;lt;/div&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;效果&#34;&gt;效果&lt;/h2&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1631716817057.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;讲解&#34;&gt;讲解&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;margin-left: -100%;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;1、100%是相对于父元素的宽度&lt;/p&gt;
+&lt;p&gt;2、要理解它，可以先把父元素的padding值去掉。&lt;/p&gt;
+&lt;p&gt;3、可以看到，left区域占据最左端，左边和父元素的左边重合。&lt;/p&gt;
+&lt;p&gt;即从区域范围外，向左移动父元素的100%&lt;/p&gt;
+&lt;p&gt;4、此时，再加上父元素的padding值。&lt;/p&gt;
+&lt;p&gt;同理，left区域占据可视范围内的最左边。&lt;/p&gt;
+&lt;p&gt;5、移动相对位置&lt;/p&gt;
+&lt;p&gt;第三步图示：&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1631716828211.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844903962529759239#heading-20&#34;&gt;CSS如何进行圣杯布局&lt;/a&gt;&lt;/p&gt;
+">css-圣杯布局</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/css-bfc/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;块格式化上下文（Block Formatting Context，BFC）&lt;/strong&gt; 是Web页面的可视CSS渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域。&lt;/p&gt;
+&lt;h2 id=&#34;形成-bfc-的常见条件&#34;&gt;形成 BFC 的常见条件&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;float 不是 none&lt;/li&gt;
+&lt;li&gt;position 是 absolute 或 fixed&lt;/li&gt;
+&lt;li&gt;overflow 不是 visible&lt;/li&gt;
+&lt;li&gt;display 是 flex inline-block等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;作用&#34;&gt;作用&lt;/h2&gt;
+&lt;h3 id=&#34;清除浮动&#34;&gt;清除浮动&lt;/h3&gt;
+&lt;p&gt;为父盒子设置 overflow: hidden;&lt;br&gt;
+overflow: hidden;使父元素产生了一个BFC，BFC的高度计算包括其内部浮动的元素，从而达到清除浮动的效果&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context&lt;/a&gt;&lt;/p&gt;
+">css-BFC</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/css-margin/"" data-c="
+          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;margin&lt;/code&gt; 属性为给定元素设置所有四个（上下左右）方向的外边距属性。&lt;/p&gt;
+&lt;p&gt;外边距控制的是元素外部空出的空间。相反，padding操作元素&lt;em&gt;内部&lt;/em&gt;空出的空间。&lt;/p&gt;
+&lt;h2 id=&#34;重叠&#34;&gt;重叠&lt;/h2&gt;
+&lt;p&gt;上下元素的下上外边距有时会重叠，实际空出的空间长度变为两外边距中的较长值。&lt;/p&gt;
+&lt;h2 id=&#34;负值&#34;&gt;负值&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;margin-top 和 margin-left 负值，元素向上、向左移动&lt;/li&gt;
+&lt;li&gt;margin-right 负值，右侧元素左移，自身不受影响&lt;/li&gt;
+&lt;li&gt;margin-bottom 负值，下方元素上移，自身不受影响&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;水平居中&#34;&gt;水平居中&lt;/h2&gt;
+&lt;p&gt;在现代浏览器中实现水平居中，可以使用 &lt;code&gt;display: flex; justify-content: center;&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;不过，在 IE8-9 这样的不支持弹性盒布局的旧式浏览器中，上述代码并不会生效。此时要实现在父元素中居中，可使用 &lt;code&gt;margin: 0 auto;&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin&lt;/a&gt;&lt;/p&gt;
+">css-margin</a>
+      </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/javascript-webapi-window-fang-fa-requestanimationframe/"" data-c="
@@ -4560,8 +4689,8 @@ console.log(&#39;server listening on 8888&#39;)
 &lt;h2 id=&#34;启动时&#34;&gt;启动时&lt;/h2&gt;
 &lt;h3 id=&#34;同时打开多网页&#34;&gt;同时打开多网页&lt;/h3&gt;
 &lt;p&gt;打开特定网页或一组网页，添加新网页&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;https://leecss.com/
-https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;https://leecss.com
+https://leecss.compost/qian-duan-jiao-cheng-dao-hang/
 https://fanyi.baidu.com/
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;语言&#34;&gt;语言&lt;/h2&gt;
@@ -12817,6 +12946,8 @@ git branch -u origin/main foo
 &lt;p&gt;&lt;a href=&#34;https://airbnb.io/javascript/&#34;&gt;JavaScript 规范指南&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/airbnb/javascript&#34;&gt;JavaScript 规范指南-英文版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/lin-123/javascript&#34;&gt;JavaScript 规范指南-中文版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/ryanmcdermott/clean-code-javascript&#34;&gt;JavaScript-代码整洁之道-英文版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/alivebao/clean-code-js&#34;&gt;JavaScript-代码整洁之道-中文版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;1、&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/JavaScript&#34;&gt;MDN-JavaScript&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2、&lt;a href=&#34;https://zh.javascript.info/&#34;&gt;现代JavaScript教程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;3、&lt;a href=&#34;https://wangdoc.com/javascript/&#34;&gt;JavaScript 教程&lt;/a&gt;&lt;/p&gt;
@@ -12830,6 +12961,14 @@ git branch -u origin/main foo
 &lt;h2 id=&#34;css&#34;&gt;Css&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://cssguidelin.es/&#34;&gt;通用 CSS 笔记、建议与指导-英文版&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://github.com/chadluo/CSS-Guidelines/blob/master/README.md&#34;&gt;通用 CSS 笔记、建议与指导-中文版&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/CSS&#34;&gt;MDN-CSS&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;algorithm&#34;&gt;algorithm&lt;/h2&gt;
+&lt;p&gt;1、&lt;a href=&#34;https://visualgo.net/zh&#34;&gt;https://visualgo.net/zh&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2、&lt;a href=&#34;https://leetcode-cn.com/&#34;&gt;力扣&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3、&lt;a href=&#34;https://leetcode-solution-leetcode-pp.gitbook.io/leetcode-solution/&#34;&gt;力扣加加&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4、&lt;a href=&#34;http://www.conardli.top/docs/&#34;&gt;awesome-coding-js&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5、&lt;a href=&#34;https://programmercarl.com/&#34;&gt;代码随想录&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6、&lt;a href=&#34;https://github.com/MisterBooo/LeetCodeAnimation&#34;&gt;动画版解题&lt;/a&gt;&lt;/p&gt;
 ">前端教程导航</a>
       </div>
       
