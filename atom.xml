@@ -1,489 +1,859 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://leecss.com</id>
+    <id>https://lee-css.github.io</id>
     <title>当下</title>
-    <updated>2021-09-16T00:43:31.140Z</updated>
+    <updated>2022-09-20T23:49:14.114Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://leecss.com"/>
-    <link rel="self" href="https://leecss.com/atom.xml"/>
-    <logo>https://leecss.com/images/avatar.png</logo>
-    <icon>https://leecss.com/favicon.ico</icon>
-    <rights>All rights reserved 2021, 当下</rights>
+    <link rel="alternate" href="https://lee-css.github.io"/>
+    <link rel="self" href="https://lee-css.github.io/atom.xml"/>
+    <logo>https://lee-css.github.io/images/avatar.png</logo>
+    <icon>https://lee-css.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2022, 当下</rights>
     <entry>
-        <title type="html"><![CDATA[css-圣杯布局]]></title>
-        <id>https://leecss.com/post/css-sheng-bei-bu-ju/</id>
-        <link href="https://leecss.com/post/css-sheng-bei-bu-ju/">
+        <title type="html"><![CDATA[algorithm-stack-20有效的括号]]></title>
+        <id>https://lee-css.github.io/post/algorithm-stack-20-you-xiao-de-gua-hao/</id>
+        <link href="https://lee-css.github.io/post/algorithm-stack-20-you-xiao-de-gua-hao/">
         </link>
-        <updated>2021-09-15T14:39:34.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="要求">要求</h2>
-<p>左右宽度固定，中间宽度自适应</p>
-<h2 id="实现">实现</h2>
+        <updated>2021-09-17T12:39:17.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。</p>
+<p>有效字符串需满足：</p>
+<p>左括号必须用相同类型的右括号闭合。<br>
+左括号必须以正确的顺序闭合。</p>
+<h2 id="测试">测试</h2>
+<pre><code>输入：s = &quot;()&quot;
+输出：true
+
+输入：s = &quot;()[]{}&quot;
+输出：true
+
+输入：s = &quot;(]&quot;
+输出：false
+
+输入：s = &quot;([)]&quot;
+输出：false
+
+输入：s = &quot;{[]}&quot;
+输出：true
+</code></pre>
+<h2 id="解题思路">解题思路</h2>
+<pre><code>{[()]}
+</code></pre>
+<p>1、需要遍历所有字符串</p>
+<p>2、遇到左括号先略过，遇到右括号开始匹配，匹配的是最后遇到的左括号</p>
+<p>3、<strong>后进先出</strong>模式，左括号逐一入栈，若遇到右括号，则取栈顶元素左括号</p>
+<h2 id="解题步骤">解题步骤</h2>
+<p>1、新建一个栈<br>
+2、扫描字符串，遇左括号入栈，遇到和栈顶括号类型匹配的右括号就出栈，类型不匹配直接判定为不合法<br>
+3、最后栈空了就合法，否则不合法</p>
+<h2 id="代码">代码</h2>
+<pre><code class="language-javascript">/**
+ * @param {string} s
+ * @return {boolean}
+ */
+var isValid = function(s) {
+  if (s.length % 2 === 1) {
+    return false
+  }
+  const stack = []
+  for (const value of s) {
+    if (value === '(' || value === '[' || value === '{') {
+      stack.push(value)
+    }else {
+      const stack_top = stack[stack.length-1]
+      if (
+        (stack_top === '(' &amp;&amp; value === ')') ||
+        (stack_top === '[' &amp;&amp; value === ']') ||
+        (stack_top === '{' &amp;&amp; value === '}')
+      ) {
+        stack.pop()
+      }else {
+        return false
+      }
+    }
+  }
+  return stack.length === 0
+};
+</code></pre>
+<pre><code class="language-js">var isValid = function(s) {
+  const length = s.length
+  if (length % 2 === 1) {
+    return false
+  }
+  const stack = []
+  let index = -1
+  while (++index &lt; length) {
+    const value = s[index]
+    if (value === '(' || value === '[' || value === '{') {
+      stack.push(value)
+    }else {
+      const stack_top = stack[stack.length-1]
+      if (
+        (stack_top === '(' &amp;&amp; value === ')') ||
+        (stack_top === '[' &amp;&amp; value === ']') ||
+        (stack_top === '{' &amp;&amp; value === '}')
+      ) {
+        stack.pop()
+      }else {
+        return false
+      }
+    }
+  }  
+  return stack.length === 0
+};
+</code></pre>
+<h2 id="复杂度">复杂度</h2>
+<ul>
+<li>时间复杂度：O(n)，其中 n是字符串 s 的长度。</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>1、栈适合解决对称类问题</p>
+<p>2、先分析不合理情况，若存在，则提前返回</p>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://programmercarl.com/0020.%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7.html">代码随想录</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[algorithm-stack栈]]></title>
+        <id>https://lee-css.github.io/post/algorithm-stack-zhan/</id>
+        <link href="https://lee-css.github.io/post/algorithm-stack-zhan/">
+        </link>
+        <updated>2021-09-17T12:37:56.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>一种后进先出的数据结构；</p>
+<p>「蜂窝煤换煤过程」</p>
+<h2 id="使用数组模拟">使用数组模拟</h2>
+<p>JavaScript没有栈的结构；可以用array实现栈的功能</p>
+<p>push 入栈<br>
+pop 出栈</p>
+<pre><code class="language-js">const stack = [];
+stack.push(1);
+stack.push(2);
+const item1 = stack.pop();
+const item2 = stack.pop();
+</code></pre>
+<h2 id="使用场景">使用场景</h2>
+<p>需要后进先出的场景。</p>
+<p>1、十进制转换为二进制：最后余数要倒叙输出才是正确二进制；</p>
+<p>2、判断括号是否合法：左括号进栈，右括号出栈，栈空则合法；</p>
+<p>3、函数调用栈：最后调用的函数，最先执行完；</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[algorithm-时间和空间复杂度分析]]></title>
+        <id>https://lee-css.github.io/post/algorithm-shi-jian-he-kong-jian-fu-za-du-fen-xi/</id>
+        <link href="https://lee-css.github.io/post/algorithm-shi-jian-he-kong-jian-fu-za-du-fen-xi/">
+        </link>
+        <updated>2021-09-17T00:28:39.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="释义">释义</h2>
+<p>1.数据结构和算法解决是“如何让计算机更快时间、更省空间的解决问题”。<br>
+2.因此需从执行时间和占用空间两个维度来评估数据结构和算法的性能。<br>
+3.分别用时间复杂度和空间复杂度两个概念来描述性能问题，二者统称为复杂度。<br>
+4.复杂度描述的是算法执行时间（或占用空间）与数据规模的增长关系。</p>
+<p>时间、空间复杂度分析：粗略地估计算法的执行效率的方法，算法的执行效率就是算法代码执行的时间</p>
+<h2 id="原因">原因</h2>
+<p>1.和性能测试相比，复杂度分析有不依赖执行环境、成本低、效率高、易操作、指导性强的特点。<br>
+2.掌握复杂度分析，将能编写出性能更优的代码，有利于降低系统开发和维护成本。</p>
+<h2 id="复杂度分析">复杂度分析</h2>
+<h3 id="大o表示法">大O表示法</h3>
+<h4 id="1-来源">1、来源</h4>
+<p>算法的执行时间与每行代码的执行次数成正比，用T(n) = O(f(n))表示，其中T(n)表示算法执行总时间，f(n)表示每行代码执行总次数，而n往往表示数据的规模。</p>
+<h4 id="2-特点">2、特点</h4>
+<p>以时间复杂度为例，由于时间复杂度描述的是算法执行时间与数据规模的增长变化趋势，所以常量阶、低阶以及系数实际上对这种增长趋势不产生决定性影响，所以在做时间复杂度分析时忽略这些项。</p>
+<h3 id="复杂度分析法则">复杂度分析法则</h3>
+<p>1）单段代码看高频：比如循环。<br>
+2）多段代码取最大：比如一段代码中有单循环和多重循环，那么取多重循环的复杂度。<br>
+3）嵌套代码求乘积：比如递归、多重循环等<br>
+4）多个规模求加法：比如方法有两个参数控制两个循环的次数，那么这时就取二者复杂度相加。</p>
+<h2 id="常用的复杂度级别">常用的复杂度级别</h2>
+<figure data-type="image" tabindex="1"><img src="https://lee-css.github.io/post-images/1631839153496.jpg" alt="" loading="lazy"></figure>
+<p>多项式阶：随着数据规模的增长，算法的执行时间和空间占用，按照多项式的比例增长。包括：<br>
+O(1)（常数阶）、O(logn)（对数阶）、O(n)（线性阶）、O(nlogn)（线性对数阶）、O(n<sup>2</sup>)（平方阶）、 O(n<sup>3</sup>)（立方阶）<br>
+非多项式阶：随着数据规模的增长，算法的执行时间和空间占用暴增，这类算法性能极差。包括：<br>
+O(2<sup>n</sup>)（指数阶）、O(n!)（阶乘阶）</p>
+<figure data-type="image" tabindex="2"><img src="https://lee-css.github.io/post-images/1631839161974.jpg" alt="" loading="lazy"></figure>
+<h2 id="示例">示例</h2>
+<p>假设每行代码执行的时间都一样，为 unit_time。<br>
+1、O(n)</p>
+<pre><code> int cal(int n) {
+   int sum = 0; // 1
+   int i = 1; // 1
+   for (; i &lt;= n; ++i) { // n
+     sum = sum + i; // n
+   }
+   return sum;
+ }
+</code></pre>
+<p>所有代码的执行时间为<code>(2n+2)*unit_time</code><br>
+<code>T(n) = O(2n+2)</code><br>
+当 n 很大时，你可以把它想象成 10000、100000。而公式中的低阶、常量、系数三部分并不左右增长趋势，所以都可以忽略。我们只需要记录一个最大量级就可以了，用大 O 表示法表示，就可以记为：<code>T(n) = O(n)</code>；<br>
+2、O(n<sup>2</sup>)</p>
+<pre><code> int cal(int n) {
+   int sum = 0; // 1
+   int i = 1;  // 1
+   int j = 1; // 1
+   for (; i &lt;= n; ++i) { // n
+     j = 1; // n
+     for (; j &lt;= n; ++j) { // n^2
+       sum = sum +  i * j; // n^2
+     }
+   }
+ }
+</code></pre>
+<p>T(n) = (2n<sup>2</sup>+2n+3)*unit_time, 即T(n) = O(n<sup>2</sup>)<br>
+3、O(1)</p>
+<pre><code> int i = 8;
+ int j = 6;
+ int sum = i + j;
+</code></pre>
+<p>一般情况下，只要算法中不存在循环语句、递归语句，即使有成千上万行的代码，其时间复杂度也是Ο(1)。<br>
+4、O(logn)、O(nlogn)</p>
+<pre><code> i=1;
+ while (i &lt;= n)  {
+   i = i * 2;
+ }
+</code></pre>
+<p>从代码中可以看出，变量 i 的值从 1 开始取，每循环一次就乘以 2。当大于 n 时，循环结束。变量 i 的取值就是一个等比数列。通过 2<sup>x</sup>=n 求解 x(执行次数)，x=log<sub>2</sub>n。时间复杂度就是 O(log<sub>2</sub>n)。</p>
+<p>log<sub>3</sub>n 等于 log<sub>3</sub>2 * log<sub>2</sub>n，所以 O(log<sub>3</sub>n) = O(C * log<sub>2</sub>n)，其中 C=log<sub>3</sub>2 是一个常量。在采用大 O 标记复杂度的时候，可以忽略系数，即 O(Cf(n)) = O(f(n))。所以，O(log<sub>2</sub>n) 就等于 O(log<sub>3</sub>n)。在对数阶时间复杂度的表示方法里，我们忽略对数的“底”，统一表示为 O(logn)。</p>
+<p>如果一段代码的时间复杂度为O(logn)，循环执行n遍后的时间复杂度就是O(nlogn)。</p>
+<hr>
+<p>1&gt; 只关注循环执行次数最多的一段代码<br>
+O(n)</p>
+<pre><code> int cal(int n) {
+   int sum = 0;
+   int i = 1;
+   for (; i &lt;= n; ++i) { // n
+     sum = sum + i;
+   }
+   return sum;
+ }
+</code></pre>
+<p>2&gt; 加法法则：总复杂度等于量级最大的那段代码的复杂度<br>
+O(n<sup>2</sup>)</p>
+<pre><code>int cal(int n) {
+   int sum_1 = 0;
+   int p = 1;
+   for (; p &lt; 100; ++p) { // 100
+     sum_1 = sum_1 + p;
+   }
+
+   int sum_2 = 0;
+   int q = 1;
+   for (; q &lt; n; ++q) { // n
+     sum_2 = sum_2 + q;
+   }
+ 
+   int sum_3 = 0;
+   int i = 1;
+   int j = 1;
+   for (; i &lt;= n; ++i) { // n^2
+     j = 1; 
+     for (; j &lt;= n; ++j) {
+       sum_3 = sum_3 +  i * j;
+     }
+   }
+ 
+   return sum_1 + sum_2 + sum_3;
+ }
+</code></pre>
+<p>3&gt; 乘法法则：嵌套代码的复杂度等于嵌套内外代码复杂度的乘积<br>
+O(n<sup>2</sup>)</p>
+<pre><code>int cal(int n) {
+   int ret = 0; 
+   int i = 1;
+   for (; i &lt; n; ++i) { // n
+     ret = ret + f(i);
+   } 
+ } 
+ 
+ int f(int n) {
+  int sum = 0;
+  int i = 1;
+  for (; i &lt; n; ++i) { // n
+    sum = sum + i;
+  } 
+  return sum;
+ }
+</code></pre>
+<h2 id="不同情况下的复杂度">不同情况下的复杂度</h2>
+<pre><code>// n 表示数组 array 的长度
+int find(int[] array, int n, int x) {
+  int i = 0;
+  int pos = -1;
+  for (; i &lt; n; ++i) {
+    if (array[i] == x) pos = i;
+  }
+  return pos;
+}
+</code></pre>
+<p>在一个无序的数组（array）中，查找变量 x 出现的位置。如果没有找到，就返回 -1。复杂度是 O(n)。优化如下：</p>
+<pre><code>// n 表示数组 array 的长度
+int find(int[] array, int n, int x) {
+  int i = 0;
+  int pos = -1;
+  for (; i &lt; n; ++i) {
+    if (array[i] == x) {
+       pos = i;
+       break;
+    }
+  }
+  return pos;
+}
+</code></pre>
+<p>因为，要查找的变量 x 可能出现在数组的任意位置。如果数组中第一个元素正好是要查找的变量 x，那就不需要继续遍历剩下的 n-1 个数据了，那时间复杂度就是 O(1)。<br>
+但如果数组中不存在变量 x，那我们就需要把整个数组都遍历一遍，时间复杂度就成了 O(n)。不同的情况下，这段代码的时间复杂度是不一样的。<br>
+<strong>最好情况时间复杂度（best case time complexity）</strong></p>
+<blockquote>
+<p>在最理想的情况下，执行这段代码的时间复杂度。</p>
+</blockquote>
+<p><strong>最坏情况时间复杂度 (worst case time complexity)</strong></p>
+<blockquote>
+<p>在最糟糕的情况下，执行这段代码的时间复杂度。</p>
+</blockquote>
+<p><strong>平均情况时间复杂度 (average case time complexity)</strong></p>
+<blockquote>
+<p>概率论的方法求加权平均值，即每种情况发生的次数 x 每种情况发生的概率 之和。</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[css-响应式-vw]]></title>
+        <id>https://lee-css.github.io/post/css-xiang-ying-shi-vw/</id>
+        <link href="https://lee-css.github.io/post/css-xiang-ying-shi-vw/">
+        </link>
+        <updated>2021-09-16T13:17:23.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>vh 网页视口高度的 1 / 100<br>
+vw 网页视口宽度的 1 / 100<br>
+vmax 取两者最大值；vmin 取两者最小值</p>
+<h2 id="网页视口尺寸">网页视口尺寸</h2>
+<ol>
+<li>window.screen.height // 屏幕高度</li>
+<li>window.innerHeight // 网页视口高度</li>
+<li>document.body.clientHeight // body 高度</li>
+</ol>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Responsive_Design">响应式设计</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[css-响应式-rem]]></title>
+        <id>https://lee-css.github.io/post/css-xiang-ying-shi-rem/</id>
+        <link href="https://lee-css.github.io/post/css-xiang-ying-shi-rem/">
+        </link>
+        <updated>2021-09-16T13:03:43.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>media-query 来根据不同的屏幕宽度设置根元素 font-size，然后用rem作为单位</p>
+<h2 id="rem">rem</h2>
+<p>rem是一个长度单位<br>
+px，绝对长度单位<br>
+em，相对长度单位，相对于父元素，不常用<br>
+rem，相对于根元素，常用语响应式布局</p>
+<p><strong>示例</strong></p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
     &lt;meta charset=&quot;UTF-8&quot;&gt;
     &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
     &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
-    &lt;title&gt;圣杯布局&lt;/title&gt;
+    &lt;title&gt;rem 演示&lt;/title&gt;
     &lt;style type=&quot;text/css&quot;&gt;
-        body {
-            min-width: 550px;
+        html {
+            font-size: 100px;
         }
-        #header {
-            text-align: center;
-            background-color: #f1f1f1;
-        }
-
-        #container {
-            padding-left: 200px;
-            padding-right: 150px;
-        }
-        #container .column {
-            float: left;
-        }
-
-        #center {
+        div {
             background-color: #ccc;
-            width: 100%;
-        }
-        #left {
-            position: relative;
-            background-color: yellow;
-            width: 200px;
-            margin-left: -100%;
-            right: 200px;
-        }
-        #right {
-            background-color: red;
-            width: 150px;
-            margin-right: -150px;
-        }
-
-        #footer {
-            text-align: center;
-            background-color: #f1f1f1;
-        }
-
-        /* 手写 clearfix */
-        .clearfix:after {
-            content: '';
-            display: table;
-            clear: both;
+            margin-top: 10px;
+            font-size: 0.16rem;
         }
     &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
-    &lt;div id=&quot;header&quot;&gt;this is header&lt;/div&gt;
-    &lt;div id=&quot;container&quot; class=&quot;clearfix&quot;&gt;
-        &lt;div id=&quot;center&quot; class=&quot;column&quot;&gt;this is center&lt;/div&gt;
-        &lt;div id=&quot;left&quot; class=&quot;column&quot;&gt;this is left&lt;/div&gt;
-        &lt;div id=&quot;right&quot; class=&quot;column&quot;&gt;this is right&lt;/div&gt;
+
+    &lt;p style=&quot;font-size: 0.1rem&quot;&gt;rem 1&lt;/p&gt;
+    &lt;p style=&quot;font-size: 0.2rem&quot;&gt;rem 1&lt;/p&gt;
+    &lt;p style=&quot;font-size: 0.3rem&quot;&gt;rem 1&lt;/p&gt;
+
+    &lt;div style=&quot;width: 1rem;&quot;&gt;
+        this is div1
     &lt;/div&gt;
-    &lt;div id=&quot;footer&quot;&gt;this is footer&lt;/div&gt;
+    &lt;div style=&quot;width: 2rem;&quot;&gt;
+        this is div2
+    &lt;/div&gt;
+    &lt;div style=&quot;width: 3rem;&quot;&gt;
+        this is div3
+    &lt;/div&gt;
+
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<h2 id="效果">效果</h2>
-<figure data-type="image" tabindex="1"><img src="https://leecss.com/post-images/1631716817057.png" alt="" loading="lazy"></figure>
-<h2 id="讲解">讲解</h2>
-<p><code>margin-left: -100%;</code></p>
-<p>1、100%是相对于父元素的宽度</p>
-<p>2、要理解它，可以先把父元素的padding值去掉。</p>
-<p>3、可以看到，left区域占据最左端，左边和父元素的左边重合。</p>
-<p>即从区域范围外，向左移动父元素的100%</p>
-<p>4、此时，再加上父元素的padding值。</p>
-<p>同理，left区域占据可视范围内的最左边。</p>
-<p>5、移动相对位置</p>
-<p>第三步图示：</p>
-<figure data-type="image" tabindex="2"><img src="https://leecss.com/post-images/1631716828211.png" alt="" loading="lazy"></figure>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://juejin.cn/post/6844903962529759239#heading-20">CSS如何进行圣杯布局</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[css-BFC]]></title>
-        <id>https://leecss.com/post/css-bfc/</id>
-        <link href="https://leecss.com/post/css-bfc/">
-        </link>
-        <updated>2021-09-14T14:56:47.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><strong>块格式化上下文（Block Formatting Context，BFC）</strong> 是Web页面的可视CSS渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域。</p>
-<h2 id="形成-bfc-的常见条件">形成 BFC 的常见条件</h2>
-<ul>
-<li>float 不是 none</li>
-<li>position 是 absolute 或 fixed</li>
-<li>overflow 不是 visible</li>
-<li>display 是 flex inline-block等</li>
-</ul>
-<h2 id="作用">作用</h2>
-<h3 id="清除浮动">清除浮动</h3>
-<p>为父盒子设置 overflow: hidden;<br>
-overflow: hidden;使父元素产生了一个BFC，BFC的高度计算包括其内部浮动的元素，从而达到清除浮动的效果</p>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context">https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[css-margin]]></title>
-        <id>https://leecss.com/post/css-margin/</id>
-        <link href="https://leecss.com/post/css-margin/">
-        </link>
-        <updated>2021-09-14T14:42:56.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>margin</code> 属性为给定元素设置所有四个（上下左右）方向的外边距属性。</p>
-<p>外边距控制的是元素外部空出的空间。相反，padding操作元素<em>内部</em>空出的空间。</p>
-<h2 id="重叠">重叠</h2>
-<p>上下元素的下上外边距有时会重叠，实际空出的空间长度变为两外边距中的较长值。</p>
-<h2 id="负值">负值</h2>
-<ul>
-<li>margin-top 和 margin-left 负值，元素向上、向左移动</li>
-<li>margin-right 负值，右侧元素左移，自身不受影响</li>
-<li>margin-bottom 负值，下方元素上移，自身不受影响</li>
-</ul>
-<h2 id="水平居中">水平居中</h2>
-<p>在现代浏览器中实现水平居中，可以使用 <code>display: flex; justify-content: center;</code>。</p>
-<p>不过，在 IE8-9 这样的不支持弹性盒布局的旧式浏览器中，上述代码并不会生效。此时要实现在父元素中居中，可使用 <code>margin: 0 auto;</code>。</p>
-<h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin">https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin</a></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaScript-webApi-window方法requestAnimationFrame]]></title>
-        <id>https://leecss.com/post/javascript-webapi-window-fang-fa-requestanimationframe/</id>
-        <link href="https://leecss.com/post/javascript-webapi-window-fang-fa-requestanimationframe/">
-        </link>
-        <updated>2021-09-14T00:16:01.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p><code>window.requestAnimationFrame()</code>告诉浏览器——你希望执行一个动画，并且要求浏览器在下次重绘之前调用指定的回调函数更新动画。该方法需要传入一个回调函数作为参数，该回调函数会在浏览器下一次重绘之前执行</p>
-<h2 id="示例">示例</h2>
+<h2 id="media-query">media-query</h2>
+<p><code>@media</code> CSS规则可用于基于一个或多个媒体查询的结果来应用样式表的一部分。 使用它，您可以指定一个媒体查询和一个CSS块，当且仅当该媒体查询与正在使用其内容的设备匹配时，该CSS块才能应用于该文档。</p>
+<p><strong>示例</strong></p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang=&quot;en&quot;&gt;
-    &lt;head&gt;
-        &lt;meta charset=&quot;UTF-8&quot;&gt;
-        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
-        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
-        &lt;title&gt;JS 真题演示&lt;/title&gt;
-
-        &lt;style&gt;
-            #div1 {
-                width: 100px;
-                height: 50px;
-                background-color: red;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;响应式布局&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        @media only screen and (max-width: 374px) {
+            /* iphone5 或者更小的尺寸，以 iphone5 的宽度（320px）比例设置 font-size */
+            html {
+                font-size: 86px;
             }
-        &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;p&gt;JS 真题演示&lt;/p&gt;
+        }
+        @media only screen and (min-width: 375px) and (max-width: 413px) {
+            /* iphone6/7/8 和 iphone x */
+            html {
+                font-size: 100px;
+            }
+        }
+        @media only screen and (min-width: 414px) {
+            /* iphone6p 或者更大的尺寸，以 iphone6p 的宽度（414px）比例设置 font-size */
+            html {
+                font-size: 110px;
+            }
+        }
 
-        &lt;div id=&quot;div1&quot;&gt;&lt;/div&gt;
+        body {
+            font-size: 0.16rem;
+        }
+        #div1 {
+            width: 1rem;
+            background-color: #ccc;
+        }
 
-        &lt;script src=&quot;https://cdn.bootcss.com/jquery/3.4.0/jquery.js&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;./RAF.js&quot;&gt;&lt;/script&gt;
-    &lt;/body&gt;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;div1&quot;&gt;
+        this is div
+    &lt;/div&gt;
+&lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<pre><code class="language-js">// 3s 把宽度从 100px 变为 640px ，即增加 540px
-// 60帧/s ，3s 180 帧 ，每次变化 3px
-
-const $div1 = $('#div1')
-let curWidth = 100
-const maxWidth = 640
-
-// // setTimeout
-// function animate() {
-//     curWidth = curWidth + 3
-//     $div1.css('width', curWidth)
-//     if (curWidth &lt; maxWidth) {
-//         setTimeout(animate, 16.7) // 自己控制时间
-//     }
-// }
-// animate()
-
-// RAF
-function animate() {
-    curWidth = curWidth + 3
-    $div1.css('width', curWidth)
-    if (curWidth &lt; maxWidth) {
-        window.requestAnimationFrame(animate) // 时间不用自己控制
-    }
-}
-animate()
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[css-line-height]]></title>
+        <id>https://lee-css.github.io/post/css-line-height/</id>
+        <link href="https://lee-css.github.io/post/css-line-height/">
+        </link>
+        <updated>2021-09-16T12:44:18.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
+<p>用于设置多行元素的空间量，如多行文本的间距。</p>
+<p>对于块级元素，它指定元素行盒（line boxes）的最小高度。</p>
+<p>对于非替代的 inline 元素，它用于计算行盒（line box）的高度。</p>
+<h2 id="语法">语法</h2>
+<h3 id="normal">normal</h3>
+<p>取决于用户端。桌面浏览器（包括Firefox）使用默认值，约为<code>1.2</code>，这取决于元素的 <code>font-family</code>。</p>
+<h3 id="数字">&lt;数字&gt;</h3>
+<p>该属性的应用值是这个无单位数字<code>&lt;数字&gt;</code>乘以该元素的字体大小。计算值与指定值相同。大多数情况下，这是设置<code>line-height</code>的<strong>推荐方法</strong>，不会在继承时产生不确定的结果。</p>
+<h3 id="长度">&lt;长度&gt;</h3>
+<p>指定<code>&lt;长度&gt;</code>用于计算 line box 的高度。参考<code>&lt;长度&gt;</code>了解可使用的单位。以 <strong>em</strong> 为单位的值可能会产生不确定的结果。</p>
+<h3 id="百分比">&lt;百分比&gt;</h3>
+<p>与元素自身的字体大小有关。计算值是给定的百分比值乘以元素计算出的字体大小。<strong>百分比</strong>值可能会带来不确定的结果。</p>
+<h2 id="继承">继承</h2>
+<p>当使用百分比时，p元素继承的为20x200%=40px</p>
+<p>推荐使用数值，即<code>line-height:2</code>，p元素继承16x2=32px</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;line-height 继承问题&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        body {
+            font-size: 20px;
+            line-height: 200%;
+        }
+        p {
+            background-color: #ccc;
+            font-size: 16px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;p&gt;这是一行文字&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
 <h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame">https://developer.mozilla.org/zh-CN/docs/Web/API/Window/requestAnimationFrame</a></p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height">https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JavaScript-数组去重]]></title>
-        <id>https://leecss.com/post/javascript-shu-zu-qu-chong/</id>
-        <link href="https://leecss.com/post/javascript-shu-zu-qu-chong/">
+        <title type="html"><![CDATA[ css-定位-居中]]></title>
+        <id>https://lee-css.github.io/post/css-ding-wei-ju-zhong/</id>
+        <link href="https://lee-css.github.io/post/css-ding-wei-ju-zhong/">
         </link>
-        <updated>2021-09-13T23:59:07.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="示例">示例</h2>
-<pre><code class="language-js">// 传统方式
-function unique(arr) {
-    const res = []
-    arr.forEach(item =&gt; {
-        if (res.indexOf(item) &lt; 0) {
-            res.push(item)
-        }
-    })
-    return res
-}
-
-// 使用 Set （无序，不能重复）
-function unique(arr) {
-    const set = new Set(arr)
-    return [...set]
-}
-
-const res = unique([30, 10, 20, 30, 40, 10])
-console.log(res)
-
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaScript-实例-解析url参数]]></title>
-        <id>https://leecss.com/post/javascript-shi-li-jie-xi-url-can-shu/</id>
-        <link href="https://leecss.com/post/javascript-shi-li-jie-xi-url-can-shu/">
-        </link>
-        <updated>2021-09-13T14:15:47.000Z</updated>
+        <updated>2021-09-16T12:29:20.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>不想看正则，以后复习再看</p>
-<h2 id="获取参数值">获取参数值</h2>
-<pre><code class="language-js">// 传统方式
-function query(name) {
-    const search = location.search.substr(1) // 类似 array.slice(1)
-    // search: 'a=10&amp;b=20&amp;c=30'
-    const reg = new RegExp(`(^|&amp;)${name}=([^&amp;]*)(&amp;|$)`, 'i')
-    const res = search.match(reg)
-    if (res === null) {
-        return null
-    }
-    return res[2]
-}
-query('d')
+<p>水平垂直居中对齐</p>
+<h2 id="方案">方案</h2>
+<p>水平居中：<br>
+inline 元素： text-align: center<br>
+block 元素： margin：auto<br>
+absolute元素：left: 50% + margin-left 负值</p>
+<p>垂直居中：<br>
+inline 元素：line-height 的值等于height值<br>
+absolute 元素：top: 50% + margin-top 负值(需要知道子元素的宽高)<br>
+absolute 元素：transform(-50%,-50%)<br>
+absolute 元素：top left bottom right = 0 + margin: auto</p>
+<h2 id="示例">示例</h2>
+<h3 id="水平居中">水平居中</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;水平对齐&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        .container {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+        }
+        .item {
+            background-color: #ccc;
+        }
 
-// URLSearchParams
-function query(name) {
-    const search = location.search
-    const p = new URLSearchParams(search)
-    return p.get(name)
-}
-console.log( query('b') )
+        .container-1 {
+            text-align: center;
+        }
 
+        .container-2 .item {
+            width: 500px;
+            margin: auto;
+        }
+
+        .container-3 {
+            position: relative;
+            height: 100px;
+        }
+        .container-3 .item {
+            width: 300px;
+            height: 100px;
+            position: absolute;
+            left: 50%;
+            margin-left: -150px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container container-1&quot;&gt;
+        &lt;span&gt;一段文字&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;container container-2&quot;&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            this is block item
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;container container-3&quot;&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            this is absolute item
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-<h2 id="url参数解析为js对象">url参数解析为js对象</h2>
-<pre><code class="language-js">// url参数解析为js对象
+<h3 id="垂直居中">垂直居中</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;垂直对齐&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        .container {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            height: 200px;
+        }
+        .item {
+            background-color: #ccc;
+        }
 
-// 传统方式，分析search
-function queryToObj() {
-  const res = {}
-  const search = location.search.substr(1) // 去掉前面的`?`
-  search.split('&amp;').forEach(paramStr =&gt; {
-    const arr = paramStr.split('=')
-    const key = arr[0]
-    const val = arr[1]
-    res[key] = val
-  })
-  return res
-}
+        .container-1{
+            text-align: center;
+            line-height: 200px;
+            height: 200px;
+        }
 
-// 使用URLSearchParams
-function queryToObj() {
-  const res = {}
-  const pList = new URLSearchParams(location.search)
-  pList.forEach((val, key) =&gt; {
-    res[key] = val
-  })
-  return res
-}
+        .container-2 {
+            position: relative;
+        }
+        .container-2 .item {
+            width: 300px;
+            height: 100px;
+            position: absolute;
+            left: 50%;
+            margin-left: -150px;
+            top: 50%;
+            margin-top: -50px;
+        }
 
-</code></pre>
-<h2 id="mdn">MDN</h2>
-<p><code>URLSearchParams</code> 接口定义了一些实用的方法来处理 URL 的查询字符串。</p>
-<pre><code class="language-js">var paramsString = &quot;q=URLUtils.searchParams&amp;topic=api&quot;
-var searchParams = new URLSearchParams(paramsString);
+        .container-3 {
+            position: relative;
+        }
+        .container-3 .item {
+            width: 200px;
+            height: 80px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%)
+        }
 
-for (let p of searchParams) {
-  console.log(p);
-}
+        .container-4 {
+            position: relative;
+        }
+        .container-4 .item {
+            width: 100px;
+            height: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            margin: auto;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container container-1&quot;&gt;
+        &lt;span&gt;一段文字&lt;/span&gt;
+    &lt;/div&gt;
 
-// ['q', 'URLUtils.searchParams']
-// ['topic', 'api']
+    &lt;div class=&quot;container container-2&quot;&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            this is item
+        &lt;/div&gt;
+    &lt;/div&gt;
 
+    &lt;div class=&quot;container container-3&quot;&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            this is item
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;container container-4&quot;&gt;
+        &lt;div class=&quot;item&quot;&gt;
+            this is item
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
 <h2 id="推荐阅读">推荐阅读</h2>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams">https://developer.mozilla.org/zh-CN/docs/Web/API/URLSearchParams</a></p>
+<p><a href="https://juejin.cn/post/6844903962529759239#heading-0">让一个元素水平垂直居中，到底有多少种方案</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[ js手写-max]]></title>
-        <id>https://leecss.com/post/js-shou-xie-max/</id>
-        <link href="https://leecss.com/post/js-shou-xie-max/">
+        <title type="html"><![CDATA[css-position]]></title>
+        <id>https://lee-css.github.io/post/css-position/</id>
+        <link href="https://lee-css.github.io/post/css-position/">
         </link>
-        <updated>2021-09-13T13:53:43.000Z</updated>
+        <updated>2021-09-16T12:20:01.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>获取多个数字中的最大值</p>
-<h2 id="示例">示例</h2>
-<pre><code class="language-js">function max() {
-  const nums = Array.prototype.slice.call(arguments) // 变为数组
-  let max = 0
-  nums.forEach(n =&gt; {
-    if (n &gt; max) {
-      max = n
-    }
-  })
-  return max
-}
-</code></pre>
-<h2 id="感受">感受</h2>
-<p>换一种写法</p>
-<pre><code class="language-js">function max(...array) {
-  const length = array == null ? 0 : array.length
-  return length
-    ? array.reduce((acc,cur) =&gt; {
-      return acc &gt; cur ? acc : cur
-    })
-    : void 0
-}
-max(1,2,3)
-</code></pre>
-<h2 id="当然没必要">当然没必要</h2>
-<p>直接用Math.max()就好</p>
+<p>CSS <code>position</code>属性用于指定一个元素在文档中的定位方式。<code>top</code>，<code>right</code>，<code>bottom</code> 和 <code>left</code>属性则决定了该元素的最终位置。</p>
+<h2 id="relative">relative</h2>
+<p>依据自身定位</p>
+<h2 id="absolute">absolute</h2>
+<p>据最近一层的定位元素定位</p>
+<p>定位元素：absolute，relative，fixed 直到 body</p>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/position">https://developer.mozilla.org/zh-CN/docs/Web/CSS/position</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[ js手写-trim]]></title>
-        <id>https://leecss.com/post/js-shou-xie-trim/</id>
-        <link href="https://leecss.com/post/js-shou-xie-trim/">
+        <title type="html"><![CDATA[css-flex布局]]></title>
+        <id>https://lee-css.github.io/post/css-flex-bu-ju/</id>
+        <link href="https://lee-css.github.io/post/css-flex-bu-ju/">
         </link>
-        <updated>2021-09-13T13:37:04.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>原型，this,正则</p>
-<h2 id="示例">示例</h2>
-<pre><code class="language-js">String.prototype.trim = function() {
-  return this.replace(/^\s+/,'').replace(/\s+$/,'')
-}
+        <updated>2021-09-16T12:00:49.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="语法">语法</h2>
+<h4 id="一-display">一、display</h4>
+<p><strong>设为 Flex 布局以后，子元素的<code>float</code>、<code>clear</code>和<code>vertical-align</code>属性将失效。</strong><br>
+块状元素</p>
+<pre><code class="language-css">display: flex;
 </code></pre>
+<p>行内元素</p>
+<pre><code class="language-css">display: inline-flex;
+</code></pre>
+<p>Webkit 内核的浏览器</p>
+<pre><code class="language-css">display: -webkit-flex;
+display: flex;
+</code></pre>
+<h4 id="二-容器属性">二、容器属性</h4>
+<h6 id="1-flex-direction">1、flex-direction</h6>
+<p>flex-direction属性决定主轴的方向（即项目的排列方向）。</p>
+<ul>
+<li>row（默认值）：主轴为水平方向，起点在左端。</li>
+<li>row-reverse：主轴为水平方向，起点在右端。</li>
+<li>column：主轴为垂直方向，起点在上沿。</li>
+<li>column-reverse：主轴为垂直方向，起点在下沿。</li>
+</ul>
+<pre><code>flex-direction: row | row-reverse | column | column-reverse;
+</code></pre>
+<h6 id="2-flex-wrap">2、flex-wrap</h6>
+<p>flex-wrap属性定义，如果一条轴线排不下，如何换行。</p>
+<ul>
+<li>nowrap（默认）：不换行。</li>
+<li>wrap：换行，第一行在上方。</li>
+<li>wrap-reverse：换行，第一行在下方。</li>
+</ul>
+<pre><code>flex-wrap: nowrap | wrap | wrap-reverse;
+</code></pre>
+<h6 id="3-flex-flow">3、flex-flow</h6>
+<p>flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。</p>
+<h6 id="4-justify-content">4、justify-content</h6>
+<p>justify-content属性定义了项目在主轴上的对齐方式。具体对齐方式与轴的方向有关。下面假设主轴为从左到右。</p>
+<ul>
+<li>flex-start（默认值）：左对齐</li>
+<li>flex-end：右对齐</li>
+<li>center： 居中</li>
+<li>space-between：两端对齐，项目之间的间隔都相等。</li>
+<li>space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。</li>
+</ul>
+<pre><code>justify-content: flex-start | flex-end | center | space-between | space-around;
+</code></pre>
+<h6 id="5-align-items">5、align-items</h6>
+<p>align-items属性定义项目在交叉轴上如何对齐。具体的对齐方式与交叉轴的方向有关，下面假设交叉轴从上到下。</p>
+<ul>
+<li>flex-start：交叉轴的起点对齐。</li>
+<li>flex-end：交叉轴的终点对齐。</li>
+<li>center：交叉轴的中点对齐。</li>
+<li>baseline: 项目的第一行文字的基线对齐。</li>
+<li>stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。</li>
+</ul>
+<pre><code>align-items: flex-start | flex-end | center | baseline | stretch;
+</code></pre>
+<h6 id="6-align-content">6、align-content</h6>
+<p>align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。</p>
+<ul>
+<li>flex-start：与交叉轴的起点对齐。</li>
+<li>flex-end：与交叉轴的终点对齐。</li>
+<li>center：与交叉轴的中点对齐。</li>
+<li>space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。</li>
+<li>space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。</li>
+<li>stretch（默认值）：轴线占满整个交叉轴。</li>
+</ul>
+<pre><code>align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+</code></pre>
+<h4 id="三-项目属性">三、项目属性</h4>
+<h6 id="1-order">1、order</h6>
+<p>order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。</p>
+<pre><code>order: &lt;integer&gt;;
+</code></pre>
+<h6 id="2-flex-grow">2、flex-grow</h6>
+<p>flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。</p>
+<p>如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。</p>
+<pre><code>flex-grow: &lt;number&gt;;
+</code></pre>
+<h6 id="3-flex-shrink">3、flex-shrink</h6>
+<p>flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。</p>
+<p>如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。</p>
+<pre><code>flex-shrink: &lt;number&gt;;
+</code></pre>
+<h6 id="4-flex-basis">4、flex-basis</h6>
+<p>flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。</p>
+<p>它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。</p>
+<pre><code>flex-basis: &lt;length&gt; | auto;
+</code></pre>
+<h6 id="5-flex">5、flex</h6>
+<p>flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。</p>
+<p>该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。</p>
+<p>建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。</p>
+<pre><code>flex: none | [ &lt;'flex-grow'&gt; &lt;'flex-shrink'&gt;? || &lt;'flex-basis'&gt; ]
+</code></pre>
+<h6 id="6-align-self">6、align-self</h6>
+<p>align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。</p>
+<pre><code>align-self: auto | flex-start | flex-end | center | baseline | stretch;
+</code></pre>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">flex-grammar</a>　<a href="http://static.vgee.cn/static/index.html">flex-grammar效果</a><br>
+<a href="http://www.ruanyifeng.com/blog/2015/07/flex-examples.html">flex-examples</a><br>
+<a href="http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html">grid-layout-tutorial</a></p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[ js手写-isEqual]]></title>
-        <id>https://leecss.com/post/js-shou-xie-isequal/</id>
-        <link href="https://leecss.com/post/js-shou-xie-isequal/">
+        <title type="html"><![CDATA[css-双飞翼布局]]></title>
+        <id>https://lee-css.github.io/post/css-shuang-fei-yi-bu-ju/</id>
+        <link href="https://lee-css.github.io/post/css-shuang-fei-yi-bu-ju/">
         </link>
-        <updated>2021-09-12T23:50:58.000Z</updated>
+        <updated>2021-09-16T11:46:07.000Z</updated>
         <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>比较两个对象或数组是否属性值全部一致</p>
+<ol>
+<li>圣杯布局是通过padding给左右两边留白的，双飞翼布局是通过margin给左右两边留白的</li>
+<li>圣杯布局使用position:relative 和 right 移动left块，双飞翼布局没有用到</li>
+<li>圣杯布局的right使用的是margin-right，而双飞翼布局使用的是margin-left</li>
+</ol>
 <h2 id="示例">示例</h2>
-<pre><code class="language-js">// 判断是否是对象或数组
-function isObject(obj) {
-    return typeof obj === 'object' &amp;&amp; obj !== null
-}
-// 全相等（深度）
-function isEqual(obj1, obj2) {
-    if (!isObject(obj1) || !isObject(obj2)) {
-        // 值类型（注意，参与 equal 的一般不会是函数）
-        return obj1 === obj2
-    }
-    if (obj1 === obj2) {
-        return true
-    }
-    // 两个都是对象或数组，而且不相等
-    // 1. 先取出 obj1 和 obj2 的 keys ，比较个数
-    const obj1Keys = Object.keys(obj1)
-    const obj2Keys = Object.keys(obj2)
-    if (obj1Keys.length !== obj2Keys.length) {
-        return false
-    }
-    // 2. 以 obj1 为基准，和 obj2 一次递归比较
-    for (let key in obj1) {
-        // 比较当前 key 的 val —— 递归！！！
-        const res = isEqual(obj1[key], obj2[key])
-        if (!res) {
-            return false
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+    &lt;title&gt;双飞翼布局&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        body {
+            min-width: 550px;
         }
-    }
-    // 3. 全相等
-    return true
-}
-
-// 测试
-const obj1 = {
-    a: 100,
-    b: {
-        x: 100,
-        y: 200
-    }
-}
-const obj2 = {
-    a: 100,
-    b: {
-        x: 100,
-        y: 200
-    }
-}
-// console.log( obj1 === obj2 )
-console.log( isEqual(obj1, obj2) )
-
-const arr1 = [1, 2, 3]
-const arr2 = [1, 2, 3, 4]
-
-</code></pre>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[js手写-throttle]]></title>
-        <id>https://leecss.com/post/js-shou-xie-throttle/</id>
-        <link href="https://leecss.com/post/js-shou-xie-throttle/">
-        </link>
-        <updated>2021-09-12T23:07:29.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="概述">概述</h2>
-<p>当拖拽事件执行时，频率太快，减少事件的执行次数，以一个固定频率来执行。</p>
-<h2 id="示例">示例</h2>
-<pre><code class="language-js">const div1 = document.getElementById('div1')
-
-let timer = null
-div1.addEventListener('drag', function (e) {
-    if (timer) {
-        return
-    }
-    timer = setTimeout(() =&gt; {
-        console.log(e.offsetX, e.offsetY)
-
-        timer = null
-    }, 100)
-})
-</code></pre>
-<pre><code class="language-js">const div1 = document.getElementById('div1')
-
-// 节流
-function throttle(fn, delay = 100) {
-    let timer = null
-
-    return function () {
-        if (timer) {
-            return
+        .col {
+            float: left;
         }
-        timer = setTimeout(() =&gt; {
-            fn.apply(this, arguments)
-            timer = null
-        }, delay)
-    }
-}
 
-div1.addEventListener('drag', throttle(function (e) {
-    console.log(e.offsetX, e.offsetY)
-}))
-</code></pre>
-<h3 id="apply">apply</h3>
-<pre><code class="language-js">div1.addEventListener('drag', function(event) {
+        #main {
+            width: 100%;
+            height: 200px;
+            background-color: #ccc;
+        }
+        #main-wrap {
+            margin: 0 190px 0 190px;
+        }
 
-})
+        #left {
+            width: 190px;
+            height: 200px;
+            background-color: #0000FF;
+            margin-left: -100%;
+        }
+        #right {
+            width: 190px;
+            height: 200px;
+            background-color: #FF0000;
+            margin-left: -190px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id=&quot;main&quot; class=&quot;col&quot;&gt;
+        &lt;div id=&quot;main-wrap&quot;&gt;
+            this is main
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;left&quot; class=&quot;col&quot;&gt;
+        this is left
+    &lt;/div&gt;
+    &lt;div id=&quot;right&quot; class=&quot;col&quot;&gt;
+        this is right
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-<p><code>fn.apply(this, arguments)</code>:由上述代码可知，arguments参数是传递到throttle返回的函数中的，所以需要将参数传递给fn</p>
+<h2 id="推荐阅读">推荐阅读</h2>
+<p><a href="https://juejin.cn/post/6844903962529759239#heading-26">CSS如何实现双飞翼布局</a></p>
 ]]></content>
     </entry>
 </feed>
