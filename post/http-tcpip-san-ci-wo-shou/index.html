@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>51-http-4-TCPIP三次握手 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1664100337521">
+<link rel="shortcut icon" href="/favicon.ico?v=1664238138120">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,19 +176,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">128</span>
+        <span class="site-item-stat-count">138</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">12</span>
+        <span class="site-item-stat-count">13</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">12</span>
+        <span class="site-item-stat-count">13</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -1690,6 +1690,436 @@ A会超时重传这个ACK吗？不会！<strong>TCP不会为没有数据的ACK�
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/138-css-17-tu-wen-~wei-lei-he-wei-yuan-su/"" data-c="
+          &lt;h1 id=&#34;138-css-17-图文~伪类和伪元素&#34;&gt;138-css-17-图文~伪类和伪元素&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;核心区别在于，是否创造了“新的元素”&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;伪类表示被选择元素的某种状态，例如:hover&lt;/li&gt;
+&lt;li&gt;伪元素表示的是被选择元素的某个部分，这个部分看起来像一个独立的元素，但是是&amp;quot;假元素&amp;quot;，只存在于css中，所以叫&amp;quot;伪&amp;quot;的元素，例如:after&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;伪元素&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1664238100333.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;伪类&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1664238107754.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;应用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;after: 三角箭头&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6976646049456717838&#34;&gt;一篇搞清伪类和伪元素 - 掘金&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844903654756089864&#34;&gt;从青铜到王者10个css3伪类使用技巧和运用，了解一哈 - 掘金&lt;/a&gt;&lt;/p&gt;
+">138-css-17-图文~伪类和伪元素</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/137-css-16-tu-wen-~xuan-ze-qi-you-xian-ji/"" data-c="
+          &lt;h1 id=&#34;137-css-16-图文~选择器优先级&#34;&gt;137-css-16-图文~选择器优先级&lt;/h1&gt;
+&lt;h2 id=&#34;选择器优先级&#34;&gt;选择器优先级&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;内联 &amp;gt; ID选择器 &amp;gt; 类选择器 &amp;gt; 标签选择器。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;计算规则&#34;&gt;计算规则&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;第一优先级：!important会覆盖页面内任何位置的元素样式
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;优先级是由 A 、B、C、D 的值来决定的，其中它们的值计算规则如下：
+
+如果存在内联样式(style=&amp;quot;color: green&amp;quot;)，那么 A = 1, 否则 A = 0;
+B 的值等于 ID选择器(#app) 出现的次数;
+C 的值等于 类选择器(.foo) 和 属性选择器(div[class=&amp;quot;foo&amp;quot;]) 和 伪类(:first-child) 出现的总次数;
+D 的值等于 标签选择器(div) 和 伪元素(::before ::after) 出现的总次数 。
+
+#nav-global &amp;gt; ul &amp;gt; li &amp;gt; a.nav-link
+
+因为没有内联样式 ，所以 A = 0;
+ID选择器总共出现了1次， B = 1;
+类选择器出现了1次， 属性选择器出现了0次，伪类选择器出现0次，所以 C = (1 + 0 + 0) = 1；
+标签选择器出现了3次， 伪元素出现了0次，所以 D = (3 + 0) = 3;
+上面算出的A、B、C、D 可以简记作：(0, 1, 1, 3)。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;li                                  /* (0, 0, 0, 1) */
+ul li                               /* (0, 0, 0, 2) */
+ul ol+li                            /* (0, 0, 0, 3) */
+h1 + *[REL=up]                      /* (0, 0, 1, 1) */
+ul ol li.red                        /* (0, 0, 1, 3) */
+li.red.level                        /* (0, 0, 2, 1) */
+a1.a2.a3.a4.a5.a6.a7.a8.a9.a10.a11  /* (0, 0, 11,0) */
+#x34y                               /* (0, 1, 0, 0) */
+li:first-child h2 .title            /* (0, 0, 2, 2) */
+#nav .selected &amp;gt; a:hover            /* (0, 1, 2, 1) */
+html body #nav .selected &amp;gt; a:hover  /* (0, 1, 2, 3) */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;比较规则是: 从左往右依次进行比较 ，较大者胜出，如果相等，则继续往右移动一位进行比较 。如果4位全部相等，则后面的会覆盖前面的&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6953405751104634916&#34;&gt;https://juejin.cn/post/6953405751104634916&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844903709772611592&#34;&gt;https://juejin.cn/post/6844903709772611592&lt;/a&gt;&lt;/p&gt;
+">137-css-16-图文~选择器优先级</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/136-css-15-bu-ju-~flex-hua-tou-zi/"" data-c="
+          &lt;h1 id=&#34;136-css-15-布局~flex画骰子&#34;&gt;136-css-15-布局~flex画骰子&lt;/h1&gt;
+&lt;pre&gt;&lt;code&gt;flex最常用的语法：（熟练掌握）
+flex-direction:主轴的方向（可横向可纵向）
+justify-content：主轴对齐方式（开始对齐、两边对齐...）
+align-items:交叉轴对齐方式（和主轴垂直的轴）
+flex-wrap:什么时候换行
+align-self：子元素在交叉轴的对齐方式（开始对齐、居中对齐...）
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;实现一个三点的骰子：
+.box{
+    display:flex;//flex布局
+    justify-content:space-between;//两端对齐
+}
+.item {
+    //背景色、颜色、大小边框等
+}
+.item:nth-child(2) {
+    align-self:center;//第二项居中对齐
+}
+.item:nth-child(3) {
+    align-self:flex-end；//第三项尾对齐
+}
+&amp;lt;div class = &amp;quot;box&amp;quot;&amp;gt;
+    &amp;lt;span class=&amp;quot;item&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&amp;quot;item&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&amp;quot;item&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+">136-css-15-布局~flex画骰子</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/135-css-14-bu-ju-~float-qing-chu-fu-dong/"" data-c="
+          &lt;h1 id=&#34;135-css-14-布局~float清除浮动&#34;&gt;135-css-14-布局~float清除浮动&lt;/h1&gt;
+&lt;h2 id=&#34;方式&#34;&gt;方式&lt;/h2&gt;
+&lt;p&gt;1、clear&lt;/p&gt;
+&lt;p&gt;2、bfc (&lt;code&gt;overflow:hidden;&lt;/code&gt;)&lt;/p&gt;
+&lt;h2 id=&#34;伪类&#34;&gt;伪类&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;.clearfix:after {
+    content: &#39;&#39;;
+    display: table;
+    clear: both;
+}
+.clearfix {
+    *zoom: 1; /* 兼容IE低版本 */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: &amp;quot; &amp;quot;;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix{
+    *zoom: 1;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;兼容&#34;&gt;兼容&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;*zoom:1;*放在css属性前面，表示这个属性仅仅应用到Internet Explorer 7 以及以下版本。因为Internet Explorer 版本 7 以及以下承认非字母数字（除了下划线）前缀的属性。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;原理&#34;&gt;原理&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;在要清除浮动的元素后面加一个空的块级元素，并给这个元素清除浮动clear:both;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;clear 属性用于清除浮动元素带来的影响，本质上是不与浮动元素在同一行
+该属性只能影响使用清除的元素本身，不能影响其他元素。
+
+适用于浮动和非浮动元素。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;::after用来创建一个伪元素，作为已选中元素的最后一个子元素。
+clearfix类加在浮动元素父元素上，相当于在浮动元素最后加了一个新元素
+
+设置display:block，display:table是需要设置一个块元素，独占一行，撑起父元素高度
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear&lt;/a&gt;&lt;/p&gt;
+">135-css-14-布局~float清除浮动</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/134-css-13-bu-ju-~liang-lan-fang-an/"" data-c="
+          &lt;h1 id=&#34;134-css-13-布局~两栏方案&#34;&gt;134-css-13-布局~两栏方案&lt;/h1&gt;
+&lt;h2 id=&#34;两栏布局&#34;&gt;两栏布局&lt;/h2&gt;
+&lt;p&gt;左侧定宽，右侧自适应&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1、float+calc()函数; 左侧浮动，右侧浮动、calc(100% - 左侧宽度)
+2、float+margin-left; 左侧浮动，右侧margin-left左侧宽度
+3、absolute+margin-left; 左侧absolute，右侧margin-left左侧宽度
+4、float+overflow; 左侧浮动，右侧overflow:hidden(BFC)
+5、absolute; 左侧absolute，右侧absolute、left左侧宽度
+6、百分比; 左侧百分比，右侧百分比(行内块或者浮动)
+7、flex; 父级flex,右侧flex:1
+8、grid; 父级grid、grid-template-columns: auto 1fr;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;1-floatcalc函数&#34;&gt;1、float+calc()函数&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.left {
+  float: left;
+}
+.right {
+  float: left;
+  width: calc(100% - 200px); /* 宽度减去左列的宽度 */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;2-floatmargin-left&#34;&gt;2、float+margin-left&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.left {
+  float: left;
+}
+.right {
+  margin-left: 200px; /* 通过外边距的方式使该容器的左边有200px */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;3-absolutemargin-left&#34;&gt;3、absolute+margin-left&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.left {
+  position: absolute; /* 开启定位脱离文档流 */
+}
+.right {
+  margin-left: 200px; /* 通过外边距的方式使该容器的左边有200px */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;4-floatoverflow&#34;&gt;4、float+overflow&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.left {
+  float: left;
+}
+.right {
+  overflow: hidden; /* 设置 overflow会创建一个BFC 完成自适应 */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;5-absolute&#34;&gt;5、absolute&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.left {
+  position: absolute;
+}
+.right {
+  position: absolute;
+  left: 200px; /* 定位间隔左侧的宽的200px */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;6-百分比&#34;&gt;6、百分比&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.left {
+  display:inline-block;
+  width:50%;
+}
+.right {
+  display:inline-block;
+  width:50%;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;7-flex&#34;&gt;7、flex&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.parent {
+  display:flex;
+  width:50%
+}
+.right {
+  flex:1; /* flex: 1; 表示 flex-grow: 1; 即该项占所有剩余空间 */
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;8-grid&#34;&gt;8、grid&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;.parent {
+  display: grid;
+  grid-template-columns: 100px auto;  /*设定2列就ok了,auto换成1fr也行*/
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;.parent {
+  display: grid;
+  grid-template-columns: auto 1fr; /* 将其划分为两行，其中一列由本身宽度决定， 一列占剩余宽度*/
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844903574929932301&#34;&gt;https://juejin.cn/post/6844903574929932301&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/7028962991345254407&#34;&gt;https://juejin.cn/post/7028962991345254407&lt;/a&gt;&lt;/p&gt;
+">134-css-13-布局~两栏方案</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/133-css-12-ding-wei-~wen-dang-liu/"" data-c="
+          &lt;h1 id=&#34;133-css-12-定位~文档流&#34;&gt;133-css-12-定位~文档流&lt;/h1&gt;
+&lt;h2 id=&#34;三个定位方案&#34;&gt;三个定位方案&lt;/h2&gt;
+&lt;p&gt;在定位的时候，浏览器就会根据元素的盒类型和上下文对这些元素进行定位，可以说盒就是定位的基本单位。定位时，有三种定位方案，分别是常规流，浮动已经绝对定位。&lt;/p&gt;
+&lt;h3 id=&#34;常规流normal-flow&#34;&gt;常规流(Normal flow)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;在常规流中，盒一个接着一个排列;&lt;/li&gt;
+&lt;li&gt;在&lt;strong&gt;块级格式化上下文&lt;/strong&gt;里面， 它们&lt;strong&gt;竖着&lt;/strong&gt;排列；&lt;/li&gt;
+&lt;li&gt;在&lt;strong&gt;行内格式化上下文&lt;/strong&gt;里面， 它们&lt;strong&gt;横着&lt;/strong&gt;排列;&lt;/li&gt;
+&lt;li&gt;当&lt;code&gt;position&lt;/code&gt;为&lt;code&gt;static&lt;/code&gt;或&lt;code&gt;relative&lt;/code&gt;，并且&lt;code&gt;float&lt;/code&gt;为&lt;code&gt;none&lt;/code&gt;时会触发常规流；&lt;/li&gt;
+&lt;li&gt;对于&lt;strong&gt;静态定位&lt;/strong&gt;(static positioning)，&lt;code&gt;position: static&lt;/code&gt;，&lt;strong&gt;盒的位置是常规流布局里的位置&lt;/strong&gt;；&lt;/li&gt;
+&lt;li&gt;对于&lt;strong&gt;相对定位&lt;/strong&gt;(relative positioning)，&lt;code&gt;position: relative&lt;/code&gt;，盒偏移位置由这些属性定义&lt;code&gt;top&lt;/code&gt;，&lt;code&gt;bottom&lt;/code&gt;，&lt;code&gt;left&lt;/code&gt;and&lt;code&gt;right&lt;/code&gt;。&lt;strong&gt;即使有偏移，仍然保留原有的位置&lt;/strong&gt;，其它常规流不能占用这个位置。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;浮动floats&#34;&gt;浮动(Floats)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;盒称为浮动盒(floating boxes)；&lt;/li&gt;
+&lt;li&gt;它位于当前行的开头或末尾；&lt;/li&gt;
+&lt;li&gt;这&lt;strong&gt;导致常规流环绕在它的周边&lt;/strong&gt;，除非设置 clear 属性；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;绝对定位absolute-positioning&#34;&gt;绝对定位(Absolute positioning)&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;绝对定位方案，&lt;strong&gt;盒从常规流中被移除&lt;/strong&gt;，不影响常规流的布局；&lt;/li&gt;
+&lt;li&gt;它的定位相对于它的包含块，相关CSS属性：&lt;code&gt;top&lt;/code&gt;，&lt;code&gt;bottom&lt;/code&gt;，&lt;code&gt;left&lt;/code&gt;及&lt;code&gt;right&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;如果元素的属性&lt;code&gt;position&lt;/code&gt;为&lt;code&gt;absolute&lt;/code&gt;或&lt;code&gt;fixed&lt;/code&gt;，它是绝对定位元素；&lt;/li&gt;
+&lt;li&gt;对于&lt;code&gt;position: absolute&lt;/code&gt;，元素定位将相对于最近的一个&lt;code&gt;relative&lt;/code&gt;、&lt;code&gt;fixed&lt;/code&gt;或&lt;code&gt;absolute&lt;/code&gt;的父元素，如果没有则相对于&lt;code&gt;body&lt;/code&gt;；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;脱离文档流&#34;&gt;脱离文档流&lt;/h2&gt;
+">133-css-12-定位~文档流</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/132-css-11-bu-ju-~he-mo-xing/"" data-c="
+          &lt;h1 id=&#34;132-css-11-布局~盒模型&#34;&gt;132-css-11-布局~盒模型&lt;/h1&gt;
+&lt;h2 id=&#34;盒模型&#34;&gt;盒模型&lt;/h2&gt;
+&lt;p&gt;CSS 盒模型实质上是一个包围每个 HTML 元素的框。展示在页面上的每一个元素都可以视为一个盒模型。&lt;/p&gt;
+&lt;p&gt;盒模型包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;外边距 → margin（可以为负值）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;边框 → border&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;内边距 → padding（不允许负值）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;实际的内容 → content&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;无论是div、span、还是a都是盒子。&lt;/li&gt;
+&lt;li&gt;图片、表单元素一律看作是文本，它们并不是盒子，因为一张图片里面并不能放东西，它自己就是自己的内容。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;宽度计算：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;offsetWidth = 内容 + 内边距（padding） + 边框（border）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;分类：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;标准模型width不计算padding和border；&lt;/li&gt;
+&lt;li&gt;ie模型width计算padding 和border；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;（标准盒模型 box-sizing: content-box）offsetWidth = width + padding + border
+
+（怪异盒模型 box-sizing: border-box）offsetWidth = width
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;box-sizing&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-css&#34;&gt;box-sizing: content-box|border-box|inherit;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;content-box
+&lt;ul&gt;
+&lt;li&gt;默认值，设置为W3C标准盒模型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;border-box
+&lt;ul&gt;
+&lt;li&gt;设置为IE盒模型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;inherit
+&lt;ul&gt;
+&lt;li&gt;继承父级盒子类型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;JS如何设置/获取盒模型对应的宽和高？&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;offsetWidth、offsetHeight&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;.box {}
+----------------------------
+let targetDom = document.querySelector(&#39;.box&#39;);
+let width = targetDom.offsetWidth;
+let height = targetDom.offsetHeight;
+console.log(&#39;width&#39;,width)
+console.log(&#39;height&#39;,height)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;参考：&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6988877671606272031&#34;&gt;https://juejin.cn/post/6988877671606272031&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+">132-css-11-布局~盒模型</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/131-html-3-yuan-xin-xi/"" data-c="
+          &lt;h1 id=&#34;131-html-3-元信息&#34;&gt;131-html-3-元信息&lt;/h1&gt;
+&lt;h2 id=&#34;元信息类标签head-title-meta的使用目的和配置方法&#34;&gt;元信息类标签(&lt;code&gt;head&lt;/code&gt;、&lt;code&gt;title&lt;/code&gt;、&lt;code&gt;meta&lt;/code&gt;)的使用目的和配置方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;meta&lt;/code&gt;存在两个非必须的属性&lt;code&gt;http-equiv&lt;/code&gt;和&lt;code&gt;name&lt;/code&gt;, 用于表示要设置的项。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;meta&lt;/code&gt;有个必须的属性&lt;code&gt;content&lt;/code&gt;用于表示需要设置的项的值。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;http-equiv&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// http-equiv一般设置的都是与http请求头相关的信息
+
+// 声明文档类型、设字符集
+&amp;lt;meta http-equiv=&amp;quot;content-type&amp;quot; content=&amp;quot;text/html; charset=utf-8&amp;quot;&amp;gt;
+// 自动将http的不安全请求升级为https
+&amp;lt;meta http-equiv=&amp;quot;Content-Security-Policy&amp;quot; content=&amp;quot;upgrade-insecure-requests&amp;quot;&amp;gt;
+// 以最高版本的IE来渲染页面
+&amp;lt;meta http-equiv=&amp;quot;X-UA-Compatible&amp;quot; content=&amp;quot;IE=edge&amp;quot;&amp;gt;
+// 用于设置浏览器的过期时间, 其实就是响应头中的expires属性。
+&amp;lt;meta http-equiv=&amp;quot;expires&amp;quot; content=&amp;quot;31 Dec 2021&amp;quot;&amp;gt;
+// 重新载入页面的时间间隔,或重定向到指定链接的时间间隔
+&amp;lt;meta http-equiv=&amp;quot;refresh&amp;quot; content=&amp;quot;3;url=https://www.mozilla.org&amp;quot;&amp;gt;
+// 强制页面在当前窗口以独立页面显示
+&amp;lt;meta http-equiv=&amp;quot;window-target&amp;quot; content=&amp;quot;_top&#39;&amp;gt;
+// 禁止浏览器从本地计算机的缓存中访问页面的内容
+&amp;lt;meta http-equiv=&amp;quot;pragma&amp;quot; content=&amp;quot;no-cache&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;name&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// name属性主要用于描述网页，与对应的content中的内容主要是便于搜索引擎查找信息和分类信息用的
+
+author：文档作者的名字。
+description：一段简短而精确的、对页面内容的描述。一些浏览器，比如 Firefox 和 Opera，将其用作书签的默认描述。
+keywords：与页面内容相关的关键词，使用逗号分隔。
+generator：生成此页面的软件的标识符（identifier）。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;CSS 设备适配规范&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 自动以原始比例显示，并且不允许用户缩放
+&amp;lt;meta charset=&amp;quot;utf-8&amp;quot; name=&amp;quot;viewport&amp;quot; content=&amp;quot;width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no&amp;quot;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;og&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// Facebook 编写的元数据协议 Open Graph Data 为网站提供了更丰富的元数据。
+
+&amp;lt;meta property=&amp;quot;og:type&amp;quot; content=&amp;quot;website&amp;quot; /&amp;gt;
+&amp;lt;meta property=&amp;quot;og:url&amp;quot; content=&amp;quot;要分享的链接&amp;quot; /&amp;gt;
+&amp;lt;meta property=&amp;quot;og:title&amp;quot; content=&amp;quot;标题&amp;quot; /&amp;gt;
+&amp;lt;meta property=&amp;quot;og:description&amp;quot; content=&amp;quot;简介&amp;quot; /&amp;gt;
+&amp;lt;meta property=&amp;quot;og:image&amp;quot; content=&amp;quot;图片&amp;quot; /&amp;gt;
+&amp;lt;meta property=&amp;quot;og:site_name&amp;quot; content=&amp;quot;O課&amp;quot; /&amp;gt;
+
+let titleMeta = document.createElement(&#39;meta&#39;)
+titleMeta.setAttribute(&#39;property&#39;, &#39;og:title&#39;)
+titleMeta.content = &#39;hello&#39;
+document.getElementsByTagName(&#39;head&#39;)[0].appendChild(titleMeta)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;参考&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;https://juejin.cn/post/6987919006468407309&lt;/p&gt;
+&lt;p&gt;https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/meta/name&lt;/p&gt;
+">131-html-3-元信息</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/130-html-2-yuan-su-fen-lei/"" data-c="
+          &lt;h1 id=&#34;130-html-2-元素分类&#34;&gt;130-html-2-元素分类&lt;/h1&gt;
+&lt;h2 id=&#34;哪些html标签是块级元素哪些是内联元素&#34;&gt;哪些HTML标签是块级元素，哪些是内联元素？&lt;/h2&gt;
+&lt;p&gt;块状元素（block/table）：div, h1,h2,table,ul,lo,p；独占一行&lt;/p&gt;
+&lt;p&gt;内联元素（inline/inline-block）:span,img,input,button；不独占一行&lt;/p&gt;
+">130-html-2-元素分类</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/129-html-1-html-yu-yi-hua/"" data-c="
+          &lt;h1 id=&#34;129-html-1-html语义化&#34;&gt;129-html-1-HTML语义化&lt;/h1&gt;
+&lt;h2 id=&#34;如何理解html语义化&#34;&gt;如何理解HTML语义化？&lt;/h2&gt;
+&lt;p&gt;HTML语义化是指从代码上来展示页面的结构，而不是从最终视觉上来展示结构。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;优点&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;1、方便爬虫抓取信息，有利于SEO&lt;/p&gt;
+&lt;p&gt;2、提升代码可读性，方便团队开发维护&lt;/p&gt;
+&lt;p&gt;3、CSS文件还未加载时（没有CSS），页面仍然清晰、可读、好看。&lt;/p&gt;
+&lt;p&gt;4、提升用户体验，例如title、alt可用于解释名词或解释图片信息。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;做法：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;~&lt;code&gt;&amp;lt;h6&amp;gt;&lt;/code&gt; ，作为标题使用，并且依据重要性递减，&lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt; 是最高的等级。&lt;/li&gt;
+&lt;li&gt;少用div和span,使用p做为段落标记&lt;/li&gt;
+&lt;li&gt;导航条使用ul、li&lt;/li&gt;
+&lt;li&gt;需要强调的文本，可以包含在strong或者em标签&lt;/li&gt;
+&lt;li&gt;header（头部）main（主体内容）nav（导航）section（某一块内容）footer（底部）aside（侧边）&lt;/li&gt;
+&lt;/ul&gt;
+">129-html-1-HTML语义化</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/algorithm-stack-20-you-xiao-de-gua-hao/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;给定一个只包括 &#39;(&#39;，&#39;)&#39;，&#39;{&#39;，&#39;}&#39;，&#39;[&#39;，&#39;]&#39; 的字符串 s ，判断字符串是否有效。&lt;/p&gt;
@@ -2002,7 +2432,7 @@ vmax 取两者最大值；vmin 取两者最小值&lt;/p&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Responsive_Design&#34;&gt;响应式设计&lt;/a&gt;&lt;/p&gt;
-">125-css-10-响应式vw</a>
+">125-css-10-响应式~vw</a>
       </div>
       
       <div class="item">
@@ -2010,10 +2440,14 @@ vmax 取两者最大值；vmin 取两者最小值&lt;/p&gt;
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;media-query 来根据不同的屏幕宽度设置根元素 font-size，然后用rem作为单位&lt;/p&gt;
 &lt;h2 id=&#34;rem&#34;&gt;rem&lt;/h2&gt;
-&lt;p&gt;rem是一个长度单位&lt;br&gt;
-px，绝对长度单位&lt;br&gt;
-em，相对长度单位，相对于父元素，不常用&lt;br&gt;
-rem，相对于根元素，常用语响应式布局&lt;/p&gt;
+&lt;p&gt;rem是一个长度单位，根据 root 节点的 font-size 来计算当前节点的尺寸。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;rem是一个长度单位，长度单位有：
+1. px，绝对长度单位，最常用
+2. em，相对长度单位，相对于父元素，不常用
+3. rem，相对长度单位，相对于根元素，常用于响应式布局
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;rem 是css规范的语法，浏览器实现了此语法
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;strong&gt;示例&lt;/strong&gt;&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;
 &amp;lt;html&amp;gt;
@@ -2099,7 +2533,7 @@ rem，相对于根元素，常用语响应式布局&lt;/p&gt;
 &amp;lt;/body&amp;gt;
 &amp;lt;/html&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
-">124-css-9-响应式rem</a>
+">124-css-9-响应式~rem</a>
       </div>
       
       <div class="item">
@@ -2108,6 +2542,10 @@ rem，相对于根元素，常用语响应式布局&lt;/p&gt;
 &lt;p&gt;用于设置多行元素的空间量，如多行文本的间距。&lt;/p&gt;
 &lt;p&gt;对于块级元素，它指定元素行盒（line boxes）的最小高度。&lt;/p&gt;
 &lt;p&gt;对于非替代的 inline 元素，它用于计算行盒（line box）的高度。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;1.写具体数值，如 30px 则继承该值
+2.写比例，如 1.5 或 2 那就继承这个比例
+3.写百分比，如200%，则继承计算（font-size * line-height）出来的值（考点）
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;语法&#34;&gt;语法&lt;/h2&gt;
 &lt;h3 id=&#34;normal&#34;&gt;normal&lt;/h3&gt;
 &lt;p&gt;取决于用户端。桌面浏览器（包括Firefox）使用默认值，约为&lt;code&gt;1.2&lt;/code&gt;，这取决于元素的 &lt;code&gt;font-family&lt;/code&gt;。&lt;/p&gt;
@@ -2145,7 +2583,7 @@ rem，相对于根元素，常用语响应式布局&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/CSS/line-height&lt;/a&gt;&lt;/p&gt;
-">123-css-8-line-height</a>
+">123-css-8-图文~line-height</a>
       </div>
       
       <div class="item">
@@ -2162,6 +2600,26 @@ inline 元素：line-height 的值等于height值&lt;br&gt;
 absolute 元素：top: 50% + margin-top 负值(需要知道子元素的宽高)&lt;br&gt;
 absolute 元素：transform(-50%,-50%)&lt;br&gt;
 absolute 元素：top left bottom right = 0 + margin: auto&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;水平居中：
+inline 元素： text-align: center
+block 元素： margin：auto
+absolute元素：left: 50% + margin-left 负值
+absolute 元素：left: 50% + transform:translate(-50%, -50%)
+absolute 元素：top left bottom right = 0 + margin: auto
+display: flex, jusitity-content: center
+
+垂直居中：
+inline 元素：line-height 的值等于height值
+absolute 元素：top: 50% + margin-top 负值(需要知道子元素的宽高)
+absolute 元素：top: 50% + transform:translate(-50%, -50%)
+absolute 元素：top left bottom right = 0 + margin: auto
+display: flex; align-items: center;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;absolute 元素：top left bottom right = 0 + margin: auto 居中原理
+
+关键在于 margin: auto ，它能自动填充外边距。
+就跟设置了 width 然后设置 margin: 0 auto; 能水平居中，一样
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;示例&#34;&gt;示例&lt;/h2&gt;
 &lt;h3 id=&#34;水平居中&#34;&gt;水平居中&lt;/h3&gt;
 &lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;
@@ -2314,7 +2772,7 @@ absolute 元素：top left bottom right = 0 + margin: auto&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844903962529759239#heading-0&#34;&gt;让一个元素水平垂直居中，到底有多少种方案&lt;/a&gt;&lt;/p&gt;
-">122-css-7-定位居中</a>
+">122-css-7-定位~居中方案</a>
       </div>
       
       <div class="item">
@@ -2328,7 +2786,7 @@ absolute 元素：top left bottom right = 0 + margin: auto&lt;/p&gt;
 &lt;p&gt;定位元素：absolute，relative，fixed 直到 body&lt;/p&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/CSS/position&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/CSS/position&lt;/a&gt;&lt;/p&gt;
-">121-css-6-position</a>
+">121-css-6-定位~position</a>
       </div>
       
       <div class="item">
@@ -2436,7 +2894,7 @@ display: flex;
 &lt;p&gt;&lt;a href=&#34;http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html&#34;&gt;flex-grammar&lt;/a&gt;　&lt;a href=&#34;http://static.vgee.cn/static/index.html&#34;&gt;flex-grammar效果&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;http://www.ruanyifeng.com/blog/2015/07/flex-examples.html&#34;&gt;flex-examples&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html&#34;&gt;grid-layout-tutorial&lt;/a&gt;&lt;/p&gt;
-">120-css-5-flex布局</a>
+">120-css-5-布局~flex</a>
       </div>
       
       <div class="item">
@@ -2503,7 +2961,7 @@ display: flex;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844903962529759239#heading-26&#34;&gt;CSS如何实现双飞翼布局&lt;/a&gt;&lt;/p&gt;
-">119-css-4-双飞翼布局</a>
+">119-css-4-布局~float双飞翼</a>
       </div>
       
       <div class="item">
@@ -2591,48 +3049,146 @@ display: flex;
 &lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1631716828211.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://juejin.cn/post/6844903962529759239#heading-20&#34;&gt;CSS如何进行圣杯布局&lt;/a&gt;&lt;/p&gt;
-">118-css-3-圣杯布局</a>
+">118-css-3-布局~float圣杯</a>
       </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/css-bfc/"" data-c="
-          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
-&lt;p&gt;&lt;strong&gt;块格式化上下文（Block Formatting Context，BFC）&lt;/strong&gt; 是Web页面的可视CSS渲染的一部分，是块盒子的布局过程发生的区域，也是浮动元素与其他元素交互的区域。&lt;/p&gt;
-&lt;h2 id=&#34;形成-bfc-的常见条件&#34;&gt;形成 BFC 的常见条件&lt;/h2&gt;
+          &lt;h1 id=&#34;117-css-2-布局~bfc&#34;&gt;117-css-2-布局~BFC&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;BFC，Block formmat context，块级格式化上下文。它是一块独立的渲染区域，内部元素的渲染不会影响边界以外的元素。&lt;/p&gt;
+&lt;h2 id=&#34;bfc原理渲染规则布局规则&#34;&gt;BFC原理（渲染规则|布局规则）&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;float 不是 none&lt;/li&gt;
-&lt;li&gt;position 是 absolute 或 fixed&lt;/li&gt;
-&lt;li&gt;overflow 不是 visible&lt;/li&gt;
-&lt;li&gt;display 是 flex inline-block等&lt;/li&gt;
+&lt;li&gt;内部的元素会在垂直方向上一个接一个的放置&lt;/li&gt;
+&lt;li&gt;属于同一个BFC的两个相邻的元素外边距会发生重叠&lt;/li&gt;
+&lt;li&gt;每个元素的左外边距与包含块的左边界相接触（从左向右），即使浮动元素也是如此。&lt;/li&gt;
+&lt;li&gt;BFC的区域不会与外部float的元素区域重叠&lt;/li&gt;
+&lt;li&gt;计算BFC的高度时，浮动子元素也参与计算&lt;/li&gt;
+&lt;li&gt;BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面元素，反之亦然&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;作用&#34;&gt;作用&lt;/h2&gt;
-&lt;h3 id=&#34;清除浮动&#34;&gt;清除浮动&lt;/h3&gt;
-&lt;p&gt;为父盒子设置 overflow: hidden;&lt;br&gt;
+&lt;h2 id=&#34;形成条件&#34;&gt;形成条件&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;根元素&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;浮动元素&lt;/strong&gt;：float:left | float:right;【会导致父元素的宽度丢失,也会导致下边的元素上移】&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;定位元素&lt;/strong&gt;：position:absolute | position:fixed；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;overflow值不为visible&lt;/strong&gt;：overflow:hidden;【将会剪切掉溢出的元素】 | overflow:auto、overflow:scroll;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;display&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;- 行内块元素（元素的 display 为 inline-block）转为行内块会导致宽度丢失】
+- 弹性元素（display 为 flex 或 inline-flex 元素的直接子元素）
+- 网格元素（display 为 grid 或 inline-grid 元素的直接子元素）
+- 表格单元格（元素的 display 为 table-cell，HTML表格单元格默认为该值）
+- 表格标题（元素的 display 为 table-caption，HTML表格标题默认为该值）
+- 匿名表格单元格元素（元素的 display 为 table、table-row、 table-row-group、table-header-group、table-footer-group（分别是HTML table、row、tbody、thead、tfoot 的默认属性）或 inline-table）
+- display 值为 flow-root 的元素
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;contain 值为 layout、content 或 paint 的元素&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;多列容器（column-count或column-width不为auto，包括column-count为1）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中，最常见的就是&lt;code&gt;overflow:hidden&lt;/code&gt;、&lt;code&gt;float:left/right&lt;/code&gt;、&lt;code&gt;position:absolute&lt;/code&gt;。也就是说，每次看到这些属性的时候，就代表了该元素已经创建了一个BFC了。&lt;/p&gt;
+&lt;h2 id=&#34;使用场景&#34;&gt;使用场景&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;解决边距重叠&lt;/li&gt;
+&lt;li&gt;清除内部浮动，让父元素的高度包含子浮动元素&lt;/li&gt;
+&lt;li&gt;自适应两（三）栏布局&lt;/li&gt;
+&lt;li&gt;清除浮动文字环绕&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;清除浮动&lt;/strong&gt;&lt;br&gt;
+为父盒子设置 overflow: hidden;&lt;br&gt;
 overflow: hidden;使父元素产生了一个BFC，BFC的高度计算包括其内部浮动的元素，从而达到清除浮动的效果&lt;/p&gt;
+&lt;h2 id=&#34;补充&#34;&gt;补充&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;BFC 的意思是形成一个范围，让内部元素不能脱离这个范围，跟是不是按文档流排列没关系。
+文档流 指的是元素排版布局过程中，元素会默认自动从左往右，从上往下的流式排列方式。并最终窗体自上而下分成一行行，并在每行中从左至右的顺序排放元素。
+脱离文档流的为 左右浮动float、绝对定位absolute或fixed
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;创建BFC的不是display:flex,而是“flex的直接子元素” 也就是 flex item 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;IE 作为浏览器中的奇葩，当然不可能按部就班的支持 BFC 标准，于是乎 IE 中有了 Layout 这个东西。Layout 和 BFC 基本是等价的，为了处理 IE 的兼容性，在需要触发 BFC 时，我们除了需要用触发条件中的 CSS 属性来触发 BFC，还需要针对 IE 浏览器使用 zoom: 1 来触发 IE 浏览器的 Layout。
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.cnblogs.com/xiaohuochai/p/5248536.html&#34;&gt;https://www.cnblogs.com/xiaohuochai/p/5248536.html&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/Guide/CSS/Block_formatting_context&lt;/a&gt;&lt;/p&gt;
-">117-css-2-BFC</a>
+">117-css-2-布局~BFC</a>
       </div>
       
       <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/css-margin/"" data-c="
-          &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+          &lt;h1 id=&#34;116-css-1-布局~盒模型margin&#34;&gt;116-css-1-布局~盒模型margin&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;margin&lt;/code&gt; 属性为给定元素设置所有四个（上下左右）方向的外边距属性。&lt;/p&gt;
 &lt;p&gt;外边距控制的是元素外部空出的空间。相反，padding操作元素&lt;em&gt;内部&lt;/em&gt;空出的空间。&lt;/p&gt;
 &lt;h2 id=&#34;重叠&#34;&gt;重叠&lt;/h2&gt;
 &lt;p&gt;上下元素的下上外边距有时会重叠，实际空出的空间长度变为两外边距中的较长值。&lt;/p&gt;
-&lt;h2 id=&#34;负值&#34;&gt;负值&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;垂直相邻元素的margin-top和margin-bottom会发生重叠
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;外边距重叠是指两个【&lt;strong&gt;垂直&lt;/strong&gt;】 【&lt;strong&gt;相邻&lt;/strong&gt;】的块级元素，当上下两个边距相遇时，其外边距会产生重叠现象，且重叠后的外边距，等于其中较大者。（水平方向不会发生）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;根据W3C文档的说明，当符合以下条件时，就会触发外边距重合&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;margin-top 和 margin-left 负值，元素向上、向左移动&lt;/li&gt;
-&lt;li&gt;margin-right 负值，右侧元素左移，自身不受影响&lt;/li&gt;
-&lt;li&gt;margin-bottom 负值，下方元素上移，自身不受影响&lt;/li&gt;
+&lt;li&gt;都是普通流中的元素且属于同一个 BFC&lt;/li&gt;
+&lt;li&gt;没有被 padding、border、clear 或非空内容隔开&lt;/li&gt;
+&lt;li&gt;两个或两个以上垂直方向的「相邻元素」&lt;/li&gt;
 &lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;相邻元素包括父子元素和兄弟元素
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;重叠后的margin计算&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、margin都是正值时取较大的margin值&lt;/li&gt;
+&lt;li&gt;2、margin都是负值时取绝对值较大的，然后负向位移。&lt;/li&gt;
+&lt;li&gt;3、margin有正有负，从负值中选绝对值最大的，从正值中选取绝对值最大的，然后相加&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;解决方案&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;BFC&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;嵌套父子解决方案&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1664234708025.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;『解决办法』&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、为&lt;strong&gt;父元素&lt;/strong&gt;定义1px的border-top或padding-top。&lt;/li&gt;
+&lt;li&gt;2、为&lt;strong&gt;父元素&lt;/strong&gt;添加overflow:hidden。&lt;/li&gt;
+&lt;li&gt;3、子元素或父元素设置display:inline-block。&lt;/li&gt;
+&lt;li&gt;4、父元素加前置内容（::before）生成。（推荐）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&#34;language-css&#34;&gt;.parent-box::before {
+    content : &amp;quot;&amp;quot;;
+    display :table;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;相邻兄弟解决方案&lt;/strong&gt;&lt;/p&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1664234719034.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;『解决办法』&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1）为了达到想要的间距，最好在设置margin-top/bottom值时统一设置上或下；&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;补充&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;空白内容的&amp;lt;p&amp;gt;&amp;lt;/p&amp;gt;也会重叠
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;负值&#34;&gt;负值&lt;/h2&gt;
+&lt;p&gt;① 相对定位&lt;/p&gt;
+&lt;p&gt;margin-top 和 margin-left 负值，元素向上、左移动&lt;/p&gt;
+&lt;p&gt;margin-right 和 margin-bottom 负值，自身不移动，其右边和下边的元素会向左、上移动&lt;/p&gt;
+&lt;p&gt;② 绝对定位&lt;/p&gt;
+&lt;p&gt;margin-right 和 margin-bottom 会令自身移动&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;通过负边距进行偏移的元素，它会放弃偏移前占据的空间，这样它后面文档流中的其它元素就会“流”过来填充这部分空间。 文档流只能是后面的流向前面的，即文档流只能向左或向上流动，不能向下或向右移动
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;应用&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;左右布局&lt;/p&gt;
 &lt;h2 id=&#34;水平居中&#34;&gt;水平居中&lt;/h2&gt;
 &lt;p&gt;在现代浏览器中实现水平居中，可以使用 &lt;code&gt;display: flex; justify-content: center;&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;不过，在 IE8-9 这样的不支持弹性盒布局的旧式浏览器中，上述代码并不会生效。此时要实现在父元素中居中，可使用 &lt;code&gt;margin: 0 auto;&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin&#34;&gt;https://developer.mozilla.org/zh-CN/docs/Web/CSS/margin&lt;/a&gt;&lt;/p&gt;
-">116-css-1-margin</a>
+">116-css-1-布局~盒模型margin</a>
       </div>
       
       <div class="item">
