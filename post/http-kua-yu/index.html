@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="theme-color" content="#000">
 <title>58-http-11-浏览器同源政策及其规避方法 | 当下</title>
-<link rel="shortcut icon" href="/favicon.ico?v=1664238138120">
+<link rel="shortcut icon" href="/favicon.ico?v=1665533992774">
 <link rel="stylesheet" href="/media/css/gemini.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
 <link
@@ -176,19 +176,19 @@
     <div class="sidebar-item-box">
       <a href="/archives/">
         
-        <span class="site-item-stat-count">138</span>
+        <span class="site-item-stat-count">157</span>
         <span class="site-item-stat-name language" data-lan="article">文章</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="">
-        <span class="site-item-stat-count">13</span>
+        <span class="site-item-stat-count">15</span>
         <span class="site-item-stat-name language" data-lan="category">分类</span>
       </a>
     </div>
     <div class="sidebar-item-box">
       <a href="/tags/">
-        <span class="site-item-stat-count">13</span>
+        <span class="site-item-stat-count">15</span>
         <span class="site-item-stat-name language" data-lan="tag">标签</span>
       </a>
     </div>
@@ -1924,6 +1924,988 @@ Sec-WebSocket-Protocol: chat
     <div class="result" id="result">
       
       <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/157-data_structure-17-map~3-wu-chong-fu-zi-fu-de-zui-chang-zi-chuan/"" data-c="
+          &lt;h1 id=&#34;157-data_structure-17-map~3无重复字符的最长字串&#34;&gt;157-data_structure-17-map~3无重复字符的最长字串&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;给定一个字符串 &lt;code&gt;s&lt;/code&gt; ，请你找出其中不含有重复字符的 &lt;strong&gt;最长子串&lt;/strong&gt; 的长度。&lt;/p&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;输入: s = &amp;quot;abcabcbb&amp;quot;
+输出: 3 
+解释: 因为无重复字符的最长子串是 &amp;quot;abc&amp;quot;，所以其长度为 3。
+
+输入: s = &amp;quot;bbbbb&amp;quot;
+输出: 1
+解释: 因为无重复字符的最长子串是 &amp;quot;b&amp;quot;，所以其长度为 1。
+
+输入: s = &amp;quot;pwwkew&amp;quot;
+输出: 3
+解释: 因为无重复字符的最长子串是 &amp;quot;wke&amp;quot;，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，&amp;quot;pwke&amp;quot; 是一个子序列，不是子串。
+     
+输入: s = &amp;quot;&amp;quot;
+输出: 0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;先找出所有的不包含重复字符的字串&lt;/p&gt;
+&lt;p&gt;找出长度最大的那个字串，返回其长度即可&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;用双指针维护一个滑动窗口，用来剪切字串&lt;/p&gt;
+&lt;p&gt;不断移动右指针，遇到重复字符，就把左指针移动到重复字符的下一位&lt;/p&gt;
+&lt;p&gt;过程中，记录所有窗口的长度，并返回最大值&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * @param {string} s
+ * @return {number}
+ */
+ var lengthOfLongestSubstring = function(s) {
+  let l = 0
+  let res = 0
+  const map = new Map()
+  for (let r = 0; r &amp;lt; s.length; r += 1) {
+    if ( map.has(s[r]) &amp;amp;&amp;amp; map.get(s[r]) &amp;gt;= l ) {
+      l = map.get(s[r]) + 1
+    }
+    res = Math.max(res, r - l + 1)
+    map.set(s[r], r)
+  }
+  return res
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(n)，其中 n是s 的长度。&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(m)，其中 m是临时存储 不重复字符的个数。&lt;/li&gt;
+&lt;/ul&gt;
+">157-data_structure-17-map~3无重复字符的最长字串</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/156-data_structure-16-map~1-liang-shu-zhi-he/"" data-c="
+          &lt;h1 id=&#34;156-data_structure-16-map~1两数之和&#34;&gt;156-data_structure-16-map~1两数之和&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。&lt;/p&gt;
+&lt;p&gt;你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。&lt;/p&gt;
+&lt;p&gt;你可以按任意顺序返回答案。&lt;/p&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;输入：nums = [2,7,11,15], target = 9
+输出：[0,1]
+解释：因为 nums[0] + nums[1] == 9 ，返回 [0, 1] 。
+
+输入：nums = [3,2,4], target = 6
+输出：[1,2]
+
+输入：nums = [3,3], target = 6
+输出：[0,1]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;把nums想象成相亲者&lt;/p&gt;
+&lt;p&gt;把target想象成匹配条件&lt;/p&gt;
+&lt;p&gt;用字典建立一个婚姻介绍所，存储相亲者的数字和下标&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;新建一个字典作为婚姻介绍所&lt;/p&gt;
+&lt;p&gt;nums里的值，逐个来介绍所找对象，没有合适的就先登记着，有合适的就牵手成功&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+ var twoSum = function(nums, target) {
+  const map = new Map()
+  for (let i = 0,len = nums.length; i &amp;lt; len; i += 1) {
+    const value = nums[i]
+    const matching = target - value
+    if ( map.has(matching) ) {
+      return [map.get(matching), i]
+    } else {
+      map.set(value, i)
+    }
+  }
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(n)，其中 n是nums 的长度。&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(n)，其中 n是临时存储 map的长度。&lt;/li&gt;
+&lt;/ul&gt;
+">156-data_structure-16-map~1两数之和</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/155-data_structure-15-map~20-you-xiao-de-gua-hao/"" data-c="
+          &lt;h1 id=&#34;155-data_structure-15-map~20有效的括号&#34;&gt;155-data_structure-15-map~20有效的括号&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;给定一个只包括 &#39;(&#39;，&#39;)&#39;，&#39;{&#39;，&#39;}&#39;，&#39;[&#39;，&#39;]&#39; 的字符串 s ，判断字符串是否有效。&lt;/p&gt;
+&lt;p&gt;有效字符串需满足：&lt;/p&gt;
+&lt;p&gt;左括号必须用相同类型的右括号闭合。&lt;br&gt;
+左括号必须以正确的顺序闭合。&lt;/p&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;输入：s = &amp;quot;()&amp;quot;
+输出：true
+
+输入：s = &amp;quot;()[]{}&amp;quot;
+输出：true
+
+输入：s = &amp;quot;(]&amp;quot;
+输出：false
+
+输入：s = &amp;quot;([)]&amp;quot;
+输出：false
+
+输入：s = &amp;quot;{[]}&amp;quot;
+输出：true
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;{[()]}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;1、需要遍历所有字符串&lt;/p&gt;
+&lt;p&gt;2、遇到左括号先略过，遇到右括号开始匹配，匹配的是最后遇到的左括号&lt;/p&gt;
+&lt;p&gt;3、&lt;strong&gt;后进先出&lt;/strong&gt;模式，左括号逐一入栈，若遇到右括号，则取栈顶元素左括号&lt;/p&gt;
+&lt;p&gt;4、使用map优化&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;1、新建一个栈&lt;br&gt;
+2、扫描字符串，遇左括号入栈，遇到和栈顶括号类型匹配的右括号就出栈，类型不匹配直接判定为不合法&lt;br&gt;
+3、最后栈空了就合法，否则不合法&lt;/p&gt;
+&lt;p&gt;4、使用map判断是否为左括号或右括号&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;/**
+ * @param {string} s
+ * @return {boolean}
+ */
+ var isValid = function(s) {
+  if (s.length % 2 === 1) {
+    return false
+  }
+  const stack = []
+  const map = new Map()
+  map.set(&#39;(&#39;, &#39;)&#39;)
+  map.set(&#39;[&#39;, &#39;]&#39;)
+  map.set(&#39;{&#39;, &#39;}&#39;)
+  for (const value of s) {
+    if ( map.has(value) ) {
+      stack.push(value)
+    }else {
+      const stack_top = stack[stack.length-1]
+      if ( map.get(stack_top) === value ) {
+        stack.pop()
+      }else {
+        return false
+      }
+    }
+  }
+  return stack.length === 0
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(n)，其中 n是字符串 s 的长度。&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(n)，其中 n是临时存储 stack 的长度。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;1、栈适合解决对称类问题&lt;/p&gt;
+&lt;p&gt;2、先分析不合理情况，若存在，则提前返回&lt;/p&gt;
+&lt;p&gt;3、map建立映射关系，取键值对的值&lt;/p&gt;
+&lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://programmercarl.com/0020.%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7.html&#34;&gt;代码随想录&lt;/a&gt;&lt;/p&gt;
+">155-data_structure-15-map~20有效的括号</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/154-data_structure-14-map~349-liang-ge-shu-zu-de-jiao-ji/"" data-c="
+          &lt;h1 id=&#34;154-data_structure-14-map~349两个数组的交集&#34;&gt;154-data_structure-14-map~349两个数组的交集&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;给定两个数组，编写一个函数来计算它们的交集。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;说明：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;输出结果中的每个元素一定是唯一的。&lt;/li&gt;
+&lt;li&gt;我们可以不考虑输出结果的顺序。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;输入：nums1 = [1,2,2,1], nums2 = [2,2]
+输出：[2]
+
+输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+输出：[9,4]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;求nums1和nums2都有的值&lt;/p&gt;
+&lt;p&gt;用字典建立一个映射关系，记录nums1里有的值&lt;/p&gt;
+&lt;p&gt;遍历nums2，找出nums1里也有的值&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;新建一个字典，遍历nums1，填充字典&lt;/p&gt;
+&lt;p&gt;遍历nums2，遇到字典里的值就选出，并从字典中删除&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+ var intersection = function(nums1, nums2) {
+  const map = new Map()
+  const res = []
+  nums1.forEach(n =&amp;gt; {
+    map.set(n, true)
+  })
+  nums2.forEach(n =&amp;gt; {
+    if ( map.get(n) ) {
+      res.push(n)
+      map.delete(n)
+    }
+  })
+  return res
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(m + n)，m为nums1的长度，n为nums2的长度&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(m)，m为临时存储map的长度&lt;/li&gt;
+&lt;/ul&gt;
+">154-data_structure-14-map~349两个数组的交集</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/153-data_structure-13-map~zi-dian-jian-jie/"" data-c="
+          &lt;h1 id=&#34;153-data_structure-13-map~字典简介&#34;&gt;153-data_structure-13-map~字典简介&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;与集合类似，字典也是一种存储唯一值的数据结构，但它是以&lt;strong&gt;键值对&lt;/strong&gt;的形式来存储。&lt;/p&gt;
+&lt;p&gt;ES6 有字典 名为Map（映射）&lt;/p&gt;
+&lt;p&gt;字典的常用操作：键值对的增删改查&lt;/p&gt;
+&lt;h2 id=&#34;应用&#34;&gt;应用&lt;/h2&gt;
+&lt;p&gt;ES6map对象&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const m = new Map();
+
+// 增
+m.set(&#39;a&#39;, &#39;aa&#39;);
+m.set(&#39;b&#39;, &#39;bb&#39;);
+
+// 删
+m.delete(&#39;b&#39;);
+// m.clear();
+
+// 改
+m.set(&#39;a&#39;, &#39;aaa&#39;);
+
+// 查
+m.get(&#39;a&#39;);
+&lt;/code&gt;&lt;/pre&gt;
+">153-data_structure-13-map~字典简介</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/152-data_structure-12-set~349-liang-ge-shu-zu-de-jiao-ji/"" data-c="
+          &lt;h1 id=&#34;152-data_structure-12-set~349两个数组的交集&#34;&gt;152-data_structure-12-set~349两个数组的交集&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;给定两个数组，编写一个函数来计算它们的交集。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;说明：&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;输出结果中的每个元素一定是唯一的。&lt;/li&gt;
+&lt;li&gt;我们可以不考虑输出结果的顺序。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;输入：nums1 = [1,2,2,1], nums2 = [2,2]
+输出：[2]
+
+输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+输出：[9,4]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;求交集且无序唯一&lt;/p&gt;
+&lt;p&gt;使用集合&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;用集合对nums1去重&lt;/p&gt;
+&lt;p&gt;遍历nums1，筛选出nums2也包含的值&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
+ var intersection = function(nums1, nums2) {
+  return [...new Set(nums1)].filter(n =&amp;gt; nums2.includes(n))
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(m * n)，m为nums1的长度，n为nums2的长度&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(m)&lt;/li&gt;
+&lt;/ul&gt;
+">152-data_structure-12-set~349两个数组的交集</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/151-data_structure-11-set~ji-he-jian-jie/"" data-c="
+          &lt;h1 id=&#34;151-data_structure-11-set~集合简介&#34;&gt;151-data_structure-11-set~集合简介&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;无序且唯一的数据结构&lt;/p&gt;
+&lt;p&gt;es6中有集合，名为Set&lt;/p&gt;
+&lt;p&gt;集合的常用操作：去重、判断元素是否在集合中、求交集&lt;/p&gt;
+&lt;h2 id=&#34;应用&#34;&gt;应用&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;// 去重
+const arr = [1, 1, 2, 2];
+const arr2 = [...new Set(arr)];
+
+// 判断元素是否在集合中
+const set = new Set(arr);
+const has = set.has(3);
+
+// 求交集
+const set2 = new Set([2, 3]);
+const set3 = new Set([...set].filter(item =&amp;gt; set2.has(item)));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;前端与集合&#34;&gt;前端与集合&lt;/h2&gt;
+&lt;h3 id=&#34;es6set对象&#34;&gt;ES6set对象&lt;/h3&gt;
+&lt;h4 id=&#34;概述-2&#34;&gt;概述&lt;/h4&gt;
+&lt;p&gt;使用Set对象：new、add、delete、has、size&lt;/p&gt;
+&lt;p&gt;迭代Set: 多种迭代方法、Set与Array互转、求交集/差集&lt;/p&gt;
+&lt;h4 id=&#34;代码&#34;&gt;代码&lt;/h4&gt;
+&lt;p&gt;1、基本使用&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;let mySet = new Set();
+
+mySet.add(1);
+mySet.add(5);
+mySet.add(5);
+mySet.add(&#39;some text&#39;);
+let o = { a: 1, b: 2 };
+mySet.add(o);
+mySet.add({ a: 1, b: 2 });
+
+const has = mySet.has(o);
+
+mySet.delete(5);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;2、迭代&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;集合set 的迭代
+1. for of
+2. 配合 keys 和 values 方法 ，在集合中，keys 和 values 是一样的
+3. entries 方法
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;3、与数组转换&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;set 转换成 array:
+1. [...set]
+2. Array.from(set)
+
+array 转换成 set：
+1. set = new Set(arr)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;4、交集和差集&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const intersection = new Set([...mySet].filter(x =&amp;gt; mySet2.has(x)));
+const difference = new Set([...mySet].filter(x =&amp;gt; !mySet2.has(x)));
+&lt;/code&gt;&lt;/pre&gt;
+">151-data_structure-11-set~集合简介</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/150-data_structure-10-linkedlist~141-huan-xing-lian-biao/"" data-c="
+          &lt;h2 id=&#34;150-data_structure-10-linkedlist~141环形链表&#34;&gt;150-data_structure-10-linkedlist~141环形链表&lt;/h2&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;给定一个链表，判断链表中是否有环。&lt;/p&gt;
+&lt;p&gt;如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。 为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。注意：pos 不作为参数进行传递，仅仅是为了标识链表的实际情况。&lt;/p&gt;
+&lt;p&gt;如果链表中存在环，则返回 true 。 否则，返回 false 。&lt;/p&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;3-&amp;gt;2-&amp;gt;0-&amp;gt;4
+   ^     |
+   -------
+输入：head = [3,2,0,-4], pos = 1
+输出：true
+解释：链表中有一个环，其尾部连接到第二个节点。
+
+1-&amp;gt;2
+^--|
+输入：head = [1,2], pos = 0
+输出：true
+解释：链表中有一个环，其尾部连接到第一个节点。
+
+输入：head = [1], pos = -1
+输出：false
+解释：链表中没有环。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;两个人在圆形操场上的起点同时起跑，速度快的人一定会超过速度慢的人一圈。&lt;/p&gt;
+&lt;p&gt;用一快一慢两个指针遍历链表，如果指针能够相逢，那么链表就有圈。&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;用一快一慢两个指针遍历链表，如果指针能够相逢，就返回true。&lt;/p&gt;
+&lt;p&gt;遍历结束后，还没有相逢就返回false。&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+ var hasCycle = function(head) {
+  let p1 = head
+  let p2 = head
+  while (p1 &amp;amp;&amp;amp; p2 &amp;amp;&amp;amp; p2.next) {
+    p1 = p1.next
+    p2 = p2.next.next    
+    if (p1 === p2) {
+      return true
+    }
+  }
+  return false
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(n)&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(1)&lt;/li&gt;
+&lt;/ul&gt;
+">150-data_structure-10-linkedlist~141环形链表</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/149-data_structure-9-linkedlist~83-shan-chu-pai-xu-lian-biao-zhong-de-chong-fu-yuan-su/"" data-c="
+          &lt;h2 id=&#34;149-data_structure-9-linkedlist~83删除排序链表中的重复元素&#34;&gt;149-data_structure-9-linkedlist~83删除排序链表中的重复元素&lt;/h2&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;存在一个按升序排列的链表，给你这个链表的头节点 &lt;code&gt;head&lt;/code&gt; ，请你删除所有重复的元素，使每个元素 &lt;strong&gt;只出现一次&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;返回同样按升序排列的结果链表。&lt;/p&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;1-&amp;gt;1-&amp;gt;2
+1-&amp;gt;2
+输入：head = [1,1,2]
+输出：[1,2]
+
+1-&amp;gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;3
+1-&amp;gt;2-&amp;gt;3
+输入：head = [1,1,2,3,3]
+输出：[1,2,3]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;因为链表是有序的，所以重复元素一定相邻&lt;/p&gt;
+&lt;p&gt;遍历链表如果发现当前元素和下个元素相同，就删除下个元素&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;遍历链表，如果发现当前元素和下个元素值相同，就删除下个元素值。&lt;/p&gt;
+&lt;p&gt;遍历结束后，返回原链表的头部&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+ var deleteDuplicates = function(head) {
+  let p = head
+  while (p &amp;amp;&amp;amp; p.next) {
+    if (p.val === p.next.val) {
+      p.next = p.next.next
+    } else {
+      p = p.next
+    }
+  }
+  return head
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(n)&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(1)&lt;/li&gt;
+&lt;/ul&gt;
+">149-data_structure-9-linkedlist~83删除排序链表中的重复元素</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/148-data_structure-8-linkedlist~2-liang-shu-xiang-jia/"" data-c="
+          &lt;h1 id=&#34;148-data_structure-8-linkedlist~2两数相加&#34;&gt;148-data_structure-8-linkedlist~2两数相加&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。&lt;/p&gt;
+&lt;p&gt;请你将两个数相加，并以相同形式返回一个表示和的链表。&lt;/p&gt;
+&lt;p&gt;你可以假设除了数字 0 之外，这两个数都不会以 0 开头。&lt;/p&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;2-&amp;gt;4-&amp;gt;3
+5-&amp;gt;6-&amp;gt;4
+-------
+7-&amp;gt;0-&amp;gt;8
+
+输入：l1 = [2,4,3], l2 = [5,6,4]
+输出：[7,0,8]
+解释：342 + 465 = 807.
+
+输入：l1 = [0], l2 = [0]
+输出：[0]
+
+输入：l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
+输出：[8,9,9,9,0,0,0,1]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;小学数学题，模拟相加操作&lt;/p&gt;
+&lt;p&gt;需要遍历链表&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;新建一个空链表&lt;/p&gt;
+&lt;p&gt;遍历被相加的两个链表，模拟相加操作，将个位数追加到新链表上，将十位数留到下一位去相加。&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+ var addTwoNumbers = function(l1, l2) {
+  const l3 = new ListNode(0)
+  let p1 = l1
+  let p2 = l2
+  let p3 = l3
+  let carry = 0
+  while (p1 || p2) {
+    const v1 = p1 ? p1.val : 0
+    const v2 = p2 ? p2.val : 0
+    const val = v1 + v2 + carry
+    carry = Math.floor(val / 10)
+    p3.next = new ListNode(val % 10)
+    if (p1) {
+      p1 = p1.next
+    }
+    if (p2) {
+      p2 = p2.next
+    }
+    p3 = p3.next
+  }
+  if (carry) {
+    p3.next = new ListNode(carry)
+  }
+  return l3.next
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(n)&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(n)&lt;/li&gt;
+&lt;/ul&gt;
+">148-data_structure-8-linkedlist~2两数相加</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/147-data_structure-7-linkedlist~206-fan-zhuan-lian-biao/"" data-c="
+          &lt;h1 id=&#34;147-data_structure-7-linkedlist~206反转链表&#34;&gt;147-data_structure-7-linkedlist~206反转链表&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;给你单链表的头节点 &lt;code&gt;head&lt;/code&gt; ，请你反转链表，并返回反转后的链表。&lt;/p&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;1-&amp;gt;2-&amp;gt;3-&amp;gt;4-&amp;gt;5
+5-&amp;gt;4-&amp;gt;3-&amp;gt;2-&amp;gt;1
+输入：head = [1,2,3,4,5]
+输出：[5,4,3,2,1]
+
+1-&amp;gt;2
+2-&amp;gt;1
+输入：head = [1,2]
+输出：[2,1]
+
+输入：head = []
+输出：[]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;反转两个节点：将n+1的next指向n&lt;/p&gt;
+&lt;p&gt;反转多个节点：双指针遍历链表，重复上述操作&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;双指针一前一后遍历链表&lt;/p&gt;
+&lt;p&gt;反转双指针&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+ var reverseList = function(head) {
+  let p1 = head
+  let p2 = null
+  while( p1 ) {
+    // 保存p1.next的值
+    const tmp = p1.next
+    // 反转操作
+    p1.next = p2
+    // p1 p2 双指针遍历
+    p2 = p1
+    // p1 = p1.next
+    p1 = tmp
+  }
+  return p2
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(n)&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(1)&lt;/li&gt;
+&lt;/ul&gt;
+">147-data_structure-7-linkedlist~206反转链表</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/146-data_structure-6-linkedlist~237-shan-chu-lian-biao-zhong-de-jie-dian/"" data-c="
+          &lt;h1 id=&#34;146-data_structure-6-linkedlist~237删除链表中的节点&#34;&gt;146-data_structure-6-linkedlist~237删除链表中的节点&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;请编写一个函数，使其可以删除某个链表中给定的（非末尾）节点。传入函数的唯一参数为 &lt;strong&gt;要被删除的节点&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;现有一个链表 -- head = [4,5,1,9]，它可以表示为:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;4-&amp;gt;5-&amp;gt;1-&amp;gt;9
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;输入：head = [4,5,1,9], node = 5
+输出：[4,1,9]
+解释：给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -&amp;gt; 1 -&amp;gt; 9.
+
+输入：head = [4,5,1,9], node = 1
+输出：[4,5,9]
+解释：给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -&amp;gt; 5 -&amp;gt; 9.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;无法直接获取被删除节点的上个节点&lt;/p&gt;
+&lt;p&gt;将被删除节点转移到下个节点&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;将被删节点的值改为下个节点的值&lt;/p&gt;
+&lt;p&gt;删除下个节点&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} node
+ * @return {void} Do not return anything, modify node in-place instead.
+ */
+var deleteNode = function(node) {
+    node.val = node.next.val
+    node.next = node.next.next
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(1)&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(1)&lt;/li&gt;
+&lt;/ul&gt;
+">146-data_structure-6-linkedlist~237删除链表中的节点</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/145-data_structure-5-linkedlist~lian-biao-jian-jie/"" data-c="
+          &lt;h1 id=&#34;145-data_structure-5-linkedlist~链表简介&#34;&gt;145-data_structure-5-linkedlist~链表简介&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;多个元素组成的列表&lt;/p&gt;
+&lt;p&gt;元素存储不连续，用next指针链接在一起。&lt;/p&gt;
+&lt;h3 id=&#34;与数组对比&#34;&gt;与数组对比&lt;/h3&gt;
+&lt;p&gt;数组：增删非首尾元素的时候往往需要移动元素。&lt;/p&gt;
+&lt;p&gt;链表：增删非首尾元素，不需要移动元素，只需要更改 next 指向即可。&lt;/p&gt;
+&lt;h2 id=&#34;使用对象模拟&#34;&gt;使用对象模拟&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const a = { val: &#39;a&#39; };
+const b = { val: &#39;b&#39; };
+const c = { val: &#39;c&#39; };
+const d = { val: &#39;d&#39; };
+a.next = b;
+b.next = c;
+c.next = d;
+
+// 遍历链表
+let p = a;
+while (p) {
+    console.log(p.val);
+    p = p.next;
+}
+
+// 插入
+const e = { val: &#39;e&#39; };
+c.next = e;
+e.next = d;
+
+// 删除
+c.next = d;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;链表里的元素存储不是连续的，节点之间通过next 连接&lt;/li&gt;
+&lt;li&gt;JavaScript 中没有链表这种数据结构，但可以用 Object 模拟链表&lt;/li&gt;
+&lt;li&gt;链表常用操作：修改next（增删节点），遍历链表（修改指针，让指针沿着链表走）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;与前端相关&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;js 中的原型链也是一个链表（沿着 &lt;code&gt;__proto__&lt;/code&gt; 属性走）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用链表指针可以获取 JSON 的节点值 -- 使用链表指针，模拟遍历链表的算法，获取某个json节点的值&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;前端与链表&#34;&gt;前端与链表&lt;/h2&gt;
+&lt;h3 id=&#34;js原型链&#34;&gt;js原型链&lt;/h3&gt;
+&lt;h4 id=&#34;概述-2&#34;&gt;概述&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;原型链的本质是链表&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;原型上的节点是各种原型对象，eg：Function.prototype, Object.prototype ...&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;原型链通过 &lt;code&gt;__proto__&lt;/code&gt;属性连接各种原型对象&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;obj -&amp;gt; Object.prototype -&amp;gt; null
+
+func -&amp;gt; Function.prototype -&amp;gt; Object.prototype -&amp;gt; null
+
+arr -&amp;gt; Array.prototype -&amp;gt; Object.prototype -&amp;gt; null
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&#34;知识点&#34;&gt;知识点&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;如果 A 沿着原型链能找到 B.prototype，那么 A instanceof B 为 true&lt;/li&gt;
+&lt;li&gt;如果在 A 对象上没有找到 x 属性，那么会沿着原型链找 x 属性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;应用&#34;&gt;应用&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;instanceof 的原理，并用代码实现&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;知识点：如果 A 沿着原型链能找到 B.prototype，那么 A instanceof B 为 true&lt;/p&gt;
+&lt;p&gt;解法：遍历A的原型链，如果找到B.prototype，返回true，否则返回false。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const instanceOf = (A, B) =&amp;gt; {
+  let p = A
+  while (p) {
+    if (p === B.prototype) {
+      return true
+    }
+    p = p.__proto__
+  }
+  return false
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;2、&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var foo = {}
+var F = function(){}
+Object.prototype.a = &#39;value a&#39;
+Function.prototype.b = &#39;value b&#39;
+
+console.log(foo.a) // &#39;value a&#39;
+console.log(foo.b)  // undefined
+
+console.log(F.a) // &#39;value a&#39;
+console.log(F.b) // &#39;value b&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;知识点：如果在 A 对象上没有找到 x 属性，那么会沿着原型链找 x 属性&lt;/p&gt;
+&lt;p&gt;解法：明确 foo 和 F 变量的原型链，沿着原型链找 a 属性和 b 属性&lt;/p&gt;
+&lt;h3 id=&#34;使用链表指针获取-json-的节点值&#34;&gt;使用链表指针获取 JSON 的节点值&lt;/h3&gt;
+&lt;h4 id=&#34;概述-3&#34;&gt;概述&lt;/h4&gt;
+&lt;p&gt;链表在前端的实际应用&lt;/p&gt;
+&lt;h4 id=&#34;代码&#34;&gt;代码&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const json = {
+    a: { b: { c: 1 } },
+    d: { e: 2 },
+};
+
+const path = [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;];
+
+let p = json;
+path.forEach((k) =&amp;gt; {
+    p=p[k];
+});
+&lt;/code&gt;&lt;/pre&gt;
+">145-data_structure-5-linkedlist~链表简介</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/144-data_structure-4-queue~933-zui-jin-de-qing-qiu-ci-shu/"" data-c="
+          &lt;h1 id=&#34;144-data_structure-4-queue~933最近的请求次数&#34;&gt;144-data_structure-4-queue~933最近的请求次数&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;写一个 RecentCounter 类来计算特定时间范围内最近的请求。&lt;/p&gt;
+&lt;p&gt;请你实现 RecentCounter 类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;RecentCounter() 初始化计数器，请求数为 0 。&lt;/li&gt;
+&lt;li&gt;int ping(int t) 在时间 t 添加一个新请求，其中 t 表示以毫秒为单位的某个时间，并返回过去 3000 毫秒内发生的所有请求数（包括新请求）。确切地说，返回在 [t-3000, t] 内发生的请求数。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;保证 每次对 ping 的调用都使用比之前更大的 t 值。&lt;/p&gt;
+&lt;h2 id=&#34;测试&#34;&gt;测试&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;输入：
+[&amp;quot;RecentCounter&amp;quot;, &amp;quot;ping&amp;quot;, &amp;quot;ping&amp;quot;, &amp;quot;ping&amp;quot;, &amp;quot;ping&amp;quot;]
+[[], [1], [100], [3001], [3002]]
+输出：
+[null, 1, 2, 3, 3]
+
+解释：
+RecentCounter recentCounter = new RecentCounter();
+recentCounter.ping(1);     // requests = [1]，范围是 [-2999,1]，返回 1
+recentCounter.ping(100);   // requests = [1, 100]，范围是 [-2900,100]，返回 2
+recentCounter.ping(3001);  // requests = [1, 100, 3001]，范围是 [1,3001]，返回 3
+recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002]，范围是 [2,3002]，返回 3
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;解题思路&#34;&gt;解题思路&lt;/h2&gt;
+&lt;p&gt;越早发出的请求越早不在最近3000ms内的请求里&lt;/p&gt;
+&lt;p&gt;满足先进先出，考虑用队列&lt;/p&gt;
+&lt;h2 id=&#34;解题步骤&#34;&gt;解题步骤&lt;/h2&gt;
+&lt;p&gt;1、有新请求就入队，3000ms前发出的请求出队&lt;/p&gt;
+&lt;p&gt;2、队列的长度就是最近请求次数&lt;/p&gt;
+&lt;h2 id=&#34;代码&#34;&gt;代码&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var RecentCounter = function() {
+  this.q = []
+};
+
+/** 
+ * @param {number} t
+ * @return {number}
+ */
+RecentCounter.prototype.ping = function(t) {
+  this.q.push(t)
+  while (this.q[0] &amp;lt; t-3000) {
+    this.q.shift()
+  }
+  return this.q.length
+};
+
+/**
+ * Your RecentCounter object will be instantiated and called as such:
+ * var obj = new RecentCounter()
+ * var param_1 = obj.ping(t)
+ */
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;复杂度&#34;&gt;复杂度&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;时间复杂度：O(n)，其中 n是需要被提出队列的请求个数。&lt;/li&gt;
+&lt;li&gt;空间复杂度：O(n)，其中n是数组的长度，最近的请求次数&lt;/li&gt;
+&lt;/ul&gt;
+">144-data_structure-4-queue~933最近的请求次数</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/143-data_structure-3-queue~dui-lie-jian-jie/"" data-c="
+          &lt;h1 id=&#34;143-data_structure-3-queue~队列简介&#34;&gt;143-data_structure-3-queue~队列简介&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;一种先进先出的数据结构&lt;/p&gt;
+&lt;p&gt;「排队」&lt;/p&gt;
+&lt;h2 id=&#34;使用数组模拟&#34;&gt;使用数组模拟&lt;/h2&gt;
+&lt;p&gt;JavaScript没有栈的结构；可以用array实现栈的功能&lt;/p&gt;
+&lt;p&gt;入队&lt;/p&gt;
+&lt;p&gt;出队&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;const queue = [];
+queue.push(1);
+queue.push(2);
+const item1 = queue.shift();
+const item2 = queue.shift();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;使用场景&#34;&gt;使用场景&lt;/h2&gt;
+&lt;p&gt;需要先进先出的场景。&lt;/p&gt;
+&lt;p&gt;食堂排队打饭&lt;/p&gt;
+&lt;p&gt;JS异步中的任务队列&lt;/p&gt;
+&lt;p&gt;计算最近的请求次数&lt;/p&gt;
+">143-data_structure-3-queue~队列简介</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/142-linux-2-ps/"" data-c="
+          &lt;h1 id=&#34;142-linux-2-ps&#34;&gt;142-linux-2-ps&lt;/h1&gt;
+&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+&lt;p&gt;Linux ps （英文全拼：process status）命令用于显示当前进程的状态，类似于 windows 的任务管理器。&lt;/p&gt;
+&lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;ps 的参数非常多, 在此仅列出几个常用的参数并大略介绍含义&lt;/li&gt;
+&lt;li&gt;-A 列出所有的进程&lt;/li&gt;
+&lt;li&gt;-w 显示加宽可以显示较多的资讯&lt;/li&gt;
+&lt;li&gt;-au 显示较详细的资讯&lt;/li&gt;
+&lt;li&gt;-aux 显示所有包含其他使用者的行程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;实例&#34;&gt;实例&lt;/h2&gt;
+&lt;p&gt;查找指定进程格式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ps -ef | grep 进程关键字
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;例如显示 php 的进程：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# ps -ef | grep php
+root       794     1  0  2020 ?        00:00:52 php-fpm: master process (/etc/php/7.3/fpm/php-fpm.conf)
+www-data   951   794  0  2020 ?        00:24:15 php-fpm: pool www
+www-data   953   794  0  2020 ?        00:24:14 php-fpm: pool www
+www-data   954   794  0  2020 ?        00:24:29 php-fpm: pool www
+&lt;/code&gt;&lt;/pre&gt;
+">142-linux-2-ps</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/141-linux-1-netstat/"" data-c="
+          &lt;h1 id=&#34;141-linux-1-netstat&#34;&gt;141-linux-1-netstat&lt;/h1&gt;
+&lt;h1 id=&#34;简介&#34;&gt;&lt;strong&gt;简介&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;Netstat 命令用于显示各种网络相关信息，如网络连接，路由表，接口状态 (Interface Statistics)，masquerade 连接，多播成员 (Multicast Memberships) 等等。&lt;/p&gt;
+&lt;h1 id=&#34;输出信息含义&#34;&gt;&lt;strong&gt;输出信息含义&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;执行netstat后，其输出结果为&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Active Internet connections (w/o servers)
+Proto Recv-Q Send-Q Local Address Foreign Address State
+tcp 0 2 210.34.6.89:telnet 210.34.6.96:2873 ESTABLISHED
+tcp 296 0 210.34.6.89:1165 210.34.6.84:netbios-ssn ESTABLISHED
+tcp 0 0 localhost.localdom:9001 localhost.localdom:1162 ESTABLISHED
+tcp 0 0 localhost.localdom:1162 localhost.localdom:9001 ESTABLISHED
+tcp 0 80 210.34.6.89:1161 210.34.6.10:netbios-ssn CLOSE
+
+Active UNIX domain sockets (w/o servers)
+Proto RefCnt Flags Type State I-Node Path
+unix 1 [ ] STREAM CONNECTED 16178 @000000dd
+unix 1 [ ] STREAM CONNECTED 16176 @000000dc
+unix 9 [ ] DGRAM 5292 /dev/log
+unix 1 [ ] STREAM CONNECTED 16182 @000000df
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;从整体上看，netstat的输出结果可以分为两个部分：&lt;/p&gt;
+&lt;p&gt;一个是Active Internet connections，称为有源TCP连接，其中&amp;quot;Recv-Q&amp;quot;和&amp;quot;Send-Q&amp;quot;指%0A的是接收队列和发送队列。这些数字一般都应该是0。如果不是则表示软件包正在队列中堆积。这种情况只能在非常少的情况见到。&lt;/p&gt;
+&lt;p&gt;另一个是Active UNIX domain sockets，称为有源Unix域套接口(和网络套接字一样，但是只能用于本机通信，性能可以提高一倍)。&lt;br&gt;
+Proto显示连接使用的协议,RefCnt表示连接到本套接口上的进程号,Types显示套接口的类型,State显示套接口当前的状态,Path表示连接到套接口的其它进程使用的路径名。&lt;/p&gt;
+&lt;h1 id=&#34;常见参数&#34;&gt;&lt;strong&gt;常见参数&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;-a (all)显示所有选项，默认不显示LISTEN相关&lt;br&gt;
+-t (tcp)仅显示tcp相关选项&lt;br&gt;
+-u (udp)仅显示udp相关选项&lt;br&gt;
+-n 拒绝显示别名，能显示数字的全部转化成数字。&lt;br&gt;
+-l 仅列出有在 Listen (监听) 的服務状态&lt;/p&gt;
+&lt;p&gt;-p 显示建立相关链接的程序名&lt;br&gt;
+-r 显示路由信息，路由表&lt;br&gt;
+-e 显示扩展信息，例如uid等&lt;br&gt;
+-s 按各个协议进行统计&lt;br&gt;
+-c 每隔一个固定时间，执行该netstat命令。&lt;/p&gt;
+&lt;p&gt;提示：LISTEN和LISTENING的状态只有用-a或者-l才能看到&lt;/p&gt;
+&lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;netstat -tnlp | grep :80
+&lt;/code&gt;&lt;/pre&gt;
+">141-linux-1-netstat</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/140-http-30-http_server/"" data-c="
+          &lt;h1 id=&#34;140-http-30-http_server&#34;&gt;140-http-30-http_server&lt;/h1&gt;
+&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;web服务器&lt;/p&gt;
+&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;npm install -g http-server
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;启动&#34;&gt;启动&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;http-server -p 4000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;官网&#34;&gt;官网&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/http-party/http-server#readme&#34;&gt;GitHub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.npmjs.com/package/http-server&#34;&gt;npm&lt;/a&gt;&lt;/p&gt;
+">140-http-30-http_server</a>
+      </div>
+      
+      <div class="item">
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/139-ps-1-qie-tu-~ping-fen-qie-pian/"" data-c="
+          &lt;h1 id=&#34;139-ps-1-切图~平分切片&#34;&gt;139-ps-1-切图~平分切片&lt;/h1&gt;
+&lt;p&gt;1、将照片裁剪成1比1&lt;/p&gt;
+&lt;p&gt;2、切片工具 -&amp;gt; 右键：划分切片 -&amp;gt; 设置3x3&lt;/p&gt;
+&lt;p&gt;3、存储为web所用格式&lt;/p&gt;
+">139-ps-1-切图~平分切片</a>
+      </div>
+      
+      <div class="item">
         <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/138-css-17-tu-wen-~wei-lei-he-wei-yuan-su/"" data-c="
           &lt;h1 id=&#34;138-css-17-图文~伪类和伪元素&#34;&gt;138-css-17-图文~伪类和伪元素&lt;/h1&gt;
 &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
@@ -2452,7 +3434,7 @@ var isValid = function(s) {
 &lt;p&gt;2、先分析不合理情况，若存在，则提前返回&lt;/p&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://programmercarl.com/0020.%E6%9C%89%E6%95%88%E7%9A%84%E6%8B%AC%E5%8F%B7.html&#34;&gt;代码随想录&lt;/a&gt;&lt;/p&gt;
-">128-data_structure-2-stack20有效的括号</a>
+">128-data_structure-2-stack~20有效的括号</a>
       </div>
       
       <div class="item">
@@ -2475,7 +3457,7 @@ const item2 = stack.pop();
 &lt;p&gt;1、十进制转换为二进制：最后余数要倒叙输出才是正确二进制；&lt;/p&gt;
 &lt;p&gt;2、判断括号是否合法：左括号进栈，右括号出栈，栈空则合法；&lt;/p&gt;
 &lt;p&gt;3、函数调用栈：最后调用的函数，最先执行完；&lt;/p&gt;
-">127-data_structure-1-stack栈简介</a>
+">127-data_structure-1-stack~栈简介</a>
       </div>
       
       <div class="item">
@@ -11765,7 +12747,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;HTTP事务需要按顺序进行传输，等待服务端完成处理并回传。&lt;/p&gt;
 &lt;p&gt;缺点：&lt;/p&gt;
 &lt;p&gt;每次HTTP通信后都要断开TCP连接，所以每个新的HTTP请求都需要建立一个新的tcp连接，极大的增加了通信开销。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625668312340.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625668312340.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;并行连接&#34;&gt;并行连接&lt;/h3&gt;
 &lt;p&gt;并发的执行多条HTTP请求，且每个请求都有自己的TCP连接。&lt;/p&gt;
 &lt;p&gt;特点：&lt;/p&gt;
@@ -11777,7 +12759,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;hr&gt;
 &lt;p&gt;实际上，浏览器确实使用了并行连接，但它们并行连接的总数限制为一个较小的值(通常是4个)。&lt;/p&gt;
 &lt;p&gt;服务器可以随意的关闭来自特定客户端的超量连接。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625668321507.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625668321507.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;持久连接&#34;&gt;持久连接&lt;/h3&gt;
 &lt;p&gt;也叫长连接、长轮询&lt;/p&gt;
 &lt;p&gt;在事务处理结束之后仍然保持在打开状态的TCP连接称为持久连接。&lt;/p&gt;
@@ -11793,7 +12775,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;1、发送了 Connection: close 请求首部之后，客户端就无法在那条连接上发送更多的请求了。&lt;/p&gt;
 &lt;p&gt;如果客户端不想在连接上发送其他请求了，就应该在最后一条请求中发送一个Connection: close 请求首部。&lt;/p&gt;
 &lt;p&gt;2、只有当连接上所有的报文都有正确的、自定义报文长度时——也就是说，实体主体部分的长度都和相应的Content-Length 一致，或者是用分块传输编码方式编码的——连接才能持久保持。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625668334800.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625668334800.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;管道化连接&#34;&gt;管道化连接&lt;/h3&gt;
 &lt;p&gt;在持久连接的基础上可选的使用请求管道。在响应到达之前，可以将多条请求放入队列。&lt;/p&gt;
 &lt;p&gt;限制：&lt;/p&gt;
@@ -11801,7 +12783,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;2、必须按照与请求相同的顺序回送HTTP响应。HTTP报文中没有序列号标签,因此如果收到的响应失序了,就没办法将其与请求匹配起来了。&lt;/p&gt;
 &lt;p&gt;3、HTTP 客户端必须做好连接会在任意时刻关闭的准备,还要准备好重发所有未完成的管道化请求。如果客户端打开了一条持久连接,并立即发出了10条请求,服务器可能在只处理了,比方说,5条请求之后关闭连接。剩下的5 条请求会失败,客户端必须能够应对这些过早关闭连接的情况,重新发出这些请求。&lt;/p&gt;
 &lt;p&gt;4、HTTP 客户端不应该用管道化的方式发送会产生副作用的请求(比如POST)。总之,出错的时候,管道化方式会阻碍客户端了解服务器执行的是一系列管道化请求中的哪一些。由于无法安全地重试POST这样的&lt;strong&gt;非幂等请求&lt;/strong&gt;,所以出错时,就存在某些方法永远不会被执行的风险。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625668345578.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625668345578.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;strong&gt;幂等请求&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;所谓幂等就是 多次执行对资源的影响，和一次执行对资源的影响相同。不管进行多少次重复操作，都是实现相同的结果。&lt;/p&gt;
 &lt;p&gt;幂等保证在pipeline中的所有请求可以不必关心发送次序和到达服务器后执行的次序，即使多次请求，返回的结果一直是一样的。&lt;/p&gt;
@@ -11824,7 +12806,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/http-ban-ben-li-shi/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-ban-ben-li-shi/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;现在使用的HTTP协议有几个版本。HTTP程序要尽量强健地处理各种不同的HTTP协议变体。&lt;/p&gt;
 &lt;p&gt;http请求是要通过tcp去建立连接，并在此之上发送数据,http只有请求和响应这个概念，没有链接这个概念。&lt;/p&gt;
@@ -11860,7 +12842,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;h4 id=&#34;管线化&#34;&gt;管线化&lt;/h4&gt;
 &lt;p&gt;&lt;u&gt;HTTP/1.1增加了pipeline支持。&lt;/u&gt;&lt;/p&gt;
 &lt;p&gt;管线化的连接建立在持久化连接的基础上，且响应需要顺序返回。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625583403314.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625583403314.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;非管线化的请求：如上图中第一幅&lt;/p&gt;
 &lt;p&gt;客户端发送一个请求之后，必须等待服务器响应之后才能发送下一个请求，不能同时并行发送多个请求。&lt;/p&gt;
 &lt;hr&gt;
@@ -11902,7 +12884,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/http-wang-luo-mo-xing/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/http-wang-luo-mo-xing/"" data-c="
           &lt;h1 id=&#34;http-五层网络模型&#34;&gt;http-五层网络模型&lt;/h1&gt;
 &lt;h2 id=&#34;1概述&#34;&gt;1.概述&lt;/h2&gt;
 &lt;h3 id=&#34;11协议&#34;&gt;1.1协议&lt;/h3&gt;
@@ -11910,7 +12892,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;为了使数据在网络上从源到达目的，网络通信的参与方必须遵循相同的规则，这套规则称为协议（protocol），它最终体现为在网络上传输的数据包的格式。&lt;/p&gt;
 &lt;p&gt;协议往往分成几个层次进行定义，分层定义是为了使某一层协议的改变不影响其他层次的协议。&lt;/p&gt;
 &lt;h3 id=&#34;12网络模型&#34;&gt;1.2网络模型&lt;/h3&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625500448131.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625500448131.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h4 id=&#34;121四层&#34;&gt;1.2.1四层&lt;/h4&gt;
 &lt;p&gt;TCP/IP 协议族是Internet最基本的协议，按照是否具有TCP/IP 协议族的协议来划分的话，从下到上为：&lt;/p&gt;
 &lt;ul&gt;
@@ -11940,14 +12922,14 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;网络层：为数据在结点之间传输创建逻辑链路。&lt;/p&gt;
 &lt;p&gt;传输层：为应用层实体提供端到端的通信功能。&lt;/p&gt;
 &lt;p&gt;应用层：为应用软件提供了很多服务。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625500557587.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625500557587.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;13层与协议&#34;&gt;1.3层与协议&lt;/h3&gt;
 &lt;p&gt;每一层都是为了完成一种功能。为了实现这些功能，就需要大家都遵守共同的规则。&lt;/p&gt;
 &lt;p&gt;大家都遵守的规则，就叫做&amp;quot;协议&amp;quot;（protocol）。&lt;/p&gt;
 &lt;p&gt;互联网的每一层，都定义了很多协议。这些协议集合起来总称为TCP/IP&lt;/p&gt;
 &lt;h2 id=&#34;2五层网络模型详解&#34;&gt;2.五层网络模型详解&lt;/h2&gt;
 &lt;p&gt;数据包格式：&lt;br&gt;
-&lt;img src=&#34;http://localhost:4000/post-images/1625500599926.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://leecss.com/post-images/1625500599926.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;21系统的角度&#34;&gt;2.1系统的角度&lt;/h3&gt;
 &lt;h4 id=&#34;211物理层&#34;&gt;2.1.1物理层&lt;/h4&gt;
 &lt;p&gt;光缆、电缆、双绞线、无线电波等方式，&lt;u&gt;把电脑连接起来的物理手段&lt;/u&gt;。&lt;/p&gt;
@@ -12025,7 +13007,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
 &lt;p&gt;接着，为了传输方便，在传输层（TCP 协议）把从应用层处收到的数据（HTTP 请求报文）进行分割，并在各个报文上打上标记序号及端口号后转发给网络层。&lt;/p&gt;
 &lt;p&gt;在网络层（IP 协议），增加作为通信目的地的 MAC 地址后转发给链路层。这样一来，发往网络的通信请求就准备齐全了。&lt;/p&gt;
 &lt;p&gt;接收端的服务器在链路层接收到数据，按序往上层发送，一直到应用层。当传输到应用层，才能算真正接收到由客户端发送过来的 HTTP请求。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625528569737.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625528569737.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;发送端在层与层之间传输数据时，每经过一层时必定会被打上一个该层所属的首部信息。反之，接收端在层与层传输数据时，每经过一层时会把对应的首部消去。&lt;/p&gt;
 &lt;p&gt;这种把数据信息包装起来的做法称为封装（encapsulate）。&lt;/p&gt;
 &lt;h2 id=&#34;推荐阅读&#34;&gt;推荐阅读&lt;/h2&gt;
@@ -12038,7 +13020,7 @@ A会超时重传这个ACK吗？不会！&lt;strong&gt;TCP不会为没有数据�
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-ming-ling-zong-jie/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-ming-ling-zong-jie/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;命令加思维导图&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -12268,7 +13250,7 @@ $ git revert [commit]
 &lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;# 生成一个可供发布的压缩包
 # git archive
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625387910788.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625387910788.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;先抄一下阮老师的文章和腾讯的图&lt;/p&gt;
@@ -12278,7 +13260,7 @@ $ git revert [commit]
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-shi-yong-chang-jing/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-shi-yong-chang-jing/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;一些工作中会用到的知识点&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -12431,7 +13413,7 @@ git bisect reset
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-clean/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-clean/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git clean&lt;/code&gt;从你的工作区中删除所有没有 tracked，没有被管理过的文件。&lt;/p&gt;
 &lt;p&gt;作用是让使工作区回到一个干净的状态(一个指定的commit状态)&lt;/p&gt;
@@ -12461,7 +13443,7 @@ git bisect reset
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-show/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-show/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git show&lt;/code&gt;命令用于查看commit的内容&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -12479,7 +13461,7 @@ $ git show feature132@{2.hours.ago} # Time relative
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-show-branch/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-show-branch/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;查看分支及其历史提交记录&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -12501,12 +13483,12 @@ $ git show feature132@{2.hours.ago} # Time relative
 &lt;p&gt;&lt;code&gt;*&lt;/code&gt;表示当前分支上有此commit。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;+&lt;/code&gt;表示此颜色代表的分支上有此commit。&lt;/p&gt;
 &lt;p&gt;5、标识符的颜色只是用于容易区分列，一个分支一个颜色。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625361802965.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625361802965.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">43-git-38-show-branch</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-shu-biao-you-jian-shou-dong-tian-jia-git-bash/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-shu-biao-you-jian-shou-dong-tian-jia-git-bash/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;鼠标右键没有git bash的解决办法&lt;/p&gt;
 &lt;h2 id=&#34;操作&#34;&gt;操作&lt;/h2&gt;
@@ -12532,7 +13514,7 @@ $ git show feature132@{2.hours.ago} # Time relative
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-blame/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-blame/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;从blame这个词就能大致知道这个命令的作用了&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;git blame&lt;/code&gt; 命令可以查看每行代码的提交详情，包括提交人、时间等信息&lt;/p&gt;
@@ -12568,11 +13550,11 @@ $ git show feature132@{2.hours.ago} # Time relative
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-bisect/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-bisect/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;用来查找哪一次代码提交引入了错误。&lt;/p&gt;
 &lt;p&gt;它的原理很简单，就是将代码提交的历史，按照两分法不断缩小定位。所谓&amp;quot;两分法&amp;quot;，就是将代码历史一分为二，确定问题出在前半部分，还是后半部分，不断执行这个过程，直到范围缩小到某一次代码提交。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625311032096.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625311032096.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
 &lt;h3 id=&#34;启动查错&#34;&gt;启动查错&lt;/h3&gt;
 &lt;p&gt;&amp;quot;终点&amp;quot;是最近的提交，&amp;quot;起点&amp;quot;是更久以前的提交。它们之间的这段历史，就是差错的范围。&lt;/p&gt;
@@ -12611,7 +13593,7 @@ git bisect start HEAD 4d83cf
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-gitignore/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-gitignore/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;一些工作区中的文件不需要提交到远程，所以需要让git忽略他们，不对其进行检测，方法就是创建.gitignore文件&lt;/p&gt;
 &lt;h2 id=&#34;忽略规则&#34;&gt;忽略规则&lt;/h2&gt;
@@ -12657,7 +13639,7 @@ git commit -m &#39;update .gitignore&#39;
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-pei-zhi-ssh-key/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-pei-zhi-ssh-key/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;ssh可以基于密码进行认证，也可以基于密钥去认证用户，基于密钥认证时可以实现免密码登录的效果。&lt;/p&gt;
 &lt;p&gt;SSH公钥默认存储在账户的主目录下的&lt;code&gt;~/.ssh&lt;/code&gt;目录&lt;/p&gt;
@@ -12723,7 +13705,7 @@ PreferredAuthentications publickey
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-stash/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-stash/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git stash&lt;/code&gt;命令用于暂时保存没有提交的工作。运行该命令后，所有没有commit的代码，都会暂时从工作区移除，回到上次commit时的状态。&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -12769,7 +13751,7 @@ git stash apply stash@{1}
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-remote/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-remote/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;此命令用于管理远程主机(仓库)&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -12812,7 +13794,7 @@ jQuery
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-mv/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-mv/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;平时我们会遇到重命名文件的情况，git会把重命名的操作理解为以下几步&lt;/p&gt;
 &lt;p&gt;1、先删除了原文件&lt;/p&gt;
@@ -12825,7 +13807,7 @@ jQuery
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-rm/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rm/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;平时我们都会有删除文件的需求，正常操作为&lt;/p&gt;
 &lt;p&gt;1、在文件系统中删除某文件&lt;/p&gt;
@@ -12837,7 +13819,7 @@ jQuery
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-rev-parse/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rev-parse/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;显示某个指示符的SHA1哈希值。&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -12857,7 +13839,7 @@ jQuery
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-diff/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-diff/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git diff&lt;/code&gt;命令用于查看文件之间的差异。&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -12930,7 +13912,7 @@ git diff maste..dev
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-reflog/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-reflog/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;相当于版本控制的版本控制&lt;/p&gt;
 &lt;p&gt;git reflog 可以查看所有分支的所有操作记录&lt;/p&gt;
@@ -12958,13 +13940,13 @@ git diff maste..dev
 &lt;p&gt;git log显示当前HEAD及其祖先。&lt;/p&gt;
 &lt;p&gt;也就是说，它打印提交HEAD指向，然后它的父，其父，等等。&lt;/p&gt;
 &lt;p&gt;它通过递归查找每个提交的父进程遍历回购的祖先。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625067362274.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625067370478.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625067362274.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625067370478.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">31-git-26-reflog</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-log/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-log/"" data-c="
           &lt;h1 id=&#34;git-log&#34;&gt;git-log&lt;/h1&gt;
 &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git log&lt;/code&gt;命令按照提交时间从最晚到最早的顺序，列出所有 commit。&lt;/p&gt;
@@ -13047,9 +14029,9 @@ git mv b.txt a.txt &amp;amp;&amp;amp; git commit -m ‘rename b.txt to a.txt’
 a.txt =&amp;gt; a.txt b.txt =&amp;gt; b.txt =&amp;gt; a.txt
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;code&gt;git log -p a.txt&lt;/code&gt;&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625285396990.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625285396990.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;&lt;code&gt;git log -p --follow a.txt&lt;/code&gt;&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625285403872.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625285403872.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href=&#34;https://x-front-team.github.io/2016/12/22/git-log-follow%E5%A5%87%E9%81%87%E8%AE%B0/&#34;&gt;https://x-front-team.github.io/&lt;/a&gt;&lt;/p&gt;
@@ -13058,7 +14040,7 @@ a.txt =&amp;gt; a.txt b.txt =&amp;gt; b.txt =&amp;gt; a.txt
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-restore/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-restore/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令&lt;/p&gt;
 &lt;p&gt;switch命令专门用来切换分支、创建并切换分支等&lt;/p&gt;
@@ -13099,7 +14081,7 @@ git restore --source HEAD~ .
 &lt;p&gt;举例说明：假如把readme.md从上次提交同时恢复到暂存区和工作区&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git restore --source HEAD~ --staged --worktree readme.md
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624980286919.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624980286919.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;注意事项&#34;&gt;注意事项&lt;/h2&gt;
 &lt;p&gt;必须指定要覆盖的文件，可以是具体的某一个，也可以是全部文件，但必须要指定，否则会报以下错误&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;you must specify path(s) to restore
@@ -13108,7 +14090,7 @@ git restore --source HEAD~ .
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-switch/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-switch/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;因为git checkout 命令职责较多、不够明确，所以git 2.23 版本新增了switch、restore命令&lt;/p&gt;
 &lt;p&gt;switch命令专门用来切换分支、创建并切换分支等&lt;/p&gt;
@@ -13148,7 +14130,7 @@ git switch dev
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-checkout/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-checkout/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git checkout&lt;/code&gt;命令有多种用途。大致分为新建分支；切换分支、快照、标签；撤销文件。&lt;/p&gt;
 &lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
@@ -13188,16 +14170,16 @@ git switch dev
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/zhu-bao-bei-sheng-ri-kuai-le/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/zhu-bao-bei-sheng-ri-kuai-le/"" data-c="
           &lt;p&gt;happy birthday~&lt;br&gt;
 😛😛😛&lt;/p&gt;
 &lt;p&gt;一岁一礼 一寸欢喜&lt;br&gt;
-&lt;img src=&#34;http://localhost:4000/post-images/1624805818323.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://leecss.com/post-images/1624805818323.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 ">26-life-1-祝宝贝生日快乐</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-yuan-li/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-yuan-li/"" data-c="
           &lt;h2 id=&#34;git是如何存储信息的&#34;&gt;git是如何存储信息的&lt;/h2&gt;
 &lt;p&gt;1、初始化仓库，新建文件，并添加到暂存区&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -13294,14 +14276,14 @@ git cat-file -p 5f3f16
 100644 blob 4ef5d11d3b99f88fb9f70b694de01db16c56ed50    a.txt
 100644 blob 7170f7d93c37a8861f0e6816780b2881ad5f58d2    b.txt
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624773693534.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624773693534.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cat-file -t 39bd98
 commit
 
 git cat-file -p 39bd98
 tree 5f3f16e16db5faec1bf71fab36cbad24fbddfd39
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624773720929.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624773720929.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;6、HEAD指针和分支&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cat .git/HEAD
 ref: refs/heads/master
@@ -13311,18 +14293,18 @@ cat .git/refs/heads/master
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;可以看出，HEAD指针指向分支指针，分支指针指向最新的commit&lt;/p&gt;
 &lt;p&gt;HEAD、分支、普通的Tag可以简单的理解成是一个指针，指向对应commit的SHA1值。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624773733859.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624773733859.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;7、为什么要把文件的权限和文件名储存在Tree object里面而不是Blob object呢？&lt;/p&gt;
 &lt;p&gt;因为更改一个文件名就需要新建一个Blob object，假如文件很大的话，会很占空间，而Tree object体积相对很小&lt;/p&gt;
 &lt;p&gt;8、当你修改了其中一个文件，创建一个新的commit后&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624774577309.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624774577309.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;git的三个分区&#34;&gt;git的三个分区&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;工作目录 （ working directory ）：操作系统上的文件，所有代码开发编辑都在这上面完成。&lt;/li&gt;
 &lt;li&gt;索引（ index or staging area ）：可以理解为一个暂存区域，这里面的代码会在下一次commit被提交到Git仓库。&lt;/li&gt;
 &lt;li&gt;Git仓库（ git repository ）：由Git object记录着每一次提交的快照，以及链式结构记录的提交变更历史。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624774695680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624774695680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;转载&#34;&gt;转载&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;李泽帆&lt;/p&gt;
@@ -13332,7 +14314,7 @@ cat .git/refs/heads/master
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-init/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-init/"" data-c="
           &lt;h2 id=&#34;将当前目录转为git仓库&#34;&gt;将当前目录转为git仓库&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git init&lt;/code&gt;命令将当前目录转为git仓库。&lt;/p&gt;
 &lt;p&gt;它会在当前目录下生成一个.git子目录，在其中写入git的配置和项目的快照。&lt;/p&gt;
@@ -13344,7 +14326,7 @@ git init place
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-an-zhuang/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-an-zhuang/"" data-c="
           &lt;h2 id=&#34;windows&#34;&gt;windows&lt;/h2&gt;
 &lt;p&gt;从官方网站上下载安装包，按照默认配置快速安装（一直下一步），访问git官网，即可下载git，git的官方网址如下：&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://git-scm.com/downloads&#34;&gt;https://git-scm.com/downloads&lt;/a&gt;&lt;/p&gt;
@@ -13372,7 +14354,7 @@ local选项设置的优先级最高。
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-push/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-push/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git push&lt;/code&gt;命令用于将本地分支的更新，推送到远程主机。它的格式与&lt;code&gt;git pull&lt;/code&gt;命令相仿。&lt;/p&gt;
 &lt;p&gt;git push和当前的HEAD指针位于哪里没关系，只要指定完整的格式，即使当前指针不在分支上，也可以推送到远程&lt;/p&gt;
@@ -13441,7 +14423,7 @@ git config --global push.default simple
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-pull/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-pull/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;既然我们已经知道了如何用 &lt;code&gt;git fetch&lt;/code&gt; 获取远程的数据, 现在我们学习如何将这些变化更新到我们的工作当中。&lt;/p&gt;
 &lt;p&gt;其实有很多方法的 —— 当远程分支中有新的提交时，你可以像合并本地分支那样来合并远程分支。也就是说就是你可以执行以下命令:&lt;/p&gt;
@@ -13453,7 +14435,7 @@ git config --global push.default simple
 &lt;/ul&gt;
 &lt;p&gt;实际上，由于先抓取更新再合并到本地分支这个流程很常用，因此 Git 提供了一个专门的命令来完成这两个操作。它就是我们要讲的 &lt;code&gt;git pull&lt;/code&gt;。&lt;/p&gt;
 &lt;p&gt;即&lt;code&gt;git pull&lt;/code&gt;相当于&lt;code&gt;git fetch&lt;/code&gt; 和 &lt;code&gt;git merge o/main&lt;/code&gt;的缩写，取回远程主机某个分支的更新，再与本地的指定分支合并。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624778165211.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624778165211.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;注意点&#34;&gt;注意点&lt;/h2&gt;
 &lt;p&gt;即使当前分支有没有 commit 的变动，也可以使用&lt;code&gt;git pull&lt;/code&gt;从远程拉取分支。&lt;/p&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
@@ -13528,7 +14510,7 @@ git push
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-fetch/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-fetch/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;从远程仓库获取数据，一旦远程主机的版本库有了更新（Git术语叫做commit），需要将这些更新取回本地，这时就要用到&lt;code&gt;git fetch&lt;/code&gt;命令。&lt;/p&gt;
 &lt;h3 id=&#34;git-fetch-做了些什么&#34;&gt;git fetch 做了些什么&lt;/h3&gt;
@@ -13543,7 +14525,7 @@ git push
 &lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt; 并不会改变你本地仓库的状态。它不会更新你的 &lt;code&gt;main&lt;/code&gt; 分支，也不会修改你磁盘上的文件。&lt;/p&gt;
 &lt;p&gt;理解这一点很重要，因为许多开发人员误以为执行了 &lt;code&gt;git fetch&lt;/code&gt; 以后，他们本地仓库就与远程仓库同步了。它可能已经将进行这一操作所需的所有数据都下载了下来，但是&lt;strong&gt;并没有&lt;/strong&gt;修改你本地的文件。&lt;/p&gt;
 &lt;p&gt;所以, 你可以将 &lt;code&gt;git fetch&lt;/code&gt; 的理解为单纯的下载操作。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624778106680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624778106680.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
 &lt;h3 id=&#34;获取更新&#34;&gt;获取更新&lt;/h3&gt;
 &lt;p&gt;将某个远程主机的更新，全部取回本地。&lt;/p&gt;
@@ -13567,7 +14549,7 @@ git rebase origin/master
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-clone/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-clone/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;在&lt;strong&gt;本地&lt;/strong&gt;创建一个远程仓库的拷贝，&lt;code&gt;git clone&lt;/code&gt;命令用于克隆远程分支。&lt;/p&gt;
 &lt;h2 id=&#34;远程仓库&#34;&gt;远程仓库&lt;/h2&gt;
@@ -13619,7 +14601,7 @@ git rebase origin/master
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-describe/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-describe/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;由于标签在代码库中起着“锚点”的作用，Git 还为此专门设计了一个命令用来&lt;strong&gt;描述&lt;/strong&gt;离你最近的锚点（也就是标签），它就是 &lt;code&gt;git describe&lt;/code&gt;！&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -13636,7 +14618,7 @@ git describe &amp;lt;branch&amp;gt;
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-tag/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-tag/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;标签&lt;em&gt;永远&lt;/em&gt;指向某个提交记录。&lt;/p&gt;
 &lt;p&gt;当软件发布新的大版本，或者是修正一些重要的 Bug 或是增加了某些新特性，我们可以打一个标签，标识了某个特定的位置。&lt;/p&gt;
@@ -13697,7 +14679,7 @@ git push origin --tags
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-cherry-pick/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-cherry-pick/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;对于多分支的代码库，将代码从一个分支转移到另一个分支是常见需求。&lt;/p&gt;
 &lt;p&gt;这时分两种情况。一种情况是，你需要另一个分支的所有代码变动，那么就采用合并（&lt;code&gt;git merge&lt;/code&gt;）。另一种情况是，你只需要部分代码变动（某几个提交），这时可以采用 Cherry pick。&lt;/p&gt;
@@ -13705,7 +14687,7 @@ git push origin --tags
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git cherry-pick commitID
 git cherry-pick c1
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624778009309.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624778009309.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;命令&#34;&gt;命令&lt;/h2&gt;
 &lt;h3 id=&#34;一-基本用法&#34;&gt;一、基本用法&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;git cherry-pick&lt;/code&gt;命令的作用，就是将指定的提交（commit）应用于其他分支。&lt;/p&gt;
@@ -13755,7 +14737,7 @@ $ git cherry-pick f
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-revert/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-revert/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git revert&lt;/code&gt;命令用于撤销某个具体的commit。&lt;/p&gt;
 &lt;!-- more --&gt;
@@ -13769,7 +14751,7 @@ $ git cherry-pick f
 &lt;h2 id=&#34;revert和reset的区别&#34;&gt;revert和reset的区别&lt;/h2&gt;
 &lt;p&gt;reset（重置）：将版本回退到某个commit&lt;/p&gt;
 &lt;p&gt;恢复（revert）:  回滚某个具体的commit,将它撤销&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777944096.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777944096.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;参数&#34;&gt;参数&lt;/h2&gt;
 &lt;p&gt;先说一个场景，普通的commit可以直接用revert回滚，假如是一个合并的commit呢&lt;/p&gt;
 &lt;p&gt;普通commit&lt;/p&gt;
@@ -13782,7 +14764,7 @@ $ git cherry-pick f
 &lt;p&gt;当一个commit有两个父节点时，git并不知道你想要回滚它与哪个父节点之间联系，所以需要我们帮git确定保留哪一个。这时需要指定一个 parent number 标识出&amp;quot;主线&amp;quot;，主线的内容将会保留，而另一条分支的内容将被revert。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;即m的意义为指定要保留的父节点。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;以下图中为例：&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625366627629.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625366627629.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;我们可以看到合并的节点为&lt;code&gt;bd86846&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;使用 &lt;code&gt;git show&lt;/code&gt; 命令可以查看 commit 的详细信息&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git show bd86846
@@ -13799,7 +14781,7 @@ Merge: ba25a9d 1c7036f
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h4 id=&#34;需要注意的地方&#34;&gt;需要注意的地方&lt;/h4&gt;
 &lt;p&gt;小明从节点A拉了一条dev分支出来，在节点B中新增了一个文件http.js，并且合并到master分支，合并节点为E。这个时候发现会引起线上bug，赶紧撤回这个合并，新增一个revert节点E’。过了几天小明继续在dev分支上面开发新增了一个文件main.js，并在这个文件中import了http.js里面的逻辑，在dev分支上面一切运行正常。可当他将此时的dev分支合并到master时候却发现，&lt;strong&gt;http.js文件不见了&lt;/strong&gt;，导致main.js里面的逻辑运行报错了。但这次合并并没有任何冲突。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1625366673091.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1625366673091.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;p&gt;根据Git的合并策略，在合并两个有分叉的分支（上图中的D、E‘）时，Git 默认会选择Recursive策略。找到D和E’的最短路径共同祖先节点B，以B为base，对D，E‘做三向合并。B中有http.js，D中有http.js和main.js，E’中什么都没有。根据三向合并，B、D中都有http.js且没有变更，E‘删除了http.js，所以合并结果就是没有http.js，没有冲突，所以http.js文件不见了。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;即你之前被合并的分支上的提交，都会被丢弃，但是新增的提交，会保留下来。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;解决办法：&lt;/p&gt;
@@ -13814,7 +14796,7 @@ Merge: ba25a9d 1c7036f
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-reset/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-reset/"" data-c="
           &lt;h2 id=&#34;撤销区域&#34;&gt;撤销区域&lt;/h2&gt;
 &lt;h3 id=&#34;暂存区&#34;&gt;暂存区&lt;/h3&gt;
 &lt;p&gt;撤销已经添加到暂存区中的修改，即让暂存区与最近的提交保持一致，可以使用如下命令，如下三条命令等效&lt;/p&gt;
@@ -13877,13 +14859,13 @@ git reset HEAD~
 // 将当期分支的指针倒退一个 commit，改变仓库，暂存区，工作区
 git reset --hard HEAD~
 &lt;/code&gt;&lt;/pre&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777861958.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777870293.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777861958.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777870293.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">14-git-10-reset</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-xiang-dui-yin-yong/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-xiang-dui-yin-yong/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;通过哈希值指定提交记录很不方便，所以 Git 引入了相对引用。&lt;/p&gt;
 &lt;p&gt;使用相对引用的话，你就可以从一个易于记忆的地方（比如bugFix 分支或 HEAD）开始计算。&lt;/p&gt;
@@ -13952,7 +14934,7 @@ git branch -f dev c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-referencezhi-zhen/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-referencezhi-zhen/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;所谓指针（reference），只是一个链接，用来指向其他物体，方便引用。Git有三种指针，但是所有指针归根结底都是指向某个commit。&lt;/p&gt;
 &lt;h2 id=&#34;分类&#34;&gt;分类&lt;/h2&gt;
@@ -13998,7 +14980,7 @@ git branch -f dev c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-rebase/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-rebase/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;将当前分支移植到指定分支或指定commit之上。&lt;/p&gt;
 &lt;p&gt;Rebase 实际上就是取出一系列的提交记录，“复制”它们，然后在另外一个地方逐个的放下去。&lt;/p&gt;
@@ -14015,7 +14997,7 @@ git rebase c2
 &lt;ul&gt;
 &lt;li&gt;Rebase 修改了提交树的历史&lt;/li&gt;
 &lt;/ul&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777673513.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777673513.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;交互式&#34;&gt;交互式&lt;/h2&gt;
 &lt;h3 id=&#34;-iinteractive&#34;&gt;-i，—interactive&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;-i&lt;/code&gt;参数会打开互动模式，让用户选择定制&lt;code&gt;rebase&lt;/code&gt;的行为。&lt;/p&gt;
@@ -14034,9 +15016,9 @@ git rebase c2
 &lt;p&gt;不同于 &lt;code&gt;git rebase&lt;/code&gt; 的是，&lt;code&gt;git merge&lt;/code&gt; 在不是 fast-forward（快速合并）的情况下，会产生一条额外的合并记录，类似 &lt;code&gt;Merge branch &#39;xxx&#39; into &#39;xxx&#39;&lt;/code&gt; 的一条提交信息。&lt;/p&gt;
 &lt;p&gt;另外，在解决冲突的时候，用 merge 只需要解决一次冲突即可，简单粗暴，而用 rebase 的时候 ，需要依次解决每次的冲突，才可以提交。&lt;/p&gt;
 &lt;p&gt;git merge&lt;br&gt;
-&lt;img src=&#34;http://localhost:4000/post-images/1624678535981.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://leecss.com/post-images/1624678535981.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;git rebase&lt;br&gt;
-&lt;img src=&#34;http://localhost:4000/post-images/1624678567467.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;https://leecss.com/post-images/1624678567467.webp&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;使用情况&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;当需要保留详细的合并信息的时候建议使用&lt;code&gt;git merge&lt;/code&gt;，特别是需要将分支合并进入&lt;code&gt;master&lt;/code&gt;分支时；&lt;/p&gt;
 &lt;p&gt;当发现自己修改某个功能时，频繁进行了&lt;code&gt;git commit&lt;/code&gt;提交时，发现其实过多的提交信息没有必要时，可以尝试&lt;code&gt;git rebase&lt;/code&gt;。&lt;/p&gt;
@@ -14045,7 +15027,7 @@ git rebase c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-merge/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-merge/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git merge&lt;/code&gt;命令用于合并指定分支到当前分支&lt;/p&gt;
 &lt;p&gt;将develop分支合并到当前分支，当前分支会创建新的commit对象，它有两个父节点，分别指向当前分支和develop分支。&lt;/p&gt;
@@ -14059,13 +15041,13 @@ git rebase c2
 &lt;p&gt;以dev合并到master为例：&lt;/p&gt;
 &lt;p&gt;在maser分支执行&lt;code&gt;git merge dev&lt;/code&gt;，会有新的变更进入到master，新变更进入后，master分支的内容会产生变化，因此master分支需要一个新的提交来对应变化后的状态，于是，master分支的指针会指向最新产生的合并提交。&lt;/p&gt;
 &lt;p&gt;而对于dev分支来说，并没有任何内容发生变动，所以dev分支的指针仍然保持原位。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777430550.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777430550.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;fast-forward快进&#34;&gt;fast-forward（快进）&lt;/h3&gt;
 &lt;p&gt;假如此时在C1节点master分支上，创建了一个新的分支dev,然后在dev分支上创建新的提交C2。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;如果合并分支之前，master分支和dev分支中只有一个分支创建了属于自己分支的独有提交，此时可以使用fast-forward进行合并。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;由于基于maste分支创建dev分支以后，master分支中并没有产生任何新的提交，如果此时想要将dev分支合并到master分支，只需要将master分支的指针指向到dev分支的最新提交，即可让master分支包含dev分支中的所有新变更。即：&lt;/p&gt;
 &lt;p&gt;&lt;u&gt;如果“指定分支”本身是当前分支的一个直接子节点，则会产生fast-forward合并，即合并不会产生新的节点，只是让当前分支指向“指定分支”的最新commit。&lt;/u&gt;&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777268946.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777268946.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;冲突&#34;&gt;冲突&lt;/h2&gt;
 &lt;p&gt;当我们合并分支的时候，如果当前分支和要被合并的分支在同一个地方修改了不同的内容，会发生冲突，自动合并失败，需要人为解决。&lt;/p&gt;
 &lt;h3 id=&#34;解决冲突&#34;&gt;解决冲突&lt;/h3&gt;
@@ -14079,7 +15061,7 @@ git rebase c2
 &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; BranchName
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;当我们手动解决完之后，重新添加并提交即可。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624777598642.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624777598642.gif&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;放弃合并&#34;&gt;放弃合并&lt;/h3&gt;
 &lt;p&gt;当我们执行git merge --abort命令以后，git就取消了本次合并操作&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git merge --abort
@@ -14114,7 +15096,7 @@ git rebase c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-commit/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-commit/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git commit&lt;/code&gt;命令用于将暂存区中的变化提交到仓库区。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;-m&lt;/code&gt;参数用于指定 commit 信息，是必需的。如果省略&lt;code&gt;-m&lt;/code&gt;参数，&lt;code&gt;git commit&lt;/code&gt;会自动打开文本编辑器，要求输入。&lt;br&gt;
@@ -14141,7 +15123,7 @@ git rebase c2
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-add/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-add/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;git add&lt;/code&gt;命令用于将变化的文件，从工作区提交到暂存区。&lt;/p&gt;
 &lt;p&gt;将指定文件放入暂存区&lt;/p&gt;
@@ -14214,7 +15196,7 @@ e - 手动编辑当前的区块&lt;br&gt;
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-branch/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-branch/"" data-c="
           &lt;h2 id=&#34;1-查看分支&#34;&gt;1、查看分支&lt;/h2&gt;
 &lt;p&gt;*表示当前分支&lt;/p&gt;
 &lt;p&gt;查看所有本地分支&lt;/p&gt;
@@ -14305,7 +15287,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-jian-jie/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-jian-jie/"" data-c="
           &lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
 &lt;p&gt;git是目前世界上最先进的 &lt;strong&gt;分布式&lt;/strong&gt;  &lt;strong&gt;版本控制&lt;/strong&gt;系统。&lt;/p&gt;
 &lt;h3 id=&#34;分布式&#34;&gt;分布式&lt;/h3&gt;
@@ -14315,7 +15297,7 @@ git branch -u origin/main foo
 &lt;blockquote&gt;
 &lt;p&gt;分布式版本控制系统根本没有“中央服务器”，每个人的电脑上都是一个完整的版本库,安全性要更高。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1663987171732.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;1&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1663987171732.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h3 id=&#34;版本控制&#34;&gt;版本控制&lt;/h3&gt;
 &lt;p&gt;通常我们保存多版本的方式，是通过拷贝一份副本，然后在副本上操作，假如我们在副本上的修改不满意，就可以从原版再拷贝一份，重新进行编辑。&lt;/p&gt;
 &lt;p&gt;git就是帮我们做版本控制的一个系统。&lt;/p&gt;
@@ -14324,7 +15306,7 @@ git branch -u origin/main foo
 &lt;p&gt;Git 仓库中的提交记录保存的是你的目录下所有文件的快照，就像是把整个目录复制，然后再粘贴一样，但比复制粘贴优雅许多！&lt;/p&gt;
 &lt;p&gt;Git 希望提交记录尽可能地轻量，因此在你每次进行提交时，它并不会盲目地复制整个目录。条件允许的情况下，它会将当前版本与仓库中的上一个版本进行对比，并把所有的差异打包到一起作为一个提交记录。&lt;/p&gt;
 &lt;p&gt;Git 还保存了提交的历史记录。这也是为什么大多数提交记录的上面都有父节点的原因 —— 我们会在图示中用箭头来表示这种关系。对于项目组的成员来说，维护提交历史对大家都有好处。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1623799889637.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;2&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1623799889637.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 &lt;h2 id=&#34;分区及文件状态&#34;&gt;分区及文件状态&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;Workspace：工作区&lt;/li&gt;
@@ -14336,14 +15318,14 @@ git branch -u origin/main foo
 &lt;p&gt;Index：暂存区，当执行 &lt;code&gt;git add&lt;/code&gt; 的命令后，工作区的文件就会被移入暂存区，暂存区标记了当前工作区中哪些内容是被 Git 管理的，当完成某个需求或者功能后需要提交代码，第一步就是通过 &lt;code&gt;git add&lt;/code&gt; 先提交到暂存区。&lt;/p&gt;
 &lt;p&gt;Repository：本地仓库，位于自己的电脑上（隐藏文件.git目录），通过 &lt;code&gt;git commit&lt;/code&gt; 提交暂存区的内容，会进入本地仓库。&lt;/p&gt;
 &lt;p&gt;Remote：远程仓库，用来托管代码的服务器，远程仓库的内容能够被分布在多个地点的处于协作关系的本地仓库修改，本地仓库修改完代码后通过 &lt;code&gt;git push&lt;/code&gt; 命令同步代码到远程仓库。&lt;/p&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1623800678351.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624707230372.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
-&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;http://localhost:4000/post-images/1624707238506.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;3&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1623800678351.png&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;4&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624707230372.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
+&lt;figure data-type=&#34;image&#34; tabindex=&#34;5&#34;&gt;&lt;img src=&#34;https://leecss.com/post-images/1624707238506.jpg&#34; alt=&#34;&#34; loading=&#34;lazy&#34;&gt;&lt;/figure&gt;
 ">6-git-2-简介</a>
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/sheng-huo-wang-zhan-dao-hang/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/sheng-huo-wang-zhan-dao-hang/"" data-c="
           &lt;h2 id=&#34;英语&#34;&gt;英语&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://www.youtube.com/user/DailyEasyEnglish/videos?view=0&amp;amp;sort=da&amp;amp;flow=grid&#34;&gt;Daily Easy English&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;http://www.haiyue.info/coach-shane-daily-easy-english-expression.html&#34;&gt;daily-easy-english-expression笔记&lt;/a&gt;&lt;/p&gt;
@@ -14361,7 +15343,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/cheng-xu-yuan-zi-yuan-hui-zong/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/cheng-xu-yuan-zi-yuan-hui-zong/"" data-c="
           &lt;h2 id=&#34;写在最前面&#34;&gt;写在最前面&lt;/h2&gt;
 &lt;p&gt;互联网时代，不缺乏学习的资源，缺乏学习的心。&lt;/p&gt;
 &lt;p&gt;再一次整理这些网站，希望不负初心！&lt;/p&gt;
@@ -14392,7 +15374,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/qian-duan-jiao-cheng-dao-hang/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/qian-duan-jiao-cheng-dao-hang/"" data-c="
           &lt;h2 id=&#34;git&#34;&gt;git&lt;/h2&gt;
 &lt;p&gt;1、&lt;a href=&#34;https://learngitbranching.js.org/?locale=zh_CN&#34;&gt;游戏化教程&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;2、&lt;a href=&#34;https://www.bookstack.cn/read/git-tutorial/README.md&#34;&gt;阮一峰&lt;/a&gt;&lt;/p&gt;
@@ -14453,7 +15435,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/git-yu-yi-hua-ban-ben/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/git-yu-yi-hua-ban-ben/"" data-c="
           &lt;h2 id=&#34;版本格式&#34;&gt;版本格式&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;0.y.z&lt;/code&gt; 表示开发阶段，一切可能随时改变，非稳定版。&lt;/li&gt;
@@ -14643,7 +15625,7 @@ git branch -u origin/main foo
       </div>
       
       <div class="item">
-        <a class="result-title" style="opacity: 0;" href="http://localhost:4000/post/google-cha-jian/"" data-c="
+        <a class="result-title" style="opacity: 0;" href="https://leecss.com/post/google-cha-jian/"" data-c="
           &lt;h2 id=&#34;1-bluesea&#34;&gt;1、BlueSea&lt;/h2&gt;
 &lt;p&gt;GitHub 链接：https://github.com/jiangqizheng/BlueSea 。&lt;/p&gt;
 &lt;p&gt;介绍：帮助翻译及记忆英语单词&lt;/p&gt;
